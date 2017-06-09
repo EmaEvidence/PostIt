@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <title>PostIt</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header style="text-align:center;">
+      <nav>
+        <img src="images/postit.png" />
+        <span style="">
+        <button class="btn btn-success" data-toggle="modal" data-target="#signup">
+          Sign Up
+        </button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#signin">
+          Sign In
+        </button>
+      </span>
+      </nav>
+    </header>
+    <div style="text-align:center;">
+      <img src="images/img.jpg" />
+      Welcome, this is a brief Explanation of what this Web App does.
+    </div>
+    <div class="row">
+    <div class="col-sm-1"></div>
+    <div id="signup" class="modal fade" role="dialog">
+      <form class="modal-dialog">
+        <div class="modal-header">
+          <h2 style="color:white;">Sign Up </h2>
+          <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="FirstName LastName" required />
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Username" required/>
+        </div>
+        <div class="form-group">
+          <input type="email" class="form-control" placeholder="Email" required/>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Password" required id="password"/>
+        </div>
+        <div class="form-group">
+          <span id="showvalidity" style="color:white;"></span>
+          <input type="password" class="form-control" placeholder="Confirm Password" onkeyup="validate(this.value)" required/>
+        </div>
+        <div class="form-group">
+          <input type="submit" class="form-control btn btn-success" value="Submit" />
+        </div>
+      </form>
+    </div>
+    <div id="signin" class="modal fade" role="dialog">
+      <form class="modal-dialog">
+        <div class="modal-header">
+          <h2 style="color:white;">Sign In </h2>
+          <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Username" required/>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Password" required/>
+        </div>
+        <div class="form-group">
+          <input type="submit" class="form-control btn btn-success" value="Log In" />
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-1"></div>
+  </div>
+    <footer style="text-align:center;">
+      <p> &copy; 2017 Evidence </p>
+    </footer>
+
+    <script>
+      function validate(cpassword){
+        let password = document.getElementById('password').value;
+        if(password == cpassword){
+          document.getElementById('showvalidity').innerHTML = 'Matches';
+        } else {
+          document.getElementById('showvalidity').innerHTML = 'Mismatches';
+        }
+      }
+    </script>
+  </body>
+</html>
