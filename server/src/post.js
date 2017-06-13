@@ -1,50 +1,55 @@
 import Sequelize from 'sequelize';
+import bcrypt from 'bcrypt';
 
+/**
+ * the user class that creates a user l
+ */
 class User {
   constructor() {
     const username = 'ldgtnhia';
     const password = 'eD38PggvdWn9EVRdZi12DuhwrfECTqo8@pelle';
     const host = 'elephantsql.com:5432';
-    const sequelize = new Sequelize(`postgres://${username}:${password}fant.db.${host}/ldgtnhia`);
-    sequelize.authenticate()
+    this.sequelize = new Sequelize(`postgres://${username}:${password}fant.db.${host}/ldgtnhia`);
+    this.sequelize.authenticate()
     .then(() => {
       console.log('Connection has been established successfully.');
     })
     .catch((err) => {
       console.log('Unable to connect to the database:', err);
     });
-    const User = sequelize.define('User', {
-      id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        unique: true,
-        defaultValue: 1,
-        primaryKey: true
-      },
+    const Users = this.sequelize.define('Users', {
       name: { type: Sequelize.STRING, allowNull: false },
       username: { type: Sequelize.STRING, allowNull: false, unique: true },
       email: { type: Sequelize.STRING, allowNull: false, unique: true },
       password: { type: Sequelize.STRING, allowNull: false }
     });
+    this.Users = Users;
   }
   static encryptPassword(data) {
-    return data;
-  }
-  static signUp(userName, userUsername, userEmail, password) {
-    const encryptedPassword = User.eencryptPassword(password);
-    this.sequelize.sync().then(() => {
-      User.create({
-        name: userName,
-        username: userUsername,
-        email: userEmail,
-        password: encryptedPassword
-      }).then((user) => {
-        console.log(user);
+    let encryptedPassword = '';
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+      bcrypt.hash(data, salt, (err, hash) => {
+        encryptedPassword = hash;
+        console.log(encryptedPassword);
+        return encryptedPassword;
       });
-    }).catch((err) => {
-      console.log(err);
     });
+  }
+  signUp(userName, userUsername, userEmail, userPassword) {
+    this.sequelize.sync({}).then((err) => {
+    // insert new user
+    this.Users.create({
+      name: userName,
+      username: userUsername,
+      email: userEmail,
+      password: userPassword
+    }).then((user) => {
+      console.log('Done');
+    }).catch((err) =>{
+      console.log('err');
+    });
+});
   }
 
   static LogIn(){

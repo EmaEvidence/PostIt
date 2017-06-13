@@ -9,7 +9,8 @@ Router.use(bodyParser.urlencoded({ extended: true }));
 
 
 Router.get('/', (req, res) => {
-  res.send('Welcome');
+  const me = user.signUp('wed', 'Emas', 'esma@gmail.com', '123456789');
+  res.send(me);
 });
 
 export default Router;
