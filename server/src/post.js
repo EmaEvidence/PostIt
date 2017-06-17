@@ -16,6 +16,7 @@ class User {
       console.log('Connection has been established successfully.');
     })
     .catch((err) => {
+      console.log(err);
       console.log('Unable to connect to the database:', err);
     });
     const Users = this.sequelize.define('Users', {
@@ -27,7 +28,7 @@ class User {
     this.Users = Users;
 
     const Groups = this.sequelize.define('Groups', {
-      gp_name: { type: Sequelize.STRING, allowNull: false, unique: true },
+      gp_name: { type: Sequelize.STRING, allowNull: false },
     });
     this.Groups = Groups;
     Users.hasOne(Groups, { as: 'gp_creatorId' });
@@ -44,7 +45,7 @@ class User {
     this.Messages = Messages;
     Messages.belongsTo(Groups, { as: 'group_Id' });
     Messages.belongsTo(Users, { as: 'sender_Id' });
-    this.sequelize.sync({ force: true });
+    this.sequelize.sync({});
   }
 
   signUp(userName, userUsername, userEmail, userPassword, done) {
@@ -86,17 +87,29 @@ class User {
     })
   }
 
-  createGroup(groupName, creator) {
-    this.Groups.create({
-      gp_name: groupName,
-      gp_creatorId: creator
-    }).then((group) => {
+  createGroup(groupName, creator, done) {
+    if (groupName === '' || groupName === undefined) {
+      console.log('Group Name can not be Empty');
+      done('Group Name can not be Empty');
+    } else if (creator === '' || creator === undefined) {
+      console.log('creator id can not be Empty');
+      done('creator id can not be Empty');
+    } else {
+    this.Groups.findOrCreate({
+      where: {
+        gp_name: groupName,
+        gpCreatorIdId: creator
+      }
+    })
+    .then((group) => {
       console.log(group);
-      return 'Done';
-    }).catch((err) => {
+      done(group);
+    })
+    .catch((err) => {
       console.log(err);
-      return err;
+      done(group);
     });
+  }
   }
 
   addUsers(group, idOfUserAdding, idOfUserToAdd) {
