@@ -111,7 +111,7 @@ class User {
     })
     .catch((err) => {
       console.log(err);
-      done(err.message);
+      done(err.errors[0].message);
     });
     }
   }
@@ -133,31 +133,43 @@ class User {
         }
       }).then((result) => {
         console.log(result);
-        done(result);
+        if (result[1] === false) {
+          done('User is already a member');
+        } else {
+          done(result);
+        }
       }).catch((err) => {
         console.log(err);
-        done(err.message);
+        done(err.errors[0].message);
       });
     }
   }
 
-  static PostMessage(to, from, text, priorityLevel) {
-    this.Groups.create({
-      groupId: to,
-      userId: from,
+  postMessage(to, from, text, priorityLevel, done) {
+    this.Messages.create({
+      groupIdId: to,
       message: text,
+      senderIdId: from,
       priority: priorityLevel
     }).then((message) => {
       console.log(message);
-      return 'Done';
+      done(message);
     }).catch((err) => {
       console.log(err);
-      return err;
+      done(err);
     });
   }
 
-  static RetrieveMessage(group, userId) {
-
+  retrieveMessage(group, done) {
+    this.Messages.findAll({
+      where: {
+        groupIdId: group
+      }
+    }).then((messages) => {
+      done(messages);
+    }).catch((err) => {
+      done(err);
+    });
   }
 }
 

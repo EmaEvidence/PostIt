@@ -54,19 +54,22 @@ Router.post('/api/group', (req, res) => {
   });
 });
 
-Router.post('/api/group/:groupid/:user', (req, res) => {
+Router.post('/api/group/:groupid/user', (req, res) => {
   const groupId = req.params.groupid;
-  const userId = req.params.user;
+  const userId = req.body.user;
+  console.log(userId);
   user.addUsers(groupId, userId, 1, (result) => {
     console.log(result);
     res.send(result);
   });
 });
 
-Router.post('/api/group/:groupid/:message', (req, res) => {
+Router.post('/api/group/:groupid/message', (req, res) => {
   const groupId = req.params.groupid;
-  const userId = req.params.user;
-  user.addUsers(groupId, userId, 1, (result) => {
+  const message = req.body.message;
+  const priority = req.body.priority;
+  console.log(req.params.groupid);
+  user.postMessage(groupId, 1, message, priority, (result) => {
     console.log(result);
     res.send(result);
   });
@@ -74,8 +77,8 @@ Router.post('/api/group/:groupid/:message', (req, res) => {
 
 Router.get('/api/group/:groupid/messages', (req, res) => {
   const groupId = req.params.groupid;
-  const userId = req.params.user;
-  user.addUsers(groupId, userId, 1, (result) => {
+  console.log(groupId);
+  user.retrieveMessage(groupId, (result) => {
     console.log(result);
     res.send(result);
   });

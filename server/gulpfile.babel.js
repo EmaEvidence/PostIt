@@ -10,7 +10,7 @@ import nodemon from 'gulp-nodemon';
  *gulp task for transpiling ES6 to ES5
  */
 gulp.task('transpile', () => {
-  return gulp.src(['src/**.js', 'app.js'])
+  return gulp.src(['src/**.js', 'app.js', 'spec/postTestSpec.js'])
   .pipe(babel({
     presets: ['es2015']
   }))
@@ -25,8 +25,8 @@ gulp.task('default', ['transpile', 'coveralls']);
 /**
  * Gulp task for running tests Specs
  */
-gulp.task('run-test', () => {
-  return gulp.src(['*Spec.js'])
+gulp.task('run-test', ['transpile'], () => {
+  return gulp.src(['dist/*Spec.js'])
   .pipe(jasmineNode({
     timeout: 10000
   }));
