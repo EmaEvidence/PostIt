@@ -49,18 +49,36 @@ Router.post('/api/group', (req, res) => {
   const userId = sess.UserId;
   console.log(userId);
   user.createGroup(gpName, 1, (result) => {
-    console.log(result[1]);
-    if (result[1] === false) {
-      res.send('Group Exists already');
-    } else {
-      res.send(result);
-    }
+    console.log(result);
+    res.send(result);
   });
 });
 
-Router.post('/api/group/group id/user', (req, res) => {
-  const me = user.createGroup();
-  res.send(me);
+Router.post('/api/group/:groupid/:user', (req, res) => {
+  const groupId = req.params.groupid;
+  const userId = req.params.user;
+  user.addUsers(groupId, userId, 1, (result) => {
+    console.log(result);
+    res.send(result);
+  });
+});
+
+Router.post('/api/group/:groupid/:message', (req, res) => {
+  const groupId = req.params.groupid;
+  const userId = req.params.user;
+  user.addUsers(groupId, userId, 1, (result) => {
+    console.log(result);
+    res.send(result);
+  });
+});
+
+Router.get('/api/group/:groupid/messages', (req, res) => {
+  const groupId = req.params.groupid;
+  const userId = req.params.user;
+  user.addUsers(groupId, userId, 1, (result) => {
+    console.log(result);
+    res.send(result);
+  });
 });
 
 export default Router;

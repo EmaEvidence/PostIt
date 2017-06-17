@@ -103,29 +103,42 @@ class User {
     })
     .then((group) => {
       console.log(group);
-      done(group);
+      if (group[1] === false) {
+        done('Group Exists already');
+      } else {
+        done(group);
+      }
     })
     .catch((err) => {
       console.log(err);
-      done(group);
+      done(err.message);
     });
-  }
+    }
   }
 
-  addUsers(group, idOfUserAdding, idOfUserToAdd) {
-// will create a oject mapped with memberId the value will be either successfully or Failed
-// this will e the returned value
-    this.Groups.create({
-      groupId: group,
-      memberId: idOfUserToAdd,
-      addedBy: idOfUserAdding
-    }).then(member => {
-      console.log(member);
-      return 'Done';
-    }).catch((err) => {
-      console.log(err);
-      return err;
-    });
+  addUsers(group, user, added, done) {
+    const groupToInt = parseInt(group, 10);
+    console.log(groupToInt / 2);
+    const userToInt = parseInt(user, 10);
+    if (groupToInt === '' || isNaN(groupToInt)) {
+      done('Group Id must be stated');
+    } else if (userToInt === '' || isNaN(userToInt)) {
+      done('User Id must be stated');
+    } else {
+      this.GroupMembers.findOrCreate({
+        where: {
+          GroupId: group,
+          UserId: user,
+          addedBy: added
+        }
+      }).then((result) => {
+        console.log(result);
+        done(result);
+      }).catch((err) => {
+        console.log(err);
+        done(err.message);
+      });
+    }
   }
 
   static PostMessage(to, from, text, priorityLevel) {
