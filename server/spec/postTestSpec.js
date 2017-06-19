@@ -340,7 +340,7 @@ describe('When a User adds another user to a group', () => {
   }, 10000);
 });
 
-describe('When a User adds another user to a group', () => {
+xdescribe('When a User adds another user to a group', () => {
   let result;
   const group = '12';
   const userId = '2';
@@ -351,8 +351,98 @@ describe('When a User adds another user to a group', () => {
       done();
     }, 10000);
   }, 10000);
-  it('should return an Error Message if User is not a member yet', (done) => {
+  it('should return a JSON object if User is not a member yet', (done) => {
     expect(typeof result).toEqual('object');
     done();
   }, 10000);
+});
+
+describe('When a User posts message to a group', () => {
+  let result;
+  const to = '';
+  const from = '1';
+  const text = '';
+  const priorityLevel = '';
+  beforeEach((done) => {
+    user.postMessage(to, from, text, priorityLevel, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return an Error Message if Group is not specified', (done) => {
+    expect(result).toEqual('Group must be specified');
+    done();
+  }, 10000);
+});
+
+describe('When a User posts message to a group', () => {
+  let result;
+  const to = '1';
+  const from = '';
+  const text = '';
+  const priorityLevel = '';
+  beforeEach((done) => {
+    user.postMessage(to, from, text, priorityLevel, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return an Error Message if Sender is not specified', (done) => {
+    expect(result).toEqual('Sender must be specified');
+    done();
+  }, 10000);
+});
+
+describe('When a User posts message to a group', () => {
+  let result;
+  const to = '1';
+  const from = '1';
+  const text = '';
+  const priorityLevel = '';
+  beforeEach((done) => {
+    user.postMessage(to, from, text, priorityLevel, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return an Error Message if Message is not specified', (done) => {
+    expect(result).toEqual('message cannot be null');
+    done();
+  }, 10000);
+});
+
+describe('When a User posts message to a group', () => {
+  let result;
+  const to = '1';
+  const from = '1';
+  const text = 'We are expecting you';
+  const priorityLevel = '';
+  beforeEach((done) => {
+    user.postMessage(to, from, text, priorityLevel, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return an Error Message if Priority is not specified', (done) => {
+    expect(result).toEqual('priority cannot be null');
+    done();
+  }, 10000);
+});
+
+xdescribe('When a User posts message to a group', () => {
+  let result;
+  const to = '1';
+  const from = '1';
+  const text = 'We are expecting you';
+  const priorityLevel = '1';
+  beforeEach((done) => {
+    user.postMessage(to, from, text, priorityLevel, (response) => {
+      result = response[0].dataValues;
+      done();
+    }, 30000);
+  }, 30000);
+  it('should return a JSON oject if all details are specified', (done) => {
+    expect(result).toEqual('object');
+    done();
+  }, 30000);
 });

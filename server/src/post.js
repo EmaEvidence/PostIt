@@ -1,11 +1,16 @@
 import Sequelize from 'sequelize';
 import bcrypt from 'bcrypt';
-import Promise from 'bluebird';
 
 /**
- * the user class that creates a user l
+ * the user class that creates a user
  */
 class User {
+/**
+ * constructor - creates models for the class and initiates Connection to the
+ * database whenever the class is called.
+ *
+ * @return {STRING} Connection status message
+ */
   constructor() {
     const username = 'ldgtnhia';
     const password = 'eD38PggvdWn9EVRdZi12DuhwrfECTqo8@pelle';
@@ -48,6 +53,15 @@ class User {
     this.sequelize.sync({});
   }
 
+  /**
+   * @static validateInput - checks the validity of data supplied by the user
+   *
+   * @param  {STRING} userName    Name of the User
+   * @param  {STRING} userUsername userName of the user
+   * @param  {STRING} userEmail    Email address of the User
+   * @param  {STRING} userPassword password of the user
+   * @return {STRING}              validity message
+   */
   static validateInput(userName, userUsername, userEmail, userPassword) {
     let result;
     if (userName === '' || userName === undefined) {
@@ -64,6 +78,16 @@ class User {
     return result;
   }
 
+  /**
+   * signUp - Creates a user from the data provided by saving it in the user database.
+   *
+   * @param  {STRING} userName    Name of the User
+   * @param  {STRING} userUsername userName of the user
+   * @param  {STRING} userEmail    Email address of the User
+   * @param  {STRING} userPassword password of the user
+   * @param  {FunctionDeclaration} done         callback function
+   * @return {STRING}              the result of the registration attempt.
+   */
   signUp(userName, userUsername, userEmail, userPassword, done) {
     const saltRounds = 10;
     const validity = User.validateInput(userName, userUsername, userEmail, userPassword);
@@ -85,6 +109,14 @@ class User {
     }
   }
 
+  /**
+   * logIn - checks if the provided User/log In details is availale i the database
+   *
+   * @param  {STRING} userName                  userName of the user
+   * @param  {STRING} password                  password of the user
+   * @param  {FunctionDeclaration} done         callback function
+   * @return {STRING}                           the result of the registration attempt.
+   */
   logIn(userName, password, done) {
     if (userName === undefined || userName === '') {
       done('Username can not be empty');
@@ -99,53 +131,62 @@ class User {
         if (user.length === 0) {
           done('Failed, Username not Found');
         } else {
-          console.log(user[0].password);
           bcrypt.compare(password, user[0].password, (err, res) => {
             if (res) {
-              console.log('successfully');
               done(user);
             } else {
-              console.log('Wrong password');
               done('Failed, Wrong Password');
             }
           });
         }
       });
-  }
-  }
-
-  createGroup(groupName, creator, done) {
-    if (groupName === '' || groupName === undefined) {
-      console.log('Group Name can not be Empty');
-      done('Group Name can not be Empty');
-    } else if (creator === '' || creator === undefined) {
-      console.log('creator id can not be Empty');
-      done('creator id can not be Empty');
-    } else {
-    this.Groups.findOrCreate({
-      where: {
-        gp_name: groupName,
-        gpCreatorIdId: creator
-      }
-    })
-    .then((group) => {
-      console.log(group);
-      if (group[1] === false) {
-        done('Group Exists already');
-      } else {
-        done(group);
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      done(err.name); // .errors[0].message);
-    });
     }
   }
 
+  /**
+   * createGroup - creates a group
+   *
+   * @param  {STRING} groupName the Name to call the group
+   * @param  {INTEGER} creator   the UserId of the group creator
+   * @param  {FunctionDeclaration} done         callback function
+   * @return {STRING}           result of the group creation attempt.
+   */
+  createGroup(groupName, creator, done) {
+    if (groupName === '' || groupName === undefined) {
+      done('Group Name can not be Empty');
+    } else if (creator === '' || creator === undefined) {
+      done('creator id can not be Empty');
+    } else {
+      this.Groups.findOrCreate({
+        where: {
+          gp_name: groupName,
+          gpCreatorIdId: creator
+        }
+      })
+      .then((group) => {
+        if (group[1] === false) {
+          done('Group Exists already');
+        } else {
+          done(group);
+        }
+      })
+      .catch((err) => {
+        done(err.name); // .errors[0].message);
+      });
+    }
+  }
+
+  /**
+   * addUsers - adds new user to a created group
+   *
+   * @param  {INTEGER} group id of the group to add users to
+   * @param  {INTEGER} user  id of user being added
+   * @param  {INTEGER} added id of user adding the new user
+   * @param  {FunctionDeclaration} done         callback function
+   * @return {STRING}       result of the addition attempt.
+   */
   addUsers(group, user, added, done) {
     const groupToInt = parseInt(group, 10);
-    console.log(groupToInt / 2);
     const userToInt = parseInt(user, 10);
     if (groupToInt === '' || isNaN(groupToInt)) {
       done('Group Id must be stated');
@@ -159,34 +200,57 @@ class User {
           addedBy: added
         }
       }).then((result) => {
-        console.log(result);
         if (result[1] === false) {
           done('User is already a member');
         } else {
           done(result);
         }
       }).catch((err) => {
-        console.log(err);
         done(err.errors[0].message);
       });
     }
   }
 
+  /**
+   * postMessage - for posting messages to a group
+   *
+   * @param  {INTEGER} to            id of the group posted to
+   * @param  {INTEGER} from          id of the user sending it
+   * @param  {STRING} text          the message being sent
+   * @param  {INTEGER} priorityLevel Level of message priority
+   * @param  {FunctionDeclaration} done         callback function
+   * @return {STRING}       result of the post attempt.
+   */
   postMessage(to, from, text, priorityLevel, done) {
-    this.Messages.create({
-      groupIdId: to,
-      message: text,
-      senderIdId: from,
-      priority: priorityLevel
-    }).then((message) => {
-      console.log(message);
-      done(message);
-    }).catch((err) => {
-      console.log(err);
-      done(err);
-    });
+    if (to === '' || to === undefined) {
+      done('Group must be specified');
+    } else if (from === '' || from === undefined) {
+      done('Sender must be specified');
+    } else if (text === '' || text === undefined) {
+      done('message cannot be null');
+    } else if (priorityLevel === '' || priorityLevel === undefined) {
+      done('priority cannot be null');
+    } else {
+      this.Messages.create({
+        groupIdId: to,
+        message: text,
+        senderIdId: from,
+        priority: priorityLevel
+      }).then((message) => {
+        done(message);
+      }).catch((err) => {
+        done(err);
+      });
+    }
   }
 
+  /**
+   * retrieveMessage - gets messages for a group
+   *
+   * @param  {INTEGER} group the id of the group
+   * @param  {FunctionDeclaration} done         callback function
+   * @return {STRING}       result of the get attempt.
+   */
   retrieveMessage(group, done) {
     this.Messages.findAll({
       where: {

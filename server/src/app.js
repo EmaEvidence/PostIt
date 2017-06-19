@@ -12,6 +12,12 @@ Router.use(validator());
 let sess;
 
 
+/**
+ * result - description
+ *
+ * @param  {type} typeof result !== 'object' description
+ * @return {type}                            description
+ */ 
 Router.post('/api/user/signup', (req, res) => {
   const name = req.body.name;
   const username = req.body.username;
@@ -69,11 +75,13 @@ Router.post('/api/group/:groupid/user', (req, res) => {
 });
 
 Router.post('/api/group/:groupid/message', (req, res) => {
+  sess = req.session;
   const groupId = req.params.groupid;
   const message = req.body.message;
   const priority = req.body.priority;
+  const from = (sess.UserId) ? sess.UserId : req.body.from;
   console.log(req.params.groupid);
-  user.postMessage(groupId, 1, message, priority, (result) => {
+  user.postMessage(groupId, from, message, priority, (result) => {
     console.log(result);
     res.send(result);
   });
