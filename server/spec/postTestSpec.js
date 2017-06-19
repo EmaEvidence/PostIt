@@ -446,3 +446,48 @@ xdescribe('When a User posts message to a group', () => {
     done();
   }, 30000);
 });
+
+describe('When a User requests for message posted to a group', () => {
+  let result;
+  const group = '10';
+  beforeEach((done) => {
+    user.retrieveMessage(group, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return an Empty array if no exist Message for the group', (done) => {
+    expect(result.length).toEqual(0);
+    done();
+  }, 10000);
+});
+
+describe('When a User requests for message posted to a group', () => {
+  let result;
+  const group = '1';
+  beforeEach((done) => {
+    user.retrieveMessage(group, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return a nonEmpty array if there are Message(s) for the group', (done) => {
+    expect(result.length).toBeGreaterThan(0);
+    done();
+  }, 10000);
+});
+
+describe('When a User requests for message posted to a group', () => {
+  let result;
+  const group = 'Ema';
+  beforeEach((done) => {
+    user.retrieveMessage(group, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return a nonEmpty array if there are Message(s) for the group', (done) => {
+    expect(result.name).toEqual('SequelizeDatabaseError');
+    done();
+  }, 10000);
+});

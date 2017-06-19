@@ -17,7 +17,7 @@ let sess;
  *
  * @param  {type} typeof result !== 'object' description
  * @return {type}                            description
- */ 
+ */
 Router.post('/api/user/signup', (req, res) => {
   const name = req.body.name;
   const username = req.body.username;
@@ -89,7 +89,7 @@ Router.post('/api/group/:groupid/message', (req, res) => {
 
 Router.get('/api/group/:groupid/messages', (req, res) => {
   const groupId = req.params.groupid;
-  console.log(groupId);
+  console.log(parseInt(groupId, 10));
   user.retrieveMessage(groupId, (result) => {
     console.log(result);
     res.send(result);
