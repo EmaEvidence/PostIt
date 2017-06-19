@@ -50,7 +50,7 @@ Router.post('/api/user/signin', (req, res) => {
 Router.post('/api/group', (req, res) => {
   sess = req.session;
   const gpName = req.body.gpname;
-  const userId = 100; // sess.UserId;
+  const userId = sess.UserId;
   console.log(userId);
   user.createGroup(gpName, userId, (result) => {
     console.log(result);

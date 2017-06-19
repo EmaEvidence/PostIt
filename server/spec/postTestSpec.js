@@ -273,7 +273,7 @@ xdescribe('When a User creates a group', () => {
   }, 10000);
 });
 
-describe('When a register creates a group', () => {
+describe('When a User creates a group', () => {
   let result;
   const groupName = 'Evidence';
   const creator = '123';
@@ -285,6 +285,74 @@ describe('When a register creates a group', () => {
   }, 10000);
   it('should return an Error Message if an unregistered User tries to create a group', (done) => {
     expect(result).toEqual('SequelizeForeignKeyConstraintError');
+    done();
+  }, 10000);
+});
+
+describe('When a User adds another user to a group', () => {
+  let result;
+  const group = '';
+  const userId = '123';
+  const adding = 1;
+  beforeEach((done) => {
+    user.addUsers(group, userId, adding, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return an Error Message if group Id is not stated', (done) => {
+    expect(result).toEqual('Group Id must be stated');
+    done();
+  }, 10000);
+});
+
+describe('When a User adds another user to a group', () => {
+  let result;
+  const group = '1';
+  const userId = '';
+  const adding = 1;
+  beforeEach((done) => {
+    user.addUsers(group, userId, adding, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return an Error Message if User Id is not stated', (done) => {
+    expect(result).toEqual('User Id must be stated');
+    done();
+  }, 10000);
+});
+
+describe('When a User adds another user to a group', () => {
+  let result;
+  const group = '1';
+  const userId = '2';
+  const adding = 1;
+  beforeEach((done) => {
+    user.addUsers(group, userId, adding, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return an Error Message if User is already a member of the group', (done) => {
+    expect(result).toEqual('User is already a member');
+    done();
+  }, 10000);
+});
+
+describe('When a User adds another user to a group', () => {
+  let result;
+  const group = '12';
+  const userId = '2';
+  const adding = 1;
+  beforeEach((done) => {
+    user.addUsers(group, userId, adding, (response) => {
+      result = response[0].dataValues;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return an Error Message if User is not a member yet', (done) => {
+    expect(typeof result).toEqual('object');
     done();
   }, 10000);
 });
