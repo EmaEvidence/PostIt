@@ -48,43 +48,70 @@ class User {
     this.sequelize.sync({});
   }
 
+  static validateInput(userName, userUsername, userEmail, userPassword) {
+    let result;
+    if (userName === '' || userName === undefined) {
+      result = 'Name can not be empty';
+    } else if (userUsername === '' || userUsername === undefined) {
+      result = 'Username can not be empty';
+    } else if (userEmail === '' || userEmail === undefined) {
+      result = 'Email can not be empty';
+    } else if (userPassword === '' || userPassword === undefined) {
+      result = 'Password can not be empty';
+    } else {
+      result = 'valid';
+    }
+    return result;
+  }
+
   signUp(userName, userUsername, userEmail, userPassword, done) {
     const saltRounds = 10;
-    bcrypt.hash(userPassword, saltRounds, (err, hash) => {
-      this.Users.create({
-        name: userName,
-        username: userUsername,
-        email: userEmail,
-        password: hash
-      }).then((user) => {
-        done(user);
-      }).catch((err) => {
-        done(err.errors[0].message);
+    const validity = User.validateInput(userName, userUsername, userEmail, userPassword);
+    if (validity === 'valid') {
+      bcrypt.hash(userPassword, saltRounds, (err, hash) => {
+        this.Users.create({
+          name: userName,
+          username: userUsername,
+          email: userEmail,
+          password: hash
+        }).then((user) => {
+          done(user);
+        }).catch((err) => {
+          done(err.errors[0].message);
+        });
       });
-    });
+    } else {
+      done(validity);
+    }
   }
 
   logIn(userName, password, done) {
-    this.Users.findAll({
-      where: {
-        username: userName
-      }
-    }).then((user) => {
-      if (user.length === 0) {
-        done('Failed, Username not Found');
-      } else {
-        console.log(user[0].password);
-        bcrypt.compare(password, user[0].password, (err, res) => {
-          if (res) {
-            console.log('successfully');
-            done(user);
-          } else {
-            console.log('Wrong password');
-            done('Failed, Wrong Password');
-          }
-        });
-      }
-    })
+    if (userName === undefined || userName === '') {
+      done('Username can not be empty');
+    } else if (password === undefined || password === '') {
+      done('Password can not be empty');
+    } else {
+      this.Users.findAll({
+        where: {
+          username: userName
+        }
+      }).then((user) => {
+        if (user.length === 0) {
+          done('Failed, Username not Found');
+        } else {
+          console.log(user[0].password);
+          bcrypt.compare(password, user[0].password, (err, res) => {
+            if (res) {
+              console.log('successfully');
+              done(user);
+            } else {
+              console.log('Wrong password');
+              done('Failed, Wrong Password');
+            }
+          });
+        }
+      });
+  }
   }
 
   createGroup(groupName, creator, done) {
@@ -111,7 +138,7 @@ class User {
     })
     .catch((err) => {
       console.log(err);
-      done(err.errors[0].message);
+      done(err.name); // .errors[0].message);
     });
     }
   }

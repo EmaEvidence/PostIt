@@ -1,5 +1,5 @@
 import gulp from 'gulp';
-import jasmineNode from 'gulp-jasmine';
+import jasmine from 'gulp-jasmine';
 import babel from 'gulp-babel';
 import gulpBabelIstanbul from 'gulp-babel-istanbul';
 import coveralls from 'gulp-coveralls';
@@ -27,9 +27,7 @@ gulp.task('default', ['transpile', 'coveralls']);
  */
 gulp.task('run-test', ['transpile'], () => {
   return gulp.src(['dist/*Spec.js'])
-  .pipe(jasmineNode({
-    timeout: 10000
-  }));
+  .pipe(jasmine());
 });
 
 /**

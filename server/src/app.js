@@ -19,10 +19,14 @@ Router.post('/api/user/signup', (req, res) => {
   const password = req.body.password;
   user.signUp(name, username, email, password, (result) => {
     console.log(result);
-    sess = req.session;
-    sess.UserId = result.id;
-    sess.userName = result.username;
-    res.send(result);
+    if (typeof result !== 'object') {
+      res.send(result);
+    } else {
+      sess = req.session;
+      sess.UserId = result.id;
+      sess.userName = result.username;
+      res.send(result);
+    }
   });
 });
 
@@ -46,9 +50,9 @@ Router.post('/api/user/signin', (req, res) => {
 Router.post('/api/group', (req, res) => {
   sess = req.session;
   const gpName = req.body.gpname;
-  const userId = sess.UserId;
+  const userId = 100; // sess.UserId;
   console.log(userId);
-  user.createGroup(gpName, 1, (result) => {
+  user.createGroup(gpName, userId, (result) => {
     console.log(result);
     res.send(result);
   });
