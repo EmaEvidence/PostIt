@@ -198,12 +198,12 @@ class User {
 
 
   /**
-   * deleteGroup - description
+   * deleteGroup - deletes a group
    *
-   * @param  {type} group   description
-   * @param  {type} creator description
-   * @param  {type} done    description
-   * @return {type}         description
+   * @param  {STRING} group   name of the group to delete
+   * @param  {INTEGER} creator id of the creator of the group
+   * @param  {function} done    callback function
+   * @return {STRING}         result of the action
    */
   deleteGroup(group, creator, done) {
     this.Groups.destroy({
@@ -254,13 +254,13 @@ class User {
 
 
   /**
-   * deleteUserFromGroup - description
+   * deleteUserFromGroup - deletes a member from a group
    *
-   * @param  {type} group description
-   * @param  {type} user  description
-   * @param  {type} added description
-   * @param  {type} done  description
-   * @return {type}       description
+   * @param  {INTEGER} group the id of the group to delete from
+   * @param  {INTEGER} user  the id of the user to delete
+   * @param  {INTEGER} added the id of the user who added him
+   * @param  {function} done  description
+   * @return {STRING}       result of the action
    */
   deleteUserFromGroup(group, user, added, done) {
     this.GroupMembers.destroy({
