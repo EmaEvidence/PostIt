@@ -496,7 +496,7 @@ describe('When a User requests for message posted to a group', () => {
 });
 
 describe('When a User makes a request to the APIs', () => {
-  // Unit test signup route
+  // Unit test for routes
   it('should return status code 400', (done) => {
     api.post('/api/user/signup')
           .send({
@@ -508,7 +508,7 @@ describe('When a User makes a request to the APIs', () => {
           });
   }, 10000);
 
-  xit('should return status code 400', (done) => {
+  xit('should return status code 200 When a new user signs up', (done) => {
     api.post('/api/user/signup')
           .send({
             name: 'Samuel Oke',
@@ -523,48 +523,86 @@ describe('When a User makes a request to the APIs', () => {
           });
   }, 10000);
 
-  xit('should return status message 200', (done) => {
-    api.get('/api/group/eewewe/messages')
+  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+    api.post('/api/group')
             .send({
             })
             .end((err, res) => {
-              expect(res.status).toEqual(200);
-              console.log(res.status);
-              console.log(res);
+              expect(res.status).toEqual(403);
+              expect(res.text).toEqual('You are not allowed Here, Please sign.');
               done(err);
             });
   }, 10000);
 
-  xit('should return status message 200', (done) => {
+  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+    api.post('/api/group/3/user')
+            .send({
+            })
+            .end((err, res) => {
+              expect(res.status).toEqual(403);
+              expect(res.text).toEqual('You are not allowed Here, Please sign.');
+              done(err);
+            });
+  }, 10000);
+
+  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
     api.post('/api/group/1/message')
             .send({
             })
             .end((err, res) => {
-              expect(res.status).toEqual(200);
-              console.log(res.status);
-              console.log(res);
+              expect(res.status).toEqual(403);
+              expect(res.text).toEqual('You are not allowed Here, Please sign.');
               done(err);
             });
   }, 10000);
+
+  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+    api.get('/api/group/eewewe/messages')
+            .send({
+            })
+            .end((err, res) => {
+              expect(res.status).toEqual(403);
+              expect(res.text).toEqual('You are not allowed Here, Please sign.');
+              done(err);
+            });
+  }, 10000);
+
+  xit('should return status code 200 When a signed in user creates a group', (done) => {
+    api.post('/api/user/signin')
+            .send({
+              username: 'Evidence',
+              password: '1234567890'
+            },
+            api.post('/api/group')
+          .send({
+            gpname: 'Tenants'
+          })
+          .end((err, res) => {
+            // expect(res.status).toEqual(200);
+            expect(res.text).toEqual(200);
+            done(err);
+          })
+          )
+            .then(() => {
+            }, 10000);
+  }, 10000);
+
   xit('should return status message 200', (done) => {
     api.post('/api/group/3/user')
             .send({
             })
             .end((err, res) => {
               expect(res.status).toEqual(200);
-              console.log(res.status);
-              console.log(res);
               done(err);
             });
   }, 10000);
+
   xit('should return status code 200', (done) => {
     api.post('/api/group')
             .send({
             })
             .end((err, res) => {
               expect(res.status).toEqual(200);
-              console.log(res.status);
-              console.log(res);
               done(err);
             });
   }, 10000);
