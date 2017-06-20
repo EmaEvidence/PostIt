@@ -34,14 +34,14 @@ gulp.task('run-test', ['transpile'], () => {
  * gulp task for getting coverage report on tests
  */
 gulp.task('coverage', (cb) => {
-  gulp.src(['src/inverted-index.js', 'app.js'])
+  gulp.src(['src/user.js', 'server.js'])
     .pipe(gulpBabelIstanbul())
     .pipe(injectModules())
     .on('finish', () => {
-      gulp.src('*.js')
+      gulp.src('spec/postTestSpec.js')
       .pipe(babel())
       .pipe(injectModules())
-      .pipe(jasmineNode())
+      .pipe(jasmine())
       .pipe(gulpBabelIstanbul.writeReports())
       .pipe(gulpBabelIstanbul.enforceThresholds({ thresholds: { global: 70 } }))
       .on('end', cb);
@@ -64,7 +64,7 @@ gulp.task('coveralls', ['coverage'], () => {
  */
 gulp.task('serve', ['transpile'], () =>
   nodemon({
-    script: 'nodemon --exec babel-node app.js',
+    script: 'nodemon --exec babel-node server.js',
     ext: 'js',
     env: { NODE_ENV: process.env.NODE_ENV }
   })
