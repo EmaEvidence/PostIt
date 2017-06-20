@@ -45,10 +45,15 @@ Router.post('/api/user/signin', (req, res) => {
     res.send('Password can not be empty');
   } else {
     user.logIn(username, password, (result) => {
-      sess = req.session;
-      sess.UserId = result[0].id;
-      sess.userName = result[0].username;
-      res.send(result);
+      if (result === 'Failed, Wrong Password' ||
+        result === 'Failed, Username not Found') {
+        res.send(404, result);
+      } else {
+        sess = req.session;
+        sess.UserId = result[0].id;
+        sess.userName = result[0].username;
+        res.send(200, result);
+      }
     });
   }
 });
