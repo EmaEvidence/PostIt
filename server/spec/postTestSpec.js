@@ -496,14 +496,29 @@ describe('When a User requests for message posted to a group', () => {
 });
 
 describe('When a User makes a request to the APIs', () => {
-  xit('should return status message 200', (done) => {
+  // Unit test signup route
+  it('should return status code 400', (done) => {
     api.post('/api/user/signup')
           .send({
           })
           .end((err, res) => {
+            expect(res.status).toEqual(400);
+            expect(res.text).toEqual('Name can not be empty');
+            done(err);
+          });
+  }, 10000);
+
+  xit('should return status code 400', (done) => {
+    api.post('/api/user/signup')
+          .send({
+            name: 'Samuel Oke',
+            username: 'Sammy',
+            email: 'sammy@gmail.com',
+            password: '1234567890'
+          })
+          .end((err, res) => {
             expect(res.status).toEqual(200);
-            console.log(res.status);
-            console.log(res);
+            expect(JSON.parse(res.text).username).toEqual('Sammy');
             done(err);
           });
   }, 10000);
