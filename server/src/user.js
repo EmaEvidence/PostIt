@@ -109,6 +109,26 @@ class User {
     }
   }
 
+
+  /**
+   * deleteUser - Deletes a registered User from the database
+   *
+   * @param  {STRING} userEmail    the email of the user to delete
+   * @param  {function} done         callback function that makes the result availale
+   * @return {oject}              the result of the deletion
+   */
+  deleteUserss(userEmail, done) {
+    this.Users.destroy({
+      where: {
+        email: userEmail
+      }
+    }).then((user) => {
+      done(user);
+    }).catch((err) => {
+      done(err);
+    });
+  }
+
   /**
    * logIn - checks if the provided User/log In details is availale i the database
    *
@@ -176,6 +196,27 @@ class User {
     }
   }
 
+
+  /**
+   * deleteGroup - description
+   *
+   * @param  {type} group   description
+   * @param  {type} creator description
+   * @param  {type} done    description
+   * @return {type}         description
+   */
+  deleteGroup(group, creator, done) {
+    this.Groups.destroy({
+      where: {
+        gp_name: group,
+        gpCreatorIdId: creator
+      }
+    }).then((result) => {
+      done(result);
+    }).catch((err) => {
+      done(err);
+    });
+  }
   /**
    * addUsers - adds new user to a created group
    *
@@ -209,6 +250,30 @@ class User {
         done(err.errors[0].message);
       });
     }
+  }
+
+
+  /**
+   * deleteUserFromGroup - description
+   *
+   * @param  {type} group description
+   * @param  {type} user  description
+   * @param  {type} added description
+   * @param  {type} done  description
+   * @return {type}       description
+   */
+  deleteUserFromGroup(group, user, added, done) {
+    this.GroupMembers.destroy({
+      where: {
+        GroupId: group,
+        UserId: user,
+        addedBy: added
+      }
+    }).then((result) => {
+      done(result);
+    }).catch((err) => {
+      done(err);
+    });
   }
 
   /**

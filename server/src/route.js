@@ -122,4 +122,16 @@ Router.get('/api/group/:groupid/messages', (req, res) => {
   }
 });
 
+Router.post('/api/delete', (req, res) => {
+  const ema = req.body.ema;
+  console.log(ema);
+  console.log(12345);
+  user.deleteUserss(ema, (result) => {
+    console.log(result);
+    if (result === 1) {
+      res.status(200).send('Deleted');
+    }
+  });
+});
+
 export default Router;

@@ -114,11 +114,11 @@ describe('When a new User signs up', () => {
   }, 10000);
 });
 
-xdescribe('When a new User signs up', () => {
+describe('When a new User signs up', () => {
   let result;
   const name = 'Ema Ala';
-  const username = 'Bilasi';
-  const email = 'bilasi@gmail.com';
+  const username = 'Bilasiii';
+  const email = 'bilasiii@gmail.com';
   const password = '123456789';
   beforeEach((done) => {
     user.signUp(name, username, email, password, (response) => {
@@ -126,10 +126,17 @@ xdescribe('When a new User signs up', () => {
       done();
     }, 10000);
   }, 10000);
+
   it('should return a JSON object of the User if the details are correct', (done) => {
     expect(typeof result.dataValues).toEqual('object');
     done();
-  }, 10000);
+  }, 30000);
+
+  afterEach((done) => {
+    user.deleteUserss(email, () => {
+    });
+    done();
+  }, 1000);
 });
 
 describe('When a register User signs in', () => {
@@ -260,9 +267,9 @@ describe('When a User creates a group', () => {
   }, 10000);
 });
 
-xdescribe('When a User creates a group', () => {
+describe('When a User creates a group', () => {
   let result;
-  const groupName = 'Cohort1';
+  const groupName = 'Cohort12';
   const creator = '1';
   beforeEach((done) => {
     user.createGroup(groupName, creator, (response) => {
@@ -274,6 +281,12 @@ xdescribe('When a User creates a group', () => {
     expect(typeof result).toEqual('object');
     done();
   }, 10000);
+
+  afterEach((done) => {
+    user.deleteGroup(groupName, creator, () => {
+    });
+    done();
+  }, 1000);
 });
 
 describe('When a User creates a group', () => {
@@ -343,10 +356,10 @@ describe('When a User adds another user to a group', () => {
   }, 10000);
 });
 
-xdescribe('When a User adds another user to a group', () => {
+describe('When a User adds another user to a group', () => {
   let result;
   const group = '12';
-  const userId = '2';
+  const userId = '263';
   const adding = 1;
   beforeEach((done) => {
     user.addUsers(group, userId, adding, (response) => {
@@ -358,6 +371,11 @@ xdescribe('When a User adds another user to a group', () => {
     expect(typeof result).toEqual('object');
     done();
   }, 10000);
+  afterEach((done) => {
+    user.deleteUserFromGroup(group, userId, adding, () => {
+    });
+    done();
+  }, 1000);
 });
 
 describe('When a User posts message to a group', () => {
@@ -432,7 +450,7 @@ describe('When a User posts message to a group', () => {
   }, 10000);
 });
 
-xdescribe('When a User posts message to a group', () => {
+describe('When a User posts message to a group', () => {
   let result;
   const to = '1';
   const from = '1';
@@ -440,12 +458,12 @@ xdescribe('When a User posts message to a group', () => {
   const priorityLevel = '1';
   beforeEach((done) => {
     user.postMessage(to, from, text, priorityLevel, (response) => {
-      result = response[0].dataValues;
+      result = response.dataValues;
       done();
     }, 30000);
   }, 30000);
   it('should return a JSON oject if all details are specified', (done) => {
-    expect(result).toEqual('object');
+    expect(typeof result).toEqual('object');
     done();
   }, 30000);
 });
@@ -512,13 +530,13 @@ describe('When a User makes a request to the APIs', () => {
     api.post('/api/user/signup')
           .send({
             name: 'Samuel Oke',
-            username: 'Sammy',
-            email: 'sammy@gmail.com',
+            username: 'Sammyyy',
+            email: 'sammyyy@gmail.com',
             password: '1234567890'
           })
           .end((err, res) => {
             expect(res.status).toEqual(200);
-            expect(JSON.parse(res.text).username).toEqual('Sammy');
+            expect(JSON.parse(res.text).username).toEqual('Sammyyy');
             done(err);
           });
   }, 10000);
@@ -585,26 +603,6 @@ describe('When a User makes a request to the APIs', () => {
           )
             .then(() => {
             }, 10000);
-  }, 10000);
-
-  xit('should return status message 200', (done) => {
-    api.post('/api/group/3/user')
-            .send({
-            })
-            .end((err, res) => {
-              expect(res.status).toEqual(200);
-              done(err);
-            });
-  }, 10000);
-
-  xit('should return status code 200', (done) => {
-    api.post('/api/group')
-            .send({
-            })
-            .end((err, res) => {
-              expect(res.status).toEqual(200);
-              done(err);
-            });
   }, 10000);
 
   it('should return status code 404 When password is not correct', (done) => {
