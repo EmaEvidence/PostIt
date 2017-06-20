@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import validator from 'express-validator';
-import User from './post';
+import User from './user';
 
 
 const user = new User();

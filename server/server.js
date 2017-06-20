@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import Router from './src/app';
+import Router from './src/route';
 
 const app = express();
 app.use(session({ secret: 'ssshhhhh' }));

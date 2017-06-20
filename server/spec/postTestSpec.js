@@ -1,7 +1,10 @@
 import expect from 'expect';
-import User from '../src/post';
+import supertest from 'supertest';
+import User from '../src/user';
+import app from '../server';
 
 const user = new User();
+const api = new supertest(app);
 
 describe('When a new User signs up', () => {
   let result;
@@ -490,4 +493,74 @@ describe('When a User requests for message posted to a group', () => {
     expect(result.name).toEqual('SequelizeDatabaseError');
     done();
   }, 10000);
+});
+
+describe('When a User makes a to the API requests ', () => {
+  it('should return a', (done) => {
+    api.post('/api/user/signup')
+          .send({
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(200);
+            console.log(res.status);
+            done(err);
+          });
+  }, 10000);
+
+  it('should return a', (done) => {
+    api.get('/api/group/eewewe/messages')
+            .send({
+            })
+            .end((err, res) => {
+              expect(res.status).toEqual(200);
+              console.log(res.status);
+              done(err);
+            });
+  }, 10000);
+
+  it('should return a', (done) => {
+    api.post('/api/group/1/message')
+            .send({
+            })
+            .end((err, res) => {
+              expect(res.status).toEqual(200);
+              console.log(res.status);
+              done(err);
+            });
+  }, 10000);
+  it('should return a', (done) => {
+    api.post('/api/group/3/user')
+            .send({
+            })
+            .end((err, res) => {
+              expect(res.status).toEqual(200);
+              console.log(res.status);
+              done(err);
+            });
+  }, 10000);
+  it('should return a', (done) => {
+    api.post('/api/group')
+            .send({
+            })
+            .end((err, res) => {
+              expect(res.status).toEqual(200);
+              console.log(res.status);
+              done(err);
+            });
+  }, 10000);
+
+  it('should return a', (done) => {
+    api.post('/api/user/signin')
+            .send({
+              username: 'Evidence',
+              password: 123456789
+            })
+            .end((err, res) => {
+              expect(res.status).toEqual(200);
+              console.log(res.status);
+              done(err);
+            });
+  }, 10000);
+
+  app.close();
 });
