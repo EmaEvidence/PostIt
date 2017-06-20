@@ -24,14 +24,13 @@ Router.post('/api/user/signup', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   user.signUp(name, username, email, password, (result) => {
-    console.log(result);
     if (typeof result !== 'object') {
-      res.send(result);
+      res.status(400).send(result);
     } else {
       sess = req.session;
       sess.UserId = result.id;
       sess.userName = result.username;
-      res.send(result);
+      res.status(200).send(result);
     }
   });
 });
@@ -40,19 +39,19 @@ Router.post('/api/user/signin', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   if (username === undefined || username === '') {
-    res.send('Username can not be empty');
+    res.send(400, 'Username can not be empty');
   } else if (password === undefined || password === '') {
-    res.send('Password can not be empty');
+    res.send(400, 'Password can not be empty');
   } else {
     user.logIn(username, password, (result) => {
       if (result === 'Failed, Wrong Password' ||
         result === 'Failed, Username not Found') {
-        res.send(404, result);
+        res.status(404).send(result);
       } else {
         sess = req.session;
         sess.UserId = result[0].id;
         sess.userName = result[0].username;
-        res.send(200, result);
+        res.status(200).send(result);
       }
     });
   }
@@ -63,20 +62,30 @@ Router.post('/api/group', (req, res) => {
   const gpName = req.body.gpname;
   const userId = sess.UserId;
   console.log(userId);
-  user.createGroup(gpName, userId, (result) => {
-    console.log(result);
-    res.send(result);
-  });
+  if (userId) {
+    user.createGroup(gpName, userId, (result) => {
+      console.log(result);
+      res.status(200).send(result);
+    });
+  } else {
+    res.status(403).send('You are not allowed Here, Please sign.');
+  }
 });
 
 Router.post('/api/group/:groupid/user', (req, res) => {
   const groupId = req.params.groupid;
   const userId = req.body.user;
+  sess = req.session;
+  const userAdding = sess.UserId;
   console.log(userId);
-  user.addUsers(groupId, userId, 1, (result) => {
-    console.log(result);
-    res.send(result);
-  });
+  if (sess.UserId) {
+    user.addUsers(groupId, userId, userAdding, (result) => {
+      console.log(result);
+      res.status(200).send(result);
+    });
+  } else {
+    res.status(403).send('You are not allowed Here, Please sign.');
+  }
 });
 
 Router.post('/api/group/:groupid/message', (req, res) => {
@@ -86,19 +95,31 @@ Router.post('/api/group/:groupid/message', (req, res) => {
   const priority = req.body.priority;
   const from = (sess.UserId) ? sess.UserId : req.body.from;
   console.log(req.params.groupid);
-  user.postMessage(groupId, from, message, priority, (result) => {
-    console.log(result);
-    res.send(result);
-  });
+  if (sess.UserId) {
+    user.postMessage(groupId, from, message, priority, (result) => {
+      console.log(result);
+      res.send(result);
+      res.status(200).send(result);
+    });
+  } else {
+    res.status(403).send('You are not allowed Here, Please sign.');
+  }
 });
 
 Router.get('/api/group/:groupid/messages', (req, res) => {
+  sess = req.session;
   const groupId = req.params.groupid;
-  console.log(parseInt(groupId, 10));
-  user.retrieveMessage(groupId, (result) => {
-    console.log(result);
-    res.send(result);
-  });
+  const userId = sess.UserId;
+  if (userId) {
+    console.log(parseInt(groupId, 10));
+    user.retrieveMessage(groupId, (result) => {
+      console.log(result);
+      res.send(result);
+      res.status(200).send(result);
+    });
+  } else {
+    res.status(403).send('You are not allowed Here, Please sign.');
+  }
 });
 
 export default Router;
