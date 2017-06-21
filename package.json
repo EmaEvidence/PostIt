@@ -44,7 +44,5 @@
     "pg": "^6.2.4",
     "sequelize": "^4.1.0",
     "supertest": "^3.0.0"
-  },
-  "devDependencies": {
   }
 }
