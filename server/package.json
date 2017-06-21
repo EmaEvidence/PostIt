@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prestart": "babel src --out-dir dist",
-    "start": "nodemon --exec babel-node server.js"
+    "start": "nodemon --exec babel-node server/server.js"
   },
   "author": "EmaEvidence",
   "license": "ISC",
@@ -23,6 +23,7 @@
     "bcrypt": "^1.0.2",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
+    "crypto": "0.0.3",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.3.0",
