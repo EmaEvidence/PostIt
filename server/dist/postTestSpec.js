@@ -6,13 +6,22 @@ var _expect = require('expect');
 
 var _expect2 = _interopRequireDefault(_expect);
 
-var _post = require('../src/post');
+var _supertest = require('supertest');
 
-var _post2 = _interopRequireDefault(_post);
+var _supertest2 = _interopRequireDefault(_supertest);
+
+var _user = require('../src/user');
+
+var _user2 = _interopRequireDefault(_user);
+
+var _server = require('../server');
+
+var _server2 = _interopRequireDefault(_server);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var user = new _post2.default();
+var user = new _user2.default();
+var api = new _supertest2.default(_server2.default);
 
 describe('When a new User signs up', function () {
   var result = void 0;
@@ -122,11 +131,11 @@ describe('When a new User signs up', function () {
   }, 10000);
 });
 
-xdescribe('When a new User signs up', function () {
+describe('When a new User signs up', function () {
   var result = void 0;
   var name = 'Ema Ala';
-  var username = 'Bilasi';
-  var email = 'bilasi@gmail.com';
+  var username = 'Bilasiii';
+  var email = 'bilasiii@gmail.com';
   var password = '123456789';
   beforeEach(function (done) {
     user.signUp(name, username, email, password, function (response) {
@@ -134,10 +143,16 @@ xdescribe('When a new User signs up', function () {
       done();
     }, 10000);
   }, 10000);
+
   it('should return a JSON object of the User if the details are correct', function (done) {
     (0, _expect2.default)(_typeof(result.dataValues)).toEqual('object');
     done();
-  }, 10000);
+  }, 30000);
+
+  afterEach(function (done) {
+    user.deleteUserss(email, function () {});
+    done();
+  }, 1000);
 });
 
 describe('When a register User signs in', function () {
@@ -268,9 +283,9 @@ describe('When a User creates a group', function () {
   }, 10000);
 });
 
-xdescribe('When a User creates a group', function () {
+describe('When a User creates a group', function () {
   var result = void 0;
-  var groupName = 'Cohort1';
+  var groupName = 'Cohort12';
   var creator = '1';
   beforeEach(function (done) {
     user.createGroup(groupName, creator, function (response) {
@@ -282,6 +297,11 @@ xdescribe('When a User creates a group', function () {
     (0, _expect2.default)(typeof result === 'undefined' ? 'undefined' : _typeof(result)).toEqual('object');
     done();
   }, 10000);
+
+  afterEach(function (done) {
+    user.deleteGroup(groupName, creator, function () {});
+    done();
+  }, 1000);
 });
 
 describe('When a User creates a group', function () {
@@ -351,10 +371,10 @@ describe('When a User adds another user to a group', function () {
   }, 10000);
 });
 
-xdescribe('When a User adds another user to a group', function () {
+describe('When a User adds another user to a group', function () {
   var result = void 0;
   var group = '12';
-  var userId = '2';
+  var userId = '263';
   var adding = 1;
   beforeEach(function (done) {
     user.addUsers(group, userId, adding, function (response) {
@@ -366,6 +386,10 @@ xdescribe('When a User adds another user to a group', function () {
     (0, _expect2.default)(typeof result === 'undefined' ? 'undefined' : _typeof(result)).toEqual('object');
     done();
   }, 10000);
+  afterEach(function (done) {
+    user.deleteUserFromGroup(group, userId, adding, function () {});
+    done();
+  }, 1000);
 });
 
 describe('When a User posts message to a group', function () {
@@ -440,7 +464,7 @@ describe('When a User posts message to a group', function () {
   }, 10000);
 });
 
-xdescribe('When a User posts message to a group', function () {
+describe('When a User posts message to a group', function () {
   var result = void 0;
   var to = '1';
   var from = '1';
@@ -448,12 +472,12 @@ xdescribe('When a User posts message to a group', function () {
   var priorityLevel = '1';
   beforeEach(function (done) {
     user.postMessage(to, from, text, priorityLevel, function (response) {
-      result = response[0].dataValues;
+      result = response.dataValues;
       done();
     }, 30000);
   }, 30000);
   it('should return a JSON oject if all details are specified', function (done) {
-    (0, _expect2.default)(result).toEqual('object');
+    (0, _expect2.default)(typeof result === 'undefined' ? 'undefined' : _typeof(result)).toEqual('object');
     done();
   }, 30000);
 });
@@ -502,3 +526,108 @@ describe('When a User requests for message posted to a group', function () {
     done();
   }, 10000);
 });
+
+describe('When a User makes a request to the APIs', function () {
+  // Unit test for routes
+  it('should return status code 400', function (done) {
+    api.post('/api/user/signup').send({}).end(function (err, res) {
+      (0, _expect2.default)(res.status).toEqual(400);
+      (0, _expect2.default)(res.text).toEqual('Name can not be empty');
+      done(err);
+    });
+  }, 10000);
+
+  xit('should return status code 200 When a new user signs up', function (done) {
+    api.post('/api/user/signup').send({
+      name: 'Samuel Oke',
+      username: 'Sammyyy',
+      email: 'sammyyy@gmail.com',
+      password: '1234567890'
+    }).end(function (err, res) {
+      (0, _expect2.default)(res.status).toEqual(200);
+      (0, _expect2.default)(JSON.parse(res.text).username).toEqual('Sammyyy');
+      done(err);
+    });
+  }, 10000);
+
+  it('should return status code 403 When a user tries to access the APIs without logging in', function (done) {
+    api.post('/api/group').send({}).end(function (err, res) {
+      (0, _expect2.default)(res.status).toEqual(403);
+      (0, _expect2.default)(res.text).toEqual('You are not allowed Here, Please sign.');
+      done(err);
+    });
+  }, 10000);
+
+  it('should return status code 403 When a user tries to access the APIs without logging in', function (done) {
+    api.post('/api/group/3/user').send({}).end(function (err, res) {
+      (0, _expect2.default)(res.status).toEqual(403);
+      (0, _expect2.default)(res.text).toEqual('You are not allowed Here, Please sign.');
+      done(err);
+    });
+  }, 10000);
+
+  it('should return status code 403 When a user tries to access the APIs without logging in', function (done) {
+    api.post('/api/group/1/message').send({}).end(function (err, res) {
+      (0, _expect2.default)(res.status).toEqual(403);
+      (0, _expect2.default)(res.text).toEqual('You are not allowed Here, Please sign.');
+      done(err);
+    });
+  }, 10000);
+
+  it('should return status code 403 When a user tries to access the APIs without logging in', function (done) {
+    api.get('/api/group/eewewe/messages').send({}).end(function (err, res) {
+      (0, _expect2.default)(res.status).toEqual(403);
+      (0, _expect2.default)(res.text).toEqual('You are not allowed Here, Please sign.');
+      done(err);
+    });
+  }, 10000);
+
+  xit('should return status code 200 When a signed in user creates a group', function (done) {
+    api.post('/api/user/signin').send({
+      username: 'Evidence',
+      password: '1234567890'
+    }, api.post('/api/group').send({
+      gpname: 'Tenants'
+    }).end(function (err, res) {
+      // expect(res.status).toEqual(200);
+      (0, _expect2.default)(res.text).toEqual(200);
+      done(err);
+    })).then(function () {}, 10000);
+  }, 10000);
+
+  it('should return status code 404 When password is not correct', function (done) {
+    api.post('/api/user/signin').send({
+      username: 'Evidence',
+      password: 123456789
+    }).end(function (err, res) {
+      (0, _expect2.default)(res.status).toEqual(404);
+      (0, _expect2.default)(res.text).toEqual('Failed, Wrong Password');
+      done(err);
+    });
+  }, 10000);
+
+  it('should return status code 404 When Username is not correct', function (done) {
+    api.post('/api/user/signin').send({
+      username: 'Eviden',
+      password: 123456789
+    }).end(function (err, res) {
+      (0, _expect2.default)(res.status).toEqual(404);
+      (0, _expect2.default)(res.text).toEqual('Failed, Username not Found');
+      done(err);
+    });
+  }, 10000);
+
+  it('should return status code 200 When Username and Password is correct', function (done) {
+    api.post('/api/user/signin').send({
+      username: 'Evidence',
+      password: '1234567890'
+    }).end(function (err, res) {
+      (0, _expect2.default)(res.status).toEqual(200);
+      (0, _expect2.default)(JSON.parse(res.text).length).toEqual(1);
+      (0, _expect2.default)(JSON.parse(res.text)[0].username).toEqual('Evidence');
+      done(err);
+    });
+  }, 10000);
+});
+
+_server2.default.close();

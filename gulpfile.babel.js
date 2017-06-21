@@ -10,11 +10,11 @@ import nodemon from 'gulp-nodemon';
  *gulp task for transpiling ES6 to ES5
  */
 gulp.task('transpile', () => {
-  return gulp.src(['src/**.js', 'app.js', 'spec/postTestSpec.js'])
+  return gulp.src(['server/src/**.js', 'app.js', 'server/spec/postTestSpec.js'])
   .pipe(babel({
     presets: ['es2015']
   }))
-  .pipe(gulp.dest('dist/'));
+  .pipe(gulp.dest('server/dist/'));
 });
 
 /**
@@ -26,7 +26,7 @@ gulp.task('default', ['transpile', 'coveralls']);
  * Gulp task for running tests Specs
  */
 gulp.task('run-test', ['transpile'], () => {
-  return gulp.src(['dist/*Spec.js'])
+  return gulp.src(['server/dist/*Spec.js'])
   .pipe(jasmine());
 });
 
@@ -34,11 +34,11 @@ gulp.task('run-test', ['transpile'], () => {
  * gulp task for getting coverage report on tests
  */
 gulp.task('coverage', (cb) => {
-  gulp.src(['src/user.js', 'server.js'])
+  gulp.src(['server/src/user.js', '/server/server.js'])
     .pipe(gulpBabelIstanbul())
     .pipe(injectModules())
     .on('finish', () => {
-      gulp.src('spec/postTestSpec.js')
+      gulp.src('server/spec/postTestSpec.js')
       .pipe(babel())
       .pipe(injectModules())
       .pipe(jasmine())

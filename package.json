@@ -7,9 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prestart": "babel src --out-dir dist",
-    "start": "nodemon --exec babel-node server.js"
+    "test": "gulp run-test",
+    "prestart": "babel server/src --out-dir dist",
+    "start": "nodemon --exec babel-node server/server.js"
   },
   "author": "EmaEvidence",
   "license": "ISC",
