@@ -1,11 +1,12 @@
 language: node_js
 
 node_js:
-  - "7"
+  - "6.10.1"
 
 before_script:
   - npm install -g gulp
 
 script:
   - npm install
-  - npm run start
+  - gulp
+  - npm run coveralls
