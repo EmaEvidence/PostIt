@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 /**
  * the user class that creates a user
@@ -89,19 +89,20 @@ class User {
    * @return {STRING}              the result of the registration attempt.
    */
   signUp(userName, userUsername, userEmail, userPassword, done) {
-    const saltRounds = 10;
     const validity = User.validateInput(userName, userUsername, userEmail, userPassword);
     if (validity === 'valid') {
-      bcrypt.hash(userPassword, saltRounds, (err, hash) => {
-        this.Users.create({
-          name: userName,
-          username: userUsername,
-          email: userEmail,
-          password: hash
-        }).then((user) => {
-          done(user);
-        }).catch((err) => {
-          done(err.errors[0].message);
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(userPassword, salt, (err, hash) => {
+          this.Users.create({
+            name: userName,
+            username: userUsername,
+            email: userEmail,
+            password: hash
+          }).then((user) => {
+            done(user);
+          }).catch((err) => {
+            done(err.errors[0].message);
+          });
         });
       });
     } else {

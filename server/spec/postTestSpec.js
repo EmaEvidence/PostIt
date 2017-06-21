@@ -644,6 +644,10 @@ describe('When a User makes a request to the APIs', () => {
               done(err);
             });
   }, 10000);
+  afterEach((done) => {
+    app.close();
+    done();
+  }, 1000);
 });
 
 app.close();
