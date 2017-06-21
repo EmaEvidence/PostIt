@@ -648,6 +648,5 @@ describe('When a User makes a request to the APIs', () => {
     app.close();
     done();
   }, 1000);
+  app.close();
 });
-
-app.close();

@@ -20,7 +20,9 @@ gulp.task('transpile', () => {
 /**
  *default gulp task that runs whenever gulp is called without specifing a task
  */
-gulp.task('default', ['transpile', 'coveralls']);
+gulp.task('default', ['transpile', 'coveralls'], () => {
+  process.exit();
+});
 
 /**
  * Gulp task for running tests Specs
@@ -34,7 +36,7 @@ gulp.task('run-test', ['transpile'], () => {
  * gulp task for getting coverage report on tests
  */
 gulp.task('coverage', (cb) => {
-  gulp.src(['server/src/user.js', '/server/server.js'])
+  gulp.src(['server/src/user.js', '/server/server.js', 'server/src/route.js'])
     .pipe(gulpBabelIstanbul())
     .pipe(injectModules())
     .on('finish', () => {
