@@ -9,7 +9,8 @@
   "scripts": {
     "test": "gulp run-test",
     "prestart": "babel server/src --out-dir dist",
-    "start": "nodemon --exec babel-node server/server.js"
+    "start": "nodemon --exec babel-node server/server.js",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "author": "EmaEvidence",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "bcrypt": "^1.0.2",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
+    "crypto": "0.0.3",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.3.0",
@@ -41,6 +43,7 @@
     "gulp-jasmine-node": "^1.0.7",
     "gulp-nodemon": "^2.2.1",
     "jasmine": "^2.6.0",
+    "node-gyp": "^3.6.2",
     "nodemon": "^1.11.0",
     "pg": "^6.2.4",
     "sequelize": "^4.1.0",
