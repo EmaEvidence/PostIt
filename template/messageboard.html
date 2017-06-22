@@ -3,50 +3,62 @@
     <title>PostIt</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
   </head>
   <body>
-    <header style="text-align:center;">
-      <nav>
-        <img src="images/postit.png" />
+    <header>
+      <nav class="teal row valign-wrapper">
+        <!--<img src="images/postit.png" />-->
+        <div class="col s4"> <h1 class="center-align"> Post IT </h1> </div>
+        <div class="col s8 nav-wrapper">
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li> <a href=""> Messages </a> </li>
+          <li> <a href=""> Create a Group </a> </li>
+          <li> <a href=""> Send Message </a> </li>
+          <li> <a href=""> Log Out </a> </li>
+        </ul>
+      </div>
       </nav>
     </header>
-    <div style="text-align:center;">
-      Welcome, this is a brief Explanation of what this Web App does.
-    </div>
+    <div class="container">
     <div class="row">
-    <div class="col-sm-1"></div>
-    <div class="col-sm-4">
+    <div class="col-sm-3 card-panel">
         <h2>Groups</h2>
         <ul>
-          <li> Groups </li>
-          <li> Groups </li>
-          <li> Groups </li>
-          <li> Groups </li>
-          <li> Groups </li>
-          <li> Groups </li>
-          <li> Groups </li>
-          <li> Groups </li>
-          <li> Groups </li>
-          <li> Groups </li>
-          <li> Groups </li>
-          <li> Groups </li>
+          <li> Groups <span class="new badge">6</span></li>
+          <li> Groups <span class="badge">10</span></li>
+          <li> Groups <span class="new badge">21</span></li>
+          <li> Groups <span class="badge">10</span></li>
+          <li> Groups <span class="new badge">31</span></li>
+          <li> Groups <span class="badge">12</span></li>
+          <li> Groups <span class="new badge">13</span></li>
+          <li> Groups <span class="badge">19</span></li>
+          <li> Groups <span class="new badge">1</span></li>
+          <li> Groups <span class="badge">111</span></li>
+          <li> Groups <span class="new badge">91</span></li>
+          <li> Groups <span class="badge">10</span></li>
         </ul>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-7 card-panel">
         <h2>Messages</h2>
         <p>
-          From: Emma.<br>
+          <i class="chip">From: Emma. priority</i><br>
+          <p class="card center-align">
           Message: fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br>
                    jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br>
                    jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br>
                    jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br>
+          </p>
         </p>
     </div>
     <div class="col-sm-1"></div>
   </div>
+</div>
     <footer style="text-align:center;">
       <p> &copy; 2017 Evidence </p>
     </footer>
