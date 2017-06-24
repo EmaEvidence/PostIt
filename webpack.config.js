@@ -9,23 +9,21 @@ module.exports = {
   },
   module: {
     rules: [
-     { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+     { test: /\.js$/, exclude: /node_modules/, use: 'babel-loader' },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          loader: 'css-loader?importLoaders=1',
+        use: ExtractTextPlugin.extract({
+          use: 'css-loader?importLoaders=1',
+          fallback: 'style-loader',
         }),
       },
       {
         test: /\.(sass|scss)$/,
-        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+        use: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
       }
     ]
   },
   plugins: [
-    new ExtractTextPlugin({
-      filename: 'client/dist/[name].bundle.css',
-      allChunks: true,
-    }),
+    new ExtractTextPlugin('bundle.css'),
   ],
 };
