@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import Tagline from './components/Tagline';
-import Message from './components/Message';
+import Index from './components/Index';
 
 ReactDom.render(
   <Tagline />,
@@ -9,6 +9,6 @@ ReactDom.render(
   );
 
 ReactDom.render(
-  <Message />,
+  <Index />,
     document.getElementById('root')
 );
