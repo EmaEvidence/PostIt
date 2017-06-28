@@ -7,7 +7,7 @@ class LogIn extends React.Component {
         <form className="modal-dialog">
           <div className="modal-header">
             <h2 >Sign In </h2>
-            <button type="button" className="close" data-dismiss="modal" >&times;</button>
+            <button type="button" className="close" data-dismiss="modal" > Close &times;</button>
           </div>
           <div className="form-group">
             <input type="text" className="form-control" placeholder="Username" required />

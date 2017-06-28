@@ -4,10 +4,10 @@ class SignUp extends React.Component {
   render() {
     return (
       <div id="signup" className="modal fade" role="dialog">
-        <form className="modal-dialog">
+        <form className="modal-dialog form">
           <div className="modal-header">
             <h2 >Sign Up </h2>
-            <button type="button" className="close" data-dismiss="modal" >&times;</button>
+            <button type="button" className="close" data-dismiss="modal" > Close &times;</button>
           </div>
           <div className="form-group">
             <input type="text" className="form-control" placeholder="FirstName LastName" required />
@@ -23,7 +23,7 @@ class SignUp extends React.Component {
           </div>
           <div className="form-group">
             <span id="showvalidity" />
-            <input type="password" className="form-control" placeholder="Confirm Password" onKeyUp="validate(this.value)" required />
+            <input type="password" className="form-control" placeholder="Confirm Password" required />
           </div>
           <div className="form-group">
             <input type="submit" className="form-control btn btn-success" value="Submit" />

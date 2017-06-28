@@ -1,5 +1,6 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: ['./client/index.js', './client/scss/main.scss'],
@@ -20,7 +21,14 @@ module.exports = {
       {
         test: /\.(sass|scss)$/,
         use: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
-      }
+      },
+      {
+        test: /\.(jpg|png|gif|svg)$/i,
+        loaders: [
+          'file-loader',
+          'image-webpack-loader'
+        ]
+      },
     ]
   },
   plugins: [

@@ -2,7 +2,19 @@
 @import './about/about.scss';
 
 body {
-    h5 {
-        color: green;
+  .header {
+    padding-left: 3%;
+  }
+  .title {
+    font-size: 30px;
+  }
+  .logger {
+    float: right;
+    button {
     }
+  }
+  .form {
+    font-size: 20px;
+  }
+
 }

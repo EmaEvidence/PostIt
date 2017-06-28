@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import Tagline from './components/Tagline';
-import Index from './components/Index';
+// import { Provider } from 'react-redux';
+// import Store from './store';
+import App from './components/App';
+
 
 ReactDom.render(
-  <Tagline />,
+  <App />,
     document.getElementById('app')
-  );
-
-ReactDom.render(
-  <Index />,
-    document.getElementById('root')
 );
