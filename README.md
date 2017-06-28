@@ -35,7 +35,7 @@ Type git clone, and then paste the URL you copied in Step 2.
 
 Press Enter. Your local clone will be created.
 
-The pull the development branch.
+The pull the develop branch.
 
 ```npm test``` or ```gulp``` runs all tests and gives a coverage report based on the tests for the API. ```npm start``` starts the API.
 
