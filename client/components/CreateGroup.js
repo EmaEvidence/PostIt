@@ -16,7 +16,7 @@ class CreateGroup extends React.Component {
                 <input type="text" className="form-control" placeholder="What will you like to call your Group?" required />
               </div>
               <div className="form-group">
-                <input type="submit" className="form-control btn btn-success" value="Create" />
+                <input type="submit" className="form-control btn btn-success teal" value="Create" />
               </div>
             </form>
           </div>
@@ -28,13 +28,13 @@ class CreateGroup extends React.Component {
           <div className="col-md-10 row">
             <div className="col-md-4">
               <div>
-                <label> Emmanuel Alabi </label> <input type="button" className="btn btn-success" value="Add" />
+                <label> Emmanuel Alabi </label> <input type="button" className="btn btn-success teal" value="Add" />
               </div><br />
               <div>
-                <label> Emmanuel Alabi </label> <input type="button" className="btn btn-success" value="Add" />
+                <label> Emmanuel Alabi </label> <input type="button" className="btn btn-success teal" value="Add" />
               </div><br />
               <div>
-                <label> Emmanuel Alabi </label> <input type="button" className="btn btn-success" value="Add" />
+                <label> Emmanuel Alabi </label> <input type="button" className="btn btn-success teal" value="Add" />
               </div><br />
             </div>
             <div className="col-md-4">

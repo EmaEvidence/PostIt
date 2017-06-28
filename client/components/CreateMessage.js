@@ -36,7 +36,7 @@ class CreateMessage extends React.Component {
                 </select>
               </div>
               <div className="form-group">
-                <input type="submit" className="form-control btn btn-success" value="Send" required />
+                <input type="submit" className="form-control btn btn-success teal" value="Send" required />
               </div>
             </form>
           </div>
