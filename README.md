@@ -68,7 +68,7 @@ The API exposes the following endpoints for consumption:
 
 To Test with POSTMAN follow the steps below;
 
-Enter this link to the URL of POSTMAN to hit the create index endpoint;
+Enter this link to the URL of POSTMAN to hit the endpoints;
 
 Locally: ```localhost:3000/the API you want to hit```
 
