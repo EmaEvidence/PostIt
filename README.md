@@ -7,16 +7,16 @@ Dependencies
 
 The functionality of this web app being a node.js app depends on the following node modules.
 
-*Express.js*: A Fast, opinionated, minimalist web framework for node which was used in routing this application.  
-*BodyParser*: This module was used to collect search data sent from the client side to the routing page.   
-*Gulp*: This allows the automation of all processes.  
-*Babel*: This project is written in ES6, babel transpiles the code to ES5.  
-*Coveralls*: Get the great coverage reporting of coveralls.io and add a cool coverage button ( like the one above ) to your README.  
-*Sequelize*: Sequelize is a promise-based Node.js ORM for Postgres Server which is the database server for the APP . It features solid transaction support, relations, read replication and more.  
-*Webpack*: webpack is a module bundler. Its main purpose is to bundle JavaScript files for usage in browser, it is also used for transpiling scss to css.  
-*React*:  
-*Redux*:  
-*Bcryptjs*: It is the encryption middle used for hashing user password.
+**Express.js**: A Fast, opinionated, minimalist web framework for node which was used in routing this application.  
+**BodyParser**: This module was used to collect search data sent from the client side to the routing page.   
+**Gulp**: This allows the automation of all processes.  
+**Babel**: This project is written in ES6, babel transpiles the code to ES5.  
+**Coveralls**:  
+**Sequelize**: Sequelize is a promise-based Node.js ORM for Postgres Server which is the database server for the APP . It features solid transaction support, relations, read replication and more.  
+**Webpack**: webpack is a module bundler. Its main purpose is to bundle JavaScript files for usage in browser, it is also used for transpiling scss to css.  
+**React**:  
+**Redux**:  
+**Bcryptjs**: It is the encryption middle used for hashing user password.
 
 
 To install this project to your local machine follow the flowing steps;
