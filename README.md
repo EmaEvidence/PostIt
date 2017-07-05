@@ -40,31 +40,31 @@ Then pull the develop branch.
 ```npm test``` or ```gulp``` runs all tests and gives a coverage report based on the tests for the API. ```npm start``` starts the API.
 
 The API exposes the following endpoints for consumption:
-  1. ```/api/user/signup``` (For registering a new user)
-    The API takes the following parameters sent via a post request.
-      name
-      username
-      email
-      password
-  2. ```/api/user/signin``` (For user authentication)
-    The API takes the following parameters sent via a post request.
-      username
-      password
-  3. ```/api/group``` (For creating a group)
-    The API takes the following parameters sent via a post request.
-      gpname
-  4. ```/api/group/:groupid/user``` (For adding users to a group)
-    The API takes the following parameters sent via a post request.
-      groupid
-      user(id of the User)
-  5. ```/api/group/:groupid/message``` (For posting messages to  group)
-    The API takes the following parameters sent via a post request.
-      groupid
-      message
-      priority
-  6. ```/api/group/:groupid/messages``` (For retrieving messages for a particular group)
-    The API takes the following parameters sent via a get request.
-      groupid
+  1. ```/api/user/signup``` (For registering a new user) . 
+    The API takes the following parameters sent via a post request.  
+      name  
+      username  
+      email  
+      password  
+  2. ```/api/user/signin``` (For user authentication)  
+    The API takes the following parameters sent via a post request.  
+      username  
+      password  
+  3. ```/api/group``` (For creating a group)  
+    The API takes the following parameters sent via a post request.  
+      gpname  
+  4. ```/api/group/:groupid/user``` (For adding users to a group)  
+    The API takes the following parameters sent via a post request.  
+      groupid  
+      user(id of the User)  
+  5. ```/api/group/:groupid/message``` (For posting messages to  group)  
+    The API takes the following parameters sent via a post request.  
+      groupid  
+      message  
+      priority  
+  6. ```/api/group/:groupid/messages``` (For retrieving messages for a particular group)  
+    The API takes the following parameters sent via a get request.  
+      groupid  
 
 To Test with POSTMAN follow the steps below;
 
@@ -72,4 +72,4 @@ Enter this link to the URL of POSTMAN to hit the endpoints;
 
 Locally: ```localhost:3000/the API you want to hit```
 
-Remotely: ```https://postitapi.herokuapp.com//the API you want to hit```
+Remotely: ```https://postitapi.herokuapp.com/the API you want to hit```
