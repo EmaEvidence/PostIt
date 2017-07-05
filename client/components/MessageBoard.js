@@ -1,6 +1,22 @@
 import React from 'react';
 import Groups from './Groups';
 
+const group = {
+  groups: [
+    {
+      name: 'Relative',
+      messages: 20
+    },
+    {
+      name: 'Relatives',
+      messages: 30
+    },
+    {
+      name: 'Cohorts',
+      messages: 2
+    }
+  ]
+};
 class MessageBoard extends React.Component {
   render() {
     return (
@@ -11,12 +27,12 @@ class MessageBoard extends React.Component {
         <div className="row">
           <div className="col-sm-3 card-panel">
             <h2>Groups</h2>
-            <Groups />
+            <Groups groups={group.groups} />
           </div>
           <div className="col-sm-1" />
           <div className="col-sm-7 card-panel">
             <h2>Messages</h2>
-            <p>
+            <div>
               <i className="chip">From: Emma. priority</i><br />
               <p className="card center-align">
               Message: fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br />
@@ -24,7 +40,7 @@ class MessageBoard extends React.Component {
                        jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br />
                        jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br />
               </p>
-            </p>
+            </div>
           </div>
           <div className="col-sm-1" />
         </div>
