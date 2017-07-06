@@ -1,6 +1,13 @@
 import Sequelize from 'sequelize';
 import bcrypt from 'bcryptjs';
+import dotenv from 'dotenv';
+import UserModel from '../models/users';
+import GroupModel from '../models/groups';
+import GroupMembersModel from '../models/groupmembers';
+import MessagesModel from '../models/messages';
 
+
+dotenv.config();
 /**
  * the user class that creates a user
  */
@@ -12,9 +19,9 @@ class User {
  * @return {STRING} Connection status message
  */
   constructor() {
-    const username = 'ldgtnhia';
-    const password = 'eD38PggvdWn9EVRdZi12DuhwrfECTqo8@pelle';
-    const host = 'elephantsql.com:5432';
+    const username = process.env.DB_USERNAME;
+    const password = process.env.DB_PASSWORD;
+    const host = process.env.DB_HOST;
     this.sequelize = new Sequelize(`postgres://${username}:${password}fant.db.${host}/ldgtnhia`);
     this.sequelize.authenticate()
     .then(() => {
@@ -24,30 +31,16 @@ class User {
       console.log(err);
       console.log('Unable to connect to the database:', err);
     });
-    const Users = this.sequelize.define('Users', {
-      name: { type: Sequelize.STRING, allowNull: false },
-      username: { type: Sequelize.STRING, allowNull: false, unique: true },
-      email: { type: Sequelize.STRING, allowNull: false, unique: true },
-      password: { type: Sequelize.STRING, allowNull: false }
-    });
+    const Users = this.sequelize.define('Users', UserModel);
     this.Users = Users;
-
-    const Groups = this.sequelize.define('Groups', {
-      gp_name: { type: Sequelize.STRING, allowNull: false },
-    });
+    const Groups = this.sequelize.define('Groups', GroupModel);
     this.Groups = Groups;
-    Users.hasOne(Groups, { as: 'gp_creatorId' });
-    const GroupMembers = this.sequelize.define('GroupMembers', {
-      addedBy: { type: Sequelize.INTEGER, allowNull: false }
-    });
+    const GroupMembers = this.sequelize.define('GroupMembers', GroupMembersModel);
     this.GroupMembers = GroupMembers;
-    Users.belongsToMany(Groups, { through: 'GroupMembers' });
-
-    const Messages = this.sequelize.define('Messages', {
-      message: { type: Sequelize.TEXT, allowNull: false },
-      priority: { type: Sequelize.STRING, allowNull: false }
-    });
+    const Messages = this.sequelize.define('Messages', MessagesModel);
     this.Messages = Messages;
+    Users.belongsToMany(Groups, { through: 'GroupMembers' });
+    Users.hasOne(Groups, { as: 'gp_creatorId' });
     Messages.belongsTo(Groups, { as: 'group_Id' });
     Messages.belongsTo(Users, { as: 'sender_Id' });
     this.sequelize.sync({});
