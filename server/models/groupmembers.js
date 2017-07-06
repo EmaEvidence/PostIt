@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 
-const GroupMembers = Sequelize.define('GroupMembers', {
+const GroupMembersModel = {
   addedBy: { type: Sequelize.INTEGER, allowNull: false }
-});
+};
 
-export default GroupMembers;
+export default GroupMembersModel;

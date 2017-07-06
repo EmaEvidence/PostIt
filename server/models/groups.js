@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 
-const Groups = Sequelize.define('Groups', {
+const GroupModel = {
   gp_name: { type: Sequelize.STRING, allowNull: false },
-});
+};
 
-export default Groups;
+export default GroupModel;
