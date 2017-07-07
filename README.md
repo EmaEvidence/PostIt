@@ -39,7 +39,7 @@ The functionality of this web app being a node.js app depends on the following n
 
 7. Checkout to the develop branch.
 
-     ```npm test``` or ```gulp``` runs all tests and gives a coverage report based on the tests for the API. 
+     ```npm test``` or ```gulp``` runs all tests and gives a coverage report based on the tests for the API. <br/>
      ```npm start``` starts the API.  
 
 The API exposes the following endpoints for consumption:
