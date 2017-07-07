@@ -2,9 +2,10 @@
 [![Coverage Status](https://coveralls.io/repos/github/EmaEvidence/PostIt/badge.svg?branch=Refactor-Model)](https://coveralls.io/github/EmaEvidence/PostIt?branch=Refactor-Model)
 [![Code Climate](https://codeclimate.com/github/EmaEvidence/PostIt/badges/gpa.svg)](https://codeclimate.com/github/EmaEvidence/PostIt)
 # PostIt
+##### Dependencies
 PostIt is a simple application that allows friends and colleagues create groups for notifications. This way one person can post notifications to everyone by sending a message once. The application allows people create accounts, create groups and add registered users to the groups, and then send messages out to these groups whenever they want. The App exist in two parts; the PostIt API and the PostIt front end.
 
-Dependencies
+##### Dependencies
 
 The functionality of this web app being a node.js app depends on the following node modules.
 
@@ -20,25 +21,26 @@ The functionality of this web app being a node.js app depends on the following n
 **Bcryptjs**: It is the encryption middle used for hashing user password.
 
 
-To install this project to your local machine follow the flowing steps;
+** To install this project to your local machine follow the flowing steps; **
 
-Click Clone or download button Under the repository name or copy the url below;
+1. Click Clone or download button Under the repository name or copy the url below;
 
-```https://github.com/EmaEvidence/PostIt.git```
+      ```https://github.com/EmaEvidence/PostIt.git```
 
-Click to copy the clone URL for the repository.
+2. Click to copy the clone URL for the repository.
 
-Open Git Bash on your system.
+3. Open Git Bash on your system.
 
-Change the current working directory to the location where you want the project to be made.
+4. Change the current working directory to the location where you want the project to be made.
 
-Type git clone, and then paste the URL you copied in Step 2.
+5. Type git clone, and then paste the URL you copied in Step 2.
 
-Press Enter. Your local clone will be created.
+6. Press Enter. Your local clone will be created.
 
-Checkout to the develop branch.
+7. Checkout to the develop branch.
 
-```npm test``` or ```gulp``` runs all tests and gives a coverage report based on the tests for the API. ```npm start``` starts the API.
+     ```npm test``` or ```gulp``` runs all tests and gives a coverage report based on the tests for the API. 
+     ```npm start``` starts the API.  
 
 The API exposes the following endpoints for consumption:
   1. ```/api/user/signup``` (For registering a new user) . 
