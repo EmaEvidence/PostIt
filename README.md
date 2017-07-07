@@ -42,7 +42,7 @@ The functionality of this web app being a node.js app depends on the following n
      ```npm test``` or ```gulp``` runs all tests and gives a coverage report based on the tests for the API. <br/>
      ```npm start``` starts the API.  
 
-The API exposes the following endpoints for consumption:
+<h3> The API exposes the following endpoints for consumption: </h3>
   1. ```/api/user/signup``` (For registering a new user) . 
     The API takes the following parameters sent via a post request.  
       name  
