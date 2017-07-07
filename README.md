@@ -2,10 +2,10 @@
 [![Coverage Status](https://coveralls.io/repos/github/EmaEvidence/PostIt/badge.svg?branch=Refactor-Model)](https://coveralls.io/github/EmaEvidence/PostIt?branch=Refactor-Model)
 [![Code Climate](https://codeclimate.com/github/EmaEvidence/PostIt/badges/gpa.svg)](https://codeclimate.com/github/EmaEvidence/PostIt)
 # PostIt
-#####Introduction.
+## Introduction.
 PostIt is a simple application that allows friends and colleagues create groups for notifications. This way one person can post notifications to everyone by sending a message once. The application allows people create accounts, create groups and add registered users to the groups, and then send messages out to these groups whenever they want. The App exist in two parts; the PostIt API and the PostIt front end.
 
-##### Dependencies.
+## Dependencies.
 
 The functionality of this web app being a node.js app depends on the following node modules.
 
@@ -21,7 +21,7 @@ The functionality of this web app being a node.js app depends on the following n
 **Bcryptjs**: It is the encryption middle used for hashing user password.
 
 
-** To install this project to your local machine follow the flowing steps; **
+## To install this project to your local machine follow the flowing steps;
 
 1. Click Clone or download button Under the repository name or copy the url below;
 
