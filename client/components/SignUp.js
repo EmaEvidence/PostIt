@@ -29,8 +29,8 @@ class SignUp extends React.Component {
       <div id="signup" className="modal fade" role="dialog">
         <form className="modal-dialog form" onSubmit={this.onSubmit}>
           <div className="modal-header">
-            <h2 >Sign Up </h2>
-            <button type="button" className="close" data-dismiss="modal" > Close &times;</button>
+            <b className="form-header">Sign Up </b>
+            <b className="close" data-dismiss="modal" > Close</b>
           </div>
           <div className="form-group">
             <input

@@ -5,7 +5,6 @@ class CreateMessage extends React.Component {
     return (
       <div className="container">
         <div>
-          Welcome, this is a brief Explanation of what this Web App does.
         </div>
         <div className="row">
           <div className="col-sm-1" />
@@ -36,7 +35,12 @@ class CreateMessage extends React.Component {
                 </select>
               </div>
               <div className="form-group">
-                <input type="submit" className="form-control btn btn-success teal" value="Send" required />
+                <input
+                  type="submit"
+                  className="form-control btn btn-success teal"
+                  value="Send"
+                  required
+                />
               </div>
             </form>
           </div>

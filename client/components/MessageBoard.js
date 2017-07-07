@@ -21,9 +21,6 @@ class MessageBoard extends React.Component {
   render() {
     return (
       <div className="container">
-        <div>
-          Welcome, this is a brief Explanation of what this Web App does.
-        </div>
         <div className="row">
           <div className="col-sm-3 card-panel">
             <h2>Groups</h2>
