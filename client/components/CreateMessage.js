@@ -29,9 +29,9 @@ class CreateMessage extends React.Component {
               <div className="form-group">
                 <select className="form-control" required >
                   <option value="">Select a Priority</option>
-                  <option value="">Priority 1</option>
-                  <option value="">Priority 2</option>
-                  <option value="">Priority 3</option>
+                  <option value=""> Urgent</option>
+                  <option value="">Important</option>
+                  <option value="">Normal</option>
                 </select>
               </div>
               <div className="form-group">

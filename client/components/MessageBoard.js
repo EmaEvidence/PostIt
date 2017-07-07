@@ -32,7 +32,7 @@ class MessageBoard extends React.Component {
             <div>
               <i className="chip">From: Emma. priority</i><br />
               <p className="card center-align">
-              Message: fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br />
+              Message: fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfj <br />
                        jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br />
                        jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br />
                        jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br />

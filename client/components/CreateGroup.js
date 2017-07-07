@@ -34,7 +34,7 @@ class CreateGroup extends React.Component {
                 <input type="button" className="btn btn-success teal" value="Add" />
               </div><br />
               <div>
-                <label> Emmanuel Alabi </label>
+                <label> Emmanuel Alab </label>
                 <input type="button" className="btn btn-success teal" value="Add" />
               </div><br />
               <div>
