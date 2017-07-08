@@ -293,8 +293,6 @@ class User {
       done('Sender must be specified');
     } else if (text === '' || text === undefined) {
       done('message cannot be null');
-    } else if (priorityLevel === '' || priorityLevel === undefined) {
-      done('priority cannot be null');
     } else {
       this.Messages.create({
         groupIdId: to,

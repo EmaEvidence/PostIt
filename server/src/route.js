@@ -61,10 +61,8 @@ Router.post('/api/group', (req, res) => {
   sess = req.session;
   const gpName = req.body.gpname;
   const userId = sess.UserId;
-  console.log(userId);
   if (userId) {
     user.createGroup(gpName, userId, (result) => {
-      console.log(result);
       res.status(200).send(result);
     });
   } else {
@@ -94,11 +92,10 @@ Router.post('/api/group/:groupid/message', (req, res) => {
   sess = req.session;
   const groupId = req.params.groupid;
   const message = req.body.message;
-  const priority = req.body.priority;
+  const priority = (req.body.priority) ? req.body.priority : 'Normal';
   const from = (sess.UserId) ? sess.UserId : req.body.from;
   if (sess.UserId) {
     user.postMessage(groupId, from, message, priority, (result) => {
-      res.send(result);
       res.status(200).send(result);
     });
   } else {
@@ -111,10 +108,7 @@ Router.get('/api/group/:groupid/messages', (req, res) => {
   const groupId = req.params.groupid;
   const userId = sess.UserId;
   if (userId) {
-    console.log(parseInt(groupId, 10));
     user.retrieveMessage(groupId, (result) => {
-      console.log(result);
-      res.send(result);
       res.status(200).send(result);
     });
   } else {
@@ -124,10 +118,7 @@ Router.get('/api/group/:groupid/messages', (req, res) => {
 
 Router.post('/api/delete', (req, res) => {
   const ema = req.body.ema;
-  console.log(ema);
-  console.log(12345);
   user.deleteUserss(ema, (result) => {
-    console.log(result);
     if (result === 1) {
       res.status(200).send('Deleted');
     }
