@@ -24,7 +24,7 @@ class CreateGroup extends React.Component {
           </div>
           <div className="col-sm-1" />
         </div>
-        <h4> Add Members </h4>
+        <h4 className="how"> Add Members </h4>
         <div className="row">
           <div className="col-md-1" />
           <div className="col-md-10 row">

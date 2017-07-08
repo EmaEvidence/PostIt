@@ -45,5 +45,15 @@ body {
     text-align: center;
     vertical-align: middle;
   }
-
+  .messageholder {
+     width:100%;
+     padding: 10px;
+		 height:auto;
+		 border-bottom:1px solid #999;
+		 background:white;
+		 box-shadow: 0 1px 1px 0 rgba(0, 0,0 , 0.2);
+		 }
+  .messageholder:hover {
+    background:#f4f8f8;
+  }
 }
