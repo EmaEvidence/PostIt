@@ -241,7 +241,13 @@ class User {
           done(result);
         }
       }).catch((err) => {
-        done(err.errors[0].message);
+        if (err.error === undefined) {
+          console.log(err.parent.detail);
+          done(err.parent.detail);
+        } else {
+          console.log(err);
+          done(err.errors[0].message);
+        }
       });
     }
   }

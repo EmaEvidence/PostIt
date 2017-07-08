@@ -77,11 +77,13 @@ Router.post('/api/group/:groupid/user', (req, res) => {
   const userId = req.body.user;
   sess = req.session;
   const userAdding = sess.UserId;
-  console.log(userId);
   if (sess.UserId) {
     user.addUsers(groupId, userId, userAdding, (result) => {
-      console.log(result);
-      res.status(200).send(result);
+      if (typeof result === 'string') {
+        res.status(400).send(result);
+      } else {
+        res.status(200).send(result);
+      }
     });
   } else {
     res.status(403).send('You are not allowed Here, Please sign.');
@@ -94,10 +96,8 @@ Router.post('/api/group/:groupid/message', (req, res) => {
   const message = req.body.message;
   const priority = req.body.priority;
   const from = (sess.UserId) ? sess.UserId : req.body.from;
-  console.log(req.params.groupid);
   if (sess.UserId) {
     user.postMessage(groupId, from, message, priority, (result) => {
-      console.log(result);
       res.send(result);
       res.status(200).send(result);
     });
