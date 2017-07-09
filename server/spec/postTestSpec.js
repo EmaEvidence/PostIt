@@ -432,23 +432,6 @@ describe('When a User posts message to a group', () => {
   }, 10000);
 });
 
-describe('When a User posts message to a group', () => {
-  let result;
-  const to = '1';
-  const from = '1';
-  const text = 'We are expecting you';
-  const priorityLevel = '';
-  beforeEach((done) => {
-    user.postMessage(to, from, text, priorityLevel, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Error Message if Priority is not specified', (done) => {
-    expect(result).toEqual('priority cannot be null');
-    done();
-  }, 10000);
-});
 
 describe('When a User posts message to a group', () => {
   let result;
@@ -507,10 +490,32 @@ describe('When a User requests for message posted to a group', () => {
       done();
     }, 10000);
   }, 10000);
-  it('should return a nonEmpty array if there are Message(s) for the group', (done) => {
+  it('should return an Error message if there is no Such group', (done) => {
     expect(result.name).toEqual('SequelizeDatabaseError');
     done();
   }, 10000);
+});
+
+describe('when a User requests for list of members in a group', () => {
+  const idObject = [
+    { UserId: 1 },
+    { UserId: 2 },
+    { UserId: 3 }
+  ];
+  const idArray = [1, 2, 3];
+  it('should return a Numeric array when an array of JSON object is passed', () => {
+    expect(User.flattenId(idObject)).toEqual(idArray);
+  });
+  let result;
+  beforeEach((done) => {
+    user.getGroupMembers(1, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return a list of all members in the group', () => {
+    expect(result.length).toEqual(2);
+  });
 });
 
 describe('When a User makes a request to the APIs', () => {
@@ -649,4 +654,38 @@ describe('When a User makes a request to the APIs', () => {
     done();
   }, 1000);
   app.close();
+});
+
+describe('When a User adds another User to a group', () => {
+  let result;
+  const group = '2299';
+  const userId = '234';
+  const adding = 1;
+  beforeEach((done) => {
+    user.addUsers(group, userId, adding, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return an Error message if there is no Such group', (done) => {
+    expect(result).toEqual('Key (GroupId)=(2299) is not present in table "Groups".');
+    done();
+  }, 10000);
+});
+
+describe('When a User adds another User to a group', () => {
+  let result;
+  const group = '229';
+  const userId = '2633';
+  const adding = 1;
+  beforeEach((done) => {
+    user.addUsers(group, userId, adding, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return an Error message if there is no Such User', (done) => {
+    expect(result).toEqual('Key (UserId)=(2633) is not present in table "Users".');
+    done();
+  }, 10000);
 });
