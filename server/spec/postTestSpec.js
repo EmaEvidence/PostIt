@@ -1,10 +1,12 @@
 import expect from 'expect';
 import supertest from 'supertest';
+import session from 'supertest-session';
 import User from '../src/user';
 import app from '../server';
 
 const user = new User();
 const api = new supertest(app);
+const testSession = session(app);
 
 describe('When a new User signs up', () => {
   let result;
@@ -590,26 +592,6 @@ describe('When a User makes a request to the APIs', () => {
             });
   }, 10000);
 
-  xit('should return status code 200 When a signed in user creates a group', (done) => {
-    api.post('/api/user/signin')
-            .send({
-              username: 'Evidence',
-              password: '1234567890'
-            },
-            api.post('/api/group')
-          .send({
-            gpname: 'Tenants'
-          })
-          .end((err, res) => {
-            // expect(res.status).toEqual(200);
-            expect(res.text).toEqual(200);
-            done(err);
-          })
-          )
-            .then(() => {
-            }, 10000);
-  }, 10000);
-
   it('should return status code 404 When password is not correct', (done) => {
     api.post('/api/user/signin')
             .send({
@@ -654,6 +636,82 @@ describe('When a User makes a request to the APIs', () => {
     done();
   }, 1000);
   app.close();
+});
+
+// Test  for protected routes
+describe('When a signed in user tries to create a group', () => {
+  let authenticatedSession;
+  beforeEach((done) => {
+    testSession.post('/api/user/signin')
+    .send({
+      username: 'Evidence',
+      password: '1234567890'
+    })
+      .expect(200)
+      .end((err) => {
+        if (err) return done(err);
+        authenticatedSession = testSession;
+        return done();
+      });
+  }, 10000);
+  it('should return status code 200 When a signed in user creates a group', (done) => {
+    authenticatedSession.post('/api/group')
+            .send({
+              gpname: 'Andela'
+            })
+            .end((err, res) => {
+              expect(res.status).toEqual(200);
+              done(err);
+            });
+  }, 10000);
+  afterEach((done) => {
+    user.deleteGroup('Andela21', 1, () => {
+    });
+    done();
+  }, 1000);
+
+  it('should return status code 200 When a signed in user adds a user to a group', (done) => {
+    authenticatedSession.post('/api/group/229/user')
+            .send({
+              user: 46
+            })
+            .end((err, res) => {
+              expect(res.status).toEqual(200);
+              done(err);
+            });
+  }, 10000);
+  afterEach((done) => {
+    user.deleteUserFromGroup(229, 46, 1, () => {
+    });
+    done();
+  }, 1000);
+
+  it('should return status code 200 When a signed in user requests for messages for a group', (done) => {
+    authenticatedSession.get('/api/group/229/user')
+            .end((err, res) => {
+              expect(res.status).toEqual(200);
+              done(err);
+            });
+  }, 10000);
+
+  it('should return status code 200 When a signed in user requests for Users for a group', (done) => {
+    authenticatedSession.get('/api/group/229/messages')
+            .end((err, res) => {
+              expect(res.status).toEqual(200);
+              done(err);
+            });
+  }, 10000);
+
+  it('should return status code 200 When a signed in user adds a user to a group', (done) => {
+    authenticatedSession.post('/api/group/229/message')
+            .send({
+              message: 'Off to see Kate Igori'
+            })
+            .end((err, res) => {
+              expect(res.status).toEqual(200);
+              done(err);
+            });
+  }, 10000);
 });
 
 describe('When a User adds another User to a group', () => {
