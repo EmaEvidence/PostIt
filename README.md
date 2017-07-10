@@ -44,37 +44,25 @@ The functionality of this web app being a node.js app depends on the following n
 
 ### The API exposes the following endpoints for consumption: 
 
-  1. ```/api/user/signup``` (For registering a new user).  
-    The API takes the following parameters sent via a post request.   
-      ```name    
-         username    
-         email    
-         password ```  
-         
-  2. ```/api/user/signin``` (For user authentication)  
-    The API takes the following parameters sent via a post request.  
-      ```username  
-         password ```  
-         
-  3. ```/api/group``` (For creating a group)  
-    The API takes the following parameters sent via a post request.  
-      ```gpname```  
-    
-  4. ```/api/group/:groupid/user``` (For adding users to a group)  
-    The API takes the following parameters sent via a post request.  
-      ```groupid    
-         user(id of the User)```  
-         
-  5. ```/api/group/:groupid/message``` (For posting messages to  group)    
-    The API takes the following parameters sent via a post request.  
-      ```groupid   
-         message  
-         priority```  
-         
-  6. ```/api/group/:groupid/messages``` (For retrieving messages for a particular group)    
-    The API takes the following parameters sent via a get request.  
-      ```groupid```  
-      
-      
-    
-    
+| End Point                     | Parameters      | Method  | Function                      |
+| ----------------------------- |:---------------:| -------:|-------------------------------|
+| /api/user/signup              | name            | POST    | For registering a new user    |
+|                               | username        |         |                               |
+|                               | email           |         |                               |
+|                               | password        |         |                               |
+|                               |                 |         |                               |
+| /api/user/signin              | username        | POST    | For user authentication       |
+|                               | password        |         |                               |
+|                               |                 |         |                               |
+| /api/group                    | gpname          | POST    | For creating a group          |
+|                               |                 |         |                               |
+| /api/group/:groupid/user      | groupid         | POST    | For adding users to a group   |
+|                               | user(id)        |         |                               |
+|                               |                 |         |                               |
+| /api/group/:groupid/message   | groupid         | POST    | For posting messages to group |
+|                               | message         |         |                               |
+|                               | priority        |         |                               |
+|                               |                 |         |                               |   
+| /api/group/:groupid/messages  | groupid         | GET     | For retrieving messages       |
+|                               |                 |         |                               |          
+| /api/group/:groupid/user      | None            |         | For retrieving messages       |
