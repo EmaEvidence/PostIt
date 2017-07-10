@@ -181,6 +181,13 @@ class User {
         if (group[1] === false) {
           done('Group Exists already');
         } else {
+          this.GroupMembers.findOrCreate({
+            where: {
+              GroupId: group[0].id,
+              UserId: creator,
+              addedBy: creator
+            }
+          });
           done(group);
         }
       })
