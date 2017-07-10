@@ -44,25 +44,12 @@ The functionality of this web app being a node.js app depends on the following n
 
 ### The API exposes the following endpoints for consumption: 
 
-| End Point                     | Parameters      | Method  | Function                      |
-| ----------------------------- |:---------------:| -------:|-------------------------------|
-| /api/user/signup              | name            | POST    | For registering a new user    |
-|                               | username        |         |                               |
-|                               | email           |         |                               |
-|                               | password        |         |                               |
-|                               |                 |         |                               |
-| /api/user/signin              | username        | POST    | For user authentication       |
-|                               | password        |         |                               |
-|                               |                 |         |                               |
-| /api/group                    | gpname          | POST    | For creating a group          |
-|                               |                 |         |                               |
-| /api/group/:groupid/user      | groupid         | POST    | For adding users to a group   |
-|                               | user(id)        |         |                               |
-|                               |                 |         |                               |
-| /api/group/:groupid/message   | groupid         | POST    | For posting messages to group |
-|                               | message         |         |                               |
-|                               | priority        |         |                               |
-|                               |                 |         |                               |   
-| /api/group/:groupid/messages  | groupid         | GET     | For retrieving messages       |
-|                               |                 |         |                               |          
-| /api/group/:groupid/user      | None            |         | For retrieving messages       |
+| End Point                     | Parameters                           | Method  | Function                      |
+| ----------------------------- |:------------------------------------:| -------:|-------------------------------|
+| /api/user/signup              | name, username, email, passsword     | POST    | For registering a new user    |
+| /api/user/signin              | username, password                   | POST    | For user authentication       |
+| /api/group                    | gpname                               | POST    | For creating a group          |
+| /api/group/:groupid/user      | groupid, user(id)                    | POST    | For adding users to a group   |
+| /api/group/:groupid/message   | groupid, message, priority           | POST    | For posting messages to group |
+| /api/group/:groupid/messages  | groupid                              | GET     | For retrieving messages       |
+| /api/group/:groupid/user      | None                                 |         | For retrieving messages       |
