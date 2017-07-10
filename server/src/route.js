@@ -13,10 +13,10 @@ let sess;
 
 
 /**
- * result - description
+ * signup router for registring new user
  *
- * @param  {type} typeof result !== 'object' description
- * @return {type}                            description
+ * @param  {form data} typeof result !== 'object' User data
+ * @return {JSON}                            User object
  */
 Router.post('/api/user/signup', (req, res) => {
   const name = req.body.name;
@@ -35,6 +35,10 @@ Router.post('/api/user/signup', (req, res) => {
   });
 });
 
+/**
+ * [Sign in router for authenticating a user]
+ * @type {[type]}
+ */
 Router.post('/api/user/signin', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -57,14 +61,16 @@ Router.post('/api/user/signin', (req, res) => {
   }
 });
 
+/**
+ * Group router for creating a new group
+ * @type {[JSON]}
+ */
 Router.post('/api/group', (req, res) => {
   sess = req.session;
   const gpName = req.body.gpname;
   const userId = sess.UserId;
-  console.log(userId);
   if (userId) {
     user.createGroup(gpName, userId, (result) => {
-      console.log(result);
       res.status(200).send(result);
     });
   } else {
@@ -72,33 +78,61 @@ Router.post('/api/group', (req, res) => {
   }
 });
 
+/**
+ * For adding a User to a created group
+ * @type {[JSON]}
+ */
 Router.post('/api/group/:groupid/user', (req, res) => {
   const groupId = req.params.groupid;
   const userId = req.body.user;
   sess = req.session;
   const userAdding = sess.UserId;
-  console.log(userId);
   if (sess.UserId) {
     user.addUsers(groupId, userId, userAdding, (result) => {
-      console.log(result);
-      res.status(200).send(result);
+      if (typeof result === 'string') {
+        res.status(400).send(result);
+      } else {
+        res.status(200).send(result);
+      }
     });
   } else {
     res.status(403).send('You are not allowed Here, Please sign.');
   }
 });
 
+/**
+ * For getting every member of an existing group
+ * @type {[JSON]}
+ */
+Router.get('/api/group/:groupid/user', (req, res) => {
+  const groupId = req.params.groupid;
+  sess = req.session;
+  const userAdding = sess.UserId;
+  if (sess.UserId) {
+    user.getGroupMembers(groupId, (result) => {
+      if (typeof result === 'string') {
+        res.status(400).send(result);
+      } else {
+        res.status(200).send(result);
+      }
+    });
+  } else {
+    res.status(403).send('You are not allowed Here, Please sign.');
+  }
+});
+
+/**
+ * For Posting messages to a group.
+ * @type {[JSON]}
+ */
 Router.post('/api/group/:groupid/message', (req, res) => {
   sess = req.session;
   const groupId = req.params.groupid;
   const message = req.body.message;
-  const priority = req.body.priority;
+  const priority = (req.body.priority) ? req.body.priority : 'Normal';
   const from = (sess.UserId) ? sess.UserId : req.body.from;
-  console.log(req.params.groupid);
   if (sess.UserId) {
     user.postMessage(groupId, from, message, priority, (result) => {
-      console.log(result);
-      res.send(result);
       res.status(200).send(result);
     });
   } else {
@@ -106,15 +140,16 @@ Router.post('/api/group/:groupid/message', (req, res) => {
   }
 });
 
+/**
+ * For getting messages posted to a group
+ * @type {[type]}
+ */
 Router.get('/api/group/:groupid/messages', (req, res) => {
   sess = req.session;
   const groupId = req.params.groupid;
   const userId = sess.UserId;
   if (userId) {
-    console.log(parseInt(groupId, 10));
     user.retrieveMessage(groupId, (result) => {
-      console.log(result);
-      res.send(result);
       res.status(200).send(result);
     });
   } else {
@@ -122,12 +157,13 @@ Router.get('/api/group/:groupid/messages', (req, res) => {
   }
 });
 
+/**
+ * [For deleting Users]
+ * @type {[JSON]}
+ */
 Router.post('/api/delete', (req, res) => {
-  const ema = req.body.ema;
-  console.log(ema);
-  console.log(12345);
-  user.deleteUserss(ema, (result) => {
-    console.log(result);
+  const userId = req.body.ema;
+  user.deleteUserss(userId, (result) => {
     if (result === 1) {
       res.status(200).send('Deleted');
     }

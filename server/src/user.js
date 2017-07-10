@@ -241,7 +241,11 @@ class User {
           done(result);
         }
       }).catch((err) => {
-        done(err.errors[0].message);
+        if (err.error === undefined) {
+          done(err.parent.detail);
+        } else {
+          done(err.errors[0].message);
+        }
       });
     }
   }
@@ -287,8 +291,6 @@ class User {
       done('Sender must be specified');
     } else if (text === '' || text === undefined) {
       done('message cannot be null');
-    } else if (priorityLevel === '' || priorityLevel === undefined) {
-      done('priority cannot be null');
     } else {
       this.Messages.create({
         groupIdId: to,
@@ -317,6 +319,44 @@ class User {
       }
     }).then((messages) => {
       done(messages);
+    }).catch((err) => {
+      done(err);
+    });
+  }
+  /**
+   * [converts an array of id objects to an array of ids]
+   * @method flattenId
+   * @param  {[array]}  arrayOfIds [Array of JSON objects]
+   * @return {[array]}             [Numeric array]
+   */
+  static flattenId(arrayOfIds) {
+    const ids = [];
+    arrayOfIds.forEach((idObject) => {
+      ids.push(idObject.UserId);
+    });
+    return ids;
+  }
+
+  /**
+   * [Retrieves the members of a group from the database]
+   * @method getGroupMembers
+   * @param  {[INTEGER}        group [the Id of the group which user will be returned]
+   * @param  {Function}      done  [converts the array of id a JSON object to numeric array]
+   * @return {[JSON]}              [A JSON array of the members details]
+   */
+  getGroupMembers(group, done) {
+    this.GroupMembers.findAll({
+      where: { GroupId: group },
+      attributes: ['UserId']
+    }).then((members) => {
+      const ids = User.flattenId(members);
+      this.Users.findAll({
+        where: { id: ids }
+      }).then((groupmember) => {
+        done(groupmember);
+      }).catch((err) => {
+        done(err);
+      });
     }).catch((err) => {
       done(err);
     });
