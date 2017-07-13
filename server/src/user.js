@@ -368,6 +368,31 @@ class User {
       done(err);
     });
   }
+
+  /**
+   *
+   * @method getUserGroups
+   * @param  {[integer]}      userId [the id of the user whose groups is being querried]
+   * @param  {Function}    done   [callback function]
+   * @return {[json]}             [json object that can be the groups or the error message]
+   */
+  getUserGroups(userId, done) {
+    this.GroupMembers.findAll({
+      where: { userId },
+      attributes: ['groupId']
+    }).then((groups) => {
+      const ids = User.flattenId(groups);
+      this.Groups.findAll({
+        where: { id: ids }
+      }).then((usergroups) => {
+        done(usergroups);
+      }).catch((err) => {
+        done(err);
+      });
+    }).catch((err) => {
+      done(err);
+    });
+  }
 }
 
 export default User;

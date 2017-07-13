@@ -9,6 +9,7 @@ import getGroupUsersControler from '../controlers/getGroupUsersControler';
 import postMessageControler from '../controlers/postMessageControler';
 import getGroupMessagesControler from '../controlers/getGroupMessagesControler';
 import deleteUserControler from '../controlers/deleteUserControler';
+import getUserGroupsControler from '../controlers/getUserGroupsControler';
 
 const Router = express.Router();
 Router.use(bodyParser.json());
@@ -65,5 +66,11 @@ Router.get('/api/group/:groupid/messages', getGroupMessagesControler);
  * @type {[JSON]}
  */
 Router.post('/api/delete', deleteUserControler);
+
+/**
+ * [For deleting Users]
+ * @type {[JSON]}
+ */
+Router.get('/api/user/groups', getUserGroupsControler);
 
 export default Router;
