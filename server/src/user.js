@@ -57,7 +57,7 @@ class User {
    */
   static validateInput(userName, userUsername, userEmail, userPassword) {
     let result;
-    const pattern = /^(([^<>()[]\.,;:\s@"]+(\.[^<>()[].,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const pattern = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+.([A-Za-z]{2,4})$/;
     if (userName === '' || userName === undefined) {
       result = 'Name can not be empty';
     } else if (userUsername === '' || userUsername === undefined) {
