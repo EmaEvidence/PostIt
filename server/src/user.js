@@ -348,6 +348,20 @@ class User {
   }
 
   /**
+   * [converts an array of id objects to an array of ids]
+   * @method flattenId
+   * @param  {[array]}  arrayOfIds [Array of JSON objects]
+   * @return {[array]}             [Numeric array]
+   */
+  static flattenGroupId(arrayOfIds) {
+    const ids = [];
+    arrayOfIds.forEach((idObject) => {
+      ids.push(idObject.GroupId);
+    });
+    return ids;
+  }
+
+  /**
    * [Retrieves the members of a group from the database]
    * @method getGroupMembers
    * @param  {[INTEGER}        group [the Id of the group which user will be returned]
@@ -381,14 +395,14 @@ class User {
    */
   getUserGroups(userId, done) {
     this.GroupMembers.findAll({
-      where: { userId },
-      attributes: ['groupId']
+      where: { UserId: userId },
+      attributes: ['GroupId']
     }).then((groups) => {
-      const ids = User.flattenId(groups);
+      const ids = User.flattenGroupId(groups);
       this.Groups.findAll({
         where: { id: ids }
-      }).then((usergroups) => {
-        done(usergroups);
+      }).then((userGroup) => {
+        done(userGroup);
       }).catch((err) => {
         done(err);
       });

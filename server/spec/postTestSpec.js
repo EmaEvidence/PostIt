@@ -554,7 +554,7 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(403);
-              expect(res.text).toEqual('You are not allowed Here, Please sign.');
+              expect(res.text).toEqual('You are not allowed Here, Please Sign In.');
               done(err);
             });
   }, 10000);
@@ -565,7 +565,7 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(403);
-              expect(res.text).toEqual('You are not allowed Here, Please sign.');
+              expect(res.text).toEqual('You are not allowed Here, Please Sign In.');
               done(err);
             });
   }, 10000);
@@ -576,7 +576,7 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(403);
-              expect(res.text).toEqual('You are not allowed Here, Please sign.');
+              expect(res.text).toEqual('You are not allowed Here, Please Sign In.');
               done(err);
             });
   }, 10000);
@@ -587,7 +587,7 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(403);
-              expect(res.text).toEqual('You are not allowed Here, Please sign.');
+              expect(res.text).toEqual('You are not allowed Here, Please Sign In.');
               done(err);
             });
   }, 10000);
