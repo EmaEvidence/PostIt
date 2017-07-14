@@ -301,6 +301,8 @@ class User {
       done('Sender must be specified');
     } else if (text === '' || text === undefined) {
       done('message cannot be null');
+    } else if (priorityLevel !== 'Normal' && priorityLevel !== 'Important' && priorityLevel !== 'Urgent') {
+      done('Wrong Priority level');
     } else {
       this.Messages.create({
         groupIdId: to,
