@@ -193,6 +193,7 @@
             <hr>
           </p>
       </div>
+      <button type="button" class="form-control btn custombutton" data-toggle="modal" data-target="#addmembers">Add Members</button>
       <button type="button" class="form-control close custombutton" data-dismiss="modal" >Cancel</button>
     </div>
     </div>
@@ -226,6 +227,19 @@
         </div>
         <button type="button" class="form-control close custombutton" data-dismiss="modal" >Cancel</button>
       </div>
+      </div>
+      <div id="addmembers" class="modal fade reg-form" role="dialog">
+        <form class="modal-dialog">
+          <h2> Add Members </h2>
+          <div class="form-group">
+            <label> Add members by username </label>
+            <div class="chips chips-autocomplete"></div>
+          </div>
+          <div class="form-group">
+            <input type="submit" class="form-control btn custombutton deep-purple lighten-3" value="Add" />
+            <button type="button" class="form-control close custombutton" data-dismiss="modal" >Cancel</button>
+          </div>
+        </form>
       </div>
     <footer style="text-align:center;">
       <p> &copy; 2017 Evidence </p>
