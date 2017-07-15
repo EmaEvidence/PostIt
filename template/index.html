@@ -4,18 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.css">
-    <script src="js/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="css/index.css">
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/creategroup.js"></script>
   </head>
   <body>
-    <header>
-      <nav class="teal row valign-wrapper">
-        <!--<img src="images/postit.png" />-->
-        <div class="col s4"> <h1 class="center-align"> Post IT </h1> </div>
-        <div class="col s8 nav-wrapper">
-        <ul id="nav-mobile" class="right hide-on-med-and-down valign-wrapper">
+    <header class="postitheader">
+      <nav class="transparent postitnav">
+        <a href="#" class="brandname">Post IT</a>
+        <ul id="nav-mobile" class="right hide-on-small-only">
+          <li> <a href=""> Messages </a> </li>
+          <li> <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
+          <li> <a href=""> Send Message </a> </li>
+          <li> <a href=""> Log Out </a> </li>
           <li> <a href="" data-toggle="modal" data-target="#signup">
             Sign Up
           </a> </li>
@@ -23,21 +28,75 @@
               Sign In
           </a> </li>
         </ul>
-      </div>
+        <a class="dropdown-button right hide-on-med-and-up" href="#" data-activates="menu"> Menu </a>
+        <ul id="menu" class="dropdown-content">
+          <li><a href="#!">Messages</a></li>
+          <li> <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
+          <li><a href="#!">Send Message</a></li>
+          <li><a href="#!">Log Out</a></li>
+          <li> <a href="" data-toggle="modal" data-target="#signup">
+            Sign Up
+          </a> </li>
+          <li> <a href="" data-toggle="modal" data-target="#signin">
+              Sign In
+          </a> </li>
+        </ul>
       </nav>
     </header>
-    <div class="container">
-    <div>
-      <img src="images/img.jpg" class="hoverable responsive-img"/>
-      <p class="center-align">Welcome, this is a brief Explanation of what this Web App does.</p>
+    <section class="indeximage valign-wrapper center-align">
+      <p class="center-align" style="padding:20%;">
+        <b style="font-size:30px;">Rethinking and Reinventing Mass Communication</b>
+        PostIt is a simple application that allows friends and colleagues create groups for notifications.
+        This way one person can post notifications to everyone by sending a message once.
+        The application allows people create accounts,
+        create groups and add registered users to the groups,
+        and then send messages out to these groups whenever they want.<br/>
+        <button class="btn deep-purple lighten-3" data-toggle="modal" data-target="#signin">Create Group</button>
+      </p>
+    </section>
+    <section id="about">
+      <div class="about">
+        <h1> How It works </h1>
+      </div>
+      <div class="row">
+      <div class="col s3 about">
+        <h1><i class="large material-icons">perm_identity</i></h1>
+        <h3> Register </h3>
+        Hi we are here
+      </div>
+      <div class="col s3 about">
+        <h1><i class="large material-icons">contacts</i></h1>
+        <h3> Create Groups </h3>
+        Hi we are here
+      </div>
+      <div class="col s3 about">
+        <h1><i class="large material-icons">present_to_all</i></h1>
+        <h3> Broadcast Message </h3>
+        Hi we are here
+      </div>
     </div>
+    </section>
+    <section class="container">
+      <div id="team">
+        <h1>Meet the Designer</h1>
+        <div>
+          <h1><i class="large material-icons">perm_identity</i></h1>
+          <h4> Ema Evidence </h4>
+          <p>
+            Emmanuel has a 1week experience in UI and UX during which he has worked for many organizations
+            like Andela, Facebook and Apple.
+          </p>
+        </div>
+      </div>
+    </section>
+    <div class="container">
     <div class="row">
     <div class="col-sm-1"></div>
-    <div id="signup" class="modal fade" role="dialog">
+    <div id="signup" class="modal fade reg-form" role="dialog">
       <form class="modal-dialog">
         <div class="modal-header">
-          <h2 >Sign Up </h2>
-          <button type="button" class="close" data-dismiss="modal" >&times;</button>
+          <h2 class="form-header" >Sign Up </h2>
+          <button type="button" class="close form-header" data-dismiss="modal" >&times;</button>
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="FirstName LastName" required />
@@ -46,7 +105,8 @@
           <input type="text" class="form-control" placeholder="Username" required/>
         </div>
         <div class="form-group">
-          <input type="email" class="form-control" placeholder="Email" required/>
+          <input type="email" class="form-control validate" placeholder="Email" required/>
+          <label for="email" data-error="wrong email" data-success="right email"></label>
         </div>
         <div class="form-group">
           <input type="password" class="form-control" placeholder="Password" required id="password"/>
@@ -56,15 +116,15 @@
           <input type="password" class="form-control" placeholder="Confirm Password" onkeyup="validate(this.value)" required/>
         </div>
         <div class="form-group">
-          <input type="submit" class="form-control btn btn-success" value="Submit" />
+          <input type="submit" class="form-control btn deep-purple lighten-3 custombutton" value="Submit" />
         </div>
       </form>
     </div>
-    <div id="signin" class="modal fade" role="dialog">
+    <div id="signin" class="modal fade reg-form" role="dialog">
       <form class="modal-dialog">
         <div class="modal-header">
-          <h2 >Sign In </h2>
-          <button type="button" class="close" data-dismiss="modal" >&times;</button>
+          <h2 class="form-header" >Sign In </h2>
+          <button type="button" class="close form-header" data-dismiss="modal" >&times;</button>
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Username" required/>
@@ -73,17 +133,36 @@
           <input type="password" class="form-control" placeholder="Password" required/>
         </div>
         <div class="form-group">
-          <input type="submit" class="form-control btn btn-success" value="Log In" />
+          <input type="submit" class="form-control btn deep-purple lighten-3 custombutton" value="Log In" />
         </div>
       </form>
     </div>
     <div class="col-sm-1"></div>
   </div>
 </div>
+<div id="creategroup" class="modal fade reg-form" role="dialog">
+  <form class="modal-dialog">
+    <h2> Create a Group </h2>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="What will you like to call your Group?" required />
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Purpose (optional)" required />
+    </div>
+    <div class="form-group">
+      <label> Add members by username </label>
+      <div class="chips chips-autocomplete">
+    </div>
+    <div class="form-group">
+      <input type="submit" class="form-control btn custombutton deep-purple lighten-3" value="Create" />
+      <button type="button" class="form-control close custombutton" data-dismiss="modal" >Cancel</button>
+    </div>
+  </form>
+</div>
+</div>
     <footer style="text-align:center;">
       <p> &copy; 2017 Evidence </p>
     </footer>
-
     <script>
       function validate(cpassword){
         let password = document.getElementById('password').value;

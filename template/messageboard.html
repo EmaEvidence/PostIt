@@ -4,61 +4,229 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.css">
-    <script src="js/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="css/index.css">
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/creategroup.js"></script>
   </head>
   <body>
-    <header>
-      <nav class="teal row valign-wrapper">
-        <!--<img src="images/postit.png" />-->
-        <div class="col s4"> <h1 class="center-align"> Post IT </h1> </div>
-        <div class="col s8 nav-wrapper">
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
+    <header class="postitheader">
+      <nav class="transparent postitnav">
+        <a href="#" class="brandname">Post IT</a>
+        <ul id="nav-mobile" class="right hide-on-small-only">
           <li> <a href=""> Messages </a> </li>
-          <li> <a href=""> Create a Group </a> </li>
+          <li> <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
           <li> <a href=""> Send Message </a> </li>
           <li> <a href=""> Log Out </a> </li>
+          <li> <a href="" data-toggle="modal" data-target="#signup">
+            Sign Up
+          </a> </li>
+          <li> <a href="" data-toggle="modal" data-target="#signin">
+              Sign In
+          </a> </li>
         </ul>
-      </div>
+        <a class="dropdown-button right hide-on-med-and-up" href="#" data-activates="menu"> Menu </a>
+        <ul id="menu" class="dropdown-content">
+          <li><a href="#!">Messages</a></li>
+          <li> <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
+          <li><a href="#!">Send Message</a></li>
+          <li><a href="#!">Log Out</a></li>
+          <li> <a href="" data-toggle="modal" data-target="#signup">
+            Sign Up
+          </a> </li>
+          <li> <a href="" data-toggle="modal" data-target="#signin">
+              Sign In
+          </a> </li>
+        </ul>
       </nav>
     </header>
     <div class="container">
     <div class="row">
-    <div class="col-sm-3 card-panel">
+    <div class="col-sm-4 deep-purple lighten-4" style=" height: 70%; padding: 2%; margin-top:2%; text-align: center; color: purple;">
         <h2>Groups</h2>
         <ul>
-          <li> Groups <span class="new badge">6</span></li>
-          <li> Groups <span class="badge">10</span></li>
-          <li> Groups <span class="new badge">21</span></li>
-          <li> Groups <span class="badge">10</span></li>
-          <li> Groups <span class="new badge">31</span></li>
-          <li> Groups <span class="badge">12</span></li>
-          <li> Groups <span class="new badge">13</span></li>
-          <li> Groups <span class="badge">19</span></li>
-          <li> Groups <span class="new badge">1</span></li>
-          <li> Groups <span class="badge">111</span></li>
-          <li> Groups <span class="new badge">91</span></li>
-          <li> Groups <span class="badge">10</span></li>
+          <li>
+            Groups
+            <span class="new badge deep-purple lighten-3" data-toggle="modal" data-target="#groupmessages">
+               6 Messages
+            </span>
+            <span class="badge" data-toggle="modal" data-target="#groupmembers">
+              6 Members
+            </span>
+          </li>
+          <li>
+            Groups
+            <span class="new badge deep-purple lighten-3" data-toggle="modal" data-target="#groupmessages">
+               6 Messages
+            </span>
+            <span class="badge" data-toggle="modal" data-target="#groupmembers">
+              6 Members
+            </span>
+          </li>
         </ul>
     </div>
     <div class="col-sm-1"></div>
-    <div class="col-sm-7 card-panel">
+    <div class="col-sm-7 deep-purple lighten-4" style="height:auto; padding: 2%; margin-top:2%; text-align: center; color: purple;">
         <h2>Messages</h2>
         <p>
-          <i class="chip">From: Emma. priority</i><br>
-          <p class="card center-align">
-          Message: fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br>
-                   jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br>
-                   jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br>
-                   jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk <br>
-          </p>
+          fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br/>
+          <i class="chip">From: Emma.</i>
+          <i class="chip">To: Group.</i>
+          <i class="chip">Priority</i>
+          <i class="chip">Date</i><br>
+          <hr>
+        </p>
+        <p>
+          fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br/>
+          <i class="chip">From: Emma.</i>
+          <i class="chip">To: Group.</i>
+          <i class="chip">Priority</i>
+          <i class="chip">Date</i><br>
+          <hr>
+        </p>
+        <p>
+          fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br/>
+          <i class="chip">From: Emma.</i>
+          <i class="chip">To: Group.</i>
+          <i class="chip">Priority</i>
+          <i class="chip">Date</i><br>
+          <hr>
+        </p>
+        <p>
+          fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br/>
+          <i class="chip">From: Emma.</i>
+          <i class="chip">To: Group.</i>
+          <i class="chip">Priority</i>
+          <i class="chip">Date</i><br>
+          <hr>
+        </p>
+        <p>
+          fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br/>
+          <i class="chip">From: Emma.</i>
+          <i class="chip">To: Group.</i>
+          <i class="chip">Priority</i>
+          <i class="chip">Date</i><br>
+          <hr>
+        </p>
+        <p>
+          fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br/>
+          <i class="chip">From: Emma.</i>
+          <i class="chip">To: Group.</i>
+          <i class="chip">Priority</i>
+          <i class="chip">Date</i><br>
+          <hr>
+        </p><p>
+          fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br/>
+          <i class="chip">From: Emma.</i>
+          <i class="chip">To: Group.</i>
+          <i class="chip">Priority</i>
+          <i class="chip">Date</i><br>
+          <hr>
+        </p><p>
+          fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+          jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br/>
+          <i class="chip">From: Emma.</i>
+          <i class="chip">To: Group.</i>
+          <i class="chip">Priority</i>
+          <i class="chip">Date</i><br>
+          <hr>
         </p>
     </div>
-    <div class="col-sm-1"></div>
   </div>
 </div>
+<div id="creategroup" class="modal fade reg-form" role="dialog">
+  <form class="modal-dialog">
+    <h2> Create a Group </h2>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="What will you like to call your Group?" required />
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Purpose (optional)" required />
+    </div>
+    <div class="form-group">
+      <label> Add members by username </label>
+      <div class="chips chips-autocomplete">
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="submit" class="form-control btn custombutton deep-purple lighten-3" value="Create" />
+      <button type="button" class="form-control close custombutton" data-dismiss="modal" >Cancel</button>
+    </div>
+  </form>
+  </div>
+  <div id="groupmembers" class="modal fade reg-form" role="dialog">
+    <div class="modal-dialog">
+      <h2> Group Members </h2>
+      <div class="" style="height:auto; padding: 2%; margin-top:2%; text-align: center; color: purple;">
+          <p>
+            emmanuel Alabi
+            <hr>
+          </p>
+          <p>
+            Ayo Ade
+            <hr>
+          </p>
+      </div>
+      <button type="button" class="form-control close custombutton" data-dismiss="modal" >Cancel</button>
+    </div>
+    </div>
+
+    <div id="groupmessages" class="modal fade reg-form" role="dialog">
+      <div class="modal-dialog">
+        <h2> Group Messages </h2>
+        <div class="" style="height:auto; padding: 2%; margin-top:2%; text-align: center; color: purple;">
+            <p>
+              fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+              jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+              jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+              jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br/>
+              <i class="chip">From: Emma.</i>
+              <i class="chip">To: Group.</i>
+              <i class="chip">Priority</i>
+              <i class="chip">Date</i><br>
+              <hr>
+            </p>
+            <p>
+              fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+              jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+              jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
+              jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br/>
+              <i class="chip">From: Emma.</i>
+              <i class="chip">To: Group.</i>
+              <i class="chip">Priority</i>
+              <i class="chip">Date</i><br>
+              <hr>
+            </p>
+        </div>
+        <button type="button" class="form-control close custombutton" data-dismiss="modal" >Cancel</button>
+      </div>
+      </div>
     <footer style="text-align:center;">
       <p> &copy; 2017 Evidence </p>
     </footer>
