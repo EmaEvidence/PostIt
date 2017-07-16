@@ -15,20 +15,19 @@ $(document).ready(function() {
     minLength: 1
   }
   });
-  $('.chips-autocompletegroup').material_chip({
-    placeholder: 'Enter a group name',
-    secondaryPlaceholder: 'e.g. Cohort 1',
-    autocompleteOptions: {
+  $('input.autocomplete').autocomplete({
     data: {
       'Cohort 1': null,
       'Family': null,
       'Developers': null,
       'Campers': null,
       'TTLs': null,
-      'STCs': null
+      'STCs': null,
+      "Google": 'https://placehold.it/250x250'
     },
-    limit: Infinity,
-    minLength: 1
-  }
+    limit: 20,
+    onAutocomplete: function(val) {
+    },
+    minLength: 1,
   });
 });
