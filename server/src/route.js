@@ -65,4 +65,12 @@ Router.post('/api/delete', controler.deleteUserControler);
  */
 Router.get('/api/user/groups', controler.getUserGroupsControler);
 
+Router.get('*', (req, res) => {
+  res.status(404).send('Page Not Found');
+});
+
+Router.post('*', (req, res) => {
+  res.status(404).send('Page Not Found');
+});
+
 export default Router;

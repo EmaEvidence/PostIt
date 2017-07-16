@@ -32,6 +32,8 @@ jspm_packages
 dist
 */dist
 .env
+.DS_Store
+template/
 
 # Optional npm cache directory
 .npm

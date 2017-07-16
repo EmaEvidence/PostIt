@@ -24,6 +24,8 @@ const controler = {
   createGroupControler: (req, res) => {
     sess = req.session;
     const gpName = req.body.gpname;
+    const users = req.body.users;
+    console.log(typeof users);
     const userId = sess.UserId;
     if (userId) {
       user.createGroup(gpName, userId, (result) => {

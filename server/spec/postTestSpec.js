@@ -522,7 +522,29 @@ describe('when a User requests for list of members in a group', () => {
 
 describe('When a User makes a request to the APIs', () => {
   // Unit test for routes
-  it('should return status code 400', (done) => {
+  it('should return status code 404 if the route is not existing', (done) => {
+    api.post('/api/user/signupssdsdssdsds')
+          .send({
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(404);
+            expect(res.text).toEqual('Page Not Found');
+            done(err);
+          });
+  }, 10000);
+
+  it('should return status code 404 if the route is not existing', (done) => {
+    api.get('/api/user/signupssdsdssdsds')
+          .send({
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(404);
+            expect(res.text).toEqual('Page Not Found');
+            done(err);
+          });
+  }, 10000);
+
+  it('should return status code 400 if no parameter is sent', (done) => {
     api.post('/api/user/signup')
           .send({
           })
