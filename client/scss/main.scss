@@ -1,59 +1,151 @@
-// include another .scss file from a sub-directory
-@import './about/about.scss';
-
 body {
-  .header {
-    padding-left: 3%;
-    border: 1px solid red;
-    width: 100.7%;
+  margin: 0px;
+  background: #ede7f6;
+  font-family: GillSans, Calibri, Trebuchet, sans-serif;
+header {
+  background: #4527a0;
+}
+html {
+font-family: GillSans, Calibri, Trebuchet, sans-serif;
+}
+#menu {
+  li {
+    a {
+      color: purple;
+    }
   }
-  .nav {
-    width: 100.7%;
-  }
-  .title {
-    font-size: 30px;
-  }
-  .logger {
-    float: right;
-  }
-  .form {
-    font-size: 20px;
-  }
-  .borderd {
-      border: 1px solid red;
-  }
-  .form-header {
-    font-size: 24px;
-    color: teal;
-  }
-  .header-wrapper {
+}
+.postitnav {
+  padding-left:5%; padding-right:2%;
+  background: #4527a0;
+}
+.brandname {
+  font-size:30px;
+}
 
+.indeximage {
+  color: #FFF;
+  text-align: center;
+  width: 100%;
+  height: 80%;
+  background-image: url("../components/img/banner.png");
+  background-size: cover;
+  vertical-align: center;
+}
+.indeximage {
+  p {
+    padding:20%;
   }
-  .form-icon {
-    font-size: 60px;
-    display: inline;
-    text-align: center;
+  b {
+    font-size:30px;
   }
-  .forget-password-wrapper {
-    text-align: center;
+}
+.about {
+  text-align: center;
+  margin-top: 4%;
+  h1 {
+    i {
+      font-size: 100px;
+    }
   }
-  .how {
-    text-align: center;
-  }
-  .how-card  {
-    height: 200px;
-    text-align: center;
-    vertical-align: middle;
-  }
-  .messageholder {
-     width:100%;
-     padding: 10px;
-		 height:auto;
-		 border-bottom:1px solid #999;
-		 background:white;
-		 box-shadow: 0 1px 1px 0 rgba(0, 0,0 , 0.2);
-		 }
-  .messageholder:hover {
-    background:#f4f8f8;
-  }
+}
+.howitworks {
+  margin-left: 4%;
+}
+#about {
+  color: #4527a0;
+}
+#team {
+  text-align: center;;
+  color: purple;
+  margin-top: 5%;
+  border-left: 5px solid purple;
+  border-right: 5px solid purple;
+}
+.reg-form {
+  background: #ede7f6;
+  padding:5px;
+  border-radius: 10px;
+}
+.custombutton {
+  width:auto;
+}
+.form-header {
+  color: purple;
+}
+.bordered-element {
+  border: 1px solid #b39ddb;
+}
+
+.postitheader {
+  background: #4527a0;
+}
+.dropdown-content {
+  background: #ede7f6;
+}
+.postfieldset {
+  border: 1px solid #b39ddb;
+  padding: 2%;
+  border-radius: 5px;
+  margin-top: 6%;
+}
+.postfieldset legend {
+  width:auto;
+  color: purple;
+}
+.customcontrol {
+  padding-left:15px;
+  padding-right:15px;
+}
+.customtextarea {
+  height: 35%;
+  border-left: 10px solid #b39ddb;
+}
+.reg-form {
+  background: #ede7f6;
+  padding:5px;
+  border-radius: 10px;
+}
+.form-header {
+  color: purple;
+}
+.imgdesc {
+  font-size: 30px;
+}
+section p {
+  // padding: 20%;
+}
+.footer {
+  color: purple;
+}
+.forget-password-wrapper {
+  text-align: center;
+  color: purple;
+}
+.groupcard {
+   height: 70%;
+   padding: 2%;
+   margin-top:2%;
+   text-align: center;
+   color: purple;
+}
+.messagecard {
+  height:auto;
+  padding: 2%;
+  margin-top:2%;
+  text-align: center;
+  color: purple;
+}
+.grouplist {
+  margin: 10px;
+  text-align: justify;
+}
+#addmembers {
+  padding-top: 5%;
+  color: purple;
+}
+}
+.customform {
+  font-size: 30px;
+  background: green;
 }

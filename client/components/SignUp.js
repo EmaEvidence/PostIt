@@ -4,7 +4,7 @@ class SignUp extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      name: '',
+      name: 'Ema ALabi',
       username: '',
       email: '',
       password: '',
@@ -15,7 +15,7 @@ class SignUp extends React.Component {
   }
   onChange(e) {
     this.setState({
-        [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value,
     });
   }
 
@@ -26,17 +26,21 @@ class SignUp extends React.Component {
 
   render() {
     return (
-      <div id="signup" className="modal fade" role="dialog">
-        <form className="modal-dialog form" onSubmit={this.onSubmit}>
+      <div id="signup" className="modal fade reg-form" role="dialog">
+        <form className="modal-dialog" onSubmit={this.onSubmit}>
           <div className="modal-header">
-            <b className="form-header">Sign Up </b>
-            <b className="close" data-dismiss="modal" > Close</b>
+            <h2 className="form-header" >Sign Up </h2>
+            <button
+              type="button"
+              className="close form-header"
+              data-dismiss="modal"
+            >&times;</button>
           </div>
           <div className="form-group">
             <input
               type="text"
               onChange={this.onChange}
-              className="form-control"
+              className="customform form-control"
               value={this.state.name}
               name="name"
               placeholder="FirstName LastName"
@@ -58,12 +62,13 @@ class SignUp extends React.Component {
             <input
               type="email"
               onChange={this.onChange}
-              className="form-control"
+              className="form-control validate"
               value={this.state.email}
               placeholder="Email"
               name="email"
               required
             />
+            <label htmlFor="email" data-error="wrong email" data-success="right email" />
           </div>
           <div className="form-group">
             <input
@@ -92,7 +97,7 @@ class SignUp extends React.Component {
           <div className="form-group">
             <input
               type="submit"
-              className="form-control btn btn-success teal"
+              className="form-control btn deep-purple lighten-3 custombutton"
               value="Submit"
             />
           </div>

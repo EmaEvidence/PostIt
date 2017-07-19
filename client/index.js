@@ -4,8 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
-// import Store from './store';
 import App from './components/App';
+
+require('./js/creategroup.js');
+// import Store from './store';
+
 
 const store = createStore(
   (state = {}) => state,
