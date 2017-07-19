@@ -28,7 +28,8 @@ class LogIn extends React.Component {
           </div>
         </form>
         <div className="form-group forget-password-wrapper">
-          <b className="forget-password"> Forgot Password click <a href=""> here </a> </b>
+          <b className="forget-password">
+          Forgot Password click <a href="#forgetpwd" className="" data-dismiss="modal"> here </a> </b>
         </div>
       </div>
     );

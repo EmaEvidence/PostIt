@@ -5,6 +5,8 @@ import AllMessages from './AllMessages';
 import GroupMembers from './GroupMembers';
 import GroupMessages from './GroupMessages';
 import AddMembers from './AddMembers';
+import ArchiveMessages from './ArchiveMessages';
+import SentMessages from './SentMessages';
 
 const group = {
   groups: [
@@ -53,9 +55,18 @@ class MessageBoard extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-sm-4 deep-purple lighten-4 groupcard">
-            <h2>Groups</h2>
-            <Groups groups={group.groups} />
+          <div className="col-sm-4 dashboardholder">
+            <div className="deep-purple lighten-4 dashboard">
+              <h3 className="center">Welcome Evidence</h3>
+              <div className="row center">
+                <a href="#sentmessages" className="dashboardelement"> Sent Messages </a>
+                <a href="#archivemessages" className="dashboardelement"> Achived Messages </a>
+              </div>
+            </div>
+            <div className="deep-purple lighten-4 groupholder">
+              <h3 className="center">Groups</h3>
+              <Groups groups={group.groups} />
+            </div>
           </div>
           <div className="col-sm-1" />
           <AllMessages messages={messages.messages} />
@@ -64,6 +75,8 @@ class MessageBoard extends React.Component {
         <GroupMessages />
         <GroupMembers />
         <AddMembers />
+        <ArchiveMessages />
+        <SentMessages />
       </div>
     );
   }

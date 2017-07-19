@@ -4,6 +4,8 @@ import userSignupRequest from '../actions/SignUpAction';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
 import CreateGroup from './CreateGroup';
+import Notifications from './Notification';
+import ForgetPassword from './ForgetPassword';
 
 class Index extends React.Component {
   render() {
@@ -65,6 +67,8 @@ class Index extends React.Component {
         <SignUp userSignupRequest={userSignupRequest} />
         <LogIn />
         <CreateGroup />
+        <Notifications />
+        <ForgetPassword />
       </div>
     );
   }

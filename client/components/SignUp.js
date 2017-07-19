@@ -29,12 +29,8 @@ class SignUp extends React.Component {
       <div id="signup" className="modal fade reg-form" role="dialog">
         <form className="modal-dialog" onSubmit={this.onSubmit}>
           <div className="modal-header">
-            <h2 className="form-header" >Sign Up </h2>
-            <button
-              type="button"
-              className="close form-header"
-              data-dismiss="modal"
-            >&times;</button>
+            <h2 className="form-header center" >Sign Up </h2>
+            <h5 className="center"><a href="">Sign Up with Google+ </a></h5>
           </div>
           <div className="form-group">
             <input
@@ -68,7 +64,17 @@ class SignUp extends React.Component {
               name="email"
               required
             />
-            <label htmlFor="email" data-error="wrong email" data-success="right email" />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              onChange={this.onChange}
+              className="form-control validate"
+              value={this.state.phone}
+              placeholder="Phone Number"
+              name="phone"
+              required
+            />
           </div>
           <div className="form-group">
             <input
@@ -100,6 +106,11 @@ class SignUp extends React.Component {
               className="form-control btn deep-purple lighten-3 custombutton"
               value="Submit"
             />
+            <button
+              type="button"
+              className="right close form-header"
+              data-dismiss="modal"
+            >Close</button>
           </div>
         </form>
       </div>

@@ -149,3 +149,32 @@ section p {
   font-size: 30px;
   background: green;
 }
+#notifications {
+  padding: 5%;
+}
+#forgetpwd {
+  padding: 5%;
+}
+.dashboardholder {
+  height: auto;
+  color: purple;
+  padding: 2%;
+
+}
+.groupholder {
+  padding: 2%;
+  color: purple;
+}
+.dashboard {
+  padding: 10px;
+  margin-bottom: 3%;
+}
+.dashboardelement {
+  margin: 1%;
+}
+#sentmessages, #archivemessages {
+  padding: 8%;
+  height: auto;
+  overflow: scroll;
+  color: purple;
+}
