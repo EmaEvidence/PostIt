@@ -36,7 +36,7 @@ gulp.task('run-test', ['transpile'], () => {
  * gulp task for getting coverage report on tests
  */
 gulp.task('coverage', (cb) => {
-  gulp.src(['server/src/user.js', '/server/server.js', 'server/src/route.js'])
+  gulp.src(['server/src/user.js', '/server/server.js', 'server/src/route.js', 'server/controlers/controler.js'])
     .pipe(gulpBabelIstanbul())
     .pipe(injectModules())
     .on('finish', () => {

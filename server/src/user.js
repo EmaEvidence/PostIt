@@ -1,11 +1,11 @@
 import Sequelize from 'sequelize';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 import UserModel from '../models/users';
 import GroupModel from '../models/groups';
 import GroupMembersModel from '../models/groupmembers';
 import MessagesModel from '../models/messages';
-
 
 dotenv.config();
 /**
@@ -19,10 +19,16 @@ class User {
  * @return {STRING} Connection status message
  */
   constructor() {
+    let database;
+    if (process.env.NODE_ENV === 'test') {
+      database = process.env.DB_DATABASE_TEST;
+    } else {
+      database = process.env.DB_DATABASE;
+    }
     const username = process.env.DB_USERNAME;
     const password = process.env.DB_PASSWORD;
     const host = process.env.DB_HOST;
-    this.sequelize = new Sequelize(`postgres://${username}:${password}fant.db.${host}/ldgtnhia`);
+    this.sequelize = new Sequelize(`postgres://${username}:${password}${host}/${database}`);
     this.sequelize.authenticate()
     .then(() => {
       console.log('Connection has been established successfully.');
@@ -47,31 +53,27 @@ class User {
   }
 
   /**
-   * @static validateInput - checks the validity of data supplied by the user
-   *
-   * @param  {STRING} userName    Name of the User
-   * @param  {STRING} userUsername userName of the user
-   * @param  {STRING} userEmail    Email address of the User
-   * @param  {STRING} userPassword password of the user
-   * @return {STRING}              validity message
+   * [validateInput description]
+   * @method validateInput
+   * @param  {[type]}      userPassword [description]
+   * @return {[type]}                   [description]
    */
-  static validateInput(userName, userUsername, userEmail, userPassword) {
-    let result;
-    const pattern = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+.([A-Za-z]{2,4})$/;
-    if (userName === '' || userName === undefined) {
-      result = 'Name can not be empty';
-    } else if (userUsername === '' || userUsername === undefined) {
-      result = 'Username can not be empty';
-    } else if (userEmail === '' || userEmail === undefined) {
-      result = 'Email can not be empty';
-    } else if (userPassword === '' || userPassword === undefined) {
-      result = 'Password can not be empty';
-    } else if (pattern.test(userEmail) === false) {
-      result = 'Please Supply a valid email.';
+  static validatePassword(userPassword) {
+    let validity;
+    if (/^(?=.*\d)(?=.*\W)(?=.*[a-zA-Z])(?!.*\s).{8,}$/.test(userPassword)) {
+      validity = 'valid';
     } else {
-      result = 'valid';
+      validity = 'Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8';
     }
-    return result;
+    return validity;
+  }
+
+  static flattenUserId(arrayOfIds) {
+    const ids = [];
+    arrayOfIds.forEach((idObject) => {
+      ids.push(idObject.id);
+    });
+    return ids;
   }
 
   /**
@@ -84,8 +86,8 @@ class User {
    * @param  {FunctionDeclaration} done         callback function
    * @return {STRING}              the result of the registration attempt.
    */
-  signUp(userName, userUsername, userEmail, userPassword, done) {
-    const validity = User.validateInput(userName, userUsername, userEmail, userPassword);
+  signUp(userName, userUsername, userEmail, userPassword, userPhone, done) {
+    const validity = User.validatePassword(userPassword);
     if (validity === 'valid') {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(userPassword, salt, (err, hash) => {
@@ -93,11 +95,31 @@ class User {
             name: userName,
             username: userUsername,
             email: userEmail,
-            password: hash
+            password: hash,
+            phone: userPhone
           }).then((user) => {
-            done(user);
+            const result = {
+              id: user.id,
+              name: user.name,
+              username: user.username,
+              phone: user.phone,
+              email: user.email
+            };
+            const createdToken = jwt.sign({
+              exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+              data: result
+            }, process.env.JWT_SECRET);
+            result.token = createdToken;
+            done(result);
           }).catch((err) => {
-            done(err.errors[0].message);
+            if (err.errors[0] === undefined) {
+              done(err.message);
+            } else {
+              if (err.errors && err.errors[0].message === '') {
+                done(`${err.errors[0].path} must be defined`);
+              }
+              done(err.errors[0].message || err.message);
+            }
           });
         });
       });
@@ -150,7 +172,19 @@ class User {
         } else {
           bcrypt.compare(password, user[0].password, (err, res) => {
             if (res) {
-              done(user);
+              const result = {
+                id: user[0].id,
+                name: user[0].name,
+                username: user[0].username,
+                phone: user[0].phone,
+                email: user[0].email
+              };
+              const createdToken = jwt.sign({
+                exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+                data: result
+              }, process.env.JWT_SECRET);
+              result.token = createdToken;
+              done(result);
             } else {
               done('Failed, Wrong Password');
             }
@@ -161,43 +195,70 @@ class User {
   }
 
   /**
-   * createGroup - creates a group
-   *
-   * @param  {STRING} groupName the Name to call the group
-   * @param  {INTEGER} creator   the UserId of the group creator
-   * @param  {FunctionDeclaration} done         callback function
-   * @return {STRING}           result of the group creation attempt.
+   * [createGroup description]
+   * @method createGroup
+   * @param  {[type]}    groupName [description]
+   * @param  {[type]}    creator   [description]
+   * @param  {[type]}    users     [description]
+   * @param  {Function}  done      [description]
+   * @return {[type]}              [description]
    */
-  createGroup(groupName, creator, done) {
-    if (groupName === '' || groupName === undefined) {
-      done('Group Name can not be Empty');
-    } else if (creator === '' || creator === undefined) {
-      done('creator id can not be Empty');
-    } else {
+  createGroup(groupName, creator, users, done) {
+    let createdGroup;
+    this.Users.findAll({
+      attributes: ['id'],
+      where: {
+        username: users
+      }
+    }).then((user) => {
+      const members = User.flattenUserId(user);
+      if (members.length === 0 || members[0] === '') {
+        members[0] = creator;
+      } else {
+        members.push(creator);
+      }
       this.Groups.findOrCreate({
         where: {
-          gp_name: groupName,
+          group_name: groupName,
           gpCreatorIdId: creator
         }
-      })
-      .then((group) => {
+      }).then((group) => {
         if (group[1] === false) {
           done('Group Exists already');
         } else {
-          this.GroupMembers.findOrCreate({
-            where: {
-              GroupId: group[0].id,
-              UserId: creator,
-              addedBy: creator
-            }
+          createdGroup = group;
+          members.forEach((member) => {
+            this.GroupMembers.findOrCreate({
+              where: {
+                GroupId: group[0].id,
+                UserId: member,
+                addedBy: creator
+              }
+            });
           });
-          done(group);
         }
-      })
-      .catch((err) => {
-        done(err.name); // .errors[0].message);
+      }).then(() => {
+        const result = {
+          id: createdGroup[0].id,
+          groupname: createdGroup[0].group_name,
+          createdBy: createdGroup[0].gpCreatorIdId
+        };
+        done(result);
+      }).catch((err) => {
+        if (err.errors[0] === undefined) {
+          done(err);
+        } else {
+          if (err.errors && err.errors[0].message === '') {
+            done(`${err.errors[0].path} can not be Undefined`);
+          } else {
+            done(err.errors[0].message || err.message);
+          }
+        }
       });
-    }
+    })
+      .catch((err) => {
+        done(err.name);
+      });
   }
 
 
@@ -212,7 +273,7 @@ class User {
   deleteGroup(group, creator, done) {
     this.Groups.destroy({
       where: {
-        gp_name: group,
+        group_name: group,
         gpCreatorIdId: creator
       }
     }).then((result) => {
@@ -221,6 +282,26 @@ class User {
       done(err);
     });
   }
+  /**
+   * [deleteGroupWithName description]
+   * @method deleteGroupWithName
+   * @param  {[type]}            group   [description]
+   * @param  {[type]}            creator [description]
+   * @param  {Function}          done    [description]
+   * @return {[type]}                    [description]
+   */
+  deleteGroupWithName(group, creator, done) {
+    this.Groups.destroy({
+      where: {
+        group_name: group
+      }
+    }).then((result) => {
+      done(result);
+    }).catch((err) => {
+      done(err);
+    });
+  }
+
   /**
    * addUsers - adds new user to a created group
    *
@@ -254,7 +335,7 @@ class User {
         if (err.error === undefined) {
           done(err.parent.detail);
         } else {
-          done(err.errors[0].message);
+          done(err.errors[0].message || err.message);
         }
       });
     }
@@ -299,7 +380,7 @@ class User {
       done('Group must be specified');
     } else if (from === '' || from === undefined) {
       done('Sender must be specified');
-    } else if (text === '' || text === undefined) {
+    } else if (text === '' || text === undefined || (text.trim()).length === 0) {
       done('message cannot be null');
     } else if (priorityLevel !== 'Normal' && priorityLevel !== 'Critical' && priorityLevel !== 'Urgent') {
       done('Wrong Priority level');
@@ -310,9 +391,16 @@ class User {
         senderIdId: from,
         priority: priorityLevel
       }).then((message) => {
-        done(message);
+        const result = {
+          id: message.id,
+          message: message.message,
+          groupIdId: message.groupIdId,
+          senderIdId: message.senderIdId,
+          priority: message.priority
+        };
+        done(result);
       }).catch((err) => {
-        done(err);
+        done(err.name);
       });
     }
   }
@@ -377,6 +465,7 @@ class User {
     }).then((members) => {
       const ids = User.flattenId(members);
       this.Users.findAll({
+        attributes: ['id', 'name', 'username', 'phone', 'email'],
         where: { id: ids }
       }).then((groupmember) => {
         done(groupmember);
@@ -402,6 +491,7 @@ class User {
     }).then((groups) => {
       const ids = User.flattenGroupId(groups);
       this.Groups.findAll({
+        attributes: ['id', 'gp_name', 'gpCreatorIdId'],
         where: { id: ids }
       }).then((userGroup) => {
         done(userGroup);

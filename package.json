@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "gulp run-test",
+    "test": "NODE_ENV=test gulp",
     "prestart": "babel server/src --out-dir dist",
     "start": "nodemon --exec babel-node server/server.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
@@ -43,6 +43,7 @@
     "gulp-jasmine-node": "^1.0.7",
     "gulp-nodemon": "^2.2.1",
     "jasmine": "^2.6.0",
+    "jsonwebtoken": "^7.4.1",
     "node-gyp": "^3.6.2",
     "nodemon": "^1.11.0",
     "pg": "^6.2.4",
