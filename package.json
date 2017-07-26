@@ -3,21 +3,37 @@
   "version": "1.0.0",
   "description": "postit clientside",
   "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "dependencies": {
     "axios": "^0.16.2",
+    "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "bcrypt": "^1.0.2",
-    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",
     "cpy-cli": "^1.0.1",
     "crypto": "^0.0.3",
     "css-loader": "^0.28.4",
+    "name": "postit-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js","jasmine": "^2.6.0",
+    "node-gyp": "^3.6.2",
+    "nodemon": "^1.11.0",
+    "pg": "^6.2.4",
+    "sequelize": "^4.1.0",
+    "supertest": "^3.0.0",
+    "supertest-session": "^3.1.0",
+    "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.3.0",
@@ -58,17 +74,24 @@
     "url-loader": "^0.5.9",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
+    },
+    "scripts": {
+      "copy-files": "cpy ./client/src/**.html client/dist ",
+      "clear": "rimraf client/dist",
+      "test": "gulp run-test",
+      "prestart": "babel server/src --out-dir dist && npm run clear && npm run copy-files",
+      "start": "nodemon --exec babel-node server/server.js && webpack-dev-server --content-base client/dist/",
+      "coveralls": "cat ./coverage/lcov.info | coveralls"
+    },
+  "author": "EmaEvidence",
+  "license": "ISC",
+  "dependencies": {
+
   },
   "devDependencies": {
     "file-loader": "^0.11.2",
-    "image-webpack-loader": "^3.3.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "copy-files": "cpy ./client/src/**.html client/dist ",
-    "clear": "rimraf client/dist",
-    "prestart": "npm run clear && npm run copy-files",
-    "start": "webpack-dev-server --content-base client/dist/"
+    "image-webpack-loader": "^3.3.1",
+    "babel-cli": "^6.24.1"
   },
   "repository": {
     "type": "git",
@@ -80,4 +103,5 @@
     "url": "https://github.com/EmaEvidence/PostIt/issues"
   },
   "homepage": "https://github.com/EmaEvidence/PostIt#readme"
+},
 }

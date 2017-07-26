@@ -32,7 +32,7 @@ jspm_packages
 */dist
 dist
 .env
-
+.DS_Store
 
 # Optional npm cache directory
 .npm
