@@ -75,30 +75,25 @@
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
     },
+    "devDependencies": {
+      "file-loader": "^0.11.2",
+      "image-webpack-loader": "^3.3.1",
+      "babel-cli": "^6.24.1"
+    },
     "scripts": {
       "copy-files": "cpy ./client/src/**.html client/dist ",
       "clear": "rimraf client/dist",
       "test": "gulp run-test",
       "prestart": "babel server/src --out-dir dist && npm run clear && npm run copy-files",
-      "start": "nodemon --exec babel-node server/server.js && webpack-dev-server --content-base client/dist/",
+      "start": "nodemon --exec babel-node server/server.js & webpack-dev-server --content-base client/dist/",
       "coveralls": "cat ./coverage/lcov.info | coveralls"
     },
   "author": "EmaEvidence",
   "license": "ISC",
-  "dependencies": {
-
-  },
-  "devDependencies": {
-    "file-loader": "^0.11.2",
-    "image-webpack-loader": "^3.3.1",
-    "babel-cli": "^6.24.1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EmaEvidence/PostIt.git"
   },
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/EmaEvidence/PostIt/issues"
   },

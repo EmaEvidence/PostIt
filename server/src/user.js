@@ -22,7 +22,8 @@ class User {
     const username = process.env.DB_USERNAME;
     const password = process.env.DB_PASSWORD;
     const host = process.env.DB_HOST;
-    this.sequelize = new Sequelize(`postgres://${username}:${password}fant.db.${host}/ldgtnhia`);
+    const database = process.env.DB_DATABASE;
+    this.sequelize = new Sequelize(`postgres://${username}:${password}${host}/${database}`);
     this.sequelize.authenticate()
     .then(() => {
       console.log('Connection has been established successfully.');

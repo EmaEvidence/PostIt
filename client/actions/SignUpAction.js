@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default function userSignupRequest(userData) {
   return dispatch => {
-    axios.post('https://postitapi.herokuapp.com/api/user/signup', userData)
+    axios.post('https://postit-api.herokuapp.com/api/user/signup', userData)
   .then((response) => {
     console.log('-----------sucess-----------------');
     console.log(response);
