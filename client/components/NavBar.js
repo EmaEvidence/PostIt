@@ -5,7 +5,7 @@ class NavBar extends React.Component {
   render() {
     let nav;
     const a = 1;
-    if (a < 2) {
+    if (a > 2) {
       nav = (<header className="navbar-fixed postitheader">
         <nav className="postitnav">
           <a href="" className="brandname">Post IT</a>

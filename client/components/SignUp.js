@@ -4,7 +4,7 @@ class SignUp extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      name: 'Ema ALabi',
+      name: '',
       username: '',
       email: '',
       password: '',
@@ -20,6 +20,7 @@ class SignUp extends React.Component {
   }
 
   onSubmit(e) {
+    console.log(this.state);
     e.preventDefault();
     this.props.userSignupRequest(this.state);
   }
@@ -27,7 +28,7 @@ class SignUp extends React.Component {
   render() {
     return (
       <div id="signup" className="modal fade reg-form" role="dialog">
-        <form className="modal-dialog" onSubmit={this.onSubmit}>
+        <form className="modal-dialog signupform" onSubmit={this.onSubmit}>
           <div className="modal-header">
             <h2 className="form-header center" >Sign Up </h2>
             <h5 className="center"><a href="">Sign Up with Google+ </a></h5>
