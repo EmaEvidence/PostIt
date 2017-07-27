@@ -20,9 +20,12 @@ class SignUp extends React.Component {
   }
 
   onSubmit(e) {
-    console.log(this.state);
+    // console.log(this.state);
     e.preventDefault();
-    this.props.userSignupRequest(this.state);
+    this.props.userSignup(this.state).then((res) => {
+        console.log('************************');
+      console.log(res);
+    });
   }
 
   render() {
@@ -120,6 +123,6 @@ class SignUp extends React.Component {
 }
 
 SignUp.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired
+  userSignup: React.PropTypes.func.isRequired
 };
 export default SignUp;

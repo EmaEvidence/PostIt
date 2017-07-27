@@ -9,7 +9,7 @@ import ForgetPassword from './ForgetPassword';
 
 class Index extends React.Component {
   render() {
-    const { userSignupRequest } = this.props;
+    const userSignup = this.props.userSignupRequest;
     return (
       <div>
         <section className="indeximage valign-wrapper center-align">
@@ -64,7 +64,7 @@ class Index extends React.Component {
             </div>
           </div>
         </section>
-        <SignUp userSignupRequest={userSignupRequest} />
+        <SignUp userSignup={userSignup} />
         <LogIn />
         <CreateGroup />
         <Notifications />
