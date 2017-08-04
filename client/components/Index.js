@@ -1,15 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import userSignupRequest from '../actions/SignUpAction';
+import userSigninRequest from '../actions/SignInAction';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
 import CreateGroup from './CreateGroup';
 import Notifications from './Notification';
 import ForgetPassword from './ForgetPassword';
+import authUser from '../actions/authAction';
+import createGroupAction from '../actions/createGroupAction';
+
 
 class Index extends React.Component {
   render() {
     const userSignup = this.props.userSignupRequest;
+    const Login = this.props.userSigninRequest;
+    const authUserAction = this.props.authUser;
+    const createGroup = this.props.createGroupAction;
     return (
       <div>
         <section className="indeximage valign-wrapper center-align">
@@ -64,9 +71,9 @@ class Index extends React.Component {
             </div>
           </div>
         </section>
-        <SignUp userSignup={userSignup} />
-        <LogIn />
-        <CreateGroup />
+        <SignUp userSignup={userSignup} authUser={authUserAction} />
+        <LogIn userSignin={Login} authUser={authUserAction} />
+        <CreateGroup createGroupAction={createGroup} />
         <Notifications />
         <ForgetPassword />
       </div>
@@ -75,7 +82,11 @@ class Index extends React.Component {
 }
 
 Index.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired
+  userSignupRequest: React.PropTypes.func.isRequired,
+  userSigninRequest: React.PropTypes.func.isRequired,
+  createGroupAction: React.PropTypes.func.isRequired,
+  authUser: React.PropTypes.func.isRequired
 };
 
-export default connect(null, { userSignupRequest })(Index);
+
+export default connect(null, { userSignupRequest, userSigninRequest, authUser, createGroupAction })(Index);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Groups from './Groups';
 import CreateGroup from './CreateGroup';
 import AllMessages from './AllMessages';
@@ -7,6 +8,8 @@ import GroupMessages from './GroupMessages';
 import AddMembers from './AddMembers';
 import ArchiveMessages from './ArchiveMessages';
 import SentMessages from './SentMessages';
+import createGroupAction from '../actions/createGroupAction';
+
 
 const group = {
   groups: [
@@ -52,12 +55,15 @@ const messages = {
 }
 class MessageBoard extends React.Component {
   render() {
+    const createGroup = this.props.createGroupAction;
     return (
       <div className="container">
         <div className="row">
           <div className="col-sm-4 dashboardholder">
             <div className="deep-purple lighten-4 dashboard">
-              <h3 className="center">Welcome Evidence</h3>
+              <h1 className="row center">
+                <input id="icon_prefix" type="search" placeholder="Search Post" className="validate center" />
+              </h1>
               <div className="row center">
                 <a href="#sentmessages" className="dashboardelement"> Sent Messages </a>
                 <a href="#archivemessages" className="dashboardelement"> Achived Messages </a>
@@ -71,7 +77,7 @@ class MessageBoard extends React.Component {
           <div className="col-sm-1" />
           <AllMessages messages={messages.messages} />
         </div>
-        <CreateGroup />
+        <CreateGroup createGroupAction={createGroup} />
         <GroupMessages />
         <GroupMembers />
         <AddMembers />
@@ -82,4 +88,8 @@ class MessageBoard extends React.Component {
   }
 }
 
-export default MessageBoard;
+MessageBoard.propTypes = {
+  createGroupAction: React.PropTypes.func.isRequired
+};
+
+export default connect(null, { createGroupAction })(MessageBoard);

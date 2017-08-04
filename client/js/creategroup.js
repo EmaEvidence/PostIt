@@ -1,31 +1,45 @@
+const usersData = {};
+const groupsData = {};
+$.get('http://localhost:3300/api/user/all', function (res) {
+  const users = res.data;
+  users.forEach(function(user) {
+    const selectedUser = user.username;
+    usersData[selectedUser] = null;
+  });
+});
+// const id = 1;
+// $.get('http://localhost:3300/api/group/all', { id }, function (res) {
+//   const groups = res.data;
+//   groups.forEach(function(group) {
+//     const selectedUser = group.username;
+//     groupsData[selectedUser] = null;
+//   });
+// });
+
 $(document).ready(function() {
   $('.chips-autocomplete').material_chip({
     placeholder: 'Enter a username',
     secondaryPlaceholder: 'e.g. emmanuel',
     autocompleteOptions: {
-      data: {
-        'Steven': null,
-        'Busayo': null,
-        'Google': null,
-        'Dunni': null,
-        'Lanre': null,
-        'Sholape': null
-      },
+      data: usersData,
       limit: Infinity,
       minLength: 1
     }
   });
+  var members = [];
+  $('.chips').on('chip.add', function(e, chip){
+    members.push(chip.tag);
+    document.getElementById('members').value = members;
+  });
+
+  $('.chips').on('chip.delete', function(e, chip){
+    var index = members[chip.tag];
+    members = members.splice(index, 1);
+    document.getElementById('members').value = members;
+  });
 
   $('input.autocomplete').autocomplete({
-    data: {
-      'Cohort 1': null,
-      'Family': null,
-      'Developers': null,
-      'Campers': null,
-      'TTLs': null,
-      'STCs': null,
-      "Google": 'https://placehold.it/250x250'
-    },
+    // data: groupsData,
     limit: 20,
     onAutocomplete: function(val) {
     },

@@ -2,10 +2,6 @@ import axios from 'axios';
 
 export default function userSignupRequest(userData) {
   return (dispatch) => {
-    return axios.post('http://127.0.0.1:3300/api/user/signup', userData)
-    .then((res) => {
-      console.log(res);
-      console.log('-----------------------', userData);
-    });
+    return axios.post('http://127.0.0.1:3300/api/user/signup', userData);
   };
 }

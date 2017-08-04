@@ -6,7 +6,7 @@ class ForgetPassword extends React.Component {
       <div id="forgetpwd" className="modal fade reg-form">
         <form className="modal-dialog">
           <div className="modal-header">
-            <h2 className="form-header" > Forget Password </h2>
+            <h2 className="form-header" > Forgot Password </h2>
             <h5> Enter your email address to recieve a link to reset your password </h5>
           </div>
           <div className="form-group">
