@@ -18,6 +18,11 @@ font-family: GillSans, Calibri, Trebuchet, sans-serif;
 .postitnav {
   padding-left:5%; padding-right:2%;
   background: #4527a0;
+  color: white;
+  font-size: 20px;
+  ul li a:hover {
+    color: white;
+  }
 }
 .welcome {
   margin-left: 15%;
@@ -141,6 +146,9 @@ section p {
   text-align: center;
   color: purple;
 }
+.mypagination {
+  margin-left: 68%;
+}
 .grouplist {
   margin: 10px;
   text-align: justify;
@@ -202,4 +210,7 @@ section p {
 .character-control {
   float: right;
   color: purple;
+}
+.clickable {
+  cursor: pointer;
 }

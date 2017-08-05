@@ -10,24 +10,6 @@ import ArchiveMessages from './ArchiveMessages';
 import SentMessages from './SentMessages';
 import createGroupAction from '../actions/createGroupAction';
 
-
-const group = {
-  groups: [
-    {
-      name: 'Relative',
-      messages: 20
-    },
-    {
-      name: 'Relatives',
-      messages: 30
-    },
-    {
-      name: 'Cohorts',
-      messages: 2
-    }
-  ]
-};
-
 const messages = {
   messages: [
     {
@@ -50,12 +32,20 @@ const messages = {
       to: 'STCs',
       from: 'Evidence',
       date: '19/12/2001'
+    },
+    {
+      priority: 'Critical',
+      message: 'We are here',
+      to: 'STCs',
+      from: 'Evidence',
+      date: '19/12/2001'
     }
   ]
-}
+};
 class MessageBoard extends React.Component {
   render() {
     const createGroup = this.props.createGroupAction;
+    const groups = this.props.groups;
     return (
       <div className="container">
         <div className="row">
@@ -71,13 +61,20 @@ class MessageBoard extends React.Component {
             </div>
             <div className="deep-purple lighten-4 groupholder">
               <h3 className="center">Groups</h3>
-              <Groups groups={group.groups} />
+              <Groups groups={groups} />
             </div>
           </div>
           <div className="col-sm-1" />
           <AllMessages messages={messages.messages} />
+          <ul className="pagination mypagination center">
+            <li>Prev</li>
+            <li> 1 </li>
+            <li> 2 </li>
+            <li> 3 </li>
+            <li>Next</li>
+          </ul>
         </div>
-        <CreateGroup createGroupAction={createGroup} />
+        <CreateGroup createGroupAction={createGroup} group={groups[0]} />
         <GroupMessages />
         <GroupMembers />
         <AddMembers />
@@ -92,4 +89,14 @@ MessageBoard.propTypes = {
   createGroupAction: React.PropTypes.func.isRequired
 };
 
-export default connect(null, { createGroupAction })(MessageBoard);
+function mapStateToProps(state) {
+  let groups = 'xcvxcv';
+  if (state.getUserGroupsReducer !== undefined) {
+    groups = state.getUserGroupsReducer.groups;
+  }
+  return {
+    groups
+  };
+}
+
+export default connect(mapStateToProps, { createGroupAction })(MessageBoard);

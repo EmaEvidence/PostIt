@@ -10,6 +10,7 @@ import App from './components/App';
 import rootReducer from './reducers';
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import authAction from './actions/authAction';
+import getUserGroupsAction from './actions/getUserGroupsAction';
 
 require('./js/creategroup.js');
 
@@ -29,6 +30,7 @@ if(localStorage.token) {
   jwt.verify(token, 'postitapp', (err, decoded) => {
     if (decoded) {
       store.dispatch(authAction(decoded.data));
+      store.dispatch(getUserGroupsAction(decoded.data));
     } else {
       console.log(err);
     }

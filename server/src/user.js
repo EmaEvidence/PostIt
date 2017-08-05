@@ -491,7 +491,7 @@ class User {
     }).then((groups) => {
       const ids = User.flattenGroupId(groups);
       this.Groups.findAll({
-        attributes: ['id', 'gp_name', 'gpCreatorIdId'],
+        attributes: ['id', 'group_name', 'gpCreatorIdId'],
         where: { id: ids }
       }).then((userGroup) => {
         done(userGroup);

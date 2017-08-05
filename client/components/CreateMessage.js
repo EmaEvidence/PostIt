@@ -3,9 +3,14 @@ import { connect } from 'react-redux';
 import UIAutocomplete from 'react-ui-autocomplete';
 import CreateGroup from './CreateGroup';
 import createGroupAction from '../actions/createGroupAction';
+import postMessageAction from '../actions/postMessageAction';
 
+/**
+ * [state description]
+ * @type {Object}
+ */
 class CreateMessage extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       group: '',
@@ -19,10 +24,16 @@ class CreateMessage extends React.Component {
     this.charactersRemaining = this.charactersRemaining.bind(this);
   }
 
+  /**
+   * [onChange description]
+   * @method onChange
+   * @param  {[type]} e [description]
+   * @return {[type]}   [description]
+   */
   onChange(e) {
-      this.setState({
-        [e.target.name]: e.target.value,
-      });
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   }
 
   handleValueChange(newValue, displayValue, suggestion) {
@@ -40,11 +51,16 @@ class CreateMessage extends React.Component {
 
   sendMessage(e) {
     e.preventDefault();
-    console.log(this.state);
+    this.props.postMessageAction({
+      id: this.state.group,
+      message: this.state.message,
+      priority: this.state.priority
+    });
   }
   render() {
-    const getOptions = () => ['One', 'Two', 'Three', 'Four', 'Five', 'Six'];
     const createGroup = this.props.createGroupAction;
+    const groups = this.props.groups;
+    const getOptions = () => JSON.parse(groups)['0'];
     return (
       <div className=" deep-purple lighten-5">
         <div className="row">
@@ -56,6 +72,7 @@ class CreateMessage extends React.Component {
                 <form onSubmit={this.sendMessage}>
                   <fieldset className="postfieldset">
                     <legend>Send Message</legend>
+                    <span className="alert"> {this.props.status} </span>
                     <div className="form-group row customcontrol">
                       <div className="form-control col s6 bordered-element extended">
                         <label htmlFor="UIAutocomplete"> Type Group Name </label>
@@ -63,6 +80,9 @@ class CreateMessage extends React.Component {
                           options={getOptions()}
                           name="group"
                           onChange={this.handleValueChange}
+                          optionValue="id"
+                          optionFilter={['group_name']}
+                          optionLabelRender={option => `${option.group_name}`}
                         />
                       </div>
                       <div className="col s1" />
@@ -126,6 +146,23 @@ class CreateMessage extends React.Component {
 }
 
 CreateMessage.propTypes = {
-  createGroupAction: React.PropTypes.func.isRequired
+  createGroupAction: React.PropTypes.func.isRequired,
+  groups: React.PropTypes.string.isRequired,
+  postMessageAction: React.PropTypes.func.isRequired,
+  status: React.PropTypes.string.isRequired
 };
-export default connect(null, { createGroupAction })(CreateMessage);
+
+function mapStateToProps(state) {
+  let groups = '';
+  if (state.getUserGroupsReducer.groups !== undefined) {
+    groups = JSON.stringify(state.getUserGroupsReducer.groups);
+  } else {
+    groups = ['No Group Yet'];
+  }
+  return {
+    groups,
+    status: state.postMessageReducer.status
+  };
+}
+
+export default connect(mapStateToProps, { createGroupAction, postMessageAction })(CreateMessage);

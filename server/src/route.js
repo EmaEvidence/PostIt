@@ -65,7 +65,7 @@ Router.get('/api/group/:groupid/messages', controler.ensureToken, controler.getG
 Router.post('/api/delete', controler.ensureToken, controler.deleteUserControler);
 
 /**
- * [For deleting Users]
+ * [For Groups a Users belongs to]
  * @type {[JSON]}
  */
 Router.get('/api/user/groups', controler.ensureToken, controler.getUserGroupsControler);

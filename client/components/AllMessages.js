@@ -1,6 +1,8 @@
 import React from 'react';
 
 class AllMessages extends React.Component {
+  componentDidMount() {
+  }
   render() {
     const allMessages = this.props.messages;
     const Messagelist = allMessages.map((message, index) =>
@@ -26,4 +28,6 @@ class AllMessages extends React.Component {
   }
 }
 
+AllMessages.propTypes = {
+};
 export default AllMessages;

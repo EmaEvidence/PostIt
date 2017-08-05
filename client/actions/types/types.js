@@ -3,3 +3,7 @@ export const ADD_USER_DETAILS = 'ADD_USER_DETAILS';
 export const CREATE_GROUP = 'CREATE_GROUP';
 
 export const CREATE_GROUP_ERROR = 'CREATE_GROUP_ERROR';
+
+export const ADD_USER_GROUPS = 'ADD_USER_GROUPS';
+
+export const POST_MESSAGE = 'POST_MESSAGE';

@@ -31,6 +31,9 @@ const controler = {
     });
   },
   createGroupControler: (req, res) => {
+    console.log('WE ARE HWER VERIFIED');
+    console.log('WE ARE HWER=====================>>>>>>>>>>>>>>>');
+    console.log('We recieve Message here');
     const gpName = req.body.gpname;
     let users = req.body.users;
     const userId = req.token.data.id;
@@ -117,11 +120,15 @@ const controler = {
     });
   },
   postMessageControler: (req, res) => {
+    console.log('WE ARE HWER VERIFIED');
+    console.log('WE ARE HWER=====================>>>>>>>>>>>>>>>');
+    console.log('We recieve Message here');
     const groupId = req.params.groupid;
     const message = req.body.message;
     const priority = (req.body.priority) ? req.body.priority : 'Normal';
     const from = req.token.data.id;
     user.postMessage(groupId, from, message, priority, (result) => {
+      console.log(result);
       if (typeof result === 'string') {
         res.status(400).json({
           message: 'Group does not Exist'
@@ -196,6 +203,7 @@ const controler = {
         }
       });
     } else {
+      console.log('WE ARE HWER NO TOKEN');
       return res.status(403).json({ message: 'Access Token Not Provided. Please Sign In' });
     }
   }
