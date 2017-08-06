@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import setCurrentGroupAction from '../actions/setCurrentGroupAction';
 import setCurrentMessagesAction from '../actions/setCurrentMessagesAction';
-// import setCurrentMembersAction from '../actions/setCurrentMembersAction';
+import setCurrentMembersAction from '../actions/setCurrentMembersAction';
 
 class Groups extends React.Component {
   constructor(props){
@@ -10,19 +10,21 @@ class Groups extends React.Component {
     this.state = {};
     // this.setGroupId = this.setGroupId.bind(this);
     this.setMessages = this.setMessages.bind(this);
-    // this.setMembers = this.setMembers.bind(this);
+    this.setMembers = this.setMembers.bind(this);
   }
 
   // setGroupId(index) {
+  //   alert(index);
+  //   alert(groupName);
   //   this.props.setCurrentGroupAction(index);
   // }
 
   setMessages(groupId, groupName) {
     this.props.setCurrentMessagesAction(groupId, groupName);
   }
-  // setMembers(index) {
-  //   this.props.setCurrentGroupMembersAction(index);
-  // }
+  setMembers(index, groupName) {
+    this.props.setCurrentMembersAction(index, groupName);
+  }
   render() {
     const grps = this.props.groups;
     let grpList = '';
@@ -45,7 +47,7 @@ class Groups extends React.Component {
               className="badge deep-purple lighten-5 clickable"
               data-toggle="modal"
               data-target="#groupmembers"
-              // onClick={//this.setMembers.bind(null, grp.id)}
+              onClick={this.setMembers.bind(null, grp.id, grp.group_name)}
             >
               {grp.messages} Members
           </span>
@@ -70,7 +72,8 @@ class Groups extends React.Component {
 
 Groups.propTypes = {
   setCurrentGroupAction: React.PropTypes.func.isRequired,
-  setCurrentMessagesAction: React.PropTypes.func.isRequired
+  setCurrentMessagesAction: React.PropTypes.func.isRequired,
+  setCurrentMembersAction: React.PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -79,4 +82,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { setCurrentMessagesAction })(Groups);
+export default connect(mapStateToProps, { setCurrentMessagesAction, setCurrentMembersAction })(Groups);

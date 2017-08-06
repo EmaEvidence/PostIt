@@ -3,26 +3,36 @@ import { connect } from 'react-redux';
 import AddMembers from './AddMembers';
 
 class GroupMembers extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      groupId: this.props.groupId
-    };
-  }
   render() {
+    const checkIfMembersEmpty = Object.keys(this.props.members);
+    let Memberslist;
+    if (checkIfMembersEmpty.length === 0) {
+      Memberslist = (
+        <p>
+            No Member Yet
+        </p>
+      )
+    } else {
+      Memberslist = (this.props.members).map((member, index) =>
+        (
+          <p
+            key={index}
+          >
+            {member.username}
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            {member.email}
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            {member.phone}
+            <hr />
+          </p>
+      ));
+    }
     return (
       <div id="groupmembers" className="modal fade reg-form" role="dialog">
         <div className="modal-dialog">
-          <h2> Group Members </h2>
+          <h2 className="center"> {this.props.groupName} Members </h2>
           <div className="messagecard">
-            <p>
-              emmanuel Alabi
-              <hr />
-            </p>
-            <p>
-              Ayo Ade
-              <hr />
-            </p>
+            { Memberslist }
           </div>
           <button
             type="button"
@@ -31,7 +41,6 @@ class GroupMembers extends React.Component {
           >
           Cancel</button>
         </div>
-        {this.props.groupId}
         <AddMembers />
       </div>
     );
@@ -40,8 +49,11 @@ class GroupMembers extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    groupId: state.setCurrentGroupReducer.current_group
+    status: state.setCurrentMembersReducer.status,
+    members: state.setCurrentMembersReducer.current_members,
+    groupName: state.setCurrentMembersReducer.current_group
   };
 }
+
 
 export default connect(mapStateToProps)(GroupMembers);
