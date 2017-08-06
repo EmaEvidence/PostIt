@@ -7,14 +7,6 @@ $.get('http://localhost:3300/api/user/all', function (res) {
     usersData[selectedUser] = null;
   });
 });
-// const id = 1;
-// $.get('http://localhost:3300/api/group/all', { id }, function (res) {
-//   const groups = res.data;
-//   groups.forEach(function(group) {
-//     const selectedUser = group.username;
-//     groupsData[selectedUser] = null;
-//   });
-// });
 
 $(document).ready(function() {
   $('.chips-autocomplete').material_chip({
@@ -27,26 +19,40 @@ $(document).ready(function() {
     }
   });
   var members = [];
-  $('.chips').on('chip.add', function(e, chip){
+  $('.chips').on('chip.add', function (e, chip){
     members.push(chip.tag);
     document.getElementById('members').value = members;
   });
 
-  $('.chips').on('chip.delete', function(e, chip){
+  $('.chips').on('chip.delete', function (e, chip){
     var index = members[chip.tag];
     members = members.splice(index, 1);
     document.getElementById('members').value = members;
   });
 
-  $('input.autocomplete').autocomplete({
-    // data: groupsData,
-    limit: 20,
-    onAutocomplete: function(val) {
-    },
-    minLength: 1,
+  $('.chips-autocompleteAdd').material_chip({
+    placeholder: 'Enter a username',
+    secondaryPlaceholder: 'e.g. Emmanuel',
+    autocompleteOptions: {
+      data: usersData,
+      limit: Infinity,
+      minLength: 1
+    }
   });
+  var member = [];
+  $('.chips').on('chip.add', function (e, chip) {
+    member.push(chip.tag);
+    $('#member').val(member);
+  });
+
+  $('.chips').on('chip.delete', function (e, chip){
+    var index = member[chip.tag];
+    members = member.splice(index, 1);
+    document.getElementById('member').value = member;
+  });
+
 });
 
-  $(document).ready(function() {
+  $(document).ready(function () {
       $('.modal').modal();
   });

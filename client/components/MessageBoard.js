@@ -43,6 +43,13 @@ const messages = {
   ]
 };
 class MessageBoard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.showMessage = this.showMessage.bind(this);
+  }
+  showMessage(){
+    alert('Showing Message Here');
+  }
   render() {
     const createGroup = this.props.createGroupAction;
     const groups = this.props.groups;
@@ -74,7 +81,7 @@ class MessageBoard extends React.Component {
             <li>Next</li>
           </ul>
         </div>
-        <CreateGroup createGroupAction={createGroup} group={groups[0]} />
+        <CreateGroup createGroupAction={createGroup} group={groups[0]} showMessage={this.showMessage} />
         <GroupMessages />
         <GroupMembers />
         <AddMembers />

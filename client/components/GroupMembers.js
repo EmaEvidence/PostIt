@@ -1,7 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import AddMembers from './AddMembers';
 
 class GroupMembers extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      groupId: this.props.groupId
+    };
+  }
   render() {
     return (
       <div id="groupmembers" className="modal fade reg-form" role="dialog">
@@ -24,10 +31,17 @@ class GroupMembers extends React.Component {
           >
           Cancel</button>
         </div>
+        {this.props.groupId}
         <AddMembers />
       </div>
     );
   }
 }
 
-export default GroupMembers;
+function mapStateToProps(state) {
+  return {
+    groupId: state.setCurrentGroupReducer.current_group
+  };
+}
+
+export default connect(mapStateToProps)(GroupMembers);
