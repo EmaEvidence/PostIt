@@ -38,7 +38,7 @@ class GroupMessages extends React.Component {
             type="button"
             className="form-control close custombutton"
             data-dismiss="modal"
-          >Cancel</button> {this.props.groupId}
+          >Cancel</button>
         </div>
       </div>
     );
@@ -46,7 +46,7 @@ class GroupMessages extends React.Component {
 }
 function mapStateToProps(state) {
   return {
-    groupId: state.setCurrentGroupReducer.current_group,
+  //  groupId: state.setCurrentGroupReducer.current_group,
     status: state.setCurrentMessagesReducer.status,
     messages: state.setCurrentMessagesReducer.current_messages
   };

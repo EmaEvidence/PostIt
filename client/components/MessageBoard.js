@@ -10,45 +10,10 @@ import ArchiveMessages from './ArchiveMessages';
 import SentMessages from './SentMessages';
 import createGroupAction from '../actions/createGroupAction';
 
-const messages = {
-  messages: [
-    {
-      priority: 'Critical',
-      message: 'We are here',
-      to: 'Cohort',
-      from: 'Evidence',
-      date: '19/12/2001'
-    },
-    {
-      priority: 'Critical',
-      message: 'We are here',
-      to: 'Campers',
-      from: 'Evidence',
-      date: '19/12/2001'
-    },
-    {
-      priority: 'Critical',
-      message: 'We are here',
-      to: 'STCs',
-      from: 'Evidence',
-      date: '19/12/2001'
-    },
-    {
-      priority: 'Critical',
-      message: 'We are here',
-      to: 'STCs',
-      from: 'Evidence',
-      date: '19/12/2001'
-    }
-  ]
-};
+
 class MessageBoard extends React.Component {
   constructor(props) {
     super(props);
-    this.showMessage = this.showMessage.bind(this);
-  }
-  showMessage(){
-    alert('Showing Message Here');
   }
   render() {
     const createGroup = this.props.createGroupAction;
@@ -69,19 +34,22 @@ class MessageBoard extends React.Component {
             <div className="deep-purple lighten-4 groupholder">
               <h3 className="center">Groups</h3>
               <Groups groups={groups} />
+              <ul className="pagination mypagination center">
+                <li>Prev</li>
+                <li> 1 </li>
+                <li> 2 </li>
+                <li> 3 </li>
+                <li>Next</li>
+              </ul>
             </div>
           </div>
           <div className="col-sm-1" />
-          <AllMessages messages={messages.messages} />
-          <ul className="pagination mypagination center">
-            <li>Prev</li>
-            <li> 1 </li>
-            <li> 2 </li>
-            <li> 3 </li>
-            <li>Next</li>
-          </ul>
+          <AllMessages />
         </div>
-        <CreateGroup createGroupAction={createGroup} group={groups[0]} showMessage={this.showMessage} />
+        <CreateGroup
+          createGroupAction={createGroup}
+          group={groups[0]}
+        />
         <GroupMessages />
         <GroupMembers />
         <AddMembers />

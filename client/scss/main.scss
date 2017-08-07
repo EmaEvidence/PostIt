@@ -147,7 +147,8 @@ section p {
   color: purple;
 }
 .mypagination {
-  margin-left: 68%;
+  margin-left: 30%;
+  cursor: pointer;
 }
 .grouplist {
   margin: 10px;
@@ -213,4 +214,9 @@ section p {
 }
 .clickable {
   cursor: pointer;
+}
+#icon_prefix{
+  color: purple;
+  width: 70%;
+  border: 1px solid purple;
 }

@@ -17,6 +17,24 @@ class Index extends React.Component {
     const Login = this.props.userSigninRequest;
     const authUserAction = this.props.authUser;
     const createGroup = this.props.createGroupAction;
+    let button;
+    if (this.props.status) {
+      button = (
+        <button
+          className="btn deep-purple lighten-3"
+          data-toggle="modal"
+          data-target="#creategroup"
+        > Create Group </button>
+      );
+    } else {
+      button = (
+        <button
+          className="btn deep-purple lighten-3"
+          data-toggle="modal"
+          data-target="#signin"
+        > Login </button>
+      );
+    }
     return (
       <div>
         <section className="indeximage valign-wrapper center-align">
@@ -28,11 +46,7 @@ class Index extends React.Component {
             The application allows people create accounts,
             create groups and add registered users to the groups,
             and then send messages out to these groups whenever they want.<br />
-            <button
-              className="btn deep-purple lighten-3"
-              data-toggle="modal"
-              data-target="#signin"
-            >Create Group</button>
+            { button }
           </p>
         </section>
         <section id="about">
@@ -88,5 +102,11 @@ Index.propTypes = {
   authUser: React.PropTypes.func.isRequired
 };
 
+function mapStateToProps(state) {
+  return {
+    status: state.authUser.logged_in
+  };
+}
 
-export default connect(null, { userSignupRequest, userSigninRequest, authUser, createGroupAction })(Index);
+
+export default connect(mapStateToProps, { userSignupRequest, userSigninRequest, authUser, createGroupAction })(Index);

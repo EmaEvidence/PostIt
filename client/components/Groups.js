@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import setCurrentGroupAction from '../actions/setCurrentGroupAction';
+import setUsersAction from '../actions/setUsersAction';
 import setCurrentMessagesAction from '../actions/setCurrentMessagesAction';
 import setCurrentMembersAction from '../actions/setCurrentMembersAction';
 
@@ -8,16 +8,14 @@ class Groups extends React.Component {
   constructor(props){
     super(props);
     this.state = {};
-    // this.setGroupId = this.setGroupId.bind(this);
+    this.setUsers = this.setUsers.bind(this);
     this.setMessages = this.setMessages.bind(this);
     this.setMembers = this.setMembers.bind(this);
   }
 
-  // setGroupId(index) {
-  //   alert(index);
-  //   alert(groupName);
-  //   this.props.setCurrentGroupAction(index);
-  // }
+  setUsers(index, groupName) {
+    this.props.setUsersAction(index, groupName);
+  }
 
   setMessages(groupId, groupName) {
     this.props.setCurrentMessagesAction(groupId, groupName);
@@ -54,7 +52,7 @@ class Groups extends React.Component {
             <a
               className="waves-effect waves-light modal-close"
               href="#addmembers"
-            //  onClick={this.setGroupId.bind(null, grp.id)}
+              onClick={this.setUsers.bind(null, grp.id, grp.group_name)}
             >
             Add New</a>
           </li>
@@ -71,7 +69,7 @@ class Groups extends React.Component {
 }
 
 Groups.propTypes = {
-  setCurrentGroupAction: React.PropTypes.func.isRequired,
+  setUsersAction: React.PropTypes.func.isRequired,
   setCurrentMessagesAction: React.PropTypes.func.isRequired,
   setCurrentMembersAction: React.PropTypes.func.isRequired
 };
@@ -82,4 +80,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { setCurrentMessagesAction, setCurrentMembersAction })(Groups);
+export default connect(mapStateToProps, { setUsersAction, setCurrentMessagesAction, setCurrentMembersAction })(Groups);

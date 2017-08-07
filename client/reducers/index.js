@@ -3,16 +3,18 @@ import authUser from './authReducers';
 import createGroupReducer from './createGroupReducer';
 import getUserGroupsReducer from './getUserGroupsReducer';
 import postMessageReducer from './postMessageReducer';
-import setCurrentGroupReducer from './setCurrentGroupReducer';
+import setUsersReducer from './setUsersReducer';
 import setCurrentMessagesReducer from './setCurrentMessagesReducer';
 import setCurrentMembersReducer from './setCurrentMembersReducer';
+import AddNewMemberReducer from './AddNewMemberReducer';
 
 export default combineReducers({
   authUser,
   createGroupReducer,
   getUserGroupsReducer,
   postMessageReducer,
-  setCurrentGroupReducer,
+  setUsersReducer,
   setCurrentMessagesReducer,
-  setCurrentMembersReducer
+  setCurrentMembersReducer,
+  AddNewMemberReducer
 });

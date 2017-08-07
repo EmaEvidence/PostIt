@@ -38,7 +38,7 @@ class AllMessages extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    groupId: state.setCurrentGroupReducer.current_group,
+  //  groupId: state.setCurrentGroupReducer.current_group,
     status: state.setCurrentMessagesReducer.status,
     messages: state.setCurrentMessagesReducer.current_messages,
     groupName: state.setCurrentMessagesReducer.current_group

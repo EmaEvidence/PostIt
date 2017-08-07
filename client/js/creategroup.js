@@ -40,12 +40,14 @@ $(document).ready(function() {
     }
   });
   var member = [];
-  $('.chips').on('chip.add', function (e, chip) {
-    member.push(chip.tag);
-    $('#member').val(member);
+  $('.chip').on('chip.add', function (e, chip) {
+    //member.push(chip.tag);
+    alert('yeahhh')
+    document.getElementById('memberrr').value = 'check'
+    //$('#memberrr').val('check');
   });
 
-  $('.chips').on('chip.delete', function (e, chip){
+  $('.chip').on('chip.delete', function (e, chip){
     var index = member[chip.tag];
     members = member.splice(index, 1);
     document.getElementById('member').value = member;

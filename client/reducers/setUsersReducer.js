@@ -1,10 +1,13 @@
 export default function reducer(state = {
-  current_group: ''
+  current_group: '',
+  users: {},
+
 }, action) {
   switch (action.type) {
-    case 'SET_CURRENT_GROUP_ID': {
+    case 'SET_USERS': {
       return Object.assign({}, state, {
-        current_group: action.current_group
+        current_group: action.current_group,
+        users: action.users
       });
     }
     default:
