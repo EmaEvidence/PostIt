@@ -4,7 +4,7 @@ export default function reducer(state = {
   switch (action.type) {
     case 'ADD_USER_GROUPS': {
       return Object.assign({}, state, {
-        groups: action.group
+        groups: [...action.group]
       });
     }
     default:

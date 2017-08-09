@@ -24,7 +24,7 @@ class NavBar extends React.Component {
       nav = (<header className="navbar-fixed postitheader">
         <nav className="postitnav">
           <a href="" className="brandname">Post IT</a>
-          <b className="welcome">Welcome {username.username}, how are doing?</b>
+          <b className="welcome">Welcome {username.username}, how are you doing?</b>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/messageboard"> Message Board </Link></li>

@@ -62,6 +62,7 @@ Router.get('/api/group/:groupid/messages', controler.ensureToken, controler.getG
  * [For deleting Users]
  * @type {[JSON]}
  */
+// reewrite this api like api/user/delete
 Router.post('/api/delete', controler.ensureToken, controler.deleteUserControler);
 
 /**
@@ -69,6 +70,21 @@ Router.post('/api/delete', controler.ensureToken, controler.deleteUserControler)
  * @type {[JSON]}
  */
 Router.get('/api/user/groups', controler.ensureToken, controler.getUserGroupsControler);
+
+// New routes
+
+Router.post('/api/user/message/read', controler.ensureToken, controler.messageReadControler);
+
+Router.get('/api/users/search', controler.ensureToken, controler.searchUserControler);
+
+Router.post('/api/user/google', controler.googleSignUpControler);
+
+Router.post('/api/user/forgetpassword', controler.forgetPasswordControler);
+
+Router.get('/api/user/mymessage', controler.ensureToken, controler.mymessageControler);
+
+Router.get('/api/user/archivedMessages', controler.ensureToken, controler.archivedMessagesControler);
+
 
 Router.get('*', (req, res) => {
   res.status(404).send('Page Not Found');

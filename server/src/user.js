@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer'
 import UserModel from '../models/users';
 import GroupModel from '../models/groups';
 import GroupMembersModel from '../models/groupmembers';
@@ -518,6 +519,150 @@ class User {
       done(err);
     });
   }
+
+/**
+ * [seenMessages description]
+ * @method seenMessages
+ * @param  {[type]}     messageId [description]
+ * @param  {[type]}     userId    [description]
+ * @param  {Function}   done      [description]
+ * @return {[type]}               [description]
+ */
+  seenMessages(messageId, userId, done) {
+    this.Messages.findAll({
+      attributes: ['id', 'views'],
+      where: { id: messageId }
+    }).then((message) => {
+      let updateViews = [];
+      if (message[0].views === null) {
+        updateViews.push(userId);
+      } else if ((message[0].views).indexOf(userId) < 0) {
+        updateViews = (message[0].views).push(userId);
+      } else {
+        updateViews = (message[0].views);
+      }
+      this.Messages.update({ views: updateViews },
+        { where: {
+          id: messageId
+        } }
+        ).then((res) => {
+          done(res);
+        }).catch((err) => {
+          done(err);
+        });
+    }).catch((err) => {
+      done(err);
+    });
+  }
+
+  searchUsers(searchTerm, done) {
+    const term = searchTerm.toLowerCase();
+    this.Users.findAll({
+      where: {
+        usersname: term
+      }
+    }).then((result) => {
+      done(result);
+    }).catch((err) => {
+      done(err);
+    });
+  }
+
+  myMessages(userId, done) {
+    this.Messages.findAll({
+      where: {
+        senderIdId: userId
+      }
+    }).then((result) => {
+      done(result);
+    }).catch((err) => {
+      done(err);
+    });
+  }
+
+  archivedMessages(userId, done) {
+    this.Messages.findAll({
+      where: {
+        views: { contains: [userId] }
+      }
+    }).then((result) => {
+      done(result);
+    }).catch((err) => {
+      done(err);
+    });
+  }
+
+  /**
+   * [mailer description]
+   * @method mailer
+   * @param  {[type]} mailOptions [description]
+   * @return {[type]}             [description]
+   */
+  static mailer(mailOptions) {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'emmanuelalabi563@gmail.com',
+        pass: process.env.EMAIL_PASSWORD
+      }
+    });
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return (error);
+      }
+      return 'Message Sent';
+    });
+  }
+
+  /**
+   * [sendPasswordResetMail description]
+   * @method sendPasswordResetMail
+   * @param  {[type]}              email [description]
+   * @param  {Function}            done  [description]
+   */
+  sendPasswordResetMail(email, done) {
+    const mailOptions = {
+      from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
+      to: email,
+      subject: 'Password Reset',
+      text: 'You have requested for a password reset. Follow the link below to reset your password',
+      html: '<a href="">Click Me to Change Password</a>'
+    };
+    const sendMail = User.mailer(mailOptions);
+    done(sendMail);
+  }
+
+  resetPassword(password, userEmail, done) {
+    const validate = User.validatePassword(password);
+    if (validate === 'validate') {
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+          this.Users.update({ password: hash },
+            {
+              where: { email: userEmail }
+            }
+          ).then((result) => {
+            const mailOptions = {
+              from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
+              to: userEmail,
+              subject: 'Password Reset Successful',
+              text: 'Your password has being changed. Please Login with your new password',
+              html: '<a href="">Click Here to Login</a>'
+            };
+            User.mailer(mailOptions);
+            done(result);
+          }).catch((err) => {
+            done(err);
+          });
+        });
+      });
+    } else {
+      done(validate);
+    }
+  }
+
 }
 
 export default User;

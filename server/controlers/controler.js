@@ -31,9 +31,6 @@ const controler = {
     });
   },
   createGroupControler: (req, res) => {
-    console.log('WE ARE HWER VERIFIED');
-    console.log('WE ARE HWER=====================>>>>>>>>>>>>>>>');
-    console.log('We recieve Message here');
     const gpName = req.body.gpname;
     let users = req.body.users;
     const userId = req.token.data.id;
@@ -120,9 +117,6 @@ const controler = {
     });
   },
   postMessageControler: (req, res) => {
-    console.log('WE ARE HWER VERIFIED');
-    console.log('WE ARE HWER=====================>>>>>>>>>>>>>>>');
-    console.log('We recieve Message here');
     const groupId = req.params.groupid;
     const message = req.body.message;
     const priority = (req.body.priority) ? req.body.priority : 'Normal';
@@ -191,6 +185,55 @@ const controler = {
     });
   },
 
+  messageReadControler: (req, res) => {
+    const messageId = req.body.messageId;
+    const userId = req.token.data.id;
+    if (messageId === '' || messageId === undefined) {
+      return res.status(403).json({ message: 'Error Reading Message' });
+    } else {
+      user.seenMessages(messageId, userId, (result) => {
+        return res.status(200).json({
+          data: result,
+          message: 'Message Read'
+        });
+      });
+    }
+  },
+
+  searchUserControler: (req, res) => {
+    const searchTerm = req.body.searchTerm;
+    if (searchTerm === '' || undefined) {
+      return res.status(403).json({ message: 'Please supply a search term' });
+    } else {
+      user.searchUsers(searchTerm, (result) => {
+        return res.status(200).json({
+          message: 'Search Result',
+          data: result
+        });
+      });
+    }
+  },
+
+  mymessageControler: (req, res) => {
+    const userId = req.token.data.id;
+    user.myMessages(userId, (result) => {
+      return res.status(200).json({
+        message: 'You Messages',
+        data: result
+      });
+    });
+  },
+
+  archivedMessagesControler: (req, res) => {
+    const userId = req.token.data.id;
+    user.archivedMessages(userId, (result) => {
+      return res.status(200).json({
+        message: 'Read Messages',
+        data: result
+      });
+    });
+  },
+
   ensureToken: (req, res, next) => {
     const token = req.body.token || req.params.token || req.headers.authorization;
     if (token) {
@@ -203,10 +246,41 @@ const controler = {
         }
       });
     } else {
-      console.log('WE ARE HWER NO TOKEN');
       return res.status(403).json({ message: 'Access Token Not Provided. Please Sign In' });
     }
-  }
+  },
+
+  forgetPasswordControler: (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const cpassword = req.body.cpassword;
+    const userId = req.param.key || 94; // use email
+    if (email !== '' && email !== undefined) {
+      user.sendPasswordResetMail(email, (result) => {
+        return res.status(200).json({
+          message: 'A mail has being sent to you.',
+          data: result
+        });
+      });
+    } else {
+      if (password === cpassword) {
+        user.resetPassword(password, userId, (result) => {
+          return res.status(200).json({
+            message: 'Password Updated, please sign In with the new Password',
+            data: result
+          });
+        });
+      } else {
+        return res.status(403).json({
+          message: 'Password do not match.'
+        });
+      }
+    }
+  },
+
+  googleSignUpControler: (req, res) => {
+    return res.status(200).json({ message: 'Google' });
+  },
 
 };
 

@@ -73,7 +73,7 @@ class SignUp extends React.Component {
           {this.props.messages}
             <h2 className="form-header center" >Sign Up </h2>
             <a href="" className="sign-with-google center">Sign Up with Google+ </a>
-            <p className="alert center">{this.state.status}</p>
+            <p className="alert alert-danger center">{this.state.status}</p>
           </div>
           <div className="form-group">
             <input

@@ -16,6 +16,8 @@ class MessageBoard extends React.Component {
     super(props);
   }
   render() {
+    console.log(this.props.groups['0']);
+    console.log('heeeeeeeeeeee');
     const createGroup = this.props.createGroupAction;
     const groups = this.props.groups;
     return (
