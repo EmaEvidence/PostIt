@@ -20,7 +20,7 @@ class NavBar extends React.Component {
     const status = this.props.logged_in_status;
     const username = JSON.parse(this.props.user_details);
     let nav;
-    if (status || localStorage.getItem('token')) {
+    if (status || username === '') {
       nav = (<header className="navbar-fixed postitheader">
         <nav className="postitnav">
           <a href="" className="brandname">Post IT</a>

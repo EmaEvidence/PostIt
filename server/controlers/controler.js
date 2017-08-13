@@ -63,7 +63,6 @@ const controler = {
   },
   getGroupMessagesControler: (req, res) => {
     const groupId = req.params.groupid;
-    const userId = req.token.data.id;
     if (isNaN(groupId) || parseInt(groupId, 10) > 10000000000) {
       res.status(400).json({
         message: 'Invalid Group Selected'
@@ -109,11 +108,12 @@ const controler = {
         res.status(404).json({
           message: 'No Group Yet'
         });
+      } else {
+        res.status(200).json({
+          data: result,
+          message: 'Group Retrival Successful'
+        });
       }
-      res.status(200).json({
-        data: result,
-        message: 'Group Retrival Successful'
-      });
     });
   },
   postMessageControler: (req, res) => {
@@ -121,17 +121,18 @@ const controler = {
     const message = req.body.message;
     const priority = (req.body.priority) ? req.body.priority : 'Normal';
     const from = req.token.data.id;
-    user.postMessage(groupId, from, message, priority, (result) => {
-      console.log(result);
+    user.postMessage(groupId, from, message, priority, (result, users) => {
       if (typeof result === 'string') {
         res.status(400).json({
           message: 'Group does not Exist'
         });
+      } else {
+        user.inAppNotify(users, groupId, from);
+        res.status(200).json({
+          data: result,
+          message: 'Message Added.'
+        });
       }
-      res.status(200).json({
-        data: result,
-        message: 'Message Added.'
-      });
     });
   },
   signinControler: (req, res) => {

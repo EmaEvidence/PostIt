@@ -1,12 +1,9 @@
-import Sequelize from 'sequelize';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer'
-import UserModel from '../models/users';
-import GroupModel from '../models/groups';
-import GroupMembersModel from '../models/groupmembers';
-import MessagesModel from '../models/messages';
+import nodemailer from 'nodemailer';
+import jusibe from 'jusibe';
+import db from '../models/connection';
 
 dotenv.config();
 /**
@@ -20,37 +17,7 @@ class User {
  * @return {STRING} Connection status message
  */
   constructor() {
-    let database;
-    if (process.env.NODE_ENV === 'test') {
-      database = process.env.DB_DATABASE_TEST;
-    } else {
-      database = process.env.DB_DATABASE;
-    }
-    const username = process.env.DB_USERNAME;
-    const password = process.env.DB_PASSWORD;
-    const host = process.env.DB_HOST;
-    this.sequelize = new Sequelize(`postgres://${username}:${password}${host}/${database}`);
-    this.sequelize.authenticate()
-    .then(() => {
-      console.log('Connection has been established successfully.');
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log('Unable to connect to the database:', err);
-    });
-    const Users = this.sequelize.define('Users', UserModel);
-    this.Users = Users;
-    const Groups = this.sequelize.define('Groups', GroupModel);
-    this.Groups = Groups;
-    const GroupMembers = this.sequelize.define('GroupMembers', GroupMembersModel);
-    this.GroupMembers = GroupMembers;
-    const Messages = this.sequelize.define('Messages', MessagesModel);
-    this.Messages = Messages;
-    Users.belongsToMany(Groups, { through: 'GroupMembers' });
-    Users.hasOne(Groups, { as: 'gp_creatorId' });
-    Messages.belongsTo(Groups, { as: 'group_Id' });
-    Messages.belongsTo(Users, { as: 'sender_Id' });
-    this.sequelize.sync({});
+    this.db = db;
   }
 
   /**
@@ -68,7 +35,12 @@ class User {
     }
     return validity;
   }
-
+  /**
+   * [flattenUserId description]
+   * @method flattenUserId
+   * @param  {[type]}      arrayOfIds [description]
+   * @return {[type]}                 [description]
+   */
   static flattenUserId(arrayOfIds) {
     const ids = [];
     arrayOfIds.forEach((idObject) => {
@@ -78,12 +50,121 @@ class User {
   }
 
   /**
+   * [sendText description]
+   * @method sendText
+   * @param  {[type]} payload [description]
+   * @return {[type]}         [description]
+   */
+  static sendText(payload) {
+    const Jusibe = new jusibe(process.env.PUBLIC_KEY, process.env.ACCESS_TOKEN);
+    Jusibe.sendSMS(payload)
+    .then(() => ('Message Notification Sent')
+  ).catch(() => ('Error Sending Message Notification')
+  );
+  }
+  /**
+   * [mailer description]
+   * @method mailer
+   * @param  {[type]} mailOptions [description]
+   * @return {[type]}             [description]
+   */
+  static mailer(mailOptions) {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'emmanuelalabi563@gmail.com',
+        pass: process.env.EMAIL_PASSWORD
+      }
+    });
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return (error);
+      }
+      return 'Message Sent';
+    });
+  }
+  /**
+   * [inAppNotify description]
+   * @method inAppNotify
+   * @param  {[type]}    users    [description]
+   * @param  {[type]}    groupId  [description]
+   * @param  {[type]}    senderId [description]
+   * @param  {Function}  done     [description]
+   * @return {[type]}             [description]
+   */
+  inAppNotify(users, groupId, senderId, done) {
+    users.forEach((user) => {
+      const id = user.id;
+      if (id !== senderId) {
+        this.db.Notifications.create({
+          type: 'A New Message',
+          groupId,
+          name: 'Andela',
+          source: senderId,
+          UserId: id,
+          status: 'Not Seen'
+        }).then(() => {
+          done(' A notification has being sent to every group Member');
+        }).catch(() => {
+          done('Error Notifying Group Memberd');
+        });
+      }
+    });
+  }
+
+  /**
+   * [showNotification description]
+   * @method showNotification
+   * @param  {[type]}         userId [description]
+   * @param  {Function}       done   [description]
+   * @return {[type]}                [description]
+   */
+  showNotification(userId, done) {
+    this.db.Notifications.findAll({
+      where: {
+        UserId: userId,
+        status: 'Not Seen'
+      }
+    })
+    .then((notifications) => {
+      done(notifications);
+    })
+    .catch(() => {
+      done('Error Retrieving Notification');
+    });
+  }
+
+  /**
+   * [clearInAppNotitice description]
+   * @method clearInAppNotitice
+   * @param  {[type]}           notificationIds [description]
+   * @param  {Function}         done            [description]
+   * @return {[type]}                           [description]
+   */
+  clearInAppNotitice(notificationIds, done) {
+    this.db.notifications.update({ Status: 'Seen' },
+      {
+        where: {
+          id: notificationIds
+        }
+      })
+      .then(() => {
+        done('Notification done');
+      })
+      .catch(() => {
+        done('Error Clearing Notifications');
+      });
+  }
+  /**
    * signUp - Creates a user from the data provided by saving it in the user database.
    *
    * @param  {STRING} userName    Name of the User
    * @param  {STRING} userUsername userName of the user
    * @param  {STRING} userEmail    Email address of the User
    * @param  {STRING} userPassword password of the user
+   * @param  {STRING} userPhone phone Number of the user
    * @param  {FunctionDeclaration} done         callback function
    * @return {STRING}              the result of the registration attempt.
    */
@@ -92,7 +173,7 @@ class User {
     if (validity === 'valid') {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(userPassword, salt, (err, hash) => {
-          this.Users.create({
+          this.db.Users.create({
             name: userName,
             username: userUsername,
             email: userEmail,
@@ -138,7 +219,7 @@ class User {
    * @return {oject}              the result of the deletion
    */
   deleteUserss(userEmail, done) {
-    this.Users.destroy({
+    this.db.Users.destroy({
       where: {
         email: userEmail
       }
@@ -163,7 +244,7 @@ class User {
     } else if (password === undefined || password === '') {
       done('Password can not be empty');
     } else {
-      this.Users.findAll({
+      this.db.Users.findAll({
         where: {
           username: userName
         }
@@ -206,7 +287,7 @@ class User {
    */
   createGroup(groupName, creator, users, done) {
     let createdGroup;
-    this.Users.findAll({
+    this.db.Users.findAll({
       attributes: ['id'],
       where: {
         username: users
@@ -218,7 +299,7 @@ class User {
       } else {
         members.push(creator);
       }
-      this.Groups.findOrCreate({
+      this.db.Groups.findOrCreate({
         where: {
           group_name: groupName,
           gpCreatorIdId: creator
@@ -229,7 +310,7 @@ class User {
         } else {
           createdGroup = group;
           members.forEach((member) => {
-            this.GroupMembers.findOrCreate({
+            this.db.GroupMembers.findOrCreate({
               where: {
                 GroupId: group[0].id,
                 UserId: member,
@@ -272,7 +353,7 @@ class User {
    * @return {type}         description
    */
   deleteGroup(group, creator, done) {
-    this.Groups.destroy({
+    this.db.Groups.destroy({
       where: {
         group_name: group,
         gpCreatorIdId: creator
@@ -292,7 +373,7 @@ class User {
    * @return {[type]}                    [description]
    */
   deleteGroupWithName(group, creator, done) {
-    this.Groups.destroy({
+    this.db.Groups.destroy({
       where: {
         group_name: group
       }
@@ -320,7 +401,7 @@ class User {
     } else if (userToInt === '' || isNaN(userToInt)) {
       done('User Id must be stated');
     } else {
-      this.GroupMembers.findOrCreate({
+      this.db.GroupMembers.findOrCreate({
         where: {
           GroupId: group,
           UserId: user,
@@ -353,7 +434,7 @@ class User {
    * @return {type}       description
    */
   deleteUserFromGroup(group, user, added, done) {
-    this.GroupMembers.destroy({
+    this.db.GroupMembers.destroy({
       where: {
         GroupId: group,
         UserId: user,
@@ -386,7 +467,7 @@ class User {
     } else if (priorityLevel !== 'Normal' && priorityLevel !== 'Critical' && priorityLevel !== 'Urgent') {
       done('Wrong Priority level');
     } else {
-      this.Messages.create({
+      this.db.Messages.create({
         groupIdId: to,
         message: text,
         senderIdId: from,
@@ -399,9 +480,61 @@ class User {
           senderIdId: message.senderIdId,
           priority: message.priority
         };
-        done(result);
+        this.db.sequelize.query(`SELECT t."id", phone, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${to}`, { type: this.db.sequelize.QueryTypes.SELECT })
+        .then((users) => {
+          User.notifyUser(priorityLevel, users);
+          done(result, users);
+        });
       }).catch((err) => {
         done(err.name);
+      });
+    }
+  }
+  /**
+   * [notifyUser description]
+   * @method notifyUser
+   * @param  {[type]}   priority [description]
+   * @param  {[type]}   users    [description]
+   * @return {[type]}            [description]
+   */
+  static notifyUser(priority, users) {
+    const ids = [];
+    const emails = [];
+    const phones = [];
+    users.forEach((user) => {
+      ids.push(user.id);
+      emails.push(user.email);
+      phones.push(user.phone);
+    });
+    if (priority === 'Critical') {
+      emails.forEach((email) => {
+        const mailOptions = {
+          from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
+          to: email,
+          subject: 'New Message Notification',
+          text: 'You have a new message in Post It App.',
+          html: '<a href="#">Click Here to Access It</a>'
+        };
+        User.mailer(mailOptions);
+      });
+      phones.forEach((phone) => {
+        const payload = {
+          to: phone,
+          from: 'Post App',
+          message: 'You have a new Message on Post It App.'
+        };
+        User.sendText(payload);
+      });
+    } else {
+      emails.forEach((email) => {
+        const mailOptions = {
+          from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
+          to: email,
+          subject: 'New Message Notification',
+          text: 'You have a new message in Post It App.',
+          html: '<a href="#">Click Here To Access it</a>'
+        };
+        User.mailer(mailOptions);
       });
     }
   }
@@ -414,7 +547,7 @@ class User {
    * @return {STRING}       result of the get attempt.
    */
   retrieveMessage(group, done) {
-    this.Messages.findAll({
+    this.db.Messages.findAll({
       where: {
         groupIdId: group
       }
@@ -452,29 +585,20 @@ class User {
     return ids;
   }
 
-  /**
-   * [Retrieves the members of a group from the database]
-   * @method getGroupMembers
-   * @param  {[INTEGER}        group [the Id of the group which user will be returned]
-   * @param  {Function}      done  [converts the array of id a JSON object to numeric array]
-   * @return {[JSON]}              [A JSON array of the members details]
-   */
+/**
+ * [getGroupMembers description]
+ * @method getGroupMembers
+ * @param  {[type]}        group [description]
+ * @param  {Function}      done  [description]
+ * @return {[type]}              [description]
+ */
   getGroupMembers(group, done) {
-    this.GroupMembers.findAll({
-      where: { GroupId: group },
-      attributes: ['UserId']
-    }).then((members) => {
-      const ids = User.flattenId(members);
-      this.Users.findAll({
-        attributes: ['id', 'name', 'username', 'phone', 'email'],
-        where: { id: ids }
-      }).then((groupmember) => {
-        done(groupmember);
-      }).catch((err) => {
-        done(err);
-      });
-    }).catch((err) => {
-      done(err);
+    this.db.sequelize.query(`SELECT t."id", phone, name, username, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${group}`, { type: this.db.sequelize.QueryTypes.SELECT })
+    .then((users) => {
+      done(users);
+    })
+    .catch((err) => {
+      done(err.name);
     });
   }
 
@@ -486,12 +610,12 @@ class User {
    * @return {[json]}             [json object that can be the groups or the error message]
    */
   getUserGroups(userId, done) {
-    this.GroupMembers.findAll({
+    this.db.GroupMembers.findAll({
       where: { UserId: userId },
       attributes: ['GroupId']
     }).then((groups) => {
       const ids = User.flattenGroupId(groups);
-      this.Groups.findAll({
+      this.db.Groups.findAll({
         attributes: ['id', 'group_name', 'gpCreatorIdId'],
         where: { id: ids }
       }).then((userGroup) => {
@@ -511,7 +635,7 @@ class User {
  * @return {[type]}         [description]
  */
   getAllUsers(done) {
-    this.Users.findAll({
+    this.db.Users.findAll({
       attributes: ['id', 'username']
     }).then((users) => {
       done(users);
@@ -529,7 +653,7 @@ class User {
  * @return {[type]}               [description]
  */
   seenMessages(messageId, userId, done) {
-    this.Messages.findAll({
+    this.db.Messages.findAll({
       attributes: ['id', 'views'],
       where: { id: messageId }
     }).then((message) => {
@@ -541,7 +665,7 @@ class User {
       } else {
         updateViews = (message[0].views);
       }
-      this.Messages.update({ views: updateViews },
+      this.db.Messages.update({ views: updateViews },
         { where: {
           id: messageId
         } }
@@ -554,10 +678,16 @@ class User {
       done(err);
     });
   }
-
+/**
+ * [searchUsers description]
+ * @method searchUsers
+ * @param  {[type]}    searchTerm [description]
+ * @param  {Function}  done       [description]
+ * @return {[type]}               [description]
+ */
   searchUsers(searchTerm, done) {
     const term = searchTerm.toLowerCase();
-    this.Users.findAll({
+    this.db.Users.findAll({
       where: {
         usersname: term
       }
@@ -567,9 +697,15 @@ class User {
       done(err);
     });
   }
-
+  /**
+   * [myMessages description]
+   * @method myMessages
+   * @param  {[type]}   userId [description]
+   * @param  {Function} done   [description]
+   * @return {[type]}          [description]
+   */
   myMessages(userId, done) {
-    this.Messages.findAll({
+    this.db.Messages.findAll({
       where: {
         senderIdId: userId
       }
@@ -579,9 +715,15 @@ class User {
       done(err);
     });
   }
-
+  /**
+   * [archivedMessages description]
+   * @method archivedMessages
+   * @param  {[type]}         userId [description]
+   * @param  {Function}       done   [description]
+   * @return {[type]}                [description]
+   */
   archivedMessages(userId, done) {
-    this.Messages.findAll({
+    this.db.Messages.findAll({
       where: {
         views: { contains: [userId] }
       }
@@ -591,38 +733,20 @@ class User {
       done(err);
     });
   }
-
-  /**
-   * [mailer description]
-   * @method mailer
-   * @param  {[type]} mailOptions [description]
-   * @return {[type]}             [description]
-   */
-  static mailer(mailOptions) {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'emmanuelalabi563@gmail.com',
-        pass: process.env.EMAIL_PASSWORD
-      }
-    });
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return (error);
-      }
-      return 'Message Sent';
-    });
-  }
-
   /**
    * [sendPasswordResetMail description]
    * @method sendPasswordResetMail
    * @param  {[type]}              email [description]
    * @param  {Function}            done  [description]
+   * @return {[type]}                [description]
    */
   sendPasswordResetMail(email, done) {
+    const payload = {
+      to: '07063747160, 07014980491',
+      from: 'Post App',
+      message: 'Hello from Post IT!'
+    };
+    User.sendText(payload);
     const mailOptions = {
       from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
       to: email,
@@ -634,12 +758,20 @@ class User {
     done(sendMail);
   }
 
+  /**
+   * [resetPassword description]
+   * @method resetPassword
+   * @param  {[type]}      password  [description]
+   * @param  {[type]}      userEmail [description]
+   * @param  {Function}    done      [description]
+   * @return {[type]}                [description]
+   */
   resetPassword(password, userEmail, done) {
     const validate = User.validatePassword(password);
     if (validate === 'validate') {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
-          this.Users.update({ password: hash },
+          this.db.Users.update({ password: hash },
             {
               where: { email: userEmail }
             }

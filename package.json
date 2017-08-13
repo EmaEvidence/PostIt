@@ -47,6 +47,8 @@
     "jasmine": "^2.6.0",
     "json-web-token": "^2.1.3",
     "jsonwebtoken": "^7.4.1",
+    "jusibe": "^1.0.1",
+    "lodash": "^4.17.4",
     "main": "server.js",
     "name": "postit-server",
     "node-gyp": "^3.6.2",
@@ -85,7 +87,7 @@
   "scripts": {
     "copy-files": "cpy ./client/src/**.html client/dist ",
     "clear": "rimraf client/dist",
-    "test": "gulp run-test",
+    "test": " NODE_ENV=test && gulp run-test",
     "prestart": "babel server/src --out-dir dist && npm run clear && npm run copy-files",
     "start": "nodemon --exec babel-node server/server.js & webpack-dev-server --content-base client/dist/",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
