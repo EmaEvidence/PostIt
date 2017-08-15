@@ -71,7 +71,7 @@
     "supertest-session": "^3.1.0",
     "twilio": "^3.6.1",
     "url-loader": "^0.5.9",
-    "version": "1.0.0",
+    "version": "0.1.2",
     "webpack": "^3.0.0",
     "webpack-dev-middleware": "^1.11.0",
     "webpack-dev-server": "^2.5.0"
