@@ -12,6 +12,8 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   next();
 });
+app.use('/', Router);
+
 
 const server = app.listen(process.env.PORT || 3300, () => {
   console.log('We are live');
