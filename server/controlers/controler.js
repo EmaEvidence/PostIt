@@ -44,7 +44,7 @@ const controler = {
           message: result
         });
       } else {
-        res.status(200).json({
+        res.status(201).json({
           data: result,
           message: 'Group creation Successful'
         });
@@ -52,7 +52,7 @@ const controler = {
     });
   },
   deleteUserControler: (req, res) => {
-    const userId = req.body.ema;
+    const userId = req.body.user || req.token.data.email;
     user.deleteUserss(userId, (result) => {
       if (result === 1) {
         res.status(200).json({
@@ -61,6 +61,7 @@ const controler = {
       }
     });
   },
+
   getGroupMessagesControler: (req, res) => {
     const groupId = req.params.groupid;
     if (isNaN(groupId) || parseInt(groupId, 10) > 10000000000) {
@@ -123,7 +124,7 @@ const controler = {
     const from = req.token.data.id;
     user.postMessage(groupId, from, message, priority, (result, users) => {
       if (typeof result === 'string') {
-        res.status(400).json({
+        res.status(404).json({
           message: 'Group does not Exist'
         });
       } else {
@@ -170,7 +171,7 @@ const controler = {
           message: result
         });
       } else {
-        res.status(200).json({
+        res.status(201).json({
           data: result,
           message: 'Registration Successful'
         });
@@ -203,7 +204,7 @@ const controler = {
 
   searchUserControler: (req, res) => {
     const searchTerm = req.body.searchTerm;
-    if (searchTerm === '' || undefined) {
+    if (searchTerm === '' || searchTerm === undefined) {
       return res.status(403).json({ message: 'Please supply a search term' });
     } else {
       user.searchUsers(searchTerm, (result) => {
@@ -255,21 +256,34 @@ const controler = {
     const email = req.body.email;
     const password = req.body.password;
     const cpassword = req.body.cpassword;
-    const userId = req.param.key || 94; // use email
-    if (email !== '' && email !== undefined) {
+    const userId = req.param.key || email; // use email
+    if (email !== '' && email !== undefined && password === undefined) {
       user.sendPasswordResetMail(email, (result) => {
-        return res.status(200).json({
-          message: 'A mail has being sent to you.',
-          data: result
-        });
+        if (result === 'Email Address Not found') {
+          return res.status(404).json({
+            message: 'Email Address Not found'
+          });
+        } else {
+          return res.status(200).json({
+            message: 'A mail has being sent to you.',
+            data: result
+          });
+        }
       });
     } else {
       if (password === cpassword) {
         user.resetPassword(password, userId, (result) => {
-          return res.status(200).json({
-            message: 'Password Updated, please sign In with the new Password',
-            data: result
-          });
+          if (result === 'Password Updated') {
+            return res.status(200).json({
+              message: 'Password Updated, please sign In with the new Password',
+              data: result
+            });
+          } else {
+            return res.status(500).json({
+              message: 'Error Updating Password, Please try again',
+              data: result
+            });
+          }
         });
       } else {
         return res.status(403).json({

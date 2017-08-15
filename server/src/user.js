@@ -55,20 +55,24 @@ class User {
    * @param  {[type]} payload [description]
    * @return {[type]}         [description]
    */
-  static sendText(payload) {
+  static sendText(payload, done) {
     const Jusibe = new jusibe(process.env.PUBLIC_KEY, process.env.ACCESS_TOKEN);
     Jusibe.sendSMS(payload)
-    .then(() => ('Message Notification Sent')
-  ).catch(() => ('Error Sending Message Notification')
-  );
+    .then(() => {
+      done('Message Notification Sent');
+    })
+    .catch(() => {
+      done('Error Sending Message Notification');
+    });
   }
   /**
    * [mailer description]
    * @method mailer
    * @param  {[type]} mailOptions [description]
+   * @param  {[type]} done [description]
    * @return {[type]}             [description]
    */
-  static mailer(mailOptions) {
+  static mailer(mailOptions, done) {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
@@ -78,12 +82,9 @@ class User {
         pass: process.env.EMAIL_PASSWORD
       }
     });
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return (error);
-      }
-      return 'Message Sent';
-    });
+    return transporter.sendMail(mailOptions)
+      .then(() => done('Mail Sent'))
+      .catch(() => done('Mail Not Sent'));
   }
   /**
    * [inAppNotify description]
@@ -372,7 +373,7 @@ class User {
    * @param  {Function}          done    [description]
    * @return {[type]}                    [description]
    */
-  deleteGroupWithName(group, creator, done) {
+  deleteGroupWithName(group, done) {
     this.db.Groups.destroy({
       where: {
         group_name: group
@@ -523,7 +524,8 @@ class User {
           from: 'Post App',
           message: 'You have a new Message on Post It App.'
         };
-        User.sendText(payload);
+        User.sendText(payload, () => {
+        });
       });
     } else {
       emails.forEach((email) => {
@@ -687,9 +689,12 @@ class User {
  */
   searchUsers(searchTerm, done) {
     const term = searchTerm.toLowerCase();
+    const processedTerm = `%${term}%`;
     this.db.Users.findAll({
       where: {
-        usersname: term
+        username: {
+          like: processedTerm
+        }
       }
     }).then((result) => {
       done(result);
@@ -741,21 +746,33 @@ class User {
    * @return {[type]}                [description]
    */
   sendPasswordResetMail(email, done) {
-    const payload = {
-      to: '07063747160, 07014980491',
-      from: 'Post App',
-      message: 'Hello from Post IT!'
-    };
-    User.sendText(payload);
-    const mailOptions = {
-      from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
-      to: email,
-      subject: 'Password Reset',
-      text: 'You have requested for a password reset. Follow the link below to reset your password',
-      html: '<a href="">Click Me to Change Password</a>'
-    };
-    const sendMail = User.mailer(mailOptions);
-    done(sendMail);
+    this.db.Users.findOne({
+      where: {
+        email
+      }
+    }).then((result) => {
+      if (result === null) {
+        done('Email Address Not found');
+      } else {
+        const payload = {
+          to: '07063747160, 07014980491',
+          from: 'Post App',
+          message: 'Hello from Post IT!'
+        };
+        User.sendText(payload);
+        const mailOptions = {
+          from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
+          to: email,
+          subject: 'Password Reset',
+          text: 'You have requested for a password reset. Follow the link below to reset your password',
+          html: '<a href="">Click Me to Change Password</a>'
+        };
+        const sendMail = User.mailer(mailOptions);
+        done(sendMail);
+      }
+    }).catch(() => {
+      done('Email Address Not found');
+    });
   }
 
   /**
@@ -768,14 +785,14 @@ class User {
    */
   resetPassword(password, userEmail, done) {
     const validate = User.validatePassword(password);
-    if (validate === 'validate') {
+    if (validate === 'valid') {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
           this.db.Users.update({ password: hash },
             {
               where: { email: userEmail }
             }
-          ).then((result) => {
+          ).then(() => {
             const mailOptions = {
               from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
               to: userEmail,
@@ -784,9 +801,9 @@ class User {
               html: '<a href="">Click Here to Login</a>'
             };
             User.mailer(mailOptions);
-            done(result);
-          }).catch((err) => {
-            done(err);
+            done('Password Updated');
+          }).catch(() => {
+            done('Error Updating Password');
           });
         });
       });
@@ -795,6 +812,43 @@ class User {
     }
   }
 
+  clearTables(done) {
+    this.db.Users.destroy({
+      where: {
+        id: {
+          $gte: 0
+        }
+      }
+    });
+    this.db.Groups.destroy({
+      where: {
+        id: {
+          $gte: 0
+        }
+      }
+    });
+    this.db.GroupMembers.destroy({
+      where: {
+        id: {
+          $gte: 0
+        }
+      }
+    });
+    this.db.Messages.destroy({
+      where: {
+        id: {
+          $gte: 0
+        }
+      }
+    });
+    this.db.Notifications.destroy({
+      where: {
+        id: {
+          $gte: 0
+        }
+      }
+    });
+  }
 }
 
 export default User;
