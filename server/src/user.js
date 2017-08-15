@@ -240,41 +240,35 @@ class User {
    * @return {STRING}                           the result of the registration attempt.
    */
   logIn(userName, password, done) {
-    if (userName === undefined || userName === '') {
-      done('Username can not be empty');
-    } else if (password === undefined || password === '') {
-      done('Password can not be empty');
-    } else {
-      this.db.Users.findAll({
-        where: {
-          username: userName
-        }
-      }).then((user) => {
-        if (user.length === 0) {
-          done('Failed, Username not Found');
-        } else {
-          bcrypt.compare(password, user[0].password, (err, res) => {
-            if (res) {
-              const result = {
-                id: user[0].id,
-                name: user[0].name,
-                username: user[0].username,
-                phone: user[0].phone,
-                email: user[0].email
-              };
-              const createdToken = jwt.sign({
-                exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-                data: result
-              }, process.env.JWT_SECRET);
-              result.token = createdToken;
-              done(result);
-            } else {
-              done('Failed, Wrong Password');
-            }
-          });
-        }
-      });
-    }
+    this.db.Users.findAll({
+      where: {
+        username: userName
+      }
+    }).then((user) => {
+      if (user.length === 0) {
+        done('Failed, Username not Found');
+      } else {
+        bcrypt.compare(password, user[0].password, (err, res) => {
+          if (res) {
+            const result = {
+              id: user[0].id,
+              name: user[0].name,
+              username: user[0].username,
+              phone: user[0].phone,
+              email: user[0].email
+            };
+            const createdToken = jwt.sign({
+              exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+              data: result
+            }, process.env.JWT_SECRET);
+            result.token = createdToken;
+            done(result);
+          } else {
+            done('Failed, Wrong Password');
+          }
+        });
+      }
+    });
   }
 
   /**
@@ -671,13 +665,13 @@ class User {
         { where: {
           id: messageId
         } }
-        ).then((res) => {
-          done(res);
-        }).catch((err) => {
-          done(err);
+        ).then(() => {
+          done('Read');
+        }).catch(() => {
+          done('Error Reading Message');
         });
-    }).catch((err) => {
-      done(err);
+    }).catch(() => {
+      done('Error Reading Message');
     });
   }
 /**

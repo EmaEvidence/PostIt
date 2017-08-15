@@ -64,6 +64,8 @@ const controler = {
 
   getGroupMessagesControler: (req, res) => {
     const groupId = req.params.groupid;
+    console.log('===============+>>>>>>>>>>>>><<<<<<<<<<<<');
+    console.log(groupId);
     if (isNaN(groupId) || parseInt(groupId, 10) > 10000000000) {
       res.status(400).json({
         message: 'Invalid Group Selected'
@@ -191,13 +193,20 @@ const controler = {
     const messageId = req.body.messageId;
     const userId = req.token.data.id;
     if (messageId === '' || messageId === undefined) {
-      return res.status(403).json({ message: 'Error Reading Message' });
+      return res.status(404).json({ message: 'No message Specified' });
     } else {
       user.seenMessages(messageId, userId, (result) => {
-        return res.status(200).json({
-          data: result,
-          message: 'Message Read'
-        });
+        if (result === 'Read') {
+          return res.status(200).json({
+            data: result,
+            message: 'Message Read'
+          });
+        } else {
+          return res.status(500).json({
+            data: result,
+            message: 'Error Reading Message'
+          });
+        }
       });
     }
   },
