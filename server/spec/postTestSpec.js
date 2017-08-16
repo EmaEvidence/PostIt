@@ -48,7 +48,7 @@ describe('when an Array of JSON object with Ids as keys is supplied', () => {
   });
 });
 
-xdescribe('when a text notification is sent', () => {
+describe('when a text notification is sent', () => {
   const payload = {
     to: '07063747160',
     from: 'Post App',
@@ -274,7 +274,7 @@ describe('When a new User signs up', () => {
     }, 3000);
   }, 3000);
   xit('should return with true when a signed user adds another user to a group', (done) => {
-    expect(addedUser[1]).toEqual(true);
+    expect(addedUser).toEqual(true);
     done();
   }, 3000);
 
@@ -368,7 +368,7 @@ describe('When a User makes a request to the APIs', () => {
           })
           .end((err, res) => {
             expect(res.status).toEqual(400);
-            expect(JSON.parse(res.text).message).toEqual('name cannot be null');
+            expect(JSON.parse(res.text).message).toEqual('name must be defined');
             done(err);
           });
   }, 10000);
@@ -382,7 +382,7 @@ describe('When a User makes a request to the APIs', () => {
           })
           .end((err, res) => {
             expect(res.status).toEqual(400);
-            expect(JSON.parse(res.text).message).toEqual('email cannot be null');
+            expect(JSON.parse(res.text).message).toEqual('email must be defined');
             done(err);
           });
   }, 10000);
@@ -517,6 +517,42 @@ describe('when a user makes a request to the APIs', () => {
             expect(JSON.parse(res.text).data.username).toEqual('Sammy');
             token = JSON.parse(res.text).data.token;
             signedInId = JSON.parse(res.text).data.id;
+            done(err);
+          });
+  }, 3000);
+  it('should return status code 400 When a user signs in with bad requests', (done) => {
+    api.post('/api/user/signin')
+          .send({
+            username: '',
+            password: 'qwerty123@'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(400);
+            expect(res.text).toEqual('Username can not be empty');
+            done(err);
+          });
+  }, 3000);
+  it('should return status code 400 When a user signs in with bad requests', (done) => {
+    api.post('/api/user/signin')
+          .send({
+            username: 'Sammy',
+            password: ''
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(400);
+            expect(res.text).toEqual('Password can not be empty');
+            done(err);
+          });
+  }, 3000);
+  it('should return status code 400 When a user signs in with bad requests', (done) => {
+    api.post('/api/user/signin')
+          .send({
+            username: 'Sammy',
+            password: 'qwqwqwqwqwqw'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(404);
+            expect(JSON.parse(res.text).message).toEqual('Failed, Wrong Password');
             done(err);
           });
   }, 3000);
@@ -700,7 +736,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
 
-  it('should return 200 and success message When a register user request for password reset', (done) => {
+  xit('should return 200 and success message When a register user request for password reset', (done) => {
     const url = '/api/user/forgetpassword';
     api.post(url)
         .send({

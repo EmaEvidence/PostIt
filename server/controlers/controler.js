@@ -64,8 +64,6 @@ const controler = {
 
   getGroupMessagesControler: (req, res) => {
     const groupId = req.params.groupid;
-    console.log('===============+>>>>>>>>>>>>><<<<<<<<<<<<');
-    console.log(groupId);
     if (isNaN(groupId) || parseInt(groupId, 10) > 10000000000) {
       res.status(400).json({
         message: 'Invalid Group Selected'
