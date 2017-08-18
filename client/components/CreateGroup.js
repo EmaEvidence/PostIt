@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import getUserGroupsAction from '../actions/getUserGroupsAction';
 
 class CreateGroup extends React.Component {
   constructor(props){
@@ -28,8 +29,16 @@ class CreateGroup extends React.Component {
       purpose: this.state.purpose,
       users: members
     };
-    this.props.createGroupAction(groupData);
+    if (this.props.status === 'Group creation Successful') {
+      this.props.getUserGroupsAction(this.props.userId);
+    }
+    this.props.createGroupAction(groupData)
+    .then(($) => {
+      this.props.getUserGroupsAction(this.props.userId);
+      $('#creategroup').modal('hide');
+    });
   }
+
   render() {
     return (
       <div id="creategroup" className="modal fade reg-form" role="dialog">
@@ -89,7 +98,9 @@ class CreateGroup extends React.Component {
 
 CreateGroup.propTypes = {
   createGroupAction: React.PropTypes.func.isRequired,
-  status: React.PropTypes.string.isRequired
+  status: React.PropTypes.string.isRequired,
+  getUserGroupsAction: React.PropTypes.func.isRequired,
+  userId: React.PropTypes.string.isRequired
 };
 
 function mapStateToProps(state) {
@@ -98,8 +109,9 @@ function mapStateToProps(state) {
     status = state.createGroupReducer.status;
   }
   return {
-    status
+    status,
+    userId: state.authUser.user_details.id
   };
 }
 
-export default connect(mapStateToProps)(CreateGroup);
+export default connect(mapStateToProps, { getUserGroupsAction })(CreateGroup);

@@ -177,8 +177,18 @@ section p {
 
 }
 .groupholder {
-  padding: 2%;
+  padding: 0%;
   color: purple;
+  height: 400px;
+  overflow: scroll;
+}
+.grp-title {
+  // position: fixed;
+  // z-index: 10;
+  // width: 25%;
+}
+.grps {
+  padding: 4%;
 }
 .dashboard {
   padding: 10px;
@@ -217,8 +227,17 @@ section p {
 .clickable {
   cursor: pointer;
 }
+.clickable:hover {
+  background: #e8eaf6;
+}
 #icon_prefix{
   color: purple;
   width: 70%;
   border: 1px solid purple;
+}
+.mydropDown {
+  right: 0%;
+  text-align: center;
+  float: left;
+  background: #e8eaf6;
 }

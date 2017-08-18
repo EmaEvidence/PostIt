@@ -228,7 +228,7 @@ const controler = {
     user.myMessages(userId, (result) => {
       return res.status(200).json({
         message: 'You Messages',
-        data: result
+        messages: result
       });
     });
   },

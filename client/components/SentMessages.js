@@ -1,38 +1,42 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+/**
+ * [myMessages description]
+ * @type {[type]}
+ */
 class SentMessages extends React.Component {
   render() {
+    const myMessages = JSON.parse(this.props.myMessages);
+    let MessageList;
+    if (myMessages.length === 0) {
+      MessageList = (
+        <p>
+              No Message Yet
+        </p>
+      );
+    } else {
+      MessageList = (myMessages).map(message =>
+          (
+            <p
+              key={message.id}
+            >
+              { message.message }
+              <br />
+              <i className="chip">{message.priority}</i>
+              <i className="chip">{message.createdAt}</i><br />
+              <i className="chip">Edit</i>
+              <i className="chip">Delete</i>
+              <hr />
+            </p>
+        ));
+    }
     return (
       <div id="sentmessages" className="modal fade reg-form" role="dialog">
         <div className="modal-dialog">
           <h2> Sent Messages </h2>
           <div className="messagecard">
-            <p>
-                fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
-                jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
-                jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
-                jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br />
-              <i className="chip">Seen: 12.</i>
-              <i className="chip">To: Group.</i>
-              <i className="chip">Priority: Priority</i>
-              <i className="chip">Date: Date</i><br />
-              <i className="chip">Edit</i>
-              <i className="chip">Delete</i><br />
-              <hr />
-            </p>
-            <p>
-            fjksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
-            jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
-            jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk
-            jksdfksdhfjksdhfsdjkfh dfsdfjsdhfd sdjfsdfjk<br />
-              <i className="chip">Seen: 12.</i>
-              <i className="chip">To: Group.</i>
-              <i className="chip">Priority: Priority</i>
-              <i className="chip">Date: Date</i><br />
-              <i className="chip">Edit</i>
-              <i className="chip">Delete</i><br />
-              <hr />
-            </p>
+            { MessageList }
           </div>
           <button
             type="button"
@@ -43,5 +47,23 @@ class SentMessages extends React.Component {
     );
   }
 }
+SentMessages.propTypes = {
+  myMessages: React.PropTypes.string.isRequired,
+};
 
-export default SentMessages;
+/**
+ * [mapStateToProps description]
+ * @method mapStateToProps
+ * @param  {[type]}        state [description]
+ * @return {[type]}              [description]
+ */
+function mapStateToProps(state) {
+  let myMessages = '';
+  if (state.getUserGroupsReducer !== undefined) {
+    myMessages = JSON.stringify(state.myMessagesReducer.myMessages);
+  }
+  return {
+    myMessages
+  };
+}
+export default connect(mapStateToProps)(SentMessages);

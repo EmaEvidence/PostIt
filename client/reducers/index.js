@@ -7,6 +7,8 @@ import setUsersReducer from './setUsersReducer';
 import setCurrentMessagesReducer from './setCurrentMessagesReducer';
 import setCurrentMembersReducer from './setCurrentMembersReducer';
 import AddNewMemberReducer from './AddNewMemberReducer';
+import myMessagesReducer from './myMessageReducer';
+import archivedMessagesReducer from './archivedMessagesReducer';
 
 export default combineReducers({
   authUser,
@@ -16,5 +18,7 @@ export default combineReducers({
   setUsersReducer,
   setCurrentMessagesReducer,
   setCurrentMembersReducer,
-  AddNewMemberReducer
+  AddNewMemberReducer,
+  myMessagesReducer,
+  archivedMessagesReducer
 });

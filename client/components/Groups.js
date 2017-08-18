@@ -27,34 +27,40 @@ class Groups extends React.Component {
     const grps = this.props.groups;
     let grpList = '';
     if (grps['0'] !== undefined) {
-      grpList = grps['0'].map((grp, index) =>
+      grpList = grps['0'].map(grp =>
         (
           <li
-            className="grouplist"
+            className="grouplist dropdown"
             key={grp.id}
           > { grp.group_name }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span
-              className="new badge deep-purple lighten-3 clickable"
-              data-toggle=""
-              data-target=""
-              onClick={this.showMessage}
-              onClick={this.setMessages.bind(null, grp.id, grp.group_name)}
-            >
-              {grp.messages} Messages</span>
-            <span
-              className="badge deep-purple lighten-5 clickable"
-              data-toggle="modal"
-              data-target="#groupmembers"
-              onClick={this.setMembers.bind(null, grp.id, grp.group_name)}
-            >
-              {grp.messages} Members
-          </span>
-            <a
-              className="waves-effect waves-light modal-close"
-              href="#addmembers"
-              onClick={this.setUsers.bind(null, grp.id, grp.group_name)}
-            >
-            Add New</a>
+            <span className="right dropdown-toggle clickable" type="button" data-toggle="dropdown">
+            More <span className="caret" /> </span>
+            <ul className="dropdown-menu mydropDown">
+              <li
+                className="clickable"
+                onClick={this.showMessage}
+                onClick={this.setMessages.bind(null, grp.id, grp.group_name)}
+              >
+                {grp.messages} Messages</li>
+              <li>
+                <a
+                  className="clickable"
+                  data-toggle="modal"
+                  data-target="#groupmembers"
+                  onClick={this.setMembers.bind(null, grp.id, grp.group_name)}
+                >
+                  {grp.messages} Members
+              </a>
+            </li>
+              <li>
+                <a
+                  className="modal-close"
+                  href="#addmembers"
+                  onClick={this.setUsers.bind(null, grp.id, grp.group_name)}
+                >
+                Add New</a>
+              </li>
+            </ul>
           </li>
       ));
     } else {
@@ -71,7 +77,8 @@ class Groups extends React.Component {
 Groups.propTypes = {
   setUsersAction: React.PropTypes.func.isRequired,
   setCurrentMessagesAction: React.PropTypes.func.isRequired,
-  setCurrentMembersAction: React.PropTypes.func.isRequired
+  setCurrentMembersAction: React.PropTypes.func.isRequired,
+  groups: React.PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
