@@ -23,6 +23,7 @@
       "requireParamDescription": false,
       "requireReturnDescription": true
     }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "require-jsdoc": ["error", {
         "require": {
             "FunctionDeclaration": true,

@@ -9,13 +9,13 @@ import nodemon from 'gulp-nodemon';
 /**
  *gulp task for transpiling ES6 to ES5
  */
-gulp.task('transpile', () => {
-  return gulp.src(['server/src/**.js', 'app.js', 'server/spec/postTestSpec.js'])
+gulp.task('transpile', () =>
+  gulp.src(['server/src/**.js', 'app.js', 'server/spec/postTestSpec.js'])
   .pipe(babel({
     presets: ['es2015']
   }))
-  .pipe(gulp.dest('server/dist/'));
-});
+  .pipe(gulp.dest('server/dist/'))
+);
 
 /**
  *default gulp task that runs whenever gulp is called without specifing a task
@@ -27,16 +27,16 @@ gulp.task('default', ['transpile', 'coveralls'], () => {
 /**
  * Gulp task for running tests Specs
  */
-gulp.task('run-test', ['transpile'], () => {
-  return gulp.src(['server/dist/*Spec.js'])
-  .pipe(jasmine());
-});
+gulp.task('run-test', ['transpile'], () =>
+  gulp.src(['server/dist/*Spec.js'])
+  .pipe(jasmine())
+);
 
 /**
  * gulp task for getting coverage report on tests
  */
 gulp.task('coverage', (cb) => {
-  gulp.src(['server/src/user.js', '/server/server.js', 'server/src/route.js'])
+  gulp.src(['server/src/user.js', '/server/server.js', 'server/src/route.js', 'server/controlers/controler.js'])
     .pipe(gulpBabelIstanbul())
     .pipe(injectModules())
     .on('finish', () => {

@@ -1,12 +1,125 @@
 import expect from 'expect';
 import supertest from 'supertest';
-import session from 'supertest-session';
 import User from '../src/user';
 import app from '../server';
 
 const user = new User();
 const api = new supertest(app);
-const testSession = session(app);
+let newUserId;
+
+describe('When a new User supplies a password', () => {
+  const password = 'qwerty123@';
+  const wrongPassword = '1234567890';
+  const valid = User.validatePassword(password);
+  const invalid = User.validatePassword(wrongPassword);
+  it('should return Error message its in a wrong format', () => {
+    expect(valid).toEqual('valid');
+  });
+  it('should return valid if its in a right format', () => {
+    expect(invalid).toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
+  });
+});
+
+describe('when an Array of JSON object with Ids as keys is supplied', () => {
+  const idObject = [
+    { UserId: 1 },
+    { UserId: 2 },
+    { UserId: 3 }
+  ];
+  const UserIdObject = [
+    { id: 1 },
+    { id: 2 },
+    { id: 3 }
+  ];
+  const GroupIdObject = [
+    { GroupId: 1 },
+    { GroupId: 2 },
+    { GroupId: 3 }
+  ];
+  const idArray = [1, 2, 3];
+  it('should return a Numeric array', () => {
+    expect(User.flattenId(idObject)).toEqual(idArray);
+  });
+  it('should return a Numeric array', () => {
+    expect(User.flattenUserId(UserIdObject)).toEqual(idArray);
+  });
+  it('should return a Numeric array', () => {
+    expect(User.flattenGroupId(GroupIdObject)).toEqual(idArray);
+  });
+});
+
+describe('when a text notification is sent', () => {
+  const payload = {
+    to: '07063747160',
+    from: 'Post App',
+    message: 'You have a new Message on Post It App. Testing'
+  };
+  const wrongPayload = {
+    to: '',
+    from: 'Post App',
+    body: 'You have a new Message on Post It App. Testing'
+  };
+  let rightResult;
+  beforeEach((done) => {
+    User.sendText(payload, (result) => {
+      rightResult = result;
+      done();
+    }, 3000);
+  }, 10000);
+
+  it('should "Message Notification Sent" if sent', () => {
+    expect(rightResult).toEqual('Message Notification Sent');
+  });
+  let wrongResult;
+  beforeEach((done) => {
+    User.sendText(wrongPayload, (result) => {
+      wrongResult = result;
+      done();
+    }, 3000);
+  }, 10000);
+  it('should return "Error Sending Message Notification" if not sent', () => {
+    expect(wrongResult).toEqual('Error Sending Message Notification');
+  });
+});
+
+xdescribe('when a mail notification is sent', () => {
+  const mailOptions = {
+    from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
+    to: 'emmanuelalabi563@gmail.com',
+    subject: 'New Message Notification',
+    text: 'You have a new message in Post It App.',
+    html: '<a href="#">Click Here To Access it</a>'
+  };
+  const wrongMailOptions = {
+    fro: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
+    t: 'emm@gmail.com',
+    subject: 'New Message Notification',
+    body: 'You have a new message in Post It App.',
+    html: '<a href="#">Click Here To Access it</a>'
+  };
+  let result;
+  let wrongResult;
+  beforeEach((done) => {
+    User.mailer(mailOptions, (msg) => {
+      result = msg;
+      done();
+    }, 3000);
+  }, 3000);
+  it('should return "Mail Sent" if sent', (done) => {
+    expect(result).toEqual('Mail Sent');
+    done();
+  }, 10000);
+  beforeEach((done) => {
+    User.mailer(wrongMailOptions, (msg) => {
+      wrongResult = msg;
+      done();
+    }, 3000);
+  }, 3000);
+  it('should return "Mail Not Sent" if not sent', (done) => {
+    expect(wrongResult).toEqual('Mail Not Sent');
+    done();
+  }, 10000);
+});
 
 describe('When a new User signs up', () => {
   let result;
@@ -14,32 +127,15 @@ describe('When a new User signs up', () => {
   const username = '';
   const email = '';
   const password = '';
+  const phone = '';
   beforeEach((done) => {
-    user.signUp(name, username, email, password, (response) => {
+    user.signUp(name, username, email, password, phone, (response) => {
       result = response;
       done();
     }, 10000);
   }, 10000);
-  it('should return Error message if Name is not specified ', (done) => {
-    expect(result).toEqual('Name can not be empty');
-    done();
-  }, 10000);
-});
-
-describe('When a new User signs up', () => {
-  let result;
-  const name = 'Ema Ala';
-  const username = '';
-  const email = '';
-  const password = '';
-  beforeEach((done) => {
-    user.signUp(name, username, email, password, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return Error message if Username is not specified ', (done) => {
-    expect(result).toEqual('Username can not be empty');
+  it('should return Error message if password is not specified ', (done) => {
+    expect(result).toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
     done();
   }, 10000);
 });
@@ -48,505 +144,269 @@ describe('When a new User signs up', () => {
   let result;
   const name = 'Ema Ala';
   const username = 'Evidence';
-  const email = '';
-  const password = '';
-  beforeEach((done) => {
-    user.signUp(name, username, email, password, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return Error message if Email is not specified ', (done) => {
-    expect(result).toEqual('Email can not be empty');
-    done();
-  }, 10000);
-});
+  const email = 'emmanuelalabi563@gmail.com';
+  const password = 'qwerty123@';
+  const phone = '07063747160';
+  let userId;
 
-describe('When a new User signs up', () => {
-  let result;
-  const name = 'Ema Ala';
-  const username = 'Evidence';
-  const email = 'ema@gmail.com';
-  const password = '';
   beforeEach((done) => {
-    user.signUp(name, username, email, password, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return Error message if Password is not specified ', (done) => {
-    expect(result).toEqual('Password can not be empty');
-    done();
-  }, 10000);
-});
-
-describe('When a new User signs up', () => {
-  let result;
-  const name = 'Ema Ala';
-  const username = 'Evidence';
-  const email = 'ema@gmail.com';
-  const password = '123456789';
-  beforeEach((done) => {
-    user.signUp(name, username, email, password, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return Error message if Username is already used', (done) => {
-    expect(result).toEqual('username must be unique');
-    done();
-  }, 10000);
-});
-
-describe('When a new User signs up', () => {
-  let result;
-  const name = 'Ema Ala';
-  const username = 'Oliver';
-  const email = 'ema@gmail.com';
-  const password = '123456789';
-  beforeEach((done) => {
-    user.signUp(name, username, email, password, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return Error message if Email is already used', (done) => {
-    expect(result).toEqual('email must be unique');
-    done();
-  }, 10000);
-});
-
-describe('When a new User signs up', () => {
-  let result;
-  const name = 'Ema Ala';
-  const username = 'Bilasiii';
-  const email = 'bilasiii@gmail.com';
-  const password = '123456789';
-  beforeEach((done) => {
-    user.signUp(name, username, email, password, (response) => {
+    user.signUp(name, username, email, password, phone, (response) => {
       result = response;
       done();
     }, 10000);
   }, 10000);
 
   it('should return a JSON object of the User if the details are correct', (done) => {
-    expect(typeof result.dataValues).toEqual('object');
+    expect(typeof result).toEqual('object');
     done();
-  }, 30000);
+  }, 3000);
+
+  it('should return "Evidence" as the value of username key if the details are correct', (done) => {
+    expect(result.username).toEqual('Evidence');
+    done();
+  }, 3000);
+
+  let error;
+  beforeEach((done) => {
+    user.signUp(name, username, email, password, phone, (response) => {
+      error = response;
+      done();
+    }, 10000);
+  }, 10000);
+
+  it('should return Error if the username exist', (done) => {
+    expect(error).toEqual('username must be unique');
+    done();
+  }, 3000);
+
+  let emailError;
+  beforeEach((done) => {
+    user.signUp(name, 'Evi', email, password, phone, (response) => {
+      emailError = response;
+      done();
+    }, 10000);
+  }, 10000);
+
+  it('should return Error if the email exist', (done) => {
+    expect(emailError).toEqual('email must be unique');
+    done();
+  }, 3000);
+
+  let signInResult;
+  beforeEach((done) => {
+    user.logIn('Evidenc', 'qwerty123@', (response) => {
+      signInResult = response;
+      done();
+    }, 10000);
+  }, 10000);
+
+  it('should return Error if the user signs in with wrong details after signing up', (done) => {
+    expect(signInResult).toEqual('Failed, Username not Found');
+    done();
+  }, 3000);
+
+  let signInResult2;
+  beforeEach((done) => {
+    user.logIn('Evidence', 'qwerty123', (response) => {
+      signInResult2 = response;
+      done();
+    }, 10000);
+  }, 10000);
+
+  it('should return Error if the user signs in with wrong details after signing up', (done) => {
+    expect(signInResult2).toEqual('Failed, Wrong Password');
+    done();
+  }, 3000);
+
+  let signedIn;
+  beforeEach((done) => {
+    user.logIn('Evidence', 'qwerty123@', (response) => {
+      signedIn = response;
+      userId = signedIn.id;
+      done();
+    }, 10000);
+  }, 10000);
+
+  it('should return the details of the user when he signs in with correct details after signing up', (done) => {
+    expect(typeof signedIn).toEqual('object');
+    done();
+  }, 3000);
+
+  it('should return "Evidence" as the value of username key if the user signs in with correct details after signing up', (done) => {
+    expect(signedIn.username).toEqual('Evidence');
+    done();
+  }, 3000);
+
+  let group;
+  let groupId;
+  beforeEach((done) => {
+    user.createGroup('Andela', userId, 'Evidence', (response) => {
+      group = response;
+      groupId = response.id;
+      done();
+    }, 3000);
+  }, 3000);
+  it('should return "Andela" as the group name when the user creates a group with correct details', (done) => {
+    expect(group.groupname).toEqual('Andela');
+    done();
+  }, 3000);
+
+  let groupError;
+  beforeEach((done) => {
+    user.createGroup('Andela', userId, 'Evidence', (response) => {
+      groupError = response;
+      done();
+    }, 3000);
+  }, 3000);
+  it('should return Error Message if the  group the signed user creates exists', (done) => {
+    expect(groupError).toEqual('Group Exists already');
+    done();
+  }, 3000);
+
+  let addedUser;
+  beforeEach((done) => {
+    user.signUp('Nuru Ibra', 'Noordean', 'noordean@gmail.com', 'qwerty123@', '08020304050', (response) => {
+      newUserId = response.id;
+      user.addUsers(groupId, newUserId, userId, (added) => {
+        addedUser = added;
+      });
+      done();
+    }, 3000);
+  }, 3000);
+  xit('should return with true when a signed user adds another user to a group', (done) => {
+    expect(addedUser).toEqual(true);
+    done();
+  }, 3000);
+
+  let postResult;
+  beforeEach((done) => {
+    user.postMessage(groupId, userId, 'Hello Everyone', 'Normal', (response) => {
+      postResult = response;
+    }, 3000);
+    done();
+  });
+  it('should return "Hello Everyone" when a signed user posts message to a group', (done) => {
+    expect(postResult.message).toEqual('Hello Everyone');
+    done();
+  }, 3000);
+
+  let retrivalResult;
+  beforeEach((done) => {
+    user.retrieveMessage(groupId, (response) => {
+      retrivalResult = response;
+    }, 3000);
+    done();
+  });
+  it(' after sign up request for messages for a group should return messages', (done) => {
+    expect(typeof retrivalResult).toEqual('object');
+    done();
+  }, 3000);
+
+  let userGroups;
+  beforeEach((done) => {
+    user.getUserGroups(userId, (response) => {
+      userGroups = response;
+    }, 3000);
+    done();
+  });
+  it(' signs in, request for groups he belongs to should return array of groups', (done) => {
+    expect(typeof userGroups).toEqual('object');
+    done();
+  }, 3000);
 
   afterEach((done) => {
     user.deleteUserss(email, () => {
+      user.deleteGroupWithName('Andela', () => {
+        user.deleteUserFromGroup(groupId, newUserId, userId, () => {
+        });
+      });
     });
     done();
   }, 1000);
 });
 
-describe('When a register User signs in', () => {
-  let result;
-  const username = '';
-  const password = '123456789';
-  beforeEach((done) => {
-    user.logIn(username, password, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return Error message if username is not stated', (done) => {
-    expect(result).toEqual('Username can not be empty');
-    done();
-  }, 10000);
-});
-
-describe('When a register User signs in', () => {
-  let result;
-  const username = 'Evidence';
-  const password = '';
-  beforeEach((done) => {
-    user.logIn(username, password, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return Error message if password is not stated', (done) => {
-    expect(result).toEqual('Password can not be empty');
-    done();
-  }, 10000);
-});
-
-describe('When an unregister User signs in', () => {
-  let result;
-  const username = 'Ibukun';
-  const password = '123456789';
-  beforeEach((done) => {
-    user.logIn(username, password, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return Error message if username is not registered', (done) => {
-    expect(result).toEqual('Failed, Username not Found');
-    done();
-  }, 10000);
-});
-
-describe('When a register User signs in', () => {
-  let result;
-  const username = 'Evidence';
-  const password = '12345678900';
-  beforeEach((done) => {
-    user.logIn(username, password, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return Error message if username is stated but password is not correct', (done) => {
-    expect(result).toEqual('Failed, Wrong Password');
-    done();
-  }, 10000);
-});
-
-describe('When a register User signs in', () => {
-  let result;
-  const username = 'Evidence';
-  const password = '1234567890';
-  beforeEach((done) => {
-    user.logIn(username, password, (response) => {
-      result = response[0];
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return a JSON object if username and password are correct', (done) => {
-    expect(typeof result.dataValues).toEqual('object');
-    done();
-  }, 10000);
-});
-
-describe('When a User creates a group', () => {
-  let result;
-  const groupName = '';
-  const creator = '1234567890';
-  beforeEach((done) => {
-    user.createGroup(groupName, creator, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return a Error Message if Group name is not defined', (done) => {
-    expect(result).toEqual('Group Name can not be Empty');
-    done();
-  }, 10000);
-});
-
-describe('When a User creates a group', () => {
-  let result;
-  const groupName = 'Evidence';
-  const creator = '';
-  beforeEach((done) => {
-    user.createGroup(groupName, creator, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return a Error Message if creator id is not defined', (done) => {
-    expect(result).toEqual('creator id can not be Empty');
-    done();
-  }, 10000);
-});
-
-describe('When a User creates a group', () => {
-  let result;
-  const groupName = 'Friend';
-  const creator = '1';
-  beforeEach((done) => {
-    user.createGroup(groupName, creator, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return a Error Message if the User has created a group with same name', (done) => {
-    expect(result).toEqual('Group Exists already');
-    done();
-  }, 10000);
-});
-
-describe('When a User creates a group', () => {
-  let result;
-  const groupName = 'Cohort12';
-  const creator = '1';
-  beforeEach((done) => {
-    user.createGroup(groupName, creator, (response) => {
-      result = response[0].dataValues;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should create group if it does not exist', (done) => {
-    expect(typeof result).toEqual('object');
-    done();
-  }, 10000);
-
-  afterEach((done) => {
-    user.deleteGroup(groupName, creator, () => {
-    });
-    done();
-  }, 1000);
-});
-
-describe('When a User creates a group', () => {
-  let result;
-  const groupName = 'Evidence';
-  const creator = '123';
-  beforeEach((done) => {
-    user.createGroup(groupName, creator, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Error Message if an unregistered User tries to create a group', (done) => {
-    expect(result).toEqual('SequelizeForeignKeyConstraintError');
-    done();
-  }, 10000);
-});
-
-describe('When a User adds another user to a group', () => {
-  let result;
-  const group = '';
-  const userId = '123';
-  const adding = 1;
-  beforeEach((done) => {
-    user.addUsers(group, userId, adding, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Error Message if group Id is not stated', (done) => {
-    expect(result).toEqual('Group Id must be stated');
-    done();
-  }, 10000);
-});
-
-describe('When a User adds another user to a group', () => {
-  let result;
-  const group = '1';
-  const userId = '';
-  const adding = 1;
-  beforeEach((done) => {
-    user.addUsers(group, userId, adding, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Error Message if User Id is not stated', (done) => {
-    expect(result).toEqual('User Id must be stated');
-    done();
-  }, 10000);
-});
-
-describe('When a User adds another user to a group', () => {
-  let result;
-  const group = '1';
-  const userId = '2';
-  const adding = 1;
-  beforeEach((done) => {
-    user.addUsers(group, userId, adding, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Error Message if User is already a member of the group', (done) => {
-    expect(result).toEqual('User is already a member');
-    done();
-  }, 10000);
-});
-
-describe('When a User adds another user to a group', () => {
-  let result;
-  const group = '12';
-  const userId = '263';
-  const adding = 1;
-  beforeEach((done) => {
-    user.addUsers(group, userId, adding, (response) => {
-      result = response[0].dataValues;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return a JSON object if User is not a member yet', (done) => {
-    expect(typeof result).toEqual('object');
-    done();
-  }, 10000);
-  afterEach((done) => {
-    user.deleteUserFromGroup(group, userId, adding, () => {
-    });
-    done();
-  }, 1000);
-});
-
-describe('When a User posts message to a group', () => {
-  let result;
-  const to = '';
-  const from = '1';
-  const text = '';
-  const priorityLevel = '';
-  beforeEach((done) => {
-    user.postMessage(to, from, text, priorityLevel, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Error Message if Group is not specified', (done) => {
-    expect(result).toEqual('Group must be specified');
-    done();
-  }, 10000);
-});
-
-describe('When a User posts message to a group', () => {
-  let result;
-  const to = '1';
-  const from = '';
-  const text = '';
-  const priorityLevel = '';
-  beforeEach((done) => {
-    user.postMessage(to, from, text, priorityLevel, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Error Message if Sender is not specified', (done) => {
-    expect(result).toEqual('Sender must be specified');
-    done();
-  }, 10000);
-});
-
-describe('When a User posts message to a group', () => {
-  let result;
-  const to = '1';
-  const from = '1';
-  const text = '';
-  const priorityLevel = '';
-  beforeEach((done) => {
-    user.postMessage(to, from, text, priorityLevel, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Error Message if Message is not specified', (done) => {
-    expect(result).toEqual('message cannot be null');
-    done();
-  }, 10000);
-});
-
-
-describe('When a User posts message to a group', () => {
-  let result;
-  const to = '1';
-  const from = '1';
-  const text = 'We are expecting you';
-  const priorityLevel = '1';
-  beforeEach((done) => {
-    user.postMessage(to, from, text, priorityLevel, (response) => {
-      result = response.dataValues;
-      done();
-    }, 30000);
-  }, 30000);
-  it('should return a JSON oject if all details are specified', (done) => {
-    expect(typeof result).toEqual('object');
-    done();
-  }, 30000);
-});
-
-describe('When a User requests for message posted to a group', () => {
-  let result;
-  const group = '10';
-  beforeEach((done) => {
-    user.retrieveMessage(group, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Empty array if no exist Message for the group', (done) => {
-    expect(result.length).toEqual(0);
-    done();
-  }, 10000);
-});
-
-describe('When a User requests for message posted to a group', () => {
-  let result;
-  const group = '1';
-  beforeEach((done) => {
-    user.retrieveMessage(group, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return a nonEmpty array if there are Message(s) for the group', (done) => {
-    expect(result.length).toBeGreaterThan(0);
-    done();
-  }, 10000);
-});
-
-describe('When a User requests for message posted to a group', () => {
-  let result;
-  const group = 'Ema';
-  beforeEach((done) => {
-    user.retrieveMessage(group, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Error message if there is no Such group', (done) => {
-    expect(result.name).toEqual('SequelizeDatabaseError');
-    done();
-  }, 10000);
-});
-
-describe('when a User requests for list of members in a group', () => {
-  const idObject = [
-    { UserId: 1 },
-    { UserId: 2 },
-    { UserId: 3 }
-  ];
-  const idArray = [1, 2, 3];
-  it('should return a Numeric array when an array of JSON object is passed', () => {
-    expect(User.flattenId(idObject)).toEqual(idArray);
-  });
-  let result;
-  beforeEach((done) => {
-    user.getGroupMembers(1, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return a list of all members in the group', () => {
-    expect(result.length).toEqual(2);
-  });
-});
+// API test
 
 describe('When a User makes a request to the APIs', () => {
   // Unit test for routes
-  it('should return status code 400', (done) => {
-    api.post('/api/user/signup')
+  it('should return status code 200', (done) => {
+    api.get('/')
           .send({
           })
           .end((err, res) => {
-            expect(res.status).toEqual(400);
-            expect(res.text).toEqual('Name can not be empty');
+            expect(res.status).toEqual(200);
+            expect(res.text).toEqual('Post It API running');
+            done(err);
+          });
+  }, 10000);
+  it('should return status code 404 if the route is not existing', (done) => {
+    api.post('/api/user/signupssdsdssdsds')
+          .send({
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(404);
+            expect(res.text).toEqual('Page Not Found');
             done(err);
           });
   }, 10000);
 
-  xit('should return status code 200 When a new user signs up', (done) => {
-    api.post('/api/user/signup')
+  it('should return status code 404 if the route is not existing', (done) => {
+    api.get('/api/user/signupssdsdssdsds')
           .send({
-            name: 'Samuel Oke',
-            username: 'Sammyyy',
-            email: 'sammyyy@gmail.com',
-            password: '1234567890'
           })
           .end((err, res) => {
-            expect(res.status).toEqual(200);
-            expect(JSON.parse(res.text).username).toEqual('Sammyyy');
+            expect(res.status).toEqual(404);
+            expect(res.text).toEqual('Page Not Found');
             done(err);
           });
   }, 10000);
+
+  it('should return status code 400 if no parameter is sent', (done) => {
+    api.post('/api/user/signup')
+          .send({
+            password: 'qwerty123@'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(400);
+            expect(JSON.parse(res.text).message).toEqual('name cannot be null');
+            done(err);
+          });
+  }, 10000);
+
+  it('should return status code 400 if no parameter is sent', (done) => {
+    api.post('/api/user/signup')
+          .send({
+            password: 'qwerty123@',
+            name: 'Ema Alabi',
+            username: 'Evidence'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(400);
+            expect(JSON.parse(res.text).message).toEqual('email cannot be null');
+            done(err);
+          });
+  }, 10000);
+
+  it('should return status code 400 if no parameter is sent', (done) => {
+    api.post('/api/user/signup')
+          .send({
+            password: 'qwerty123@',
+            name: 'Ema Alabi',
+            username: 'Evi',
+            phone: '07063747160',
+            email: 'emmanuel@gmail.com'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(201);
+            expect(JSON.parse(res.text).message).toEqual('Registration Successful');
+            done(err);
+          });
+  }, 10000);
+  afterEach((done) => {
+    user.deleteUserss('emmanuel@gmail.com', () => {
+    });
+    done();
+  }, 1000);
 
   it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
     api.post('/api/group')
@@ -554,7 +414,7 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(403);
-              expect(res.text).toEqual('You are not allowed Here, Please sign.');
+              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -565,7 +425,7 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(403);
-              expect(res.text).toEqual('You are not allowed Here, Please sign.');
+              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -576,7 +436,7 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(403);
-              expect(res.text).toEqual('You are not allowed Here, Please sign.');
+              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -587,80 +447,37 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(403);
-              expect(res.text).toEqual('You are not allowed Here, Please sign.');
+              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
-
-  it('should return status code 404 When password is not correct', (done) => {
-    api.post('/api/user/signin')
+  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+    api.get('/api/user/groups')
             .send({
-              username: 'Evidence',
-              password: 123456789
             })
             .end((err, res) => {
-              expect(res.status).toEqual(404);
-              expect(res.text).toEqual('Failed, Wrong Password');
+              expect(res.status).toEqual(403);
+              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
-
-  it('should return status code 404 When Username is not correct', (done) => {
-    api.post('/api/user/signin')
+  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+    api.post('/api/user/message/read')
             .send({
-              username: 'Eviden',
-              password: 123456789
             })
             .end((err, res) => {
-              expect(res.status).toEqual(404);
-              expect(res.text).toEqual('Failed, Username not Found');
+              expect(res.status).toEqual(403);
+              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
-
-  it('should return status code 200 When Username and Password is correct', (done) => {
-    api.post('/api/user/signin')
+  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+    api.get('/api/users/search')
             .send({
-              username: 'Evidence',
-              password: '1234567890'
             })
             .end((err, res) => {
-              expect(res.status).toEqual(200);
-              expect((JSON.parse(res.text)).length).toEqual(1);
-              expect((JSON.parse(res.text))[0].username).toEqual('Evidence');
-              done(err);
-            });
-  }, 10000);
-  afterEach((done) => {
-    app.close();
-    done();
-  }, 1000);
-  app.close();
-});
-
-// Test  for protected routes
-describe('When a signed in user tries to create a group', () => {
-  let authenticatedSession;
-  beforeEach((done) => {
-    testSession.post('/api/user/signin')
-    .send({
-      username: 'Evidence',
-      password: '1234567890'
-    })
-      .expect(200)
-      .end((err) => {
-        if (err) return done(err);
-        authenticatedSession = testSession;
-        return done();
-      });
-  }, 10000);
-  it('should return status code 200 When a signed in user creates a group', (done) => {
-    authenticatedSession.post('/api/group')
-            .send({
-              gpname: 'Andela'
-            })
-            .end((err, res) => {
-              expect(res.status).toEqual(200);
+              expect(res.status).toEqual(403);
+              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -669,81 +486,347 @@ describe('When a signed in user tries to create a group', () => {
     });
     done();
   }, 1000);
-
-  it('should return status code 200 When a signed in user adds a user to a group', (done) => {
-    authenticatedSession.post('/api/group/229/user')
-            .send({
-              user: 46
-            })
-            .end((err, res) => {
-              expect(res.status).toEqual(200);
-              done(err);
-            });
-  }, 10000);
-  afterEach((done) => {
-    user.deleteUserFromGroup(229, 46, 1, () => {
-    });
-    done();
-  }, 1000);
-
-  it('should return status code 200 When a signed in user requests for messages for a group', (done) => {
-    authenticatedSession.get('/api/group/229/user')
-            .end((err, res) => {
-              expect(res.status).toEqual(200);
-              done(err);
-            });
-  }, 10000);
-
-  it('should return status code 200 When a signed in user requests for Users for a group', (done) => {
-    authenticatedSession.get('/api/group/229/messages')
-            .end((err, res) => {
-              expect(res.status).toEqual(200);
-              done(err);
-            });
-  }, 10000);
-
-  it('should return status code 200 When a signed in user adds a user to a group', (done) => {
-    authenticatedSession.post('/api/group/229/message')
-            .send({
-              message: 'Off to see Kate Igori'
-            })
-            .end((err, res) => {
-              expect(res.status).toEqual(200);
-              done(err);
-            });
-  }, 10000);
 });
 
-describe('When a User adds another User to a group', () => {
-  let result;
-  const group = '2299';
-  const userId = '234';
-  const adding = 1;
-  beforeEach((done) => {
-    user.addUsers(group, userId, adding, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Error message if there is no Such group', (done) => {
-    expect(result).toEqual('Key (GroupId)=(2299) is not present in table "Groups".');
-    done();
-  }, 10000);
-});
+describe('when a user makes a request to the APIs', () => {
+  let token;
+  let signedInId;
+  it('should return status code 201 When a new user signs up', (done) => {
+    api.post('/api/user/signup')
+          .send({
+            name: 'Samuel Oke',
+            username: 'Sammy',
+            email: 'sammy@gmail.com',
+            password: 'qwerty123@',
+            phone: '07063747160'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(201);
+            expect(JSON.parse(res.text).data.username).toEqual('Sammy');
+            done(err);
+          });
+  }, 3000);
+  it('should return status code 200 When a user signin', (done) => {
+    api.post('/api/user/signin')
+          .send({
+            username: 'Sammy',
+            password: 'qwerty123@'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(200);
+            expect(JSON.parse(res.text).data.username).toEqual('Sammy');
+            token = JSON.parse(res.text).data.token;
+            signedInId = JSON.parse(res.text).data.id;
+            done(err);
+          });
+  }, 3000);
+  it('should return status code 400 When a user signs in with bad requests', (done) => {
+    api.post('/api/user/signin')
+          .send({
+            username: '',
+            password: 'qwerty123@'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(400);
+            expect(res.text).toEqual('Username can not be empty');
+            done(err);
+          });
+  }, 3000);
+  it('should return status code 400 When a user signs in with bad requests', (done) => {
+    api.post('/api/user/signin')
+          .send({
+            username: 'Sammy',
+            password: ''
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(400);
+            expect(res.text).toEqual('Password can not be empty');
+            done(err);
+          });
+  }, 3000);
+  it('should return status code 400 When a user signs in with bad requests', (done) => {
+    api.post('/api/user/signin')
+          .send({
+            username: 'Sammy',
+            password: 'qwqwqwqwqwqw'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(404);
+            expect(JSON.parse(res.text).message).toEqual('Failed, Wrong Password');
+            done(err);
+          });
+  }, 3000);
+  let groupId;
+  it('should return status code 201 When a signed in user creates a group', (done) => {
+    api.post('/api/group')
+          .set('authorization', token)
+          .send({
+            gpname: 'Camper',
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(201);
+            expect(JSON.parse(res.text).data.groupname).toEqual('Camper');
+            groupId = JSON.parse(res.text).data.id;
+            done(err);
+          });
+  }, 3000);
+  it('should return status code 400 When a signed in user adds an unregistered user to a group', (done) => {
+    const url = `/api/group/${groupId}/user`;
+    api.post(url)
+        .set('authorization', token)
+        .send({
+          user: '',
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(JSON.parse(res.text).message).toEqual('User Id must be stated');
+          done(err);
+        });
+  }, 3000);
+  it('should return status code 200 When a signed in user posts to a group', (done) => {
+    const url = `/api/group/${groupId}/message`;
+    api.post(url)
+        .set('authorization', token)
+        .send({
+          user: newUserId,
+          message: 'How are you'
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(JSON.parse(res.text).message).toEqual('Message Added.');
+          done(err);
+        });
+  }, 3000);
+  it('should return status code 400 and error message When a signed in user posts to a non existing group', (done) => {
+    const url = '/api/group/0/message';
+    api.post(url)
+        .set('authorization', token)
+        .send({
+          user: newUserId,
+          message: 'How are you'
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(JSON.parse(res.text).message).toEqual('Group does not Exist');
+          done(err);
+        });
+  }, 3000);
+  it('should return 200 and messages When a signed in user request for messages for an existing group', (done) => {
+    const url = `/api/group/${groupId}/messages`;
+    api.get(url)
+        .set('authorization', token)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(JSON.parse(res.text).message).toEqual('Message Retrival Successful');
+          done(err);
+        });
+  }, 3000);
+  it('should return error 404 and error message When a signed in user request for messages for non existing group', (done) => {
+    const url = '/api/group/0/messages';
+    api.get(url)
+        .set('authorization', token)
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(JSON.parse(res.text).message).toEqual('No Message For that Group');
+          done(err);
+        });
+  }, 3000);
+  it('should return error 404 and error message When a signed in user request for messages for non existing group', (done) => {
+    api.get('/api/group/uiy/messages')
+        .set('authorization', token)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(JSON.parse(res.text).message).toEqual('Invalid Group Selected');
+          done(err);
+        });
+  }, 3000);
+  it('should return status code 200 When a signed in user requests for members of an existing group', (done) => {
+    const url = `/api/group/${groupId}/users`;
+    api.get(url)
+        .set('authorization', token)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(JSON.parse(res.text).message).toEqual('Users Retrival Successful');
+          done(err);
+        });
+  }, 3000);
+  it('should return 404 and error messages When a signed in user request for members of non existing group', (done) => {
+    const url = '/api/group/0/users';
+    api.get(url)
+        .set('authorization', token)
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(JSON.parse(res.text).message).toEqual('No Such Group');
+          done(err);
+        });
+  }, 3000);
+  it('should return 200 and messages When a signed in user request for Other users', (done) => {
+    const url = '/api/user/all';
+    api.get(url)
+        .set('authorization', token)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(typeof JSON.parse(res.text).data).toEqual('object');
+          expect(JSON.parse(res.text).data.length).toBeGreaterThan(0);
+          expect(JSON.parse(res.text).data[1].username).toEqual('Sammy' || 'Noordean');
+          done(err);
+        });
+  }, 3000);
+  it('should return 200 and messages When a signed in user request for his groups', (done) => {
+    const url = '/api/user/groups';
+    api.get(url)
+        .set('authorization', token)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(typeof JSON.parse(res.text).data).toEqual('object');
+          expect(JSON.parse(res.text).data.length).toBeGreaterThan(0);
+          expect(JSON.parse(res.text).data[0].group_name).toEqual('Camper');
+          done(err);
+        });
+  }, 3000);
+  it('should return 200 and messages When a signed in user request for his personal messages', (done) => {
+    const url = '/api/user/mymessage';
+    api.get(url)
+        .set('authorization', token)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(typeof JSON.parse(res.text).data).toEqual('object');
+          expect(JSON.parse(res.text).data.length).toBeGreaterThan(0);
+          expect(JSON.parse(res.text).data[0].message).toEqual('How are you');
+          done(err);
+        });
+  }, 3000);
 
-describe('When a User adds another User to a group', () => {
-  let result;
-  const group = '229';
-  const userId = '2633';
-  const adding = 1;
-  beforeEach((done) => {
-    user.addUsers(group, userId, adding, (response) => {
-      result = response;
-      done();
-    }, 10000);
-  }, 10000);
-  it('should return an Error message if there is no Such User', (done) => {
-    expect(result).toEqual('Key (UserId)=(2633) is not present in table "Users".');
-    done();
-  }, 10000);
+  it('should return 200 and messages When a signed in user request for his archived messages', (done) => {
+    const url = '/api/user/archivedMessages';
+    api.get(url)
+        .set('authorization', token)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(typeof JSON.parse(res.text).data).toEqual('object');
+          // expect(JSON.parse(res.text).data.length).toBeGreaterThan(0);
+          // expect(JSON.parse(res.text).data[0].message).toEqual('How are you');
+          done(err);
+        });
+  }, 3000);
+
+  it('should return 404 and Error message When an unregister fellow request for password reset', (done) => {
+    const url = '/api/user/forgetpassword';
+    api.post(url)
+        .send({
+          email: 'emaa@gmail.com'
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(JSON.parse(res.text).message).toEqual('Email Address Not found');
+          done(err);
+        });
+  }, 3000);
+
+  it('should return 200 and success message When a register user request for password reset', (done) => {
+    const url = '/api/user/forgetpassword';
+    api.post(url)
+        .send({
+          email: 'noordean@gmail.com'
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(JSON.parse(res.text).message).toEqual('A mail has being sent to you.');
+          done(err);
+        });
+  }, 3000);
+
+  xit('should return 200 and success message When a register user request for password reset', (done) => {
+    const url = '/api/user/forgetpassword';
+    api.post(url)
+        .send({
+          email: 'noordean@gmail.com',
+          cpassword: 'qwerty123@',
+          password: 'qwerty123@'
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(JSON.parse(res.text).message).toEqual('Password Updated, please sign In with the new Password');
+          done(err);
+        });
+  }, 3000);
+  it('should return 403 and Error message When a register user request for password reset but password does not match', (done) => {
+    const url = '/api/user/forgetpassword';
+    api.post(url)
+        .send({
+          email: 'noordean@gmail.com',
+          cpassword: 'qwerty123@',
+          password: 'qwerty12@3'
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(403);
+          expect(JSON.parse(res.text).message).toEqual('Password do not match.');
+          done(err);
+        });
+  }, 3000);
+  it('should return 403 and error message When a register user searches for other users but search term missing', (done) => {
+    const url = '/api/users/search';
+    api.get(url)
+        .set('authorization', token)
+        .send({
+          search: 'dean'
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(403);
+          expect(JSON.parse(res.text).message).toEqual('Please supply a search term');
+          done(err);
+        });
+  }, 3000);
+  it('should return 200 and success message When a register user searches for other users', (done) => {
+    const url = '/api/users/search';
+    api.get(url)
+        .set('authorization', token)
+        .send({
+          searchTerm: 'dean'
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(JSON.parse(res.text).message).toEqual('Search Result');
+          expect(JSON.parse(res.text).data[0].username).toEqual('Noordean');
+          done(err);
+        });
+  }, 3000);
+  it('should return 404 and error message When a register user accesses no message', (done) => {
+    const url = '/api/user/message/read';
+    api.post(url)
+        .set('authorization', token)
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(JSON.parse(res.text).message).toEqual('No message Specified');
+          done(err);
+        });
+  }, 3000);
+  it('should return 404 and error message When a register user supplies wrong message', (done) => {
+    const url = '/api/user/message/read';
+    api.post(url)
+        .set('authorization', token)
+        .send({
+          messageId: 1
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(500);
+          expect(JSON.parse(res.text).message).toEqual('Error Reading Message');
+          done(err);
+        });
+  }, 3000);
+  it('should return 200 and success message When a register user deletes his account', (done) => {
+    const url = '/api/delete';
+    api.post(url)
+        .set('authorization', token)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(JSON.parse(res.text).message).toEqual('Deleted');
+          done(err);
+        });
+  }, 3000);
 });
+afterAll((done) => {
+  user.clearTables(() => {
+  });
+  done();
+}, 1000);

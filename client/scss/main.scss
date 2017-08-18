@@ -1,0 +1,243 @@
+body {
+  margin: 0px;
+  background: #ede7f6;
+  font-family: GillSans, Calibri, Trebuchet, sans-serif;
+header {
+  background: #4527a0;
+}
+html {
+font-family: GillSans, Calibri, Trebuchet, sans-serif;
+}
+#menu {
+  li {
+    a {
+      color: purple;
+    }
+  }
+}
+.postitnav {
+  padding-left:5%; padding-right:2%;
+  background: #4527a0;
+  color: white;
+  font-size: 20px;
+  ul li a:hover {
+    color: white;
+  }
+}
+.welcome {
+  margin-left: 15%;
+  font-family: tahoma;
+  font-weight: lighter;
+  font-size: 16px;
+}
+.brandname {
+  font-size:30px;
+}
+
+.indeximage {
+  color: #FFF;
+  text-align: center;
+  width: 100%;
+  height: 80%;
+  background-image: url("../components/img/banner.png");
+  background-size: cover;
+  vertical-align: center;
+}
+.indeximage {
+  p {
+    padding:20%;
+  }
+  b {
+    font-size:30px;
+  }
+}
+.about {
+  text-align: center;
+  margin-top: 4%;
+  h1 {
+    i {
+      font-size: 100px;
+      transition: font-size 2s;
+    }
+    i:hover {
+      font-size: 110px;
+    }
+  }
+}
+.howitworks {
+  margin-left: 4%;
+}
+#about {
+  color: #4527a0;
+}
+#team {
+  text-align: center;;
+  color: purple;
+  margin-top: 5%;
+  border-left: 5px solid purple;
+  border-right: 5px solid purple;
+}
+.custombutton {
+  width:auto;
+}
+.form-header {
+  color: purple;
+}
+.bordered-element {
+  border: 1px solid #b39ddb;
+  height: auto;
+}
+
+.postitheader {
+  background: #4527a0;
+}
+.dropdown-content {
+  background: #ede7f6;
+}
+.postfieldset {
+  border: 1px solid #b39ddb;
+  padding: 2%;
+  border-radius: 5px;
+  margin-top: 6%;
+}
+.postfieldset legend {
+  width:auto;
+  color: purple;
+}
+.customcontrol {
+  padding-left:15px;
+  padding-right:15px;
+}
+.customtextarea {
+  height: 35%;
+  border-left: 10px solid #b39ddb;
+}
+.reg-form {
+  background: #ede7f6;
+  padding:5px;
+  border-radius: 3px;
+}
+.form-header {
+  color: purple;
+}
+.imgdesc {
+  font-size: 30px;
+}
+section p {
+  // padding: 20%;
+}
+.footer {
+  color: purple;
+}
+.forget-password-wrapper {
+  text-align: center;
+  color: purple;
+}
+.groupcard {
+   height: 70%;
+   padding: 2%;
+   margin-top:2%;
+   text-align: center;
+   color: purple;
+}
+.messagecard {
+  height:auto;
+  padding: 2%;
+  margin-top:2%;
+  text-align: center;
+  color: purple;
+}
+.mypagination {
+  margin-left: 30%;
+  cursor: pointer;
+}
+.grouplist {
+  margin: 10px;
+  text-align: justify;
+}
+#addmembers {
+  padding-top: 5%;
+  color: purple;
+}
+}
+.customform {
+  font-size: 30px;
+  background: green;
+}
+#notifications {
+  padding: 5%;
+}
+#forgetpwd {
+  padding: 5%;
+}
+.dashboardholder {
+  height: auto;
+  color: purple;
+  padding: 2%;
+
+}
+.groupholder {
+  padding: 0%;
+  color: purple;
+  height: 400px;
+  overflow: scroll;
+}
+.grp-title {
+  // position: fixed;
+  // z-index: 10;
+  // width: 25%;
+}
+.grps {
+  padding: 4%;
+}
+.dashboard {
+  padding: 10px;
+  margin-bottom: 3%;
+}
+.dashboardelement {
+  margin: 1%;
+}
+#sentmessages, #archivemessages {
+  padding: 8%;
+  height: auto;
+  overflow: scroll;
+  color: purple;
+}
+.signupform {
+  font-size: 40px;
+}
+.alert {
+  font-size: 12px;
+  color: red;
+  padding: 0;
+  margin: 0;
+}
+.sign-with-google{
+  font-size: 14px;
+}
+.modal-header {
+  padding: 1px;
+  text-align: center;
+}
+
+.character-control {
+  float: right;
+  color: purple;
+}
+.clickable {
+  cursor: pointer;
+}
+.clickable:hover {
+  background: #e8eaf6;
+}
+#icon_prefix{
+  color: purple;
+  width: 70%;
+  border: 1px solid purple;
+}
+.mydropDown {
+  right: 0%;
+  text-align: center;
+  float: left;
+  background: #e8eaf6;
+}
