@@ -1,16 +1,43 @@
 import React from 'react';
 
+/**
+ * [id description]
+ * @type {String}
+ */
 class ForgetPassword extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     email: ''
+  //   };
+  //   this.onSubmit = this.onSubmit.bind(this);
+  //   this.onChange = this.onChange.bind(this);
+  // }
+  // /**
+  //  * [onChange description]
+  //  * @method onChange
+  //  * @param  {[type]} event [description]
+  //  * @return {[type]}       [description]
+  //  */
+  // onChange(event) {
+  //   this.setState({
+  //     [event.target.name]: event.target.value
+  //   });
+  // }
+  // onSubmit(event) {
+  //   event.preventDefault();
+  //   this.props.passwordResetAction(this.state);
+  // }
   render() {
     return (
       <div id="forgetpwd" className="modal fade reg-form">
-        <form className="modal-dialog">
+        <form className="modal-dialog" onSubmit={this.onSubmit}>
           <div className="modal-header">
             <h2 className="form-header" > Forgot Password </h2>
             <h5> Enter your email address to recieve a link to reset your password </h5>
           </div>
           <div className="form-group">
-            <input type="email" className="form-control" placeholder="Email" required />
+            <input type="email" name="email" onChange={this.onChange} className="form-control" placeholder="Email" required />
           </div>
           <div className="form-group">
             <input

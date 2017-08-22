@@ -1,13 +1,18 @@
 import axios from 'axios';
 import { CREATE_GROUP, CREATE_GROUP_ERROR } from './types/types';
+import getUserGroupsAction from './getUserGroupsAction';
 
-export default function createGroupAction(groupData) {
-  return (dispatch) => {
+export default function createGroupAction(groupData, id) {
+  return (dispatch, getState) => {
+    const groups = getState().getUserGroupsReducer.groups;
     return axios.post('http://localhost:3300/api/group', groupData)
     .then((res) => {
+      groups.push(res.data.group);
+      dispatch(getUserGroupsAction({ id }));
       dispatch({
         message: res.data.message,
-        type: CREATE_GROUP
+        type: CREATE_GROUP,
+        groups
       });
     })
     .catch((error) => {

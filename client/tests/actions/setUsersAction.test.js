@@ -13,17 +13,26 @@ describe('async actions', () => {
     nock.cleanAll();
   });
 
-  it('creates FETCH_TODOS_SUCCESS when fetching todos has been done', () => {
+  it('sets users when the action is called', () => {
     nock('http://localhost:3300')
       .get('/api/user/all')
       .reply(200, { body: { data: [{}, {}] } });
-
     const expectedActions = [
-      { types: SET_USERS }
+      { type: SET_USERS }
     ];
-    const store = mockStore({ todos: [] });
-    return store.dispatch(setUsersAction('', '', () => {
+    const store = mockStore({}, expectedActions);
+    console.log(store);
+    console.log(setUsersAction('', ''));
+    store.dispatch(setUsersAction('', ''));
+    store.dispatch(setUsersAction()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
-    }));
+    });
   });
 });
+
+
+return (dispatch) => {
+    return request.then( (data) => {
+      dispatch({ type: FETCH_LISTINGS, payload: data });
+    });
+  }

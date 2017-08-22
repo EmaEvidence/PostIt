@@ -8,13 +8,21 @@
  */
 export default function reducer(state = {
   logged_in: false,
-  user_details: {}
+  user_details: {},
+  auth_message: ''
 }, action) {
   switch (action.type) {
     case 'ADD_USER_DETAILS': {
       return Object.assign({}, state, {
         logged_in: true,
-        user_details: action.data
+        user_details: action.data,
+        auth_message: 'Successful'
+      });
+    }
+    case 'ADD_USER_DETAILS_ERROR': {
+      return Object.assign({}, state, {
+        logged_in: false,
+        auth_message: action.data
       });
     }
     default:

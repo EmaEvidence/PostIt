@@ -1,9 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-class AllMessages extends React.Component {
-  componentDidMount() {
-  }
+/**
+ * [checkIfMessageEmpty description]
+ * @type {[type]}
+ */
+export class AllMessages extends React.Component {
+  /**
+   * [render description]
+   * @method render
+   * @return {[type]} [description]
+   */
   render() {
     const checkIfMessageEmpty = Object.keys(this.props.messages);
     let Messagelist;
@@ -12,7 +19,7 @@ class AllMessages extends React.Component {
         <p>
             No Message Yet
         </p>
-      )
+      );
     } else {
       Messagelist = (this.props.messages).map((message, index) =>
         (

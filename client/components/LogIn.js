@@ -1,9 +1,20 @@
 import React from 'react';
-import setAuthorizationToken from '../utils/setAuthorizationToken';
-import authAction from '../actions/authAction';
+import { connect } from 'react-redux';
 
+import Input from './Input';
+
+/**
+ * [Login Component]
+ * @type {Object}
+ */
 class LogIn extends React.Component {
-  constructor(props){
+  /**
+   * [sets the state for the login component]
+   * @method constructor
+   * @param  {[type]}    props [description]
+   * @return {[type]}          [description]
+   */
+  constructor(props) {
     super(props);
     this.state = {
       username: '',
@@ -14,74 +25,69 @@ class LogIn extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChange(e){
+  /**
+   * [stores form values in the components state whenever it changes]
+   * @method onChange
+   * @param  {[object]} event [description]
+   * @return {[object]}   [description]
+   */
+  onChange(event) {
     this.setState({
-      [e.target.name]: e.target.value
+      [event.target.name]: event.target.value
     });
   }
-
-  onSubmit(e){
-    e.preventDefault();
+  /**
+   * [sends the form values to the server]
+   * @method onSubmit
+   * @param  {[object]} event [description]
+   * @return {[objec]}   [description]
+   */
+  onSubmit(event) {
+    event.preventDefault();
+    this.props.userSignin(this.state);
     this.setState({
-      status: 'processing'
-    });
-    this.props.userSignin(this.state).then((res) => {
-      this.setState({
-        status: (res.data.message)
-      });
-      const token = res.data.data.token;
-      localStorage.setItem('token', token);
-      console.log('======>>>>HERE<<<<=======');
-      setAuthorizationToken(token);
-      this.props.authUser({
-        data: res.data.data
-      });
-      window.location = '/messageboard';
-    }).catch((err) => {
-      this.setState({
-        status: (err.response.data.message)
-      });
+      status: 'Processing'
     });
   }
-
+  /**
+   * [displays the form to login]
+   * @method render
+   * @return {[jsx]} [description]
+   */
   render() {
     return (
       <div id="signin" className="modal fade reg-form" role="dialog">
         <form onSubmit={this.onSubmit} className="modal-dialog">
           <div className="modal-header">
             <h2 className="form-header" >Sign In </h2>
-            <p className="center">{this.state.status}</p>
+            <p className="center">{this.props.status ? this.props.status : this.state.status}</p>
           </div>
+          <Input
+            placeholder={'Username'}
+            value={this.state.username}
+            required
+            action={this.onChange}
+            type={'text'}
+            name={'username'}
+            class={'form-control'}
+          />
+          <Input
+            placeholder={'Password'}
+            value={this.state.password}
+            required
+            action={this.onChange}
+            type={'password'}
+            name={'password'}
+            class={'form-control'}
+          />
           <div className="form-group">
-            <input
-              type="text"
-              onChange={this.onChange}
-              className="form-control"
-              placeholder="Username"
-              value={this.state.username}
-              name="username"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              onChange={this.onChange}
-              className="form-control"
-              placeholder="Password"
-              value={this.state.password}
-              name="password"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="submit"
-              className="form-control btn deep-purple lighten-3 custombutton"
-              value="Log In"
+            <Input
+              value={'Log In'}
+              type={'submit'}
+              class={'form-control btn deep-purple lighten-3 custombutton'}
             />
             <button
-              type="button"
+              type="reset"
               className="right close form-header"
               data-dismiss="modal"
             >Close</button>
@@ -99,7 +105,19 @@ class LogIn extends React.Component {
 
 LogIn.propTypes = {
   userSignin: React.PropTypes.func.isRequired,
-  authUser: React.PropTypes.func.isRequired
+  status: React.PropTypes.string.isRequired
 };
 
-export default LogIn;
+/**
+ * [mapStateToProps makes the data in the store available]
+ * @method mapStateToProps
+ * @param  {[object]}        state [the store for all app data]
+ * @return {[object]}              [login State]
+ */
+function mapStateToProps(state) {
+  return {
+    status: state.authUser.auth_message.data
+  };
+}
+
+export default connect(mapStateToProps)(LogIn);

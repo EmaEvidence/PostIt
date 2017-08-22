@@ -24,7 +24,7 @@ const controler = {
         });
       } else {
         res.status(200).json({
-          data: result,
+          user: result,
           message: 'Added Successfully'
         });
       }
@@ -45,7 +45,7 @@ const controler = {
         });
       } else {
         res.status(201).json({
-          data: result,
+          group: result,
           message: 'Group creation Successful'
         });
       }
@@ -76,7 +76,7 @@ const controler = {
         });
       } else {
         res.status(200).json({
-          data: result,
+          messages: result,
           message: 'Message Retrival Successful'
         });
       }
@@ -96,7 +96,7 @@ const controler = {
         });
       } else {
         res.status(200).json({
-          data: result,
+          users: result,
           message: 'Users Retrival Successful'
         });
       }
@@ -111,7 +111,7 @@ const controler = {
         });
       } else {
         res.status(200).json({
-          data: result,
+          groups: result,
           message: 'Group Retrival Successful'
         });
       }
@@ -130,7 +130,7 @@ const controler = {
       } else {
         user.inAppNotify(users, groupId, from);
         res.status(200).json({
-          data: result,
+          messageData: result,
           message: 'Message Added.'
         });
       }
@@ -140,9 +140,13 @@ const controler = {
     const username = req.body.username;
     const password = req.body.password;
     if (username === undefined || username === '') {
-      res.send(400, 'Username can not be empty');
+      res.status(400).json({
+        message: 'Username can not be empty'
+      });
     } else if (password === undefined || password === '') {
-      res.send(400, 'Password can not be empty');
+      res.status(400).json({
+        message: 'Username can not be empty'
+      });
     } else {
       user.logIn(username, password, (result) => {
         if (result === 'Failed, Wrong Password' ||
@@ -152,7 +156,7 @@ const controler = {
           });
         } else {
           res.status(200).json({
-            data: result,
+            user: result,
             message: 'Sign In Successful'
           });
         }
@@ -172,7 +176,7 @@ const controler = {
         });
       } else {
         res.status(201).json({
-          data: result,
+          user: result,
           message: 'Registration Successful'
         });
       }
@@ -182,7 +186,7 @@ const controler = {
   getAllUsersControler: (req, res) => {
     user.getAllUsers((result) => {
       res.json({
-        data: result
+        users: result
       });
     });
   },
@@ -196,7 +200,7 @@ const controler = {
       user.seenMessages(messageId, userId, (result) => {
         if (result === 'Read') {
           return res.status(200).json({
-            data: result,
+            messageRead: result,
             message: 'Message Read'
           });
         } else {
@@ -217,7 +221,7 @@ const controler = {
       user.searchUsers(searchTerm, (result) => {
         return res.status(200).json({
           message: 'Search Result',
-          data: result
+          users: result
         });
       });
     }
@@ -238,7 +242,7 @@ const controler = {
     user.archivedMessages(userId, (result) => {
       return res.status(200).json({
         message: 'Read Messages',
-        data: result
+        messages: result
       });
     });
   },
@@ -273,7 +277,7 @@ const controler = {
         } else {
           return res.status(200).json({
             message: 'A mail has being sent to you.',
-            data: result
+            user: result
           });
         }
       });
@@ -283,12 +287,12 @@ const controler = {
           if (result === 'Password Updated') {
             return res.status(200).json({
               message: 'Password Updated, please sign In with the new Password',
-              data: result
+              user: result
             });
           } else {
             return res.status(500).json({
               message: 'Error Updating Password, Please try again',
-              data: result
+              user: result
             });
           }
         });

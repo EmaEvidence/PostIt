@@ -2,18 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-class NavBar extends React.Component {
+export class NavBar extends React.Component {
   constructor(props){
     super(props);
 
     this.logOut = this.logOut.bind(this);
   }
 
-  logOut(e){
-    e.preventDefault();
-    localStorage.removeItem('token');
+  logOut() {
+    window.localStorage.removeItem('token');
     window.location.href = '/';
-    window.reload();
   }
 
   render() {
@@ -47,7 +45,7 @@ class NavBar extends React.Component {
             <li>
               <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
             <li> <Link to="/createmessage">Send Message</Link> </li>
-            <li><a href="#!">Log Out</a></li>
+            <li><a href="#!" onClick={this.logOut}>Log Out</a></li>
           </ul>
         </nav>
       </header>);
@@ -64,7 +62,11 @@ class NavBar extends React.Component {
                   Sign In
               </a> </li>
             </ul>
-            <a className="dropdown-button right hide-on-med-and-up" href="" data-activates="menu-hidden">
+            <a
+              className="dropdown-button right hide-on-med-and-up"
+              href=""
+              data-activates="menu-hidden"
+            >
                 Menu
                 <i className="material-icons right">arrow_drop_down</i>
             </a>
@@ -96,7 +98,6 @@ function mapStateToProps(state) {
   if (state.authUser.user_details.data === undefined) {
     username = '';
   } else {
-    console.log(state.authUser.user_details.data.username);
     username = state.authUser.user_details.data.username;
   }
   return {

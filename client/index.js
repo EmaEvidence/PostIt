@@ -29,7 +29,7 @@ if(localStorage.token) {
   setAuthorizationToken(token);
   jwt.verify(token, 'postitapp', (err, decoded) => {
     if (decoded) {
-      store.dispatch(authAction(decoded.data));
+      store.dispatch(authAction(decoded.data, 'Success'));
       store.dispatch(getUserGroupsAction(decoded.data));
     } else {
       console.log(err);

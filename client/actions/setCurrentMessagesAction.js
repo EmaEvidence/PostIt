@@ -7,7 +7,7 @@ export default function setCurrentMessagesAction(data, groupName) {
   return (dispatch) => {
     axios.get(url)
   .then((res) => {
-    const messages = res.data.data;
+    const messages = res.data.messages;
     const status = res.data.message;
     return dispatch({
       messages,

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
  * [myMessages description]
  * @type {[type]}
  */
-class SentMessages extends React.Component {
+export class SentMessages extends React.Component {
   render() {
     const myMessages = JSON.parse(this.props.myMessages);
     let MessageList;
@@ -27,14 +27,13 @@ class SentMessages extends React.Component {
               <i className="chip">{message.createdAt}</i><br />
               <i className="chip">Edit</i>
               <i className="chip">Delete</i>
-              <hr />
             </p>
         ));
     }
     return (
       <div id="sentmessages" className="modal fade reg-form" role="dialog">
         <div className="modal-dialog">
-          <h2> Sent Messages </h2>
+          <h2>Sent Messages</h2>
           <div className="messagecard">
             { MessageList }
           </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import Groups from './Groups';
 import CreateGroup from './CreateGroup';
 import AllMessages from './AllMessages';
@@ -67,7 +68,8 @@ class MessageBoard extends React.Component {
               <div className="row center">
                 <a href="#sentmessages" className="dashboardelement" onClick={this.myMessages} >
                 Sent Messages </a>
-                <a href="#archivemessages" className="dashboardelement" onClick={this.archivedMessages} > Achived Messages </a>
+                <a href="#archivemessages" className="dashboardelement" onClick={this.archivedMessages} >
+                Achived Messages </a>
               </div>
             </div>
             <div className="deep-purple lighten-4 groupholder">
@@ -100,6 +102,7 @@ MessageBoard.propTypes = {
   createGroupAction: React.PropTypes.func.isRequired,
   myMessageAction: React.PropTypes.func.isRequired,
   archivedMessagesAction: React.PropTypes.func.isRequired,
+  groups: React.PropTypes.string.isRequired
 };
 
 /**
@@ -111,7 +114,7 @@ MessageBoard.propTypes = {
 function mapStateToProps(state) {
   let groups = 'xcvxcv';
   if (state.getUserGroupsReducer !== undefined) {
-    groups = state.getUserGroupsReducer.groups;
+    groups = JSON.stringify(state.getUserGroupsReducer.groups);
   }
   return {
     groups

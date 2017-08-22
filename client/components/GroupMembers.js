@@ -2,7 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AddMembers from './AddMembers';
 
+/**
+ * [checkIfMembersEmpty description]
+ * @type {[type]}
+ */
 class GroupMembers extends React.Component {
+  /**
+   * [render description]
+   * @method render
+   * @return {[type]} [description]
+   */
   render() {
     const checkIfMembersEmpty = Object.keys(this.props.members);
     let Memberslist;
@@ -47,6 +56,12 @@ class GroupMembers extends React.Component {
   }
 }
 
+/**
+ * [mapStateToProps description]
+ * @method mapStateToProps
+ * @param  {[type]}        state [description]
+ * @return {[type]}              [description]
+ */
 function mapStateToProps(state) {
   return {
     status: state.setCurrentMembersReducer.status,

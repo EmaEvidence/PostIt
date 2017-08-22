@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ADD_NEW_MEMBER } from './types/types';
 
 
-export default function AddNewMemberAction(groupId, userId) {
+export default function addNewMemberAction(groupId, userId) {
   return (dispatch) => {
     axios.post(`http://localhost:3300/api/group/${groupId}/user`, { user: userId })
     .then((res) => {

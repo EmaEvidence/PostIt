@@ -1,7 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+/**
+ * [state creates a  sign up form]
+ * @type {Object}
+ */
 class SignUp extends React.Component {
+  /**
+   * [constructor]
+   * @method constructor
+   * @param  {[object]}    props [data passed to this element]
+   * @return {[html]}          [sign up component]
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -18,40 +28,34 @@ class SignUp extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
   }
-  onChange(e) {
+  /**
+   * [onChange stores the data from the form component]
+   * @method onChange
+   * @param  {[object]} event [the current html element]
+   * @return {[object]}   [data from the form]
+   */
+  onChange(event) {
     this.setState({
-      [e.target.name]: e.target.value,
+      [event.target.name]: event.target.value,
     });
   }
 
-
-  onSubmit(e) {
-    e.preventDefault();
-    this.props.userSignup(this.state).then((res) => {
-      this.setState({
-        status: (res.data.message)
-      });
-      const token = res.data.data.token;
-      localStorage.setItem('token', token);
-      window.location = '/messageboard';
-      this.props.authUser({
-        data: res.data.data
-      });
-    }).catch((err) => {
-      if (err.response === undefined) {
-        console.log(err);
-        this.setState({
-          status: ('Internal Error')
-        });
-      } else {
-        this.setState({
-          status: (err.response.data.message)
-        });
-      }
-    });
+  /**
+   * [onSubmit sends the data supplied through the form to the API]
+   * @method onSubmit
+   * @param  {[object]} event [the form event]
+   * @return {[]}   []
+   */
+  onSubmit(event) {
+    event.preventDefault();
+    this.props.userSignup(this.state);
   }
-
-  checkPassword(e){
+  /**
+   * [checkPassword confirms if the password and confirm password supplied is matches]
+   * @method checkPassword
+   * @return {[boolean]}        [test result]
+   */
+  checkPassword() {
     if (this.state.password === this.state.cpassword) {
       this.setState({
         pwdmatch: 'password matches',
@@ -59,21 +63,25 @@ class SignUp extends React.Component {
       this.refs.submit.disabled = false;
     } else {
       this.setState({
-        pwdmatch: 'password does not matches',
+        pwdmatch: 'password does not match',
       });
       this.refs.submit.disabled = true;
     }
   }
 
+  /**
+   * [render ]
+   * @method render
+   * @return {[type]} [description]
+   */
   render() {
     return (
       <div id="signup" className="modal fade reg-form" role="dialog">
         <form className="modal-dialog signupform" onSubmit={this.onSubmit}>
           <div className="modal-header mo">
-          {this.props.messages}
             <h2 className="form-header center" >Sign Up </h2>
             <a href="" className="sign-with-google center">Sign Up with Google+ </a>
-            <p className="alert alert-danger center">{this.state.status}</p>
+            <p className="alert alert-danger center">{this.props.message}</p>
           </div>
           <div className="form-group">
             <input
@@ -155,7 +163,7 @@ class SignUp extends React.Component {
               ref="submit"
             />
             <button
-              type="button"
+              type="reset"
               className="right close form-header"
               data-dismiss="modal"
             >Close</button>
@@ -168,12 +176,18 @@ class SignUp extends React.Component {
 
 SignUp.propTypes = {
   userSignup: React.PropTypes.func.isRequired,
-  authUser: React.PropTypes.func.isRequired
+  message: React.PropTypes.string.isRequired
 };
 
+/**
+ * [mapStateToProps gets values from the store and makes it available for the component]
+ * @method mapStateToProps
+ * @param  {[object]}        state [the entire App data]
+ * @return {[object]}              [the part of App data needed by this component]
+ */
 function mapStateToProps(state) {
   return {
-    messages: state.message
+    message: state.authUser.auth_message.data
   };
 }
 export default connect(mapStateToProps)(SignUp);

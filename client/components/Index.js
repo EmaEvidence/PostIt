@@ -10,8 +10,16 @@ import ForgetPassword from './ForgetPassword';
 import authUser from '../actions/authAction';
 import createGroupAction from '../actions/createGroupAction';
 
-
+/**
+ * [userSignup description]
+ * @type {[type]}
+ */
 class Index extends React.Component {
+  /**
+   * [render description]
+   * @method render
+   * @return {[type]} [description]
+   */
   render() {
     const userSignup = this.props.userSignupRequest;
     const Login = this.props.userSigninRequest;
@@ -21,7 +29,7 @@ class Index extends React.Component {
     if (this.props.status) {
       button = (
         <button
-          className="btn deep-purple lighten-3"
+          className="btn deep-purple lighten-3 homebtn"
           data-toggle="modal"
           data-target="#creategroup"
         > Create Group </button>
@@ -29,7 +37,7 @@ class Index extends React.Component {
     } else {
       button = (
         <button
-          className="btn deep-purple lighten-3"
+          className="btn deep-purple lighten-3 homebtn"
           data-toggle="modal"
           data-target="#signin"
         > Login </button>
@@ -102,6 +110,12 @@ Index.propTypes = {
   authUser: React.PropTypes.func.isRequired
 };
 
+/**
+ * [mapStateToProps description]
+ * @method mapStateToProps
+ * @param  {[type]}        state [description]
+ * @return {[type]}              [description]
+ */
 function mapStateToProps(state) {
   return {
     status: state.authUser.logged_in

@@ -6,10 +6,10 @@ export default function setCurrentMembersAction(data, groupName) {
   return (dispatch) => {
     axios.get(url)
   .then((res) => {
-    const messages = res.data.data;
+    const members = res.data.users;
     const status = res.data.message;
     return dispatch({
-      messages,
+      members,
       type: SET_CURRENT_MEMBERS,
       status,
       groupName

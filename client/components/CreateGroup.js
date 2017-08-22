@@ -1,9 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import getUserGroupsAction from '../actions/getUserGroupsAction';
 
+/**
+ * [createGroup component for creating new group]
+ * @type {[class]}
+ */
 class CreateGroup extends React.Component {
-  constructor(props){
+  /**
+   * [constructor creates the state]
+   * @method constructor
+   * @param  {[object]}    props [data]
+   * @return {[object]}          [description]
+   */
+  constructor(props) {
     super(props);
     this.createGroup = this.createGroup.bind(this);
     this.state = {
@@ -15,36 +26,52 @@ class CreateGroup extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.createGroup = this.createGroup.bind(this);
   }
-  onChange(e) {
+  /**
+   * [onChange stores the form component value in the state]
+   * @method onChange
+   * @param  {[object]} event [the event triggered on the HTML element]
+   * @return {[object]}       [new state]
+   */
+  onChange(event) {
     this.setState({
-      [e.target.name]: e.target.value,
+      [event.target.name]: event.target.value,
     });
   }
-
-  createGroup(e) {
-    e.preventDefault();
+  /**
+   * [createGroup sends the form data to the API for form creation]
+   * @method createGroup
+   * @param  {[object]}    event [the event triggered on the form]
+   * @return {[object]}          []
+   */
+  createGroup(event) {
+    event.preventDefault();
     const members = this.refs.members.value;
     const groupData = {
       gpname: this.state.groupname,
       purpose: this.state.purpose,
       users: members
     };
-    if (this.props.status === 'Group creation Successful') {
-      this.props.getUserGroupsAction(this.props.userId);
-    }
-    this.props.createGroupAction(groupData)
-    .then(($) => {
-      this.props.getUserGroupsAction(this.props.userId);
+    this.props.createGroupAction(groupData, this.props.userId)
+    .then(() => {
+      this.setState({
+        groupname: '',
+        purpose: '',
+        members: ''
+      });
       $('#creategroup').modal('hide');
     });
   }
-
+  /**
+   * [render ]
+   * @method render
+   * @return {[type]} []
+   */
   render() {
     return (
       <div id="creategroup" className="modal fade reg-form" role="dialog">
         <form className="modal-dialog" onSubmit={this.createGroup}>
-          <h2> Create a Group </h2>
-          <span>{this.props.status}</span>
+          <h2 className="center"> Create a Group </h2>
+          <h6 className="center">{this.props.status}</h6>
           <div className="form-group">
             <input
               type="text"
@@ -61,7 +88,6 @@ class CreateGroup extends React.Component {
               type="text"
               className="form-control"
               placeholder="Purpose (optional)"
-              required
               value={this.state.purpose}
               onChange={this.onChange}
               name="purpose"
@@ -85,7 +111,7 @@ class CreateGroup extends React.Component {
               value="Create"
             />
             <button
-              type="button"
+              type="reset"
               className="form-control close custombutton"
               data-dismiss="modal"
             >Cancel</button>
@@ -99,10 +125,14 @@ class CreateGroup extends React.Component {
 CreateGroup.propTypes = {
   createGroupAction: React.PropTypes.func.isRequired,
   status: React.PropTypes.string.isRequired,
-  getUserGroupsAction: React.PropTypes.func.isRequired,
-  userId: React.PropTypes.string.isRequired
+  userId: React.PropTypes.number.isRequired
 };
-
+/**
+ * [mapStateToProps description]
+ * @method mapStateToProps
+ * @param  {[type]}        state [description]
+ * @return {[type]}              [description]
+ */
 function mapStateToProps(state) {
   let status = 'xcvxcv';
   if (state.createGroupReducer !== undefined) {

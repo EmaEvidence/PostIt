@@ -35,20 +35,37 @@ class CreateMessage extends React.Component {
       [e.target.name]: e.target.value,
     });
   }
-
+  /**
+   * [handleValueChange description]
+   * @method handleValueChange
+   * @param  {[type]}          newValue     [description]
+   * @param  {[type]}          displayValue [description]
+   * @param  {[type]}          suggestion   [description]
+   * @return {[type]}                       [description]
+   */
   handleValueChange(newValue, displayValue, suggestion) {
     this.setState({
       group: newValue,
     });
   }
-
+  /**
+   * [charactersRemaining description]
+   * @method charactersRemaining
+   * @param  {[type]}            e [description]
+   * @return {[type]}              [description]
+   */
   charactersRemaining(e) {
     const charactersLeft = 300 - (e.target.value).length;
     this.setState({
       charactersLeft
     });
   }
-
+  /**
+   * [sendMessage description]
+   * @method sendMessage
+   * @param  {[type]}    e [description]
+   * @return {[type]}      [description]
+   */
   sendMessage(e) {
     e.preventDefault();
     this.props.postMessageAction({
@@ -57,6 +74,11 @@ class CreateMessage extends React.Component {
       priority: this.state.priority
     });
   }
+  /**
+   * [render description]
+   * @method render
+   * @return {[type]} [description]
+   */
   render() {
     const createGroup = this.props.createGroupAction;
     const groups = this.props.groups;
@@ -151,7 +173,12 @@ CreateMessage.propTypes = {
   postMessageAction: React.PropTypes.func.isRequired,
   status: React.PropTypes.string.isRequired
 };
-
+/**
+ * [mapStateToProps description]
+ * @method mapStateToProps
+ * @param  {[type]}        state [description]
+ * @return {[type]}              [description]
+ */
 function mapStateToProps(state) {
   let groups = '';
   if (state.getUserGroupsReducer.groups !== undefined) {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
  * [archivedMessages description]
  * @type {[type]}
  */
-class ArchiveMessages extends React.Component {
+export class ArchiveMessages extends React.Component {
   /**
    * [render description]
    * @method render
@@ -32,14 +32,13 @@ class ArchiveMessages extends React.Component {
               <i className="chip">{message.createdAt}</i><br />
               <i className="chip">Edit</i>
               <i className="chip">Delete</i>
-              <hr />
             </p>
         ));
     }
     return (
       <div id="archivemessages" className="modal fade reg-form">
         <div className="modal-dialog">
-          <h2> Archived Messages </h2>
+          <h2>Archived Messages</h2>
           <div className="messagecard">
             { messageList }
           </div>

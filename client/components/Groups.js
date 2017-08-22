@@ -4,27 +4,64 @@ import setUsersAction from '../actions/setUsersAction';
 import setCurrentMessagesAction from '../actions/setCurrentMessagesAction';
 import setCurrentMembersAction from '../actions/setCurrentMembersAction';
 
+/**
+ * [state description]
+ * @type {Object}
+ */
 class Groups extends React.Component {
-  constructor(props){
+  /**
+   * [constructor description]
+   * @method constructor
+   * @param  {[type]}    props [description]
+   * @return {[type]}          [description]
+   */
+  constructor(props) {
     super(props);
     this.state = {};
     this.setUsers = this.setUsers.bind(this);
     this.setMessages = this.setMessages.bind(this);
     this.setMembers = this.setMembers.bind(this);
   }
-
+  /**
+   * [setUsers description]
+   * @method setUsers
+   * @param  {[type]} index     [description]
+   * @param  {[type]} groupName [description]
+   * @return  {[type]} groupName [description]
+   */
   setUsers(index, groupName) {
     this.props.setUsersAction(index, groupName);
   }
 
+  /**
+   * [setMessages description]
+   * @method setMessages
+   * @param  {[type]}    groupId   [description]
+   * @param  {[type]}    groupName [description]
+   * @return  {[type]} groupName [description]
+   */
   setMessages(groupId, groupName) {
     this.props.setCurrentMessagesAction(groupId, groupName);
   }
+
+  /**
+   * [setMembers description]
+   * @method setMembers
+   * @param  {[type]}   index     [description]
+   * @param  {[type]}   groupName [description]
+   * @return  {[type]} groupName [description]
+   */
   setMembers(index, groupName) {
     this.props.setCurrentMembersAction(index, groupName);
   }
+
+  /**
+   * [render description]
+   * @method render
+   * @return {[type]} [description]
+   */
   render() {
-    const grps = this.props.groups;
+    const grps = JSON.parse(this.props.groups);
     let grpList = '';
     if (grps['0'] !== undefined) {
       grpList = grps['0'].map(grp =>
@@ -78,9 +115,15 @@ Groups.propTypes = {
   setUsersAction: React.PropTypes.func.isRequired,
   setCurrentMessagesAction: React.PropTypes.func.isRequired,
   setCurrentMembersAction: React.PropTypes.func.isRequired,
-  groups: React.PropTypes.func.isRequired
+  groups: React.PropTypes.string.isRequired
 };
 
+/**
+ * [mapStateToProps description]
+ * @method mapStateToProps
+ * @param  {[type]}        state [description]
+ * @return {[type]}              [description]
+ */
 function mapStateToProps(state) {
   return {
     state

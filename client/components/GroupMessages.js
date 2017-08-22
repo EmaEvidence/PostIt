@@ -1,7 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+/**
+ * [checkIfMessageEmpty description]
+ * @type {[type]}
+ */
 class GroupMessages extends React.Component {
+  /**
+   * [render description]
+   * @method render
+   * @return {[type]} [description]
+   */
   render() {
     const checkIfMessageEmpty = Object.keys(this.props.messages);
     let Messagelist;
@@ -30,7 +39,6 @@ class GroupMessages extends React.Component {
         <div className="modal-dialog">
           <h2> Group Messages </h2>
           <span>{this.props.status}</span>
-        {  console.log(Object.keys(this.props.messages))}
           <div className="messagecard">
             { Messagelist }
           </div>
@@ -44,6 +52,13 @@ class GroupMessages extends React.Component {
     );
   }
 }
+
+/**
+ * [mapStateToProps description]
+ * @method mapStateToProps
+ * @param  {[type]}        state [description]
+ * @return {[type]}              [description]
+ */
 function mapStateToProps(state) {
   return {
   //  groupId: state.setCurrentGroupReducer.current_group,

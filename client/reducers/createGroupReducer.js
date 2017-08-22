@@ -1,5 +1,5 @@
 export default function reducer(state = {
-  status: ''
+  status: '',
 }, action) {
   switch (action.type) {
     case 'CREATE_GROUP': {
