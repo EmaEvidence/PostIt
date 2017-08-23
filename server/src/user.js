@@ -546,7 +546,8 @@ class User {
     this.db.Messages.findAll({
       where: {
         groupIdId: group
-      }
+      },
+      order: [['id', 'DESC']]
     }).then((messages) => {
       done(messages);
     }).catch((err) => {
@@ -613,7 +614,8 @@ class User {
       const ids = User.flattenGroupId(groups);
       this.db.Groups.findAll({
         attributes: ['id', 'group_name', 'gpCreatorIdId'],
-        where: { id: ids }
+        where: { id: ids },
+        order: [['createdAt', 'DESC']]
       }).then((userGroup) => {
         done(userGroup);
       }).catch((err) => {
@@ -681,16 +683,18 @@ class User {
  * @param  {Function}  done       [description]
  * @return {[type]}               [description]
  */
-  searchUsers(searchTerm, done) {
-    const term = searchTerm.toLowerCase();
-    const processedTerm = `%${term}%`;
+  searchUsers(searchTerm, offset, groupId, done) {
+  //  const term = searchTerm.toLowerCase();
+    const processedTerm = `%${searchTerm}%`;
     this.db.Users.findAll({
+      attributes: ['id', 'email', 'username'],
       where: {
         username: {
           like: processedTerm
         }
       }
-    }).then((result) => {
+    })
+    .then((result) => {
       done(result);
     }).catch((err) => {
       done(err);
@@ -748,21 +752,21 @@ class User {
       if (result === null) {
         done('Email Address Not found');
       } else {
-        const payload = {
-          to: '07063747160, 07014980491',
-          from: 'Post App',
-          message: 'Hello from Post IT!'
-        };
-        User.sendText(payload);
-        const mailOptions = {
-          from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
-          to: email,
-          subject: 'Password Reset',
-          text: 'You have requested for a password reset. Follow the link below to reset your password',
-          html: '<a href="">Click Me to Change Password</a>'
-        };
-        const sendMail = User.mailer(mailOptions);
-        done(sendMail);
+        const link = 'http://www.facebook.com';
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(email, salt, (err, hash) => {
+            console.log(hash);
+            const sendMail = User.mailer({
+              from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
+              to: email,
+              subject: 'Password Resett',
+              text: 'You have requested for a password reset. Follow the link below to reset your password',
+              html: `<h3>You have requested for a password reset. Follow the link below to reset your password</h3>
+                      <a href=${link}>Click Me to Change Password</a>`
+            });
+            done(sendMail);
+          });
+        });
       }
     }).catch(() => {
       done('Email Address Not found');
@@ -780,24 +784,27 @@ class User {
   resetPassword(password, userEmail, done) {
     const validate = User.validatePassword(password);
     if (validate === 'valid') {
+      const email = userEmail.split('=')[1];
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(password, salt, (err, hash) => {
-          this.db.Users.update({ password: hash },
-            {
-              where: { email: userEmail }
-            }
-          ).then(() => {
-            const mailOptions = {
-              from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
-              to: userEmail,
-              subject: 'Password Reset Successful',
-              text: 'Your password has being changed. Please Login with your new password',
-              html: '<a href="">Click Here to Login</a>'
-            };
-            User.mailer(mailOptions);
-            done('Password Updated');
-          }).catch(() => {
-            done('Error Updating Password');
+        bcrypt.hash(email, salt, (err, emailHash) => {
+          bcrypt.hash(password, salt, (err, hash) => {
+            this.db.Users.update({ password: hash },
+              {
+                where: { email: emailHash }
+              }
+            ).then(() => {
+              const mailOptions = {
+                from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
+                to: emailHash,
+                subject: 'Password Reset Successful',
+                text: 'Your password has being changed. Please Login with your new password',
+                html: '<a href="">Click Here to Login</a>'
+              };
+              User.mailer(mailOptions);
+              done('Password Updated');
+            }).catch(() => {
+              done('Error Updating Password');
+            });
           });
         });
       });

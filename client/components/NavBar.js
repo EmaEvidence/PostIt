@@ -22,7 +22,6 @@ export class NavBar extends React.Component {
       nav = (<header className="navbar-fixed postitheader">
         <nav className="postitnav">
           <a href="" className="brandname">Post IT</a>
-          <b className="welcome">Welcome {username.username}, how are you doing?</b>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/messageboard"> Message Board </Link></li>
@@ -30,7 +29,6 @@ export class NavBar extends React.Component {
              Notification 2</a></li>
             <li>
               <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
-            <li> <Link to="/createmessage">Send Message</Link> </li>
             <li> <a href="" onClick={this.logOut}> Log Out </a> </li>
           </ul>
           <a className="dropdown-button right hide-on-large-only" href="" data-activates="menu">

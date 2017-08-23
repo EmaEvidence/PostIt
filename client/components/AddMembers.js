@@ -1,40 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import UIAutocomplete from 'react-ui-autocomplete';
+import PropTypes from 'prop-types';
 import addNewMemberAction from '../actions/addNewMemberAction';
+import searchUserAction from '../actions/searchUserAction';
 
 class AddMembers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: ''
+      user: '',
+      termIsEmpty: true
     };
     this.addMember = this.addMember.bind(this);
-    this.handleValueChange = this.handleValueChange.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
-  /**
-   * [handleValueChange gets the value supplied in the Select autocomplete]
-   * @method handleValueChange
-   * @param  {[type]}          newValue     [ the value of the selected option]
-   * @param  {[string]}          displayValue [the value the select options displays]
-   * @param  {[string]}          suggestion   [the suggestions the auto complete gives]
-   * @return {[object]}                       [writes the selected option value to the state]
-   */
-  handleValueChange(newValue, displayValue, suggestion) {
-    this.setState({
-      user: newValue,
-    });
+  onChange(event, offset) {
+    if (event.target.value.length !== 0) {
+      this.setState({
+        termIsEmpty: false
+      });
+      const offSet = offset || 0;
+      this.props.searchUserAction(event.target.value, offSet, this.props.groupId);
+    }
   }
+
   /**
-   * [addMember dispatches an action that adds a new mwmber to the database]
+   * [addMember description]
    * @method addMember
-   * @param  {[type]}  event []
-   * @return {[function]} []
+   * @param  {[type]}  userId [description]
+   * @param  {[type]}  event  [description]
+   * @return  {[type]}  event  [description]
    */
-  addMember(event) {
-    event.preventDefault();
+  addMember(userId, event) {
     const groupId = this.props.groupId;
-    const userId = this.state.user;
     this.props.addNewMemberAction(groupId, userId);
   }
   /**
@@ -43,28 +41,54 @@ class AddMembers extends React.Component {
    * @return {[type]} []
    */
   render() {
-    const getOptions = () => (this.props.users);
+    const searchResult = this.props.searchResult;
+    let resultList;
+    if (searchResult.length === 0 || this.state.termIsEmpty === true) {
+      resultList = (
+        <tr>
+          <td>
+              No Result, Enter a search term or check what you have typed
+          </td>
+        </tr>
+      );
+    } else {
+      resultList = (searchResult).map(result =>
+        (
+          <tr key={result.id}>
+            <td> { result.username } { result.id } </td>
+            <td><input
+              type="button"
+              className="form-control btn custombutton deep-purple lighten-3"
+              value="Add"
+              onClick={this.addMember.bind(null, result.id)}
+            />
+            </td>
+          </tr>
+      ));
+    }
     return (
       <div id="addmembers" className="modal fade reg-form">
         <form className="modal-dialog" onSubmit={this.addMember}>
-          <h2 className="center"> Add Members </h2>
-          <h6 className="center"> { this.props.status }</h6>
-          <div className="form-group">
-            <label htmlFor="UIAutocomplete"> Add members by username </label>
-            <UIAutocomplete
-              options={getOptions()}
-              onChange={this.handleValueChange}
-              optionValue="id"
-              optionFilter={['username']}
-              optionLabelRender={option => `${option.username}`}
-            />
+          <div>
+            <h2 className="center"> Add Members </h2>
+            <h6 className="center"> { this.props.status }</h6>
           </div>
           <div className="form-group">
-            <input
-              type="submit"
-              className="form-control btn custombutton deep-purple lighten-3"
-              value="Add"
-            />
+            <label htmlFor="search"> Enter your search term </label>
+            <input type="search" onKeyUp={this.onChange} />
+          </div>
+          <div className="result-holder">
+            <table className="center add-table">
+              { resultList }
+            </table>
+          </div>
+          <div className="form-group">
+            <tr>
+              <td> Prev </td>
+              <td>1, 2, 3, 4, 5</td>
+              <td>Next
+              </td>
+            </tr>
             <button
               type="button"
               className="modal-close btn right deep-purple lighten-4 custombutton"
@@ -77,8 +101,9 @@ class AddMembers extends React.Component {
 }
 
 AddMembers.PropTypes = {
-  addNewMemberAction: React.PropTypes.func.isRequired,
-  groupId: React.PropTypes.number.isRequired
+  addNewMemberAction: PropTypes.func.isRequired,
+  groupId: PropTypes.number.isRequired,
+  searchUserAction: PropTypes.func.isRequired
 };
 /**
  * [mapStateToProps makes the data in the redux store available to this component]
@@ -90,7 +115,8 @@ function mapStateToProps(state) {
   return {
     groupId: state.setUsersReducer.current_group,
     users: state.setUsersReducer.users,
-    status: state.addNewMemberReducer.status
+    status: state.addNewMemberReducer.status,
+    searchResult: state.searchUserReducer.searchResult
   };
 }
-export default connect(mapStateToProps, { addNewMemberAction })(AddMembers);
+export default connect(mapStateToProps, { addNewMemberAction, searchUserAction })(AddMembers);

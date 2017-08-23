@@ -34,10 +34,23 @@ db.Messages = Messages;
 const Notifications = sequelize.define('Notifications', NotificationModel);
 db.Notifications = Notifications;
 Users.belongsToMany(Groups, { through: 'GroupMembers' });
-Users.hasOne(Groups, { as: 'gp_creatorId' });
-Messages.belongsTo(Groups, { as: 'group_Id' });
-Messages.belongsTo(Users, { as: 'sender_Id' });
-Users.hasMany(Notifications, { as: 'UserId' });
+Groups.belongsToMany(Users, { through: 'GroupMembers' });
+Users.hasOne(Groups, {
+  foreignKey: 'gpCreatorIdId',
+  as: 'users'
+});
+Messages.belongsTo(Groups, {
+  foreignKey: 'groupIdId',
+  as: 'group'
+});
+Messages.belongsTo(Users, {
+  foreignKey: 'senderIdId',
+  as: 'sender'
+});
+Users.hasMany(Notifications, {
+  foreignKey: 'User_Id',
+  as: 'user'
+});
 sequelize.sync({});
 // sequelize.sync({ alter: true });
 // sequelize.sync({ force: true });

@@ -8,7 +8,7 @@ export default function addNewMemberAction(groupId, userId) {
     .then((res) => {
       return dispatch({
         type: ADD_NEW_MEMBER,
-        status: res.data.messages
+        status: res.data.message
       });
     })
     .catch((err) => {

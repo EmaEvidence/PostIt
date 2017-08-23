@@ -75,11 +75,13 @@ Router.get('/api/user/groups', controler.ensureToken, controler.getUserGroupsCon
 
 Router.post('/api/user/message/read', controler.ensureToken, controler.messageReadControler);
 
-Router.get('/api/users/search', controler.ensureToken, controler.searchUserControler);
+Router.post('/api/users/search', controler.ensureToken, controler.searchUserControler);
 
 // Router.post('/api/user/google', controler.googleSignUpControler);
 
 Router.post('/api/user/forgetpassword', controler.forgetPasswordControler);
+
+Router.post('/api/user/newpassword', controler.newPasswordControler);
 
 Router.get('/api/user/mymessage', controler.ensureToken, controler.mymessageControler);
 

@@ -78,7 +78,7 @@ class Groups extends React.Component {
                 onClick={this.showMessage}
                 onClick={this.setMessages.bind(null, grp.id, grp.group_name)}
               >
-                {grp.messages} Messages</li>
+                 Messages</li>
               <li>
                 <a
                   className="clickable"
@@ -86,7 +86,7 @@ class Groups extends React.Component {
                   data-target="#groupmembers"
                   onClick={this.setMembers.bind(null, grp.id, grp.group_name)}
                 >
-                  {grp.messages} Members
+                   Members
               </a>
             </li>
               <li>
@@ -96,6 +96,22 @@ class Groups extends React.Component {
                   onClick={this.setUsers.bind(null, grp.id, grp.group_name)}
                 >
                 Add New</a>
+              </li>
+              <li>
+                <a
+                  className="modal-close"
+                  href="#addmembers"
+                  onClick={this.setUsers.bind(null, grp.id, grp.group_name)}
+                >
+                Edit</a>
+              </li>
+              <li>
+                <a
+                  className="modal-close"
+                  href="#addmembers"
+                  onClick={this.setUsers.bind(null, grp.id, grp.group_name)}
+                >
+                Delete</a>
               </li>
             </ul>
           </li>

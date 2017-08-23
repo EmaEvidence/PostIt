@@ -9,7 +9,8 @@
   "globals": {
     window,
     document,
-    this
+    this,
+    $
     },
   "rules": {
     "one-var": 0,

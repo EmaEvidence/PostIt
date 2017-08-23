@@ -214,11 +214,11 @@ const controler = {
   },
 
   searchUserControler: (req, res) => {
-    const searchTerm = req.body.searchTerm;
+    const { searchTerm, offset, groupId } = req.body;
     if (searchTerm === '' || searchTerm === undefined) {
-      return res.status(403).json({ message: 'Please supply a search term' });
+      return res.status(400).json({ message: 'Please supply a search term' });
     } else {
-      user.searchUsers(searchTerm, (result) => {
+      user.searchUsers(searchTerm, offset, groupId, (result) => {
         return res.status(200).json({
           message: 'Search Result',
           users: result
@@ -265,10 +265,7 @@ const controler = {
 
   forgetPasswordControler: (req, res) => {
     const email = req.body.email;
-    const password = req.body.password;
-    const cpassword = req.body.cpassword;
-    const userId = req.param.key || email; // use email
-    if (email !== '' && email !== undefined && password === undefined) {
+    if (email !== '' && email !== undefined) {
       user.sendPasswordResetMail(email, (result) => {
         if (result === 'Email Address Not found') {
           return res.status(404).json({
@@ -282,25 +279,38 @@ const controler = {
         }
       });
     } else {
-      if (password === cpassword) {
-        user.resetPassword(password, userId, (result) => {
-          if (result === 'Password Updated') {
-            return res.status(200).json({
-              message: 'Password Updated, please sign In with the new Password',
-              user: result
-            });
-          } else {
-            return res.status(500).json({
-              message: 'Error Updating Password, Please try again',
-              user: result
-            });
-          }
-        });
-      } else {
-        return res.status(403).json({
-          message: 'Password do not match.'
-        });
-      }
+      return res.status(400).json({
+        message: 'Please Supply your Email'
+      });
+    }
+  },
+
+  newPasswordControler: (req, res) => {
+    const email = req.body.userKey;
+    const password = req.body.newpassword;
+    if ((password !== '' && password !== undefined) && (email !== '' && email !== undefined)) {
+      user.resetPassword(password, email, (result) => {
+        if (result === 'Password Updated') {
+          return res.status(200).json({
+            message: 'Password Updated, please sign In with the new Password',
+            user: result
+          });
+        } else if (result === 'Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8') {
+          return res.status(400).json({
+            message: result,
+            user: result
+          });
+        } else {
+          return res.status(500).json({
+            message: 'Internal Server Error',
+            user: result
+          });
+        }
+      });
+    } else {
+      return res.status(400).json({
+        message: 'Invalid Input Supplied.'
+      });
     }
   },
 

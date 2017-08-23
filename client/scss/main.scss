@@ -20,6 +20,9 @@ font-family: GillSans, Calibri, Trebuchet, sans-serif;
   background: #4527a0;
   color: white;
   font-size: 20px;
+  ul li a {
+    color: white;
+  }
   ul li a:hover {
     color: white;
   }
@@ -141,11 +144,17 @@ section p {
    color: purple;
 }
 .messagecard {
-  height:auto;
+  height:80%;
   padding: 2%;
   margin-top:2%;
   text-align: center;
   color: purple;
+  div {
+    overflow: scroll;
+    border: 1px solid #fff;
+    padding: 2%;
+    height: 85%;
+  }
 }
 .mypagination {
   margin-left: 30%;
@@ -156,8 +165,12 @@ section p {
   text-align: justify;
 }
 #addmembers {
-  padding-top: 5%;
+  padding-top: 7%;
   color: purple;
+  .result-holder {
+    height: 60%;
+    overflow: scroll;
+  }
 }
 }
 .customform {
@@ -177,18 +190,18 @@ section p {
 
 }
 .groupholder {
-  padding: 0%;
+  padding: 5%;
   color: purple;
-  height: 400px;
+  height: 56%;
   overflow: scroll;
 }
 .grp-title {
-  // position: fixed;
-  // z-index: 10;
-  // width: 25%;
 }
 .grps {
   padding: 4%;
+  border: 1px solid #fff;
+  overflow: scroll;
+  height: 80%;
 }
 .dashboard {
   padding: 10px;
@@ -198,10 +211,12 @@ section p {
   margin: 1%;
 }
 #sentmessages, #archivemessages {
-  padding: 8%;
-  height: auto;
-  overflow: scroll;
+  padding: 7%;
   color: purple;
+  .messagecard {
+    overflow: scroll;
+    height: 100%;
+  }
 }
 .signupform {
   font-size: 40px;
@@ -223,6 +238,7 @@ section p {
 .character-control {
   float: right;
   color: purple;
+  right: 10%;
 }
 .clickable {
   cursor: pointer;
@@ -239,8 +255,61 @@ section p {
   right: 0%;
   text-align: center;
   float: left;
+  color: purple;
   background: #e8eaf6;
+  li a {
+    color: purple;
+  }
+  li:hover {
+    background: white;
+  }
 }
 .homebtn {
   margin-top: 25px;
+}
+.addMessage {
+  position: fixed;
+  bottom: 2%;
+  right: 1%;
+  text-align: center;
+  padding: 0px;
+  i {
+    font-size: 20px;
+  }
+}
+.sendMessage {
+  // z-index: 10;
+  height: 10%;
+  width: 50%;
+  position: fixed;
+  bottom: 45%;
+  right: 1%;
+}
+.add-table {
+  text-align: center;
+  color: purple;
+  td {
+      padding: 1%;
+      text-align: center;
+  }
+  tr {
+    text-align: center;
+  }
+}
+#groupmembers {
+  color: purple;
+  .messagecard{
+    height: 70%;
+    overflow: scroll;
+  }
+}
+.newpassword {
+  margin-top: 7%;
+  color: purple;
+}
+.page-not-found {
+  h1 {
+    font-size: 100px;
+    color: purple;
+  }
 }

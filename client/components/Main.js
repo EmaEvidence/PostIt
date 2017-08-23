@@ -3,7 +3,9 @@ import { Switch, Route } from 'react-router-dom';
 import CreateMessage from './CreateMessage';
 import CreateGroup from './CreateGroup';
 import MessageBoard from './MessageBoard';
+import NewPassword from './NewPassword';
 import Index from './Index';
+import NotFound from './NotFound';
 
 class App extends React.Component {
   render() {
@@ -27,6 +29,8 @@ class App extends React.Component {
           <Route path="/createmessage" component={creatMessageBody} />
           <Route path="/creategroup" component={createGroupBody} />
           <Route path="/messageboard" component={messageBoardBody} />
+          <Route path="/newpassword" component={NewPassword} />
+          <Route path="/*" component={NotFound} />
         </Switch>
       </div>
     );

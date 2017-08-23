@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 /**
@@ -36,13 +37,20 @@ export class AllMessages extends React.Component {
     }
     return (
       <div className="col-sm-7 deep-purple lighten-4 messagecard">
-        <h2>{this.props.groupName} Messages</h2>
-        { Messagelist }
+        <h2>{ this.props.groupName ? `${this.props.groupName} Messages` : 'Please Select a Group.'} </h2>
+        <div>
+          { Messagelist }
+        </div>
       </div>
     );
   }
 }
-
+/**
+ * [mapStateToProps description]
+ * @method mapStateToProps
+ * @param  {[type]}        state [description]
+ * @return {[type]}              [description]
+ */
 function mapStateToProps(state) {
   return {
   //  groupId: state.setCurrentGroupReducer.current_group,
@@ -53,5 +61,7 @@ function mapStateToProps(state) {
 }
 
 AllMessages.propTypes = {
+  messages: PropTypes.array.isRequired,
+  groupName: PropTypes.string.isRequired,
 };
 export default connect(mapStateToProps)(AllMessages);

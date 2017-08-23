@@ -9,6 +9,7 @@ import GroupMessages from './GroupMessages';
 import AddMembers from './AddMembers';
 import ArchiveMessages from './ArchiveMessages';
 import SentMessages from './SentMessages';
+import SendMessage from './SendMessage';
 import createGroupAction from '../actions/createGroupAction';
 import myMessageAction from '../actions/myMessageAction';
 import archivedMessagesAction from '../actions/archivedMessagesAction';
@@ -27,6 +28,11 @@ class MessageBoard extends React.Component {
   constructor(props) {
     super(props);
     this.myMessages = this.myMessages.bind(this);
+    this.state = {
+      display: 'none',
+      icon: 'edit'
+    };
+    this.showForm = this.showForm.bind(this);
   }
   /**
    * [myMessages description]
@@ -45,6 +51,24 @@ class MessageBoard extends React.Component {
     this.props.archivedMessagesAction();
   }
   /**
+   * [showForm description]
+   * @method showForm
+   * @return {[type]} [description]
+   */
+  showForm() {
+    if (this.state.display === 'none') {
+      this.setState({
+        display: 'block',
+        icon: 'close'
+      });
+    } else {
+      this.setState({
+        display: 'none',
+        icon: 'edit'
+      });
+    }
+  }
+  /**
    * [render description]
    * @method render
    * @return {[type]} [description]
@@ -52,18 +76,14 @@ class MessageBoard extends React.Component {
   render() {
     const createGroup = this.props.createGroupAction;
     const groups = this.props.groups;
+    const userDetails = JSON.parse(this.props.user_details);
     return (
       <div className="container">
         <div className="row">
           <div className="col-sm-4 dashboardholder">
             <div className="deep-purple lighten-4 dashboard">
               <h1 className="row center">
-                <input
-                  id="icon_prefix"
-                  type="search"
-                  placeholder="Search Post"
-                  className="validate center"
-                />
+                {userDetails.username}
               </h1>
               <div className="row center">
                 <a href="#sentmessages" className="dashboardelement" onClick={this.myMessages} >
@@ -93,6 +113,13 @@ class MessageBoard extends React.Component {
         <AddMembers />
         <ArchiveMessages />
         <SentMessages />
+        <SendMessage display={JSON.stringify({ display: this.state.display })} />
+        <a
+          className="addMessage btn btn-floating btn-large deep-purple lighten-4 pulse"
+          title="Send Message Here"
+          onClick={this.showForm}
+        >
+          <i className="material-icons addMessage-edit">{this.state.icon}</i></a>
       </div>
     );
   }
@@ -117,7 +144,8 @@ function mapStateToProps(state) {
     groups = JSON.stringify(state.getUserGroupsReducer.groups);
   }
   return {
-    groups
+    groups,
+    user_details: JSON.stringify(state.authUser.user_details)
   };
 }
 

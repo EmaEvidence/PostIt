@@ -32,6 +32,8 @@ class GroupMembers extends React.Component {
             {member.email}
             &nbsp;&nbsp;&nbsp;&nbsp;
             {member.phone}
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button className="btn deep-purple lighten-3"> X </button>
             <hr />
           </p>
       ));
@@ -39,16 +41,20 @@ class GroupMembers extends React.Component {
     return (
       <div id="groupmembers" className="modal fade reg-form" role="dialog">
         <div className="modal-dialog">
-          <h2 className="center"> {this.props.groupName} Members </h2>
+          <div>
+            <h2 className="center"> {this.props.groupName} Members </h2>
+          </div>
           <div className="messagecard">
             { Memberslist }
           </div>
-          <button
-            type="button"
-            className="form-control close custombutton"
-            data-dismiss="modal"
-          >
-          Cancel</button>
+          <div>
+            <button
+              type="button"
+              className="form-control close custombutton"
+              data-dismiss="modal"
+            >
+            Cancel</button>
+          </div>
         </div>
         <AddMembers />
       </div>

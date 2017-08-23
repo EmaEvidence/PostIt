@@ -44,7 +44,7 @@ const UserModel = {
     }
   },
   phone: {
-    type: Sequelize.STRING,
+    type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
       notEmpty: {

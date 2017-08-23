@@ -10,13 +10,13 @@ function Input(props) {
   return (
     <div className="form-group">
       <input
-        type={props.type}
+        type={props.type || 'text'}
         onChange={props.action}
-        className={props.class}
-        value={props.value}
+        className={`${props.class} form-control` || 'form-control'}
+        value={props.value || ''}
         name={props.name}
-        placeholder={props.placeholder}
-        required={props.required}
+        placeholder={props.placeholder || ''}
+        required={props.required || 'false'}
       />
     </div>
   );

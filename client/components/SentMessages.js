@@ -33,7 +33,9 @@ export class SentMessages extends React.Component {
     return (
       <div id="sentmessages" className="modal fade reg-form" role="dialog">
         <div className="modal-dialog">
-          <h2>Sent Messages</h2>
+          <div>
+            <h2>Sent Messages</h2>
+          </div>
           <div className="messagecard">
             { MessageList }
           </div>
