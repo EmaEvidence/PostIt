@@ -340,7 +340,7 @@ describe('When a User makes a request to the APIs', () => {
           });
   }, 10000);
   it('should return status code 404 if the route is not existing', (done) => {
-    api.post('/api/user/signupssdsdssdsds')
+    api.post('/api/v1/user/signupssdsdssdsds')
           .send({
           })
           .end((err, res) => {
@@ -351,7 +351,7 @@ describe('When a User makes a request to the APIs', () => {
   }, 10000);
 
   it('should return status code 404 if the route is not existing', (done) => {
-    api.get('/api/user/signupssdsdssdsds')
+    api.get('/api/v1/user/signupssdsdssdsds')
           .send({
           })
           .end((err, res) => {
@@ -362,7 +362,7 @@ describe('When a User makes a request to the APIs', () => {
   }, 10000);
 
   it('should return status code 400 if no parameter is sent', (done) => {
-    api.post('/api/user/signup')
+    api.post('/api/v1/user/signup')
           .send({
             password: 'qwerty123@'
           })
@@ -374,7 +374,7 @@ describe('When a User makes a request to the APIs', () => {
   }, 10000);
 
   it('should return status code 400 if no parameter is sent', (done) => {
-    api.post('/api/user/signup')
+    api.post('/api/v1/user/signup')
           .send({
             password: 'qwerty123@',
             name: 'Ema Alabi',
@@ -388,7 +388,7 @@ describe('When a User makes a request to the APIs', () => {
   }, 10000);
 
   it('should return status code 400 if no parameter is sent', (done) => {
-    api.post('/api/user/signup')
+    api.post('/api/v1/user/signup')
           .send({
             password: 'qwerty123@',
             name: 'Ema Alabi',
@@ -409,7 +409,7 @@ describe('When a User makes a request to the APIs', () => {
   }, 1000);
 
   it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
-    api.post('/api/group')
+    api.post('/api/v1/group')
             .send({
             })
             .end((err, res) => {
@@ -420,7 +420,7 @@ describe('When a User makes a request to the APIs', () => {
   }, 10000);
 
   it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
-    api.post('/api/group/3/user')
+    api.post('/api/v1/group/3/user')
             .send({
             })
             .end((err, res) => {
@@ -431,7 +431,7 @@ describe('When a User makes a request to the APIs', () => {
   }, 10000);
 
   it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
-    api.post('/api/group/1/message')
+    api.post('/api/v1/group/1/message')
             .send({
             })
             .end((err, res) => {
@@ -442,7 +442,7 @@ describe('When a User makes a request to the APIs', () => {
   }, 10000);
 
   it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
-    api.get('/api/group/eewewe/messages')
+    api.get('/api/v1/group/eewewe/messages')
             .send({
             })
             .end((err, res) => {
@@ -452,7 +452,7 @@ describe('When a User makes a request to the APIs', () => {
             });
   }, 10000);
   it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
-    api.get('/api/user/groups')
+    api.get('/api/v1/user/groups')
             .send({
             })
             .end((err, res) => {
@@ -462,7 +462,7 @@ describe('When a User makes a request to the APIs', () => {
             });
   }, 10000);
   it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
-    api.post('/api/user/message/read')
+    api.post('/api/v1/user/message/read')
             .send({
             })
             .end((err, res) => {
@@ -472,7 +472,7 @@ describe('When a User makes a request to the APIs', () => {
             });
   }, 10000);
   it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
-    api.get('/api/users/search')
+    api.get('/api/v1/users/search')
             .send({
             })
             .end((err, res) => {
@@ -492,7 +492,7 @@ describe('when a user makes a request to the APIs', () => {
   let token;
   let signedInId;
   it('should return status code 201 When a new user signs up', (done) => {
-    api.post('/api/user/signup')
+    api.post('/api/v1/user/signup')
           .send({
             name: 'Samuel Oke',
             username: 'Sammy',
@@ -507,7 +507,7 @@ describe('when a user makes a request to the APIs', () => {
           });
   }, 3000);
   it('should return status code 200 When a user signin', (done) => {
-    api.post('/api/user/signin')
+    api.post('/api/v1/user/signin')
           .send({
             username: 'Sammy',
             password: 'qwerty123@'
@@ -521,7 +521,7 @@ describe('when a user makes a request to the APIs', () => {
           });
   }, 3000);
   it('should return status code 400 When a user signs in with bad requests', (done) => {
-    api.post('/api/user/signin')
+    api.post('/api/v1/user/signin')
           .send({
             username: '',
             password: 'qwerty123@'
@@ -533,7 +533,7 @@ describe('when a user makes a request to the APIs', () => {
           });
   }, 3000);
   it('should return status code 400 When a user signs in with bad requests', (done) => {
-    api.post('/api/user/signin')
+    api.post('/api/v1/user/signin')
           .send({
             username: 'Sammy',
             password: ''
@@ -545,7 +545,7 @@ describe('when a user makes a request to the APIs', () => {
           });
   }, 3000);
   it('should return status code 400 When a user signs in with bad requests', (done) => {
-    api.post('/api/user/signin')
+    api.post('/api/v1/user/signin')
           .send({
             username: 'Sammy',
             password: 'qwqwqwqwqwqw'
@@ -558,7 +558,7 @@ describe('when a user makes a request to the APIs', () => {
   }, 3000);
   let groupId;
   it('should return status code 201 When a signed in user creates a group', (done) => {
-    api.post('/api/group')
+    api.post('/api/v1/group')
           .set('authorization', token)
           .send({
             gpname: 'Camper',
@@ -571,7 +571,7 @@ describe('when a user makes a request to the APIs', () => {
           });
   }, 3000);
   it('should return status code 400 When a signed in user adds an unregistered user to a group', (done) => {
-    const url = `/api/group/${groupId}/user`;
+    const url = `/api/v1/group/${groupId}/user`;
     api.post(url)
         .set('authorization', token)
         .send({
@@ -584,7 +584,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return status code 200 When a signed in user posts to a group', (done) => {
-    const url = `/api/group/${groupId}/message`;
+    const url = `/api/v1/group/${groupId}/message`;
     api.post(url)
         .set('authorization', token)
         .send({
@@ -598,7 +598,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return status code 400 and error message When a signed in user posts to a non existing group', (done) => {
-    const url = '/api/group/0/message';
+    const url = '/api/v1/group/0/message';
     api.post(url)
         .set('authorization', token)
         .send({
@@ -612,7 +612,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return 200 and messages When a signed in user request for messages for an existing group', (done) => {
-    const url = `/api/group/${groupId}/messages`;
+    const url = `/api/v1/group/${groupId}/messages`;
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
@@ -622,7 +622,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return error 404 and error message When a signed in user request for messages for non existing group', (done) => {
-    const url = '/api/group/0/messages';
+    const url = '/api/v1/group/0/messages';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
@@ -632,7 +632,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return error 404 and error message When a signed in user request for messages for non existing group', (done) => {
-    api.get('/api/group/uiy/messages')
+    api.get('/api/v1/group/uiy/messages')
         .set('authorization', token)
         .end((err, res) => {
           expect(res.status).toEqual(400);
@@ -641,7 +641,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return status code 200 When a signed in user requests for members of an existing group', (done) => {
-    const url = `/api/group/${groupId}/users`;
+    const url = `/api/v1/group/${groupId}/users`;
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
@@ -651,7 +651,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return 404 and error messages When a signed in user request for members of non existing group', (done) => {
-    const url = '/api/group/0/users';
+    const url = '/api/v1/group/0/users';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
@@ -661,7 +661,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return 200 and messages When a signed in user request for Other users', (done) => {
-    const url = '/api/user/all';
+    const url = '/api/v1/user/all';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
@@ -673,7 +673,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return 200 and messages When a signed in user request for his groups', (done) => {
-    const url = '/api/user/groups';
+    const url = '/api/v1/user/groups';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
@@ -685,7 +685,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return 200 and messages When a signed in user request for his personal messages', (done) => {
-    const url = '/api/user/mymessage';
+    const url = '/api/v1/user/mymessage';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
@@ -698,7 +698,7 @@ describe('when a user makes a request to the APIs', () => {
   }, 3000);
 
   it('should return 200 and messages When a signed in user request for his archived messages', (done) => {
-    const url = '/api/user/archivedMessages';
+    const url = '/api/v1/user/archivedMessages';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
@@ -711,7 +711,7 @@ describe('when a user makes a request to the APIs', () => {
   }, 3000);
 
   it('should return 404 and Error message When an unregister fellow request for password reset', (done) => {
-    const url = '/api/user/forgetpassword';
+    const url = '/api/v1/user/forgetpassword';
     api.post(url)
         .send({
           email: 'emaa@gmail.com'
@@ -724,7 +724,7 @@ describe('when a user makes a request to the APIs', () => {
   }, 3000);
 
   it('should return 200 and success message When a register user request for password reset', (done) => {
-    const url = '/api/user/forgetpassword';
+    const url = '/api/v1/user/forgetpassword';
     api.post(url)
         .send({
           email: 'noordean@gmail.com'
@@ -737,7 +737,7 @@ describe('when a user makes a request to the APIs', () => {
   }, 3000);
 
   xit('should return 200 and success message When a register user request for password reset', (done) => {
-    const url = '/api/user/forgetpassword';
+    const url = '/api/v1/user/forgetpassword';
     api.post(url)
         .send({
           email: 'noordean@gmail.com',
@@ -751,7 +751,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return 403 and Error message When a register user request for password reset but password does not match', (done) => {
-    const url = '/api/user/forgetpassword';
+    const url = '/api/v1/user/forgetpassword';
     api.post(url)
         .send({
           email: 'noordean@gmail.com',
@@ -765,7 +765,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return 403 and error message When a register user searches for other users but search term missing', (done) => {
-    const url = '/api/users/search';
+    const url = '/api/v1/users/search';
     api.get(url)
         .set('authorization', token)
         .send({
@@ -778,7 +778,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return 200 and success message When a register user searches for other users', (done) => {
-    const url = '/api/users/search';
+    const url = '/api/v1/users/search';
     api.get(url)
         .set('authorization', token)
         .send({
@@ -792,7 +792,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return 404 and error message When a register user accesses no message', (done) => {
-    const url = '/api/user/message/read';
+    const url = '/api/v1/user/message/read';
     api.post(url)
         .set('authorization', token)
         .end((err, res) => {
@@ -802,7 +802,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return 404 and error message When a register user supplies wrong message', (done) => {
-    const url = '/api/user/message/read';
+    const url = '/api/v1/user/message/read';
     api.post(url)
         .set('authorization', token)
         .send({
@@ -815,7 +815,7 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
   it('should return 200 and success message When a register user deletes his account', (done) => {
-    const url = '/api/delete';
+    const url = '/delete';
     api.post(url)
         .set('authorization', token)
         .end((err, res) => {
