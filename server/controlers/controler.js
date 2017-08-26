@@ -31,14 +31,14 @@ const controler = {
     });
   },
   createGroupControler: (req, res) => {
-    const gpName = req.body.gpname;
+    const groupName = req.body.groupname;
     let users = req.body.users;
     const userId = req.token.data.id;
     if (typeof users === 'string') {
       users = users.replace(/ /g, '');
       users = users.split(',');
     }
-    user.createGroup(gpName, userId, users, (result) => {
+    user.createGroup(groupName, userId, users, (result) => {
       if (typeof result === 'string') {
         res.status(400).json({
           message: result
@@ -221,7 +221,8 @@ const controler = {
       user.searchUsers(searchTerm, offset, groupId, (result) => {
         return res.status(200).json({
           message: 'Search Result',
-          users: result
+          users: result.rows,
+          count: result.count
         });
       });
     }
@@ -314,8 +315,39 @@ const controler = {
     }
   },
 
-  googleSignUpControler: (req, res) => {
-    return res.status(200).json({ message: 'Google' });
+  googleAuthControler: (req, res) => {
+    const { name, email, state } = req.body;
+    const username = (email.split('@')[0]).replace(/[^a-zA-Z0-9]/g, '');
+    const password = 'social';
+    if ((name !== '' && name !== undefined) && (email !== '' && email !== undefined) && (username !== '' && username !== undefined)) {
+      if (state === 'Sign Up') {
+        user.googleSignUp(name, email, username, state, password, (result) => {
+          if (typeof result === 'string') {
+            return res.status(400).json({
+              message: result,
+            });
+          } else {
+            return res.status(200).json({
+              message: 'Sign Up Successful',
+              user: result
+            });
+          }
+        });
+      } else {
+        user.googleSignIn(name, email, username, state, password, (result) => {
+          if (typeof result === 'string') {
+            return res.status(400).json({
+              message: result,
+            });
+          } else {
+            return res.status(200).json({
+              message: 'Sign Up Successful',
+              user: result
+            });
+          }
+        });
+      }
+    }
   },
 
 };

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { SET_CURRENT_MEMBERS } from './types/types';
 
 export default function setCurrentMembersAction(data, groupName) {
-  const url = `http://localhost:3300/api/group/${data}/users`;
+  const url = `http://localhost:3300/api/v1/group/${data}/users`;
   return (dispatch) => {
     axios.get(url)
   .then((res) => {

@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import GoogleLogin from './GoogleLogin';
+import googleAuthAction from '../actions/googleAuthAction';
+
 /**
  * [state creates a  sign up form]
  * @type {Object}
@@ -75,12 +78,13 @@ class SignUp extends React.Component {
    * @return {[type]} [description]
    */
   render() {
+    const googleAuth = this.props.googleAuthAction;
     return (
       <div id="signup" className="modal fade reg-form" role="dialog">
         <form className="modal-dialog signupform" onSubmit={this.onSubmit}>
           <div className="modal-header mo">
             <h2 className="form-header center" >Sign Up </h2>
-            <a href="" className="sign-with-google center">Sign Up with Google+ </a>
+            <GoogleLogin type={'SignUp'} googleAction={googleAuth} />
             <p className="alert alert-danger center">{this.props.message}</p>
           </div>
           <div className="form-group">
@@ -176,6 +180,7 @@ class SignUp extends React.Component {
 
 SignUp.propTypes = {
   userSignup: React.PropTypes.func.isRequired,
+  googleAuthAction: React.PropTypes.func.isRequired,
   message: React.PropTypes.string.isRequired
 };
 
@@ -186,8 +191,14 @@ SignUp.propTypes = {
  * @return {[object]}              [the part of App data needed by this component]
  */
 function mapStateToProps(state) {
+  let message;
+  if (state.authUser.auth_message.data === undefined) {
+    message = '';
+  } else {
+    message = state.authUser.auth_message.data;
+  }
   return {
-    message: state.authUser.auth_message.data
+    message
   };
 }
-export default connect(mapStateToProps)(SignUp);
+export default connect(mapStateToProps, { googleAuthAction })(SignUp);

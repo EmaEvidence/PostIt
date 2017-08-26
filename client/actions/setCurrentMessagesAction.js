@@ -3,7 +3,7 @@ import { SET_CURRENT_MESSAGES } from './types/types';
 
 
 export default function setCurrentMessagesAction(data, groupName) {
-  const url = `http://localhost:3300/api/group/${data}/messages`;
+  const url = `http://localhost:3300/api/v1/group/${data}/messages`;
   return (dispatch) => {
     axios.get(url)
   .then((res) => {

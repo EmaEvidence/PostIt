@@ -52,6 +52,10 @@ const UserModel = {
         msg: 'Please supply a valid Phone Number.'
       }
     }
+  },
+  authType: {
+    type: Sequelize.STRING,
+    defaultValue: 'Normal'
   }
 };
 

@@ -22,17 +22,19 @@ export class AllMessages extends React.Component {
         </p>
       );
     } else {
-      Messagelist = (this.props.messages).map((message, index) =>
+      Messagelist = (this.props.messages).map(message =>
         (
-          <p
-            key={index}
-          >
-            { message.message }
-            <br />
-            <i className="chip">{message.priority}</i>
-            <i className="chip">{message.createdAt}</i><br />
+          <span>
+            <p
+              key={message.id}
+            >
+              { message.message }
+              <br />
+              <i className="chip">{message.priority}</i>
+              <i className="chip">{message.createdAt}</i><br />
+            </p>
             <hr />
-          </p>
+          </span>
       ));
     }
     return (

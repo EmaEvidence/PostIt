@@ -10,7 +10,7 @@ import { ADD_USER_GROUPS } from './types/types';
 export default function getUserGroupsAction(data) {
   const userId = data.id;
   return (dispatch) => {
-    axios.get('http://localhost:3300/api/user/groups', { userId })
+    axios.get('http://localhost:3300/api/v1/user/groups', { userId })
     .then((res) => {
       dispatch({
         group: [res.data.groups],

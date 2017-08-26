@@ -12,6 +12,11 @@ export default function reducer(state = {
         status: action.message
       });
     }
+    case 'CLEAR_CREATE_GROUP_STATUS': {
+      return Object.assign({}, state, {
+        status: ''
+      });
+    }
     default:
       return state;
   }

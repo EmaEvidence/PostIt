@@ -5,7 +5,7 @@ import userSigninRequest from '../actions/SignInAction';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
 import CreateGroup from './CreateGroup';
-import Notifications from './Notification';
+// import Notifications from './Notification';
 import ForgetPassword from './ForgetPassword';
 import authUser from '../actions/authAction';
 import createGroupAction from '../actions/createGroupAction';
@@ -96,7 +96,6 @@ class Index extends React.Component {
         <SignUp userSignup={userSignup} authUser={authUserAction} />
         <LogIn userSignin={Login} authUser={authUserAction} />
         <CreateGroup createGroupAction={createGroup} />
-        <Notifications />
         <ForgetPassword />
       </div>
     );

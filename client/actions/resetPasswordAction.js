@@ -11,7 +11,7 @@ import { RESET_PASSWORD_SUCCESS, RESET_PASSWORD_ERROR } from './types/types';
  */
 export default function resetPasswordAction(newpassword, userKey) {
   return (dispatch) => {
-    axios.post('http://localhost:3300/api/user/newpassword', { newpassword, userKey })
+    axios.post('http://localhost:3300/api/v1/user/newpassword', { newpassword, userKey })
     .then((res) => {
       console.log(res.data.message);
       return dispatch({

@@ -19,6 +19,11 @@ export default function reducer(state = {
         status: action.message
       });
     }
+    case 'CLEAR_POST_MESSAGE_STATUS': {
+      return Object.assign({}, state, {
+        status: ''
+      });
+    }
     default:
       return state;
   }

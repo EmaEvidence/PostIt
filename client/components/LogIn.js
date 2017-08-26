@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Input from './Input';
+import GoogleLogin from './GoogleLogin';
+import googleAuthAction from '../actions/googleAuthAction';
 
 /**
  * [Login Component]
@@ -55,11 +57,13 @@ class LogIn extends React.Component {
    * @return {[jsx]} [description]
    */
   render() {
+    const googleAuth = this.props.googleAuthAction;
     return (
       <div id="signin" className="modal fade reg-form" role="dialog">
         <form onSubmit={this.onSubmit} className="modal-dialog">
           <div className="modal-header">
             <h2 className="form-header" >Sign In </h2>
+            <GoogleLogin type={'Sign In '} googleAction={googleAuth} />
             <p className="center">{this.props.status ? this.props.status : this.state.status}</p>
           </div>
           <Input
@@ -120,4 +124,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(LogIn);
+export default connect(mapStateToProps, { googleAuthAction })(LogIn);

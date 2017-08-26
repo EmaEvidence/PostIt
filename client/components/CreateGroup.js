@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import getUserGroupsAction from '../actions/getUserGroupsAction';
+import clearStoreAction from '../actions/clearStoreAction';
 
 /**
  * [createGroup component for creating new group]
@@ -25,6 +27,7 @@ class CreateGroup extends React.Component {
     };
     this.onChange = this.onChange.bind(this);
     this.createGroup = this.createGroup.bind(this);
+    this.clear = this.clear.bind(this);
   }
   /**
    * [onChange stores the form component value in the state]
@@ -47,7 +50,7 @@ class CreateGroup extends React.Component {
     event.preventDefault();
     const members = this.refs.members.value;
     const groupData = {
-      gpname: this.state.groupname,
+      groupname: this.state.groupname,
       purpose: this.state.purpose,
       users: members
     };
@@ -60,6 +63,16 @@ class CreateGroup extends React.Component {
       });
       $('#creategroup').modal('hide');
     });
+  }
+  clear() {
+    this.setState({
+      user: '',
+      termIsEmpty: true,
+      searchTerm: '',
+      offset: 0,
+      pageCount: ''
+    });
+    this.props.clearStoreAction('createGroup');
   }
   /**
    * [render ]
@@ -94,7 +107,7 @@ class CreateGroup extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label> Add members by username </label>
+            <label htmlFor="input"> Add members by username </label>
             <div className="chips chips-autocomplete" />
             <input
               type="hidden"
@@ -112,6 +125,7 @@ class CreateGroup extends React.Component {
             />
             <button
               type="reset"
+              onClick={this.clear}
               className="form-control close custombutton"
               data-dismiss="modal"
             >Cancel</button>
@@ -123,9 +137,10 @@ class CreateGroup extends React.Component {
 }
 
 CreateGroup.propTypes = {
-  createGroupAction: React.PropTypes.func.isRequired,
-  status: React.PropTypes.string.isRequired,
-  userId: React.PropTypes.number.isRequired
+  createGroupAction: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired,
+  userId: PropTypes.number.isRequired,
+  clearStoreAction: PropTypes.func.isRequired
 };
 /**
  * [mapStateToProps description]
@@ -135,13 +150,15 @@ CreateGroup.propTypes = {
  */
 function mapStateToProps(state) {
   let status = 'xcvxcv';
+  let userId = '';
   if (state.createGroupReducer !== undefined) {
     status = state.createGroupReducer.status;
+    userId = state.authUser.user_details.id;
   }
   return {
     status,
-    userId: state.authUser.user_details.id
+    userId
   };
 }
 
-export default connect(mapStateToProps, { getUserGroupsAction })(CreateGroup);
+export default connect(mapStateToProps, { getUserGroupsAction, clearStoreAction })(CreateGroup);

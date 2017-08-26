@@ -86,6 +86,20 @@ class User {
       .then(() => done('Mail Sent'))
       .catch(() => done('Mail Not Sent'));
   }
+
+  /**
+   * [createToken description]
+   * @method createToken
+   * @param  {[type]}    payload [description]
+   * @return {[type]}            [description]
+   */
+  static createToken(payload) {
+    const createdToken = jwt.sign({
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+      data: payload
+    }, process.env.JWT_SECRET);
+    return createdToken;
+  }
   /**
    * [inAppNotify description]
    * @method inAppNotify
@@ -188,11 +202,7 @@ class User {
               phone: user.phone,
               email: user.email
             };
-            const createdToken = jwt.sign({
-              exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-              data: result
-            }, process.env.JWT_SECRET);
-            result.token = createdToken;
+            result.token = User.createToken(result);
             done(result);
           }).catch((err) => {
             if (err.errors[0] === undefined) {
@@ -257,11 +267,7 @@ class User {
               phone: user[0].phone,
               email: user[0].email
             };
-            const createdToken = jwt.sign({
-              exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-              data: result
-            }, process.env.JWT_SECRET);
-            result.token = createdToken;
+            result.token = User.createToken(result);
             done(result);
           } else {
             done('Failed, Wrong Password');
@@ -615,7 +621,8 @@ class User {
       this.db.Groups.findAll({
         attributes: ['id', 'group_name', 'gpCreatorIdId'],
         where: { id: ids },
-        order: [['createdAt', 'DESC']]
+        order: [['createdAt', 'DESC']],
+        include: ['Users']
       }).then((userGroup) => {
         done(userGroup);
       }).catch((err) => {
@@ -680,19 +687,23 @@ class User {
  * [searchUsers description]
  * @method searchUsers
  * @param  {[type]}    searchTerm [description]
+ * @param  {Function}  offset     [description]
+ * @param  {[type]}    groupId [description]
  * @param  {Function}  done       [description]
  * @return {[type]}               [description]
  */
   searchUsers(searchTerm, offset, groupId, done) {
   //  const term = searchTerm.toLowerCase();
     const processedTerm = `%${searchTerm}%`;
-    this.db.Users.findAll({
+    this.db.Users.findAndCountAll({
       attributes: ['id', 'email', 'username'],
       where: {
         username: {
           like: processedTerm
         }
-      }
+      },
+      offset,
+      limit: 5
     })
     .then((result) => {
       done(result);
@@ -813,6 +824,63 @@ class User {
     }
   }
 
+  googleSignUp(name, email, username, state, password = 'social', done) {
+    this.db.Users.findOrCreate({
+      where: {
+        name,
+        username,
+        email,
+        password,
+        phone: '08000000000',
+        authType: 'Google'
+      }
+    }).then((result) => {
+      const user = {
+        id: result[0].id,
+        name: result[0].name,
+        username: result[0].username,
+        phone: result[0].phone,
+        email: result[0].email
+      };
+      user.token = User.createToken(user);
+      done(user);
+    }).catch(() => {
+      done('Error Signing Up with Google, Try Again');
+    });
+  }
+
+  googleSignIn(name, email, username, state, password = 'social', done) {
+    this.db.Users.findAll({
+      where: {
+        username,
+        email,
+        password,
+        authType: 'Google'
+      }
+    }).then((result) => {
+      if (result.length === 0) {
+        done('Please Sign Up First');
+      } else {
+        const user = {
+          id: result[0].id,
+          name: result[0].name,
+          username: result[0].username,
+          phone: result[0].phone,
+          email: result[0].email
+        };
+        user.token = User.createToken(user);
+        done(user);
+      }
+    }).catch(() => {
+      done('Error Signing In with Google, Try Again');
+    });
+  }
+  /**
+   * [clearTables description]
+   * @method clearTables
+   * @param  {Function}  done [description]
+   * @return {[type]}         [description]
+   */
   clearTables(done) {
     this.db.Users.destroy({
       where: {

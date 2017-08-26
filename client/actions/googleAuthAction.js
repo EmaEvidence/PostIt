@@ -1,25 +1,30 @@
 import axios from 'axios';
-
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import authAction from './authAction';
+// import { GOOGLE_AUTH_SUCCESS, GOOGLE_AUTH_ERROR } from './types/types';
 
-/**
- * [userSignupRequest description]
- * @method userSignupRequest
- * @param  {[type]}          userData [description]
- * @return {[type]}                   [description]
- */
-export default function userSignupRequest(userData) {
+export default function googleAuthAction(data) {
+  console.log(data);
+  const url = 'http://localhost:3300/api/v1/user/google';
   return (dispatch) => {
-    axios.post('http://127.0.0.1:3300/api/v1/user/signup', userData)
+    axios.post(url, data)
     .then((res) => {
       const token = res.data.user.token;
       setAuthorizationToken(token);
+      // dispatch({
+      //   messages: res.data.messages,
+      //   type: GOOGLE_AUTH_SUCCESS
+      // });
       dispatch(authAction({
         data: res.data.user
       }, 'Success'));
       window.location = '/messageboard';
-    }).catch((err) => {
+    })
+    .catch((err) => {
+      // dispatch({
+      //   message: 'Error Fetching Messa',
+      //   type: GOOGLE_AUTH_ERROR
+      // });
       if (err.response === undefined) {
         dispatch(authAction({
           data: 'Internal Error'

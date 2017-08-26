@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Groups from './Groups';
 import CreateGroup from './CreateGroup';
@@ -13,6 +14,7 @@ import SendMessage from './SendMessage';
 import createGroupAction from '../actions/createGroupAction';
 import myMessageAction from '../actions/myMessageAction';
 import archivedMessagesAction from '../actions/archivedMessagesAction';
+import clearStoreAction from '../actions/clearStoreAction';
 
 /**
  * [myMessages description]
@@ -66,6 +68,7 @@ class MessageBoard extends React.Component {
         display: 'none',
         icon: 'edit'
       });
+      this.props.clearStoreAction('sendMessage');
     }
   }
   /**
@@ -126,10 +129,11 @@ class MessageBoard extends React.Component {
 }
 
 MessageBoard.propTypes = {
-  createGroupAction: React.PropTypes.func.isRequired,
-  myMessageAction: React.PropTypes.func.isRequired,
-  archivedMessagesAction: React.PropTypes.func.isRequired,
-  groups: React.PropTypes.string.isRequired
+  createGroupAction: PropTypes.func.isRequired,
+  myMessageAction: PropTypes.func.isRequired,
+  archivedMessagesAction: PropTypes.func.isRequired,
+  groups: PropTypes.string.isRequired,
+  clearStoreAction: PropTypes.func.isRequired
 };
 
 /**
@@ -150,4 +154,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  createGroupAction, myMessageAction, archivedMessagesAction })(MessageBoard);
+  createGroupAction, myMessageAction, archivedMessagesAction, clearStoreAction })(MessageBoard);

@@ -77,7 +77,7 @@ Router.post('/api/v1/user/message/read', controler.ensureToken, controler.messag
 
 Router.post('/api/v1/users/search', controler.ensureToken, controler.searchUserControler);
 
-// Router.post('/api/user/google', controler.googleSignUpControler);
+Router.post('/api/v1/user/google', controler.googleAuthControler);
 
 Router.post('/api/v1/user/forgetpassword', controler.forgetPasswordControler);
 

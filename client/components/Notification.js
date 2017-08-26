@@ -1,29 +1,50 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class Notification extends React.Component {
   render() {
+    const checkIfMessageEmpty = Object.keys(this.props.notifications);
+    let notificationList;
+    if (checkIfMessageEmpty.length === 0) {
+      notificationList = (
+        <li>
+            No Message Yet
+        </li>
+      );
+    } else {
+      notificationList = (this.props.notifications).map((notification, index) =>
+        (
+          <p
+            key={index}
+          >
+            { notification.group }
+            <br />
+            <i className="chip">{notification.author}</i>
+            <i className="chip">{notification.time}</i><br />
+            <hr />
+          </p>
+      ));
+    }
     return (
-      <div id="notifications" className="modal fade reg-form">
-        <h2> Notifications </h2>
-        <div className="messagecard">
-          <p>
-            emmanuel Alabi sent a message to Cohort 28
-            <hr />
-          </p>
-          <p>
-            Ayo Ade sent a message to Family
-            <hr />
-          </p>
-        </div>
-        <button
-          type="button"
-          className="form-control deep-purple lighten-4 modal-close custombutton"
-          data-dismiss="modal"
-        >
-        Cancel</button>
-      </div>
+      // <div className="dropdown">
+      //   <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+        // <span className="caret"></span></button>
+        <ul className="dropdown-menu">
+          { notificationList }
+        </ul>
+      // </div>
     );
   }
 }
 
-export default Notification;
+Notification.PropTypes = {
+  notifications: PropTypes.object
+}
+
+function mapStateToProps(state) {
+  return ({
+    notifications: state.notificationReducer.notification
+  });
+}
+export default connect(mapStateToProps, {})(Notification);
