@@ -177,8 +177,16 @@ section p {
   font-size: 30px;
   background: green;
 }
-#notifications {
-  padding: 5%;
+.notifications {
+  color: purple;
+  line-height: 20px;
+  li {
+    padding-left: 6%;
+  }
+  li:hover {
+    background: #ccc;
+    cursor: pointer;
+  }
 }
 #forgetpwd {
   padding: 5%;

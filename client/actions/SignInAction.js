@@ -12,7 +12,9 @@ export default function userSigninRequest(userData) {
         data: res.data.user
       }, 'Success'));
       window.location = '/messageboard';
+      console.log('123456');
     }).catch((err) => {
+      console.log(err, '======error======');
       dispatch(authAction({
         data: err.response.data.message
       }, 'Error'));

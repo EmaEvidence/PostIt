@@ -158,7 +158,7 @@ class User {
    * @param  {Function}         done            [description]
    * @return {[type]}                           [description]
    */
-  clearInAppNotitice(notificationIds, done) {
+  clearInAppNotice(notificationIds, done) {
     this.db.notifications.update({ Status: 'Seen' },
       {
         where: {
@@ -253,7 +253,8 @@ class User {
     this.db.Users.findAll({
       where: {
         username: userName
-      }
+      },
+      include: ['Notifications']
     }).then((user) => {
       if (user.length === 0) {
         done('Failed, Username not Found');
@@ -265,7 +266,8 @@ class User {
               name: user[0].name,
               username: user[0].username,
               phone: user[0].phone,
-              email: user[0].email
+              email: user[0].email,
+              notifications: user[0].Notifications
             };
             result.token = User.createToken(result);
             done(result);

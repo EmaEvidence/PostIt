@@ -14,11 +14,10 @@ export default function reducer(state = {
 }, action) {
   switch (action.type) {
     case 'SET_CURRENT_MEMBERS': {
-      return Object.assign({}, state, {
+      return { ...state,
         current_members: action.members,
         status: action.status,
-        current_group: action.groupName
-      });
+        current_group: action.groupName };
     }
     default:
       return state;

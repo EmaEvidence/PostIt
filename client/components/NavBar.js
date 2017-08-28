@@ -2,21 +2,29 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Notification from './Notification';
+
 export class NavBar extends React.Component {
   constructor(props){
     super(props);
 
     this.logOut = this.logOut.bind(this);
   }
-
+  /**
+   * [logOut description]
+   * @method logOut
+   * @return {[type]} [description]
+   */
   logOut() {
     window.localStorage.removeItem('token');
     window.location.href = '/';
+    alert(1234);
   }
 
   render() {
     const status = this.props.logged_in_status;
     const username = JSON.parse(this.props.user_details);
+    const notifications = JSON.parse(this.props.user_details).notifications;
     let nav;
     if (status || username === '') {
       nav = (<header className="navbar-fixed postitheader">
@@ -25,8 +33,13 @@ export class NavBar extends React.Component {
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/messageboard"> Message Board </Link></li>
-            <li><a className="" href="#notifications">
-             Notification 2</a></li>
+            <li className="dropdown">
+              <a className="dropdown-toggle" href="" data-toggle="dropdown">
+             Notification
+             <span className="new badge deep-purple lighten-3">{notifications.length}</span>
+              </a>
+              <Notification notifications={notifications} />
+            </li>
             <li>
               <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
             <li> <a href="" onClick={this.logOut}> Log Out </a> </li>
@@ -37,8 +50,13 @@ export class NavBar extends React.Component {
           </a>
           <ul id="menu" className="dropdown-content">
             <li><Link to="/">Home</Link></li>
-            <li><a className="" href="#notifications">
-             Notification 2</a></li>
+            <li className="dropdown">
+              <a className="dropdown-toggle" href="" data-toggle="dropdown">
+             Notification
+             <span className="new badge deep-purple lighten-3">{notifications.length}</span>
+              </a>
+              <Notification notifications={notifications} />
+            </li>
             <li><Link to="/messageboard"> Messages </Link></li>
             <li>
               <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
@@ -100,7 +118,7 @@ function mapStateToProps(state) {
   }
   return {
     logged_in_status: state.authUser.logged_in,
-    user_details: JSON.stringify(state.authUser.user_details)
+    user_details: JSON.stringify(state.authUser.user_details),
   };
 }
 

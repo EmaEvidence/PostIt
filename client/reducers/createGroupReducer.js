@@ -3,19 +3,13 @@ export default function reducer(state = {
 }, action) {
   switch (action.type) {
     case 'CREATE_GROUP': {
-      return Object.assign({}, state, {
-        status: action.message
-      });
+      return { ...state, status: action.message };
     }
     case 'CREATE_GROUP_ERROR': {
-      return Object.assign({}, state, {
-        status: action.message
-      });
+      return { ...state, status: action.message };
     }
     case 'CLEAR_CREATE_GROUP_STATUS': {
-      return Object.assign({}, state, {
-        status: ''
-      });
+      return { ...state, status: '' };
     }
     default:
       return state;

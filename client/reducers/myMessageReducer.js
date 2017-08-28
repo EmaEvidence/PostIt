@@ -10,9 +10,7 @@ export default function reducer(state = {
 }, action) {
   switch (action.type) {
     case 'GET_MY_MESSAGES': {
-      return Object.assign({}, state, {
-        myMessages: [...action.messages]
-      });
+      return { ...state, myMessages: [...action.messages] };
     }
     default:
       return state;

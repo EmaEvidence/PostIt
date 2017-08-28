@@ -10,24 +10,16 @@ export default function reducer(state = {
 }, action) {
   switch (action.type) {
     case 'RESET_MAIL_SUCCESS': {
-      return Object.assign({}, state, {
-        status: action.status,
-      });
+      return { ...state, status: action.status };
     }
     case 'RESET_MAIL_ERROR': {
-      return Object.assign({}, state, {
-        status: action.status
-      });
+      return { ...state, status: action.status };
     }
     case 'RESET_PASSWORD_SUCCESS': {
-      return Object.assign({}, state, {
-        status: action.status
-      });
+      return { ...state, status: action.status };
     }
     case 'RESET_PASSWORD_ERROR': {
-      return Object.assign({}, state, {
-        status: action.status
-      });
+      return { ...state, status: action.status };
     }
     default:
       return state;

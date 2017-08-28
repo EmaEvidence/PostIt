@@ -10,19 +10,13 @@ export default function reducer(state = {
 }, action) {
   switch (action.type) {
     case 'POST_MESSAGE': {
-      return Object.assign({}, state, {
-        status: action.message
-      });
+      return { ...state, status: action.message };
     }
     case 'POST_MESSAGE_ERROR': {
-      return Object.assign({}, state, {
-        status: action.message
-      });
+      return { ...state, status: action.message };
     }
     case 'CLEAR_POST_MESSAGE_STATUS': {
-      return Object.assign({}, state, {
-        status: ''
-      });
+      return { ...state, status: '' };
     }
     default:
       return state;

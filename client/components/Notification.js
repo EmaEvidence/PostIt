@@ -3,37 +3,37 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class Notification extends React.Component {
+  constructor(props){
+    super(props);
+    this.clearNotification = this.clearNotification.bind(this);
+  }
+  clearNotification(event, notificationId) {
+    console.log( event);
+  }
   render() {
-    const checkIfMessageEmpty = Object.keys(this.props.notifications);
+    const notifications = this.props.notifications;
     let notificationList;
-    if (checkIfMessageEmpty.length === 0) {
+    if (notifications.length === 0) {
       notificationList = (
         <li>
-            No Message Yet
+            No Notification
         </li>
       );
     } else {
-      notificationList = (this.props.notifications).map((notification, index) =>
+      notificationList = (notifications).map((notification, index) =>
         (
-          <p
+          <li
             key={index}
+            onMouseOver={this.clearNotification.bind(event, notification.id)}
           >
-            { notification.group }
-            <br />
-            <i className="chip">{notification.author}</i>
-            <i className="chip">{notification.time}</i><br />
-            <hr />
-          </p>
+            { notification.type } in { notification.groupName || notification.groupId}
+          </li>
       ));
     }
     return (
-      // <div className="dropdown">
-      //   <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
-        // <span className="caret"></span></button>
-        <ul className="dropdown-menu">
-          { notificationList }
-        </ul>
-      // </div>
+      <ul className="dropdown-menu notifications">
+        { notificationList }
+      </ul>
     );
   }
 }
@@ -42,9 +42,4 @@ Notification.PropTypes = {
   notifications: PropTypes.object
 }
 
-function mapStateToProps(state) {
-  return ({
-    notifications: state.notificationReducer.notification
-  });
-}
-export default connect(mapStateToProps, {})(Notification);
+export default connect(null, {})(Notification);

@@ -13,17 +13,17 @@ export default function reducer(state = {
 }, action) {
   switch (action.type) {
     case 'ADD_USER_DETAILS': {
-      return Object.assign({}, state, {
+      return { ...state,
         logged_in: true,
         user_details: action.data,
         auth_message: 'Successful'
-      });
+      };
     }
     case 'ADD_USER_DETAILS_ERROR': {
-      return Object.assign({}, state, {
+      return { ...state,
         logged_in: false,
         auth_message: action.data
-      });
+      };
     }
     default:
       return state;

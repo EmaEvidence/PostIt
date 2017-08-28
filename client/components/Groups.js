@@ -88,7 +88,7 @@ class Groups extends React.Component {
                 >
                    Members
               </a>
-            </li>
+              </li>
               <li>
                 <a
                   className="modal-close"
@@ -96,6 +96,14 @@ class Groups extends React.Component {
                   onClick={this.setUsers.bind(null, grp.id, grp.group_name)}
                 >
                 Add New</a>
+              </li>
+              <li>
+                <a
+                  className="modal-close"
+                  href="#addmembers"
+                  onClick={this.setUsers.bind(null, grp.id, grp.group_name)}
+                >
+                Archived Messages</a>
               </li>
               <li>
                 <a

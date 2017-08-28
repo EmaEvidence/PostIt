@@ -12,22 +12,16 @@ export default function reducer(state = {
 }, action) {
   switch (action.type) {
     case 'SEARCH_USER': {
-      return Object.assign({}, state, {
+      return { ...state,
         status: action.message,
         searchResult: action.users,
-        pageCount: Math.ceil(action.count / 5)
-      });
+        pageCount: Math.ceil(action.count / 5) };
     }
     case 'SEARCH_USER_ERROR': {
-      return Object.assign({}, state, {
-        status: action.message
-      });
+      return { ...state, status: action.message };
     }
     case 'CLEAR_SEARCH_USER_STATUS': {
-      return Object.assign({}, state, {
-        status: '',
-        pageCount: 0
-      });
+      return { ...state, status: '', pageCount: 0 };
     }
     default:
       return state;

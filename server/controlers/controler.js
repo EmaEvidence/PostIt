@@ -149,6 +149,7 @@ const controler = {
       });
     } else {
       user.logIn(username, password, (result) => {
+        console.log('login, result', result);
         if (result === 'Failed, Wrong Password' ||
           result === 'Failed, Username not Found') {
           res.status(404).json({

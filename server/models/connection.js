@@ -48,8 +48,8 @@ Messages.belongsTo(Users, {
   as: 'sender'
 });
 Users.hasMany(Notifications, {
-  foreignKey: 'User_Id',
-  as: 'user'
+  foreignKey: 'UserId',
+  as: 'Notifications'
 });
 sequelize.sync({});
 // sequelize.sync({ alter: true });
