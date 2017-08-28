@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// import Notification from './Notification';
+import Notification from './Notification';
 
 export class NavBar extends React.Component {
   constructor(props) {
@@ -27,7 +27,10 @@ export class NavBar extends React.Component {
   render() {
     const status = this.props.loggedInStatus;
     const username = JSON.parse(this.props.userDetails);
-    const notifications = JSON.parse(this.props.userDetails).notifications;
+    let notifications = [];
+    if (JSON.parse(this.props.userDetails).notifications !== undefined) {
+      notifications = JSON.parse(this.props.userDetails).notifications;
+    }
     let nav;
     if (status || username === '') {
       nav = (<header className="navbar-fixed postitheader">
@@ -39,8 +42,9 @@ export class NavBar extends React.Component {
             <li className="dropdown">
               <a className="dropdown-toggle" href="" data-toggle="dropdown">
              Notification
-             <span className="new badge deep-purple lighten-3">{}</span>
+             <span className="new badge deep-purple lighten-3">{notifications.length}</span>
               </a>
+              <Notification notifications={notifications} />
             </li>
             <li>
               <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
@@ -55,8 +59,9 @@ export class NavBar extends React.Component {
             <li className="dropdown">
               <a className="dropdown-toggle" href="" data-toggle="dropdown">
              Notification
-             <span className="new badge deep-purple lighten-3">{}</span>
+             <span className="new badge deep-purple lighten-3">{notifications.length}</span>
               </a>
+              <Notification notifications={notifications} />
             </li>
             <li><Link to="/messageboard"> Messages </Link></li>
             <li>
