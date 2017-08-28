@@ -4,7 +4,7 @@ import { ADD_NEW_MEMBER } from './types/types';
 
 export default function addNewMemberAction(groupId, userId) {
   return (dispatch) => {
-    axios.post(`http://localhost:3300/api/v1/group/${groupId}/user`, { user: userId })
+    axios.post(`/api/v1/group/${groupId}/user`, { user: userId })
     .then((res) => {
       return dispatch({
         type: ADD_NEW_MEMBER,

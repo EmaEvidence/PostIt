@@ -6,7 +6,7 @@ import { GET_ARCHIVED_MESSAGES, GET_ARCHIVED_MESSAGES_ERROR } from './types/type
  * @return {[type]}        [description]
  */
 export default function myMessageAction() {
-  const url = 'http://localhost:3300/api/v1/user/archivedMessages';
+  const url = '/api/v1/user/archivedMessages';
   return (dispatch) => {
     axios.get(url)
     .then((res) => {

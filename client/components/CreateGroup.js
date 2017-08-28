@@ -148,7 +148,7 @@ CreateGroup.propTypes = {
  * @param  {[type]}        state [description]
  * @return {[type]}              [description]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   let status = 'xcvxcv';
   let userId = '';
   if (state.createGroupReducer !== undefined) {
@@ -159,6 +159,6 @@ function mapStateToProps(state) {
     status,
     userId
   };
-}
+};
 
 export default connect(mapStateToProps, { getUserGroupsAction, clearStoreAction })(CreateGroup);

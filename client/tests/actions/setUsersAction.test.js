@@ -21,8 +21,6 @@ describe('async actions', () => {
       { type: SET_USERS }
     ];
     const store = mockStore({}, expectedActions);
-    console.log(store);
-    console.log(setUsersAction('', ''));
     store.dispatch(setUsersAction('', ''));
     store.dispatch(setUsersAction()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);

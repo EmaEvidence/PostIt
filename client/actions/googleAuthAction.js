@@ -4,8 +4,7 @@ import authAction from './authAction';
 // import { GOOGLE_AUTH_SUCCESS, GOOGLE_AUTH_ERROR } from './types/types';
 
 export default function googleAuthAction(data) {
-  console.log(data);
-  const url = 'http://localhost:3300/api/v1/user/google';
+  const url = '/api/v1/user/google';
   return (dispatch) => {
     axios.post(url, data)
     .then((res) => {

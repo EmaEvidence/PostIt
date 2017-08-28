@@ -31,8 +31,6 @@ if(localStorage.token) {
     if (decoded) {
       store.dispatch(authAction(decoded.data, 'Success'));
       store.dispatch(getUserGroupsAction(decoded.data));
-    } else {
-      console.log(err);
     }
   });
 }

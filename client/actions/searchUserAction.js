@@ -16,7 +16,7 @@ export default function searchUserAction(searchTerm, offset, groupId) {
     groupId
   };
   return (dispatch) => {
-    axios.post('http://localhost:3300/api/v1/users/search', payload)
+    axios.post('/api/v1/users/search', payload)
     .then((res) => {
       return dispatch({
         message: res.data.message,

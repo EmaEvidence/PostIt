@@ -62,7 +62,7 @@ ArchiveMessages.propTypes = {
  * @param  {[type]}        state [description]
  * @return {[type]}              [description]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   let archivedMessages = '';
   if (state.getUserGroupsReducer !== undefined) {
     archivedMessages = JSON.stringify(state.archivedMessagesReducer.archivedMessages);

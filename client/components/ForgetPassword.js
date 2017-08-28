@@ -67,10 +67,10 @@ class ForgetPassword extends React.Component {
 ForgetPassword.PropTypes = {
 };
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     response: state.resetPasswordReducer.status
   };
-}
+};
 
 export default connect(mapStateToProps, { passwordResetMailAction })(ForgetPassword);

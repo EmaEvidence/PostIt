@@ -8,7 +8,7 @@ class LoginWithGoogle extends React.Component {
       const name = response.w3.ig;
       const email = response.w3.U3;
       if (this.props.type === 'SignUp') {
-        this.props.googleAction({ name, email, state: 'Sign Up'});
+        this.props.googleAction({ name, email, state: 'Sign Up' });
       } else {
         this.props.googleAction({ name, email, state: 'Sign In' });
       }

@@ -5,7 +5,7 @@ import getUserGroupsAction from './getUserGroupsAction';
 export default function createGroupAction(groupData, id) {
   return (dispatch, getState) => {
     const groups = getState().getUserGroupsReducer.groups;
-    return axios.post('http://localhost:3300/api/v1/group', groupData)
+    return axios.post('/api/v1/group', groupData)
     .then((res) => {
       groups.push(res.data.group);
       dispatch(getUserGroupsAction({ id }));

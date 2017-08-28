@@ -9,9 +9,9 @@ Router.use(bodyParser.urlencoded({ extended: true }));
 Router.use(validator());
 
 
-Router.get('/', (req, res) => {
-  res.status(200).send('Post It API running');
-});
+// Router.get('/', (req, res) => {
+//   res.status(200).send('Post It API running');
+// });
 
 Router.get('/api/v1/user/all', controler.getAllUsersControler);
 /**
@@ -88,12 +88,12 @@ Router.get('/api/v1/user/mymessage', controler.ensureToken, controler.mymessageC
 Router.get('/api/v1/user/archivedMessages', controler.ensureToken, controler.archivedMessagesControler);
 
 
-Router.get('*', (req, res) => {
-  res.status(404).send('Page Not Found');
-});
+// Router.get('*', (req, res) => {
+//   res.status(404).send('Page Not Found');
+// });
 
-Router.post('*', (req, res) => {
-  res.status(404).send('Page Not Found');
-});
+// Router.post('*', (req, res) => {
+//   res.status(404).send('Page Not Found');
+// });
 
 export default Router;

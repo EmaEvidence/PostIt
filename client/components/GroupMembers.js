@@ -68,13 +68,13 @@ class GroupMembers extends React.Component {
  * @param  {[type]}        state [description]
  * @return {[type]}              [description]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     status: state.setCurrentMembersReducer.status,
     members: state.setCurrentMembersReducer.current_members,
     groupName: state.setCurrentMembersReducer.current_group
   };
-}
+};
 
 
 export default connect(mapStateToProps)(GroupMembers);

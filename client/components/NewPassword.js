@@ -120,7 +120,7 @@ NewPassword.propTypes = {
  * @param  {[object]}        state [the store for all app data]
  * @return {[object]}              [login State]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     status: state.resetPasswordReducer.status
   };

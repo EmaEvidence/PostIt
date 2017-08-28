@@ -53,14 +53,14 @@ export class AllMessages extends React.Component {
  * @param  {[type]}        state [description]
  * @return {[type]}              [description]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
   //  groupId: state.setCurrentGroupReducer.current_group,
     status: state.setCurrentMessagesReducer.status,
     messages: state.setCurrentMessagesReducer.current_messages,
     groupName: state.setCurrentMessagesReducer.current_group
   };
-}
+};
 
 AllMessages.propTypes = {
   messages: PropTypes.array.isRequired,

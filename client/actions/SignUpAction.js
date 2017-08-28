@@ -11,7 +11,7 @@ import authAction from './authAction';
  */
 export default function userSignupRequest(userData) {
   return (dispatch) => {
-    axios.post('http://127.0.0.1:3300/api/v1/user/signup', userData)
+    axios.post('/api/v1/user/signup', userData)
     .then((res) => {
       const token = res.data.user.token;
       setAuthorizationToken(token);

@@ -47,6 +47,7 @@
     "nodemailer": "^4.0.1",
     "nodemon": "^1.11.0",
     "npm": "^5.0.4",
+    "path": "^0.12.7",
     "pg": "^6.2.4",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
@@ -71,7 +72,8 @@
     "url-loader": "^0.5.9",
     "webpack": "^3.0.0",
     "webpack-dev-middleware": "^1.11.0",
-    "webpack-dev-server": "^2.5.0"
+    "webpack-dev-server": "^2.5.0",
+    "webpack-hot-middleware": "^2.18.2"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -93,7 +95,7 @@
     "client-test": "jest",
     "test": "NODE_ENV='test' gulp",
     "prestart": "babel server/src --out-dir dist && npm run clear && npm run copy-files",
-    "start": "nodemon --exec babel-node server/server.js & webpack-dev-server --content-base client/dist/",
+    "start": "nodemon --exec babel-node server/server.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "author": "EmaEvidence",

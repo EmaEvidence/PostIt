@@ -8,7 +8,6 @@ class Notification extends React.Component {
     this.clearNotification = this.clearNotification.bind(this);
   }
   clearNotification(event, notificationId) {
-    console.log( event);
   }
   render() {
     const notifications = this.props.notifications;

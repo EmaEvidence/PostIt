@@ -118,10 +118,10 @@ LogIn.propTypes = {
  * @param  {[object]}        state [the store for all app data]
  * @return {[object]}              [login State]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     status: state.authUser.auth_message.data
   };
-}
+};
 
 export default connect(mapStateToProps, { googleAuthAction })(LogIn);

@@ -58,7 +58,7 @@ SentMessages.propTypes = {
  * @param  {[type]}        state [description]
  * @return {[type]}              [description]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   let myMessages = '';
   if (state.getUserGroupsReducer !== undefined) {
     myMessages = JSON.stringify(state.myMessagesReducer.myMessages);

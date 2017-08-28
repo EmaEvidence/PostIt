@@ -201,7 +201,7 @@ AddMembers.propTypes = {
  * @param  {[object]}        state [the entire redux store]
  * @return {[object]}              [the bit made available for this component]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     groupId: parseInt((state.setUsersReducer.current_group), 10),
     users: state.setUsersReducer.users,
@@ -210,5 +210,8 @@ function mapStateToProps(state) {
     pageCount: state.searchUserReducer.pageCount,
     groups: state.getUserGroupsReducer.groups[0]
   };
-}
-export default connect(mapStateToProps, { addNewMemberAction, searchUserAction, clearStoreAction })(AddMembers);
+};
+
+export default connect(mapStateToProps, { addNewMemberAction,
+  searchUserAction,
+  clearStoreAction })(AddMembers);

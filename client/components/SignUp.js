@@ -190,7 +190,7 @@ SignUp.propTypes = {
  * @param  {[object]}        state [the entire App data]
  * @return {[object]}              [the part of App data needed by this component]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   let message;
   if (state.authUser.auth_message.data === undefined) {
     message = '';

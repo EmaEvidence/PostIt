@@ -31,9 +31,9 @@ class CreateMessage extends React.Component {
    * @param  {[type]} e [description]
    * @return {[type]}   [description]
    */
-  onChange(e) {
+  onChange(event) {
     this.setState({
-      [e.target.name]: e.target.value,
+      [event.target.name]: event.target.value,
     });
   }
   /**
@@ -55,8 +55,8 @@ class CreateMessage extends React.Component {
    * @param  {[type]}            e [description]
    * @return {[type]}              [description]
    */
-  charactersRemaining(e) {
-    const charactersLeft = 300 - (e.target.value).length;
+  charactersRemaining(event) {
+    const charactersLeft = 300 - (event.target.value).length;
     this.setState({
       charactersLeft
     });
@@ -67,8 +67,8 @@ class CreateMessage extends React.Component {
    * @param  {[type]}    e [description]
    * @return {[type]}      [description]
    */
-  sendMessage(e) {
-    e.preventDefault();
+  sendMessage(event) {
+    event.preventDefault();
     this.props.postMessageAction({
       id: this.state.group,
       message: this.state.message,
@@ -171,7 +171,7 @@ CreateMessage.propTypes = {
  * @param  {[type]}        state [description]
  * @return {[type]}              [description]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   let groups = '';
   if (state.getUserGroupsReducer.groups !== undefined) {
     groups = JSON.stringify(state.getUserGroupsReducer.groups);

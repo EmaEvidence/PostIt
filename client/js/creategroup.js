@@ -54,7 +54,3 @@ $(document).ready(function() {
 $(document).ready(function () {
     $('.modal').modal();
 });
-
-function hideForm() {
-  alert('12345');
-}

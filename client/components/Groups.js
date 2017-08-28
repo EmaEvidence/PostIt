@@ -148,10 +148,10 @@ Groups.propTypes = {
  * @param  {[type]}        state [description]
  * @return {[type]}              [description]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     state
   };
-}
+};
 
 export default connect(mapStateToProps, { setUsersAction, setCurrentMessagesAction, setCurrentMembersAction })(Groups);

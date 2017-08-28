@@ -115,11 +115,11 @@ Index.propTypes = {
  * @param  {[type]}        state [description]
  * @return {[type]}              [description]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     status: state.authUser.logged_in
   };
-}
+};
 
 
 export default connect(mapStateToProps, { userSignupRequest, userSigninRequest, authUser, createGroupAction })(Index);

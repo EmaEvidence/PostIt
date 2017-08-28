@@ -768,14 +768,13 @@ class User {
         const link = 'http://www.facebook.com';
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(email, salt, (err, hash) => {
-            console.log(hash);
             const sendMail = User.mailer({
               from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
               to: email,
               subject: 'Password Resett',
               text: 'You have requested for a password reset. Follow the link below to reset your password',
               html: `<h3>You have requested for a password reset. Follow the link below to reset your password</h3>
-                      <a href=${link}>Click Me to Change Password</a>`
+                      <a href=${link}/${hash}>Click Me to Change Password</a>`
             });
             done(sendMail);
           });

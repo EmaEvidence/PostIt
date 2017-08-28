@@ -142,7 +142,7 @@ MessageBoard.propTypes = {
  * @param  {[type]}        state [description]
  * @return {[type]}              [description]
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   let groups = 'xcvxcv';
   if (state.getUserGroupsReducer !== undefined) {
     groups = JSON.stringify(state.getUserGroupsReducer.groups);
@@ -151,7 +151,7 @@ function mapStateToProps(state) {
     groups,
     user_details: JSON.stringify(state.authUser.user_details)
   };
-}
+};
 
 export default connect(mapStateToProps, {
   createGroupAction, myMessageAction, archivedMessagesAction, clearStoreAction })(MessageBoard);

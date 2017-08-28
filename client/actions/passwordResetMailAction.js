@@ -9,7 +9,7 @@ import { RESET_MAIL_SUCCESS, RESET_MAIL_ERROR } from './types/types';
  */
 export default function passwordResetMailAction(data) {
   return (dispatch) => {
-    axios.post('http://localhost:3300/api/v1/user/forgetpassword', data)
+    axios.post('/api/v1/user/forgetpassword', data)
     .then((res) => {
       return dispatch({
         status: res.data.message,

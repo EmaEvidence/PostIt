@@ -9,7 +9,7 @@ import { POST_MESSAGE, POST_MESSAGE_ERROR } from './types/types';
  */
 export default function postMessageAction(data) {
   const id = data.id;
-  const url = `http://localhost:3300/api/v1/group/${id}/message`;
+  const url = `/api/v1/group/${id}/message`;
   return (dispatch) => {
     axios.post(url, data)
     .then((res) => {
