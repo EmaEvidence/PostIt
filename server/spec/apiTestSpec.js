@@ -17,7 +17,7 @@ describe('When a User makes a request to the APIs', () => {
             done(err);
           });
   }, 10000);
-  xit('should return status code 400 if no parameter is sent to the /signup end point', (done) => {
+  it('should return status code 400 if no parameter is sent to the /signup end point', (done) => {
     api.post('/api/v1/user/signup')
           .send({
             password: 'qwerty123@'
@@ -29,7 +29,7 @@ describe('When a User makes a request to the APIs', () => {
           });
   }, 10000);
 
-  xit('should return status code 400 if not all parameters are sent the /signup end point', (done) => {
+  it('should return status code 400 if not all parameters are sent the /signup end point', (done) => {
     api.post('/api/v1/user/signup')
           .send({
             password: 'qwerty123@',
