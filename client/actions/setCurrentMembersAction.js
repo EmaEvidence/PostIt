@@ -16,6 +16,7 @@ export default function setCurrentMembersAction(data, groupName) {
     });
   })
   .catch((err) => {
+    console.log(err.response);
     const status = err.response.data.message;
     return dispatch({
       messages: '',

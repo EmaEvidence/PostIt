@@ -1,13 +1,22 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+
 import CreateMessage from './CreateMessage';
 import CreateGroup from './CreateGroup';
 import MessageBoard from './MessageBoard';
 import NewPassword from './NewPassword';
 import Index from './Index';
 import NotFound from './NotFound';
-
+/**
+ * [App ]
+ * @type {[type]}
+ */
 class App extends React.Component {
+  /**
+   * [render displays the html ]
+   * @method render
+   * @return {ReactElement} [markup]
+   */
   render() {
     const token = localStorage.getItem('token');
     let creatMessageBody;

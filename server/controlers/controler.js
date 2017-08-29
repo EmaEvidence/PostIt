@@ -4,6 +4,13 @@ import User from '../src/user';
 const user = new User();
 
 const controler = {
+  /**
+   * [addUserControler controls the addition of a user to a group]
+   * @method addUserControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   addUserControler: (req, res) => {
     const groupId = req.params.groupid;
     const usersToAdd = req.body.user;
@@ -11,11 +18,11 @@ const controler = {
     user.addUsers(groupId, usersToAdd, userAdding, (result) => {
       if (typeof result === 'string') {
         if (result.search('UserId') >= 0) {
-          res.status(400).json({
+          res.status(404).json({
             message: 'User Does not exist'
           });
         } else if (result.search('GroupId') >= 0) {
-          res.status(400).json({
+          res.status(404).json({
             message: 'Group Does not exist'
           });
         }
@@ -30,6 +37,13 @@ const controler = {
       }
     });
   },
+  /**
+   * [createGroupControler controls the creation of a group]
+   * @method createGroupControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   createGroupControler: (req, res) => {
     const groupName = req.body.groupname;
     let users = req.body.users;
@@ -51,6 +65,13 @@ const controler = {
       }
     });
   },
+  /**
+   * [deleteUserControler controls the removal of an existing user]
+   * @method deleteUserControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   deleteUserControler: (req, res) => {
     const userId = req.body.user || req.token.data.email;
     user.deleteUserss(userId, (result) => {
@@ -62,6 +83,13 @@ const controler = {
     });
   },
 
+  /**
+   * [getGroupMessagesControler controls the retrieval of messages for a group]
+   * @method getGroupMessagesControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   getGroupMessagesControler: (req, res) => {
     const groupId = req.params.groupid;
     if (isNaN(groupId) || parseInt(groupId, 10) > 10000000000) {
@@ -82,6 +110,13 @@ const controler = {
       }
     });
   },
+  /**
+   * [getGroupUsersControler controls the retrieval of every member of a group]
+   * @method getGroupUsersControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   getGroupUsersControler: (req, res) => {
     const groupId = req.params.groupid;
     if (isNaN(groupId) || parseInt(groupId, 10) > 10000000000) {
@@ -102,6 +137,13 @@ const controler = {
       }
     });
   },
+  /**
+   * [getUserGroupsControler controls retrieval of every group a user belongs to]
+   * @method getUserGroupsControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   getUserGroupsControler: (req, res) => {
     const userId = req.token.data.id;
     user.getUserGroups(userId, (result) => {
@@ -117,28 +159,61 @@ const controler = {
       }
     });
   },
+  /**
+   * [postMessageControler controls posting of messages to a group]
+   * @method postMessageControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   postMessageControler: (req, res) => {
     const groupId = req.params.groupid;
     const message = req.body.message;
     const priority = (req.body.priority) ? req.body.priority : 'Normal';
     const from = req.token.data.id;
-    user.postMessage(groupId, from, message, priority, (result, users) => {
-      if (typeof result === 'string') {
-        res.status(404).json({
-          message: 'Group does not Exist'
-        });
-      } else {
-        user.inAppNotify(users, groupId, from);
-        res.status(200).json({
-          messageData: result,
-          message: 'Message Added.'
-        });
-      }
-    });
+    if (groupId === '' || groupId === undefined) {
+      res.status(400).json({
+        message: 'Group must be specified'
+      });
+    } else if (from === '' || from === undefined) {
+      res.status(400).json({
+        message: 'Sender must be specified'
+      });
+    } else if (message === '' || message === undefined || (message.trim()).length === 0) {
+      res.status(400).json({
+        message: 'message cannot be null'
+      });
+    } else if (priority !== 'Normal' && priority !== 'Critical' && priority !== 'Urgent') {
+      res.status(400).json({
+        message: 'Wrong Priority level'
+      });
+    } else {
+      user.postMessage(groupId, from, message, priority, (result, users) => {
+        if (typeof result === 'string') {
+          res.status(404).json({
+            message: 'Group does not Exist'
+          });
+        } else {
+          user.inAppNotify(users, groupId, from, () => {
+          });
+          res.status(200).json({
+            messageData: result,
+            message: 'Message Added.'
+          });
+        }
+      });
+    }
   },
+
+  /**
+   * [signinControler controls authorization of an existing user]
+   * @method signinControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   signinControler: (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
+    const { username, password } = req.body;
     if (username === undefined || username === '') {
       res.status(400).json({
         message: 'Username can not be empty'
@@ -151,7 +226,7 @@ const controler = {
       user.logIn(username, password, (result) => {
         if (result === 'Failed, Wrong Password' ||
           result === 'Failed, Username not Found') {
-          res.status(404).json({
+          res.status(400).json({
             message: result
           });
         } else {
@@ -163,12 +238,15 @@ const controler = {
       });
     }
   },
+  /**
+   * [signupControler controls registration of a new user]
+   * @method signupControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   signupControler: (req, res) => {
-    const name = req.body.name;
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
-    const phone = req.body.phone;
+    const { name, username, email, password, phone } = req.body;
     user.signUp(name, username, email, password, phone, (result) => {
       if (typeof result !== 'object') {
         res.status(400).json({
@@ -183,6 +261,13 @@ const controler = {
     });
   },
 
+  /**
+   * [getAllUsersControler retrieves every user in the APp]
+   * @method getAllUsersControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   getAllUsersControler: (req, res) => {
     user.getAllUsers((result) => {
       res.json({
@@ -191,6 +276,13 @@ const controler = {
     });
   },
 
+  /**
+   * [messageReadControler controls the group of messages as seen]
+   * @method messageReadControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   messageReadControler: (req, res) => {
     const messageId = req.body.messageId;
     const userId = req.token.data.id;
@@ -213,9 +305,19 @@ const controler = {
     }
   },
 
+  /**
+   * [searchUserControler controls searching for user]
+   * @method searchUserControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   searchUserControler: (req, res) => {
     const { searchTerm, offset, groupId } = req.body;
-    if (searchTerm === '' || searchTerm === undefined) {
+    if ((searchTerm === '' || searchTerm === undefined) ||
+        (offset === '' || offset === undefined) ||
+        (groupId === '' || groupId === undefined)
+      ) {
       return res.status(400).json({ message: 'Please supply a search term' });
     } else {
       user.searchUsers(searchTerm, offset, groupId, (result) => {
@@ -228,6 +330,13 @@ const controler = {
     }
   },
 
+  /**
+   * [mymessageControler controls the retrieval of messages sent by a user]
+   * @method mymessageControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   mymessageControler: (req, res) => {
     const userId = req.token.data.id;
     user.myMessages(userId, (result) => {
@@ -237,7 +346,13 @@ const controler = {
       });
     });
   },
-
+  /**
+   * [archivedMessagesControler controls retrieval of seen messages]
+   * @method archivedMessagesControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   archivedMessagesControler: (req, res) => {
     const userId = req.token.data.id;
     user.archivedMessages(userId, (result) => {
@@ -248,22 +363,37 @@ const controler = {
     });
   },
 
+  /**
+   * [ensureToken verifies the validity of json web token]
+   * @method ensureToken
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @param  {Function}  next [description]
+   * @return {[object]}         []
+   */
   ensureToken: (req, res, next) => {
     const token = req.body.token || req.params.token || req.headers.authorization;
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-          return res.status(200).json({ message: 'Invalid token.' });
+          return res.status(401).json({ message: 'Invalid token.' });
         } else {
           req.token = decoded;
           next();
         }
       });
     } else {
-      return res.status(403).json({ message: 'Access Token Not Provided. Please Sign In' });
+      return res.status(412).json({ message: 'Access Token Not Provided. Please Sign In' });
     }
   },
 
+  /**
+   * [forgetPasswordControler controls the requesting for changing password]
+   * @method forgetPasswordControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   forgetPasswordControler: (req, res) => {
     const email = req.body.email;
     if (email !== '' && email !== undefined) {
@@ -286,11 +416,17 @@ const controler = {
     }
   },
 
+  /**
+   * [newPasswordControler controls resetting of password]
+   * @method newPasswordControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   newPasswordControler: (req, res) => {
-    const email = req.body.userKey;
-    const password = req.body.newpassword;
-    if ((password !== '' && password !== undefined) && (email !== '' && email !== undefined)) {
-      user.resetPassword(password, email, (result) => {
+    const { userKey, newpassword } = req.body;
+    if ((newpassword !== '' && newpassword !== undefined) && (userKey !== '' && userKey !== undefined)) {
+      user.resetPassword(newpassword, userKey, (result) => {
         if (result === 'Password Updated') {
           return res.status(200).json({
             message: 'Password Updated, please sign In with the new Password',
@@ -315,6 +451,13 @@ const controler = {
     }
   },
 
+  /**
+   * [googleAuthControler controls authorization with google+]
+   * @method googleAuthControler
+   * @param  {[object]}         req [request sent from frontend]
+   * @param  {[object]}         res [response from the server]
+   * @return {[object]}         []
+   */
   googleAuthControler: (req, res) => {
     const { name, email, state } = req.body;
     const username = (email.split('@')[0]).replace(/[^a-zA-Z0-9]/g, '');

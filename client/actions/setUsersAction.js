@@ -7,7 +7,7 @@ export default function setUsersAction(data, groupName) {
     axios.get('/api/v1/user/all')
     .then((res) => {
       const users = res.data.users;
-      return dispatch({
+      dispatch({
         current_group: data,
         type: SET_USERS,
         users

@@ -1,24 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import userSignupRequest from '../actions/SignUpAction';
 import userSigninRequest from '../actions/SignInAction';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
 import CreateGroup from './CreateGroup';
-// import Notifications from './Notification';
 import ForgetPassword from './ForgetPassword';
 import authUser from '../actions/authAction';
 import createGroupAction from '../actions/createGroupAction';
 
 /**
- * [userSignup description]
- * @type {[type]}
+ * [Index displays the landing page]
  */
 class Index extends React.Component {
   /**
-   * [render description]
+   * [render displays the html ]
    * @method render
-   * @return {[type]} [description]
+   * @return {ReactElement} [markup]
    */
   render() {
     const userSignup = this.props.userSignupRequest;
@@ -106,14 +105,15 @@ Index.propTypes = {
   userSignupRequest: React.PropTypes.func.isRequired,
   userSigninRequest: React.PropTypes.func.isRequired,
   createGroupAction: React.PropTypes.func.isRequired,
-  authUser: React.PropTypes.func.isRequired
+  authUser: React.PropTypes.func.isRequired,
+  status: React.PropTypes.string.isRequired
 };
 
 /**
- * [mapStateToProps description]
+ * [mapStateToProps makes the store data available]
  * @method mapStateToProps
- * @param  {[type]}        state [description]
- * @return {[type]}              [description]
+ * @param  {object}        state [the store date]
+ * @return {object}              [ the data needed by the component]
  */
 const mapStateToProps = (state) => {
   return {
@@ -122,4 +122,7 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, { userSignupRequest, userSigninRequest, authUser, createGroupAction })(Index);
+export default connect(mapStateToProps, { userSignupRequest,
+  userSigninRequest,
+  authUser,
+  createGroupAction })(Index);

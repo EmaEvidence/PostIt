@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 /**
- * [archivedMessages description]
- * @type {[type]}
+ * [archivedMessages displays every message a user as seen]
+ * @type {object}
  */
 export class ArchiveMessages extends React.Component {
   /**
-   * [render description]
+   * [render ]
    * @method render
-   * @return {[type]} [description]
+   * @return {ReactElement} markup
    */
   render() {
     const archivedMessages = JSON.parse(this.props.archivedMessages);
@@ -57,10 +57,10 @@ ArchiveMessages.propTypes = {
 };
 
 /**
- * [mapStateToProps description]
+ * [mapStateToProps makes redux store data available to the Component]
  * @method mapStateToProps
- * @param  {[type]}        state [description]
- * @return {[type]}              [description]
+ * @param  {object}        state [store]
+ * @return {object}              [data needed by the component]
  */
 const mapStateToProps = (state) => {
   let archivedMessages = '';
@@ -70,5 +70,5 @@ const mapStateToProps = (state) => {
   return {
     archivedMessages
   };
-}
+};
 export default connect(mapStateToProps)(ArchiveMessages);

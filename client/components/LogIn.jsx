@@ -7,14 +7,12 @@ import googleAuthAction from '../actions/googleAuthAction';
 
 /**
  * [Login Component]
- * @type {Object}
  */
 class LogIn extends React.Component {
   /**
    * [sets the state for the login component]
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {object}    props [description]
    */
   constructor(props) {
     super(props);
@@ -30,8 +28,8 @@ class LogIn extends React.Component {
   /**
    * [stores form values in the components state whenever it changes]
    * @method onChange
-   * @param  {[object]} event [description]
-   * @return {[object]}   [description]
+   * @param  {SyntheticEvent} event []
+   * @return {void}   []
    */
   onChange(event) {
     this.setState({
@@ -41,8 +39,8 @@ class LogIn extends React.Component {
   /**
    * [sends the form values to the server]
    * @method onSubmit
-   * @param  {[object]} event [description]
-   * @return {[objec]}   [description]
+   * @param  {SyntheticEvent} event []
+   * @return {void}   []
    */
   onSubmit(event) {
     event.preventDefault();
@@ -52,9 +50,9 @@ class LogIn extends React.Component {
     });
   }
   /**
-   * [displays the form to login]
+   * [render displays the html ]
    * @method render
-   * @return {[jsx]} [description]
+   * @return {ReactElement} [markup]
    */
   render() {
     const googleAuth = this.props.googleAuthAction;
@@ -109,14 +107,15 @@ class LogIn extends React.Component {
 
 LogIn.propTypes = {
   userSignin: React.PropTypes.func.isRequired,
-  status: React.PropTypes.string.isRequired
+  status: React.PropTypes.string.isRequired,
+  googleAuthAction: React.PropTypes.func.isRequired,
 };
 
 /**
- * [mapStateToProps makes the data in the store available]
+ * [mapStateToProps makes the store data available]
  * @method mapStateToProps
- * @param  {[object]}        state [the store for all app data]
- * @return {[object]}              [login State]
+ * @param  {object}        state [the store date]
+ * @return {object}              [ the data needed by the component]
  */
 const mapStateToProps = (state) => {
   return {

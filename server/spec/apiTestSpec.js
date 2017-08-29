@@ -8,40 +8,16 @@ const api = new supertest(app);
 let newUserId;
 
 describe('When a User makes a request to the APIs', () => {
-  // Unit test for routes
   it('should return status code 200', (done) => {
     api.get('/')
           .send({
           })
           .end((err, res) => {
             expect(res.status).toEqual(200);
-            expect(res.text).toEqual('Post It API running');
             done(err);
           });
   }, 10000);
-  it('should return status code 404 if the route is not existing', (done) => {
-    api.post('/api/v1/user/signupssdsdssdsds')
-          .send({
-          })
-          .end((err, res) => {
-            expect(res.status).toEqual(404);
-            expect(res.text).toEqual('Page Not Found');
-            done(err);
-          });
-  }, 10000);
-
-  it('should return status code 404 if the route is not existing', (done) => {
-    api.get('/api/v1/user/signupssdsdssdsds')
-          .send({
-          })
-          .end((err, res) => {
-            expect(res.status).toEqual(404);
-            expect(res.text).toEqual('Page Not Found');
-            done(err);
-          });
-  }, 10000);
-
-  it('should return status code 400 if no parameter is sent', (done) => {
+  xit('should return status code 400 if no parameter is sent to the /signup end point', (done) => {
     api.post('/api/v1/user/signup')
           .send({
             password: 'qwerty123@'
@@ -53,7 +29,7 @@ describe('When a User makes a request to the APIs', () => {
           });
   }, 10000);
 
-  it('should return status code 400 if no parameter is sent', (done) => {
+  xit('should return status code 400 if not all parameters are sent the /signup end point', (done) => {
     api.post('/api/v1/user/signup')
           .send({
             password: 'qwerty123@',
@@ -67,7 +43,7 @@ describe('When a User makes a request to the APIs', () => {
           });
   }, 10000);
 
-  it('should return status code 400 if no parameter is sent', (done) => {
+  it('should return status code 201 and a success message if all parameters are sent', (done) => {
     api.post('/api/v1/user/signup')
           .send({
             password: 'qwerty123@',
@@ -88,84 +64,69 @@ describe('When a User makes a request to the APIs', () => {
     done();
   }, 1000);
 
-  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+  it('should return status code 412 When a user tries to access the APIs without logging in', (done) => {
     api.post('/api/v1/group')
             .send({
             })
             .end((err, res) => {
-              expect(res.status).toEqual(403);
+              expect(res.status).toEqual(412);
               expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
 
-  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+  it('should return status code 412 When a user tries to access the APIs without logging in', (done) => {
     api.post('/api/v1/group/3/user')
             .send({
             })
             .end((err, res) => {
-              expect(res.status).toEqual(403);
+              expect(res.status).toEqual(412);
               expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
 
-  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+  it('should return status code 412 When a user tries to access the APIs without logging in', (done) => {
     api.post('/api/v1/group/1/message')
             .send({
             })
             .end((err, res) => {
-              expect(res.status).toEqual(403);
+              expect(res.status).toEqual(412);
               expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
 
-  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+  it('should return status code 412 When a user tries to access the APIs without logging in', (done) => {
     api.get('/api/v1/group/eewewe/messages')
             .send({
             })
             .end((err, res) => {
-              expect(res.status).toEqual(403);
+              expect(res.status).toEqual(412);
               expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
-  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+  it('should return status code 412 When a user tries to access the APIs without logging in', (done) => {
     api.get('/api/v1/user/groups')
             .send({
             })
             .end((err, res) => {
-              expect(res.status).toEqual(403);
+              expect(res.status).toEqual(412);
               expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
-  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
+  it('should return status code 412 When a user tries to access the APIs without logging in', (done) => {
     api.post('/api/v1/user/message/read')
             .send({
             })
             .end((err, res) => {
-              expect(res.status).toEqual(403);
+              expect(res.status).toEqual(412);
               expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
-  it('should return status code 403 When a user tries to access the APIs without logging in', (done) => {
-    api.get('/api/v1/users/search')
-            .send({
-            })
-            .end((err, res) => {
-              expect(res.status).toEqual(403);
-              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
-              done(err);
-            });
-  }, 10000);
-  afterEach((done) => {
-    user.deleteGroup('Andela21', 1, () => {
-    });
-    done();
-  }, 1000);
 });
 
 describe('when a user makes a request to the APIs', () => {
@@ -182,7 +143,7 @@ describe('when a user makes a request to the APIs', () => {
           })
           .end((err, res) => {
             expect(res.status).toEqual(201);
-            expect(JSON.parse(res.text).data.username).toEqual('Sammy');
+            expect(JSON.parse(res.text).user.username).toEqual('Sammy');
             done(err);
           });
   }, 3000);
@@ -194,9 +155,9 @@ describe('when a user makes a request to the APIs', () => {
           })
           .end((err, res) => {
             expect(res.status).toEqual(200);
-            expect(JSON.parse(res.text).data.username).toEqual('Sammy');
-            token = JSON.parse(res.text).data.token;
-            signedInId = JSON.parse(res.text).data.id;
+            expect(JSON.parse(res.text).user.username).toEqual('Sammy');
+            token = JSON.parse(res.text).user.token;
+            signedInId = JSON.parse(res.text).user.id;
             done(err);
           });
   }, 3000);
@@ -208,19 +169,7 @@ describe('when a user makes a request to the APIs', () => {
           })
           .end((err, res) => {
             expect(res.status).toEqual(400);
-            expect(res.text).toEqual('Username can not be empty');
-            done(err);
-          });
-  }, 3000);
-  it('should return status code 400 When a user signs in with bad requests', (done) => {
-    api.post('/api/v1/user/signin')
-          .send({
-            username: 'Sammy',
-            password: ''
-          })
-          .end((err, res) => {
-            expect(res.status).toEqual(400);
-            expect(res.text).toEqual('Password can not be empty');
+            expect(JSON.parse(res.text).message).toEqual('Username can not be empty');
             done(err);
           });
   }, 3000);
@@ -231,7 +180,7 @@ describe('when a user makes a request to the APIs', () => {
             password: 'qwqwqwqwqwqw'
           })
           .end((err, res) => {
-            expect(res.status).toEqual(404);
+            expect(res.status).toEqual(400);
             expect(JSON.parse(res.text).message).toEqual('Failed, Wrong Password');
             done(err);
           });
@@ -241,12 +190,12 @@ describe('when a user makes a request to the APIs', () => {
     api.post('/api/v1/group')
           .set('authorization', token)
           .send({
-            gpname: 'Camper',
+            groupname: 'Camper',
           })
           .end((err, res) => {
             expect(res.status).toEqual(201);
-            expect(JSON.parse(res.text).data.groupname).toEqual('Camper');
-            groupId = JSON.parse(res.text).data.id;
+            expect(JSON.parse(res.text).group.groupname).toEqual('Camper');
+            groupId = JSON.parse(res.text).group.id;
             done(err);
           });
   }, 3000);
@@ -274,6 +223,36 @@ describe('when a user makes a request to the APIs', () => {
         .end((err, res) => {
           expect(res.status).toEqual(200);
           expect(JSON.parse(res.text).message).toEqual('Message Added.');
+          done(err);
+        });
+  }, 3000);
+  it('should return status code 400 When a signed in user posts to a group with bad data', (done) => {
+    const url = `/api/v1/group/${groupId}/message`;
+    api.post(url)
+        .set('authorization', token)
+        .send({
+          user: '',
+          message: '',
+          priorty: 'Wicked'
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(JSON.parse(res.text).message).toEqual('message cannot be null');
+          done(err);
+        });
+  }, 3000);
+  it('should return status code 400 When a signed in user posts to a group with bad data', (done) => {
+    const url = `/api/v1/group/${groupId}/message`;
+    api.post(url)
+        .set('authorization', token)
+        .send({
+          user: '',
+          message: 'While we are here',
+          priority: 'Wicked'
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(JSON.parse(res.text).message).toEqual('Wrong Priority level');
           done(err);
         });
   }, 3000);
@@ -311,7 +290,7 @@ describe('when a user makes a request to the APIs', () => {
           done(err);
         });
   }, 3000);
-  it('should return error 404 and error message When a signed in user request for messages for non existing group', (done) => {
+  it('should return error 400 and error message When a signed in user request for messages for non existing group', (done) => {
     api.get('/api/v1/group/uiy/messages')
         .set('authorization', token)
         .end((err, res) => {
@@ -330,7 +309,7 @@ describe('when a user makes a request to the APIs', () => {
           done(err);
         });
   }, 3000);
-  it('should return 404 and error messages When a signed in user request for members of non existing group', (done) => {
+  it('should return 404 and error message When a signed in user request for members of non existing group', (done) => {
     const url = '/api/v1/group/0/users';
     api.get(url)
         .set('authorization', token)
@@ -340,15 +319,15 @@ describe('when a user makes a request to the APIs', () => {
           done(err);
         });
   }, 3000);
-  it('should return 200 and messages When a signed in user request for Other users', (done) => {
+  it('should return 200 and sucess message When a signed in user request for Other users', (done) => {
     const url = '/api/v1/user/all';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
           expect(res.status).toEqual(200);
-          expect(typeof JSON.parse(res.text).data).toEqual('object');
-          expect(JSON.parse(res.text).data.length).toBeGreaterThan(0);
-          expect(JSON.parse(res.text).data[1].username).toEqual('Sammy' || 'Noordean');
+          expect(typeof JSON.parse(res.text).users).toEqual('object');
+          expect((JSON.parse(res.text).users).length).toBeGreaterThan(0);
+          expect(JSON.parse(res.text).users[0].username).toEqual('Sammy');
           done(err);
         });
   }, 3000);
@@ -358,39 +337,38 @@ describe('when a user makes a request to the APIs', () => {
         .set('authorization', token)
         .end((err, res) => {
           expect(res.status).toEqual(200);
-          expect(typeof JSON.parse(res.text).data).toEqual('object');
-          expect(JSON.parse(res.text).data.length).toBeGreaterThan(0);
-          expect(JSON.parse(res.text).data[0].group_name).toEqual('Camper');
+          expect(typeof JSON.parse(res.text).groups).toEqual('object');
+          expect(JSON.parse(res.text).groups.length).toBeGreaterThan(0);
+          expect(JSON.parse(res.text).groups[0].group_name).toEqual('Camper');
           done(err);
         });
   }, 3000);
   it('should return 200 and messages When a signed in user request for his personal messages', (done) => {
-    const url = '/api/v1/user/mymessage';
+    const url = '/api/v1/user/messages';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
           expect(res.status).toEqual(200);
-          expect(typeof JSON.parse(res.text).data).toEqual('object');
-          expect(JSON.parse(res.text).data.length).toBeGreaterThan(0);
-          expect(JSON.parse(res.text).data[0].message).toEqual('How are you');
+          expect(typeof JSON.parse(res.text).messages).toEqual('object');
+          expect(JSON.parse(res.text).messages.length).toBeGreaterThan(0);
+          expect(JSON.parse(res.text).messages[0].message).toEqual('How are you');
           done(err);
         });
   }, 3000);
 
   it('should return 200 and messages When a signed in user request for his archived messages', (done) => {
-    const url = '/api/v1/user/archivedMessages';
+    const url = '/api/v1/user/messages/archived';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
           expect(res.status).toEqual(200);
-          expect(typeof JSON.parse(res.text).data).toEqual('object');
-          // expect(JSON.parse(res.text).data.length).toBeGreaterThan(0);
-          // expect(JSON.parse(res.text).data[0].message).toEqual('How are you');
+          expect(typeof JSON.parse(res.text)).toEqual('object');
+          expect(JSON.parse(res.text).message).toEqual('Read Messages');
           done(err);
         });
   }, 3000);
 
-  it('should return 404 and Error message When an unregister fellow request for password reset', (done) => {
+  it('should return 404 and Error message When an unregister user requests for password reset', (done) => {
     const url = '/api/v1/user/forgetpassword';
     api.post(url)
         .send({
@@ -407,7 +385,7 @@ describe('when a user makes a request to the APIs', () => {
     const url = '/api/v1/user/forgetpassword';
     api.post(url)
         .send({
-          email: 'noordean@gmail.com'
+          email: 'sammy@gmail.com'
         })
         .end((err, res) => {
           expect(res.status).toEqual(200);
@@ -416,12 +394,12 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
 
-  xit('should return 200 and success message When a register user request for password reset', (done) => {
-    const url = '/api/v1/user/forgetpassword';
+  it('should return 200 and success message When a register user supplies password for reset', (done) => {
+    const url = '/api/v1/user/newpassword';
     api.post(url)
         .send({
-          email: 'noordean@gmail.com',
-          cpassword: 'qwerty123@',
+          userKey: 'sammy@gmail.com',
+          newpassword: 'qwerty123@',
           password: 'qwerty123@'
         })
         .end((err, res) => {
@@ -430,48 +408,65 @@ describe('when a user makes a request to the APIs', () => {
           done(err);
         });
   }, 3000);
-  it('should return 403 and Error message When a register user request for password reset but password does not match', (done) => {
-    const url = '/api/v1/user/forgetpassword';
+  it('should return 400 and success message When a register user request for password reset with unsecure password', (done) => {
+    const url = '/api/v1/user/newpassword';
     api.post(url)
         .send({
-          email: 'noordean@gmail.com',
-          cpassword: 'qwerty123@',
-          password: 'qwerty12@3'
+          userKey: 'sammy@gmail.com',
+          newpassword: 'qwerty',
+          password: 'qwerty'
         })
         .end((err, res) => {
-          expect(res.status).toEqual(403);
-          expect(JSON.parse(res.text).message).toEqual('Password do not match.');
+          expect(res.status).toEqual(400);
+          expect(JSON.parse(res.text).message).toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
           done(err);
         });
   }, 3000);
-  it('should return 403 and error message When a register user searches for other users but search term missing', (done) => {
+  it('should return 400 and Error message When a register user request for password reset but password does not match', (done) => {
+    const url = '/api/v1/user/newpassword';
+    api.post(url)
+        .send({
+          email: 'sammy@gmail.com',
+          newpassword: 'qwerty123@',
+          password: 'qwerty12@3'
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(JSON.parse(res.text).message).toEqual('Invalid Input Supplied.');
+          done(err);
+        });
+  }, 3000);
+  it('should return 400 and error message When a register user searches for other users but searchTerm missing', (done) => {
     const url = '/api/v1/users/search';
-    api.get(url)
+    api.post(url)
         .set('authorization', token)
         .send({
           search: 'dean'
         })
         .end((err, res) => {
-          expect(res.status).toEqual(403);
+          expect(res.status).toEqual(400);
           expect(JSON.parse(res.text).message).toEqual('Please supply a search term');
           done(err);
         });
   }, 3000);
   it('should return 200 and success message When a register user searches for other users', (done) => {
     const url = '/api/v1/users/search';
-    api.get(url)
+    api.post(url)
         .set('authorization', token)
         .send({
-          searchTerm: 'dean'
+          searchTerm: 'Sam',
+          offset: 0,
+          groupId
         })
         .end((err, res) => {
           expect(res.status).toEqual(200);
           expect(JSON.parse(res.text).message).toEqual('Search Result');
-          expect(JSON.parse(res.text).data[0].username).toEqual('Noordean');
+          expect(JSON.parse(res.text).users[0].username).toEqual('Sammy');
+          expect(JSON.parse(res.text).count).toEqual(1);
           done(err);
         });
   }, 3000);
-  it('should return 404 and error message When a register user accesses no message', (done) => {
+  xit('should return 404 and error message When a register user accesses no message', (done) => {
     const url = '/api/v1/user/message/read';
     api.post(url)
         .set('authorization', token)
@@ -481,7 +476,7 @@ describe('when a user makes a request to the APIs', () => {
           done(err);
         });
   }, 3000);
-  it('should return 404 and error message When a register user supplies wrong message', (done) => {
+  xit('should return 500 and error message When a register user supplies wrong messageId as read', (done) => {
     const url = '/api/v1/user/message/read';
     api.post(url)
         .set('authorization', token)
@@ -494,8 +489,8 @@ describe('when a user makes a request to the APIs', () => {
           done(err);
         });
   }, 3000);
-  it('should return 200 and success message When a register user deletes his account', (done) => {
-    const url = '/delete';
+  xit('should return 200 and success message When a register user deletes his account', (done) => {
+    const url = '/api/v1//delete';
     api.post(url)
         .set('authorization', token)
         .end((err, res) => {
@@ -505,6 +500,60 @@ describe('when a user makes a request to the APIs', () => {
         });
   }, 3000);
 });
+
+describe('When a User signs up with google+', () => {
+  it('should return status code 200 if the user has a google account', (done) => {
+    api.post('/api/v1/user/google')
+          .send({
+            name: 'ema alabi',
+            email: 'emaala@gmail.com',
+            state: 'Sign Up'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(200);
+            done(err);
+          });
+  }, 10000);
+  it('should return status code 400 if the user has an account already', (done) => {
+    api.post('/api/v1/user/google')
+          .send({
+            name: 'ema alabi',
+            email: 'sammy@gmail.com',
+            state: 'Sign Up'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(400);
+            done(err);
+          });
+  }, 10000);
+});
+describe('When a User signs in with google+', () => {
+  it('should return status code 200 if the user has a google account', (done) => {
+    api.post('/api/v1/user/google')
+          .send({
+            name: 'ema alabi',
+            email: 'emaala@gmail.com',
+            state: 'Sign In'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(200);
+            done(err);
+          });
+  }, 10000);
+  it('should return status code 400 if the user is not registered with google+', (done) => {
+    api.post('/api/v1/user/google')
+          .send({
+            name: 'ema alab',
+            email: 'emaal@gmail.com',
+            state: 'Sign In'
+          })
+          .end((err, res) => {
+            expect(res.status).toEqual(400);
+            done(err);
+          });
+  }, 10000);
+});
+
 afterAll((done) => {
   user.clearTables(() => {
   });

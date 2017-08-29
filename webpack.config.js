@@ -10,7 +10,14 @@ module.exports = {
   },
   module: {
     rules: [
-     { test: /\.js$/, exclude: /node_modules/, use: 'babel-loader' },
+      {
+        test: /\.js[x]?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        }
+      },
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
@@ -30,6 +37,9 @@ module.exports = {
         ]
       },
     ]
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   plugins: [
     new ExtractTextPlugin('bundle.css'),

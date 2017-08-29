@@ -2,9 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Notification from './Notification';
-
+// import Notification from './Notification';
+/**
+ * [NavBar ]
+ */
 export class NavBar extends React.Component {
+  /**
+   * [constructor description]
+   * @method constructor
+   * @param  {object}    props [description]
+   * @return {void}          []
+   */
   constructor(props) {
     super(props);
 
@@ -13,16 +21,16 @@ export class NavBar extends React.Component {
   /**
    * [logOut description]
    * @method logOut
-   * @return {[void]} []
+   * @return {void} []
    */
   logOut() {
     window.localStorage.removeItem('token');
     window.location.href = '/';
   }
   /**
-   * [render description]
+   * [render displays the html ]
    * @method render
-   * @return {[type]} [description]
+   * @return {ReactElement} [markup]
    */
   render() {
     const status = this.props.loggedInStatus;
@@ -44,7 +52,6 @@ export class NavBar extends React.Component {
              Notification
              <span className="new badge deep-purple lighten-3">{notifications.length}</span>
               </a>
-              <Notification notifications={notifications} />
             </li>
             <li>
               <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
@@ -61,7 +68,6 @@ export class NavBar extends React.Component {
              Notification
              <span className="new badge deep-purple lighten-3">{notifications.length}</span>
               </a>
-              <Notification notifications={notifications} />
             </li>
             <li><Link to="/messageboard"> Messages </Link></li>
             <li>
@@ -115,6 +121,12 @@ NavBar.propTypes = {
   userDetails: React.PropTypes.string.isRequired
 };
 
+/**
+ * [mapStateToProps makes the store data available]
+ * @method mapStateToProps
+ * @param  {object}        state [the store date]
+ * @return {object}              [ the data needed by the component]
+ */
 const mapStateToProps = (state) => {
   return {
     loggedInStatus: state.authUser.logged_in,

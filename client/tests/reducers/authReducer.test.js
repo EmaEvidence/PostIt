@@ -7,7 +7,8 @@ describe('auth user reducer', () => {
     expect(reducer(undefined, {})).toEqual(
       {
         logged_in: false,
-        user_details: {}
+        user_details: {},
+        auth_message: ''
       }
     );
   });
@@ -22,6 +23,7 @@ describe('auth user reducer', () => {
       }
     })).toEqual(
       {
+        auth_message: 'Successful',
         logged_in: true,
         user_details: {
           id: 1,

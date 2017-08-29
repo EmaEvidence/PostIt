@@ -1,27 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 /**
- * [checkIfMessageEmpty description]
- * @type {[type]}
+ * [GroupMessages displays the message of a group]
  */
 class GroupMessages extends React.Component {
   /**
-   * [render description]
+   * [render displays the html ]
    * @method render
-   * @return {[type]} [description]
+   * @return {ReactElement} [markup]
    */
   render() {
-    const checkIfMessageEmpty = Object.keys(this.props.messages);
+    const checkIfMessageEmpty = Object.keys(JSON.parse(this.props.messages));
     let Messagelist;
     if (checkIfMessageEmpty.length === 0) {
       Messagelist = (
         <p>
             No Message Yet
         </p>
-      )
+      );
     } else {
-      Messagelist = (this.props.messages).map(message =>
+      Messagelist = (JSON.parse(this.props.messages)).map(message =>
         (
           <span>
             <p
@@ -55,17 +55,21 @@ class GroupMessages extends React.Component {
   }
 }
 
+GroupMessages.propTypes = {
+  status: PropTypes.string.isRequired,
+  messages: PropTypes.string.isRequired
+};
+
 /**
- * [mapStateToProps description]
+ * [mapStateToProps makes the store data available]
  * @method mapStateToProps
- * @param  {[type]}        state [description]
- * @return {[type]}              [description]
+ * @param  {object}        state [the store date]
+ * @return {object}              [ the data needed by the component]
  */
 const mapStateToProps = (state) => {
   return {
-  //  groupId: state.setCurrentGroupReducer.current_group,
     status: state.setCurrentMessagesReducer.status,
-    messages: state.setCurrentMessagesReducer.current_messages
+    messages: JSON.stringify(state.setCurrentMessagesReducer.current_messages)
   };
 };
 

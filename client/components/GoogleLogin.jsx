@@ -1,8 +1,16 @@
 import React from 'react';
 import GoogleLogin from 'react-google-login';
+import PropTypes from 'prop-types';
 
-
+/**
+ * [LoginWithGoogle enables signing up and in with google+]
+ */
 class LoginWithGoogle extends React.Component {
+  /**
+   * [render displays the html ]
+   * @method render
+   * @return {ReactElement} [markup]
+   */
   render() {
     const responseGoogle = (response) => {
       const name = response.w3.ig;
@@ -25,5 +33,10 @@ class LoginWithGoogle extends React.Component {
     );
   }
 }
+
+LoginWithGoogle.propTypes = {
+  googleAction: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+};
 
 export default LoginWithGoogle;

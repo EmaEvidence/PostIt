@@ -1,10 +1,10 @@
 import Sequelize from 'sequelize';
 import dotenv from 'dotenv';
-import UserModel from './users';
-import GroupModel from './groups';
-import GroupMembersModel from './groupmembers';
-import MessagesModel from './messages';
-import NotificationModel from './notification';
+import UserModel from './Users';
+import GroupModel from './Groups';
+import GroupMembersModel from './GroupMembers';
+import MessagesModel from './Messages';
+import NotificationModel from './Notification';
 
 dotenv.config();
 

@@ -2,13 +2,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-class Notification extends React.Component {
-  constructor(props){
+/**
+ * [Notification description]
+ * @type {type}
+ */
+export class Notification extends React.Component {
+  /**
+   * [constructor description]
+   * @method constructor
+   * @param  {object}    props []
+   * @return {void}          []
+   */
+  constructor(props) {
     super(props);
     this.clearNotification = this.clearNotification.bind(this);
   }
-  clearNotification(event, notificationId) {
-  }
+  /**
+   * [render displays the html ]
+   * @method render
+   * @return {ReactElement} [markup]
+   */
   render() {
     const notifications = this.props.notifications;
     let notificationList;
@@ -23,7 +36,7 @@ class Notification extends React.Component {
         (
           <li
             key={index}
-            onMouseOver={this.clearNotification.bind(event, notification.id)}
+            onMouseOver={this.clearNotification.bind(null, notification.id)}
           >
             { notification.type } in { notification.groupName || notification.groupId}
           </li>
@@ -37,8 +50,8 @@ class Notification extends React.Component {
   }
 }
 
-Notification.PropTypes = {
-  notifications: PropTypes.object
-}
+Notification.propTypes = {
+  notifications: PropTypes.object.isRequired
+};
 
 export default connect(null, {})(Notification);

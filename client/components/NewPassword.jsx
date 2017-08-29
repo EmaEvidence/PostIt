@@ -1,23 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import Input from './Input';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
 import resetPasswordAction from '../actions/resetPasswordAction';
 
-// import resetPasswordAction
-
-
 /**
- * [Login Component]
- * @type {Object}
+ * [NewPassword Component]
  */
 class NewPassword extends React.Component {
   /**
    * [sets the state for the login component]
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {object}    props []
+   * @return {void}          []
    */
   constructor(props) {
     super(props);
@@ -112,18 +110,20 @@ class NewPassword extends React.Component {
 }
 
 NewPassword.propTypes = {
+  status: PropTypes.string.isRequired,
+  resetPasswordAction: PropTypes.func.isRequired,
 };
 
 /**
- * [mapStateToProps makes the data in the store available]
+ * [mapStateToProps makes the store data available]
  * @method mapStateToProps
- * @param  {[object]}        state [the store for all app data]
- * @return {[object]}              [login State]
+ * @param  {object}        state [the store date]
+ * @return {object}              [ the data needed by the component]
  */
 const mapStateToProps = (state) => {
   return {
     status: state.resetPasswordReducer.status
   };
-}
+};
 
 export default connect(mapStateToProps, { resetPasswordAction })(NewPassword);

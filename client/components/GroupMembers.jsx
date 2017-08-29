@@ -1,28 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import AddMembers from './AddMembers';
 
 /**
- * [checkIfMembersEmpty description]
- * @type {[type]}
+ * [GroupMembers displays members of a group]
  */
 class GroupMembers extends React.Component {
   /**
-   * [render description]
+   * [render displays the html ]
    * @method render
-   * @return {[type]} [description]
+   * @return {ReactElement} [markup]
    */
   render() {
-    const checkIfMembersEmpty = Object.keys(this.props.members);
+    const checkIfMembersEmpty = Object.keys(JSON.parse(this.props.members));
     let Memberslist;
     if (checkIfMembersEmpty.length === 0) {
       Memberslist = (
         <p>
             No Member Yet
         </p>
-      )
+      );
     } else {
-      Memberslist = (this.props.members).map((member, index) =>
+      Memberslist = (JSON.parse(this.props.members)).map((member, index) =>
         (
           <p
             key={index}
@@ -62,16 +63,20 @@ class GroupMembers extends React.Component {
   }
 }
 
+GroupMembers.propTypes = {
+  members: PropTypes.string.isRequired,
+  groupName: PropTypes.string.isRequired
+};
 /**
- * [mapStateToProps description]
+ * [mapStateToProps makes the store data available]
  * @method mapStateToProps
- * @param  {[type]}        state [description]
- * @return {[type]}              [description]
+ * @param  {object}        state [the store date]
+ * @return {object}              [ the data needed by the component]
  */
 const mapStateToProps = (state) => {
   return {
     status: state.setCurrentMembersReducer.status,
-    members: state.setCurrentMembersReducer.current_members,
+    members: JSON.stringify(state.setCurrentMembersReducer.current_members),
     groupName: state.setCurrentMembersReducer.current_group
   };
 };

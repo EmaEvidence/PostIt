@@ -7,7 +7,7 @@ import { GET_MY_MESSAGES, GET_MY_MESSAGE_ERROR } from './types/types';
  * @return {[type]}        [description]
  */
 export default function myMessageAction() {
-  const url = '/api/v1/user/mymessage';
+  const url = '/api/v1/user/messages';
   return (dispatch) => {
     axios.get(url)
     .then((res) => {

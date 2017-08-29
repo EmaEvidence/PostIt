@@ -1,19 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import setUsersAction from '../actions/setUsersAction';
 import setCurrentMessagesAction from '../actions/setCurrentMessagesAction';
 import setCurrentMembersAction from '../actions/setCurrentMembersAction';
 
 /**
- * [state description]
- * @type {Object}
+ * [Groups]
  */
 class Groups extends React.Component {
   /**
-   * [constructor description]
+   * [constructor ]
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {object}    props []
+   * @return {void}          []
    */
   constructor(props) {
     super(props);
@@ -23,42 +23,42 @@ class Groups extends React.Component {
     this.setMembers = this.setMembers.bind(this);
   }
   /**
-   * [setUsers description]
+   * [setUsers adds Users of a group]
    * @method setUsers
-   * @param  {[type]} index     [description]
-   * @param  {[type]} groupName [description]
-   * @return  {[type]} groupName [description]
+   * @param  {interger} index     [id of the group]
+   * @param  {string} groupName [name of the group]
+   * @return  {void}
    */
   setUsers(index, groupName) {
     this.props.setUsersAction(index, groupName);
   }
 
   /**
-   * [setMessages description]
+   * [setMessages adds messages of a group]
    * @method setMessages
-   * @param  {[type]}    groupId   [description]
-   * @param  {[type]}    groupName [description]
-   * @return  {[type]} groupName [description]
+   * @param  {interger} groupId     [id of the group]
+   * @param  {string} groupName [name of the group]
+   * @return  {void}
    */
   setMessages(groupId, groupName) {
     this.props.setCurrentMessagesAction(groupId, groupName);
   }
 
   /**
-   * [setMembers description]
+   * [setMembers populates the store with members of a group]
    * @method setMembers
-   * @param  {[type]}   index     [description]
-   * @param  {[type]}   groupName [description]
-   * @return  {[type]} groupName [description]
+   * @param  {interger}   index     [id of the group]
+   * @param  {string}   groupName [name of the group]
+   * @return  {void}
    */
   setMembers(index, groupName) {
     this.props.setCurrentMembersAction(index, groupName);
   }
 
   /**
-   * [render description]
+   * [render displays the html ]
    * @method render
-   * @return {[type]} [description]
+   * @return {ReactElement} [markup]
    */
   render() {
     const grps = JSON.parse(this.props.groups);
@@ -73,18 +73,25 @@ class Groups extends React.Component {
             <span className="right dropdown-toggle clickable" type="button" data-toggle="dropdown">
             More <span className="caret" /> </span>
             <ul className="dropdown-menu mydropDown">
-              <li
-                className="clickable"
-                onClick={this.showMessage}
-                onClick={this.setMessages.bind(null, grp.id, grp.group_name)}
-              >
-                 Messages</li>
+              <li>
+                <a
+                  className="clickable"
+                  onClick={this.showMessage}
+                  onClick={this.setMessages.bind(null, grp.id, grp.group_name)}
+                  role="button"
+                  tabIndex={0}
+                >
+                   Messages
+                 </a>
+              </li>
               <li>
                 <a
                   className="clickable"
                   data-toggle="modal"
                   data-target="#groupmembers"
                   onClick={this.setMembers.bind(null, grp.id, grp.group_name)}
+                  role="button"
+                  tabIndex={0}
                 >
                    Members
               </a>
@@ -143,10 +150,10 @@ Groups.propTypes = {
 };
 
 /**
- * [mapStateToProps description]
+ * [mapStateToProps makes the store data available]
  * @method mapStateToProps
- * @param  {[type]}        state [description]
- * @return {[type]}              [description]
+ * @param  {object}        state [the store date]
+ * @return {object}              [ the data needed by the component]
  */
 const mapStateToProps = (state) => {
   return {
@@ -154,4 +161,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { setUsersAction, setCurrentMessagesAction, setCurrentMembersAction })(Groups);
+export default connect(mapStateToProps, { setUsersAction,
+  setCurrentMessagesAction,
+  setCurrentMembersAction })(Groups);

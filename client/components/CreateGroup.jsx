@@ -7,14 +7,13 @@ import clearStoreAction from '../actions/clearStoreAction';
 
 /**
  * [createGroup component for creating new group]
- * @type {[class]}
  */
 class CreateGroup extends React.Component {
   /**
    * [constructor creates the state]
    * @method constructor
-   * @param  {[object]}    props [data]
-   * @return {[object]}          [description]
+   * @param  {object}    props [data]
+   * @return {object}          [description]
    */
   constructor(props) {
     super(props);
@@ -32,8 +31,8 @@ class CreateGroup extends React.Component {
   /**
    * [onChange stores the form component value in the state]
    * @method onChange
-   * @param  {[object]} event [the event triggered on the HTML element]
-   * @return {[object]}       [new state]
+   * @param  {object} event [the event triggered on the HTML element]
+   * @return {object}       [new state]
    */
   onChange(event) {
     this.setState({
@@ -43,8 +42,8 @@ class CreateGroup extends React.Component {
   /**
    * [createGroup sends the form data to the API for form creation]
    * @method createGroup
-   * @param  {[object]}    event [the event triggered on the form]
-   * @return {[object]}          []
+   * @param  {object}    event [the event triggered on the form]
+   * @return {object}          []
    */
   createGroup(event) {
     event.preventDefault();
@@ -64,6 +63,11 @@ class CreateGroup extends React.Component {
       $('#creategroup').modal('hide');
     });
   }
+  /**
+   * [clear description]
+   * @method clear
+   * @return {void} []
+   */
   clear() {
     this.setState({
       user: '',
@@ -77,7 +81,7 @@ class CreateGroup extends React.Component {
   /**
    * [render ]
    * @method render
-   * @return {[type]} []
+   * @return {ReactElement} [markup]
    */
   render() {
     return (
@@ -139,18 +143,17 @@ class CreateGroup extends React.Component {
 CreateGroup.propTypes = {
   createGroupAction: PropTypes.func.isRequired,
   status: PropTypes.string.isRequired,
-  userId: PropTypes.number.isRequired,
   clearStoreAction: PropTypes.func.isRequired
 };
 /**
- * [mapStateToProps description]
+ * [mapStateToProps makes store data available to the component]
  * @method mapStateToProps
- * @param  {[type]}        state [description]
- * @return {[type]}              [description]
+ * @param  {object}        state [redux store]
+ * @return {object}              [data needed by the component]
  */
 const mapStateToProps = (state) => {
-  let status = 'xcvxcv';
-  let userId = '';
+  let status = 'true';
+  let userId = '1';
   if (state.createGroupReducer !== undefined) {
     status = state.createGroupReducer.status;
     userId = state.authUser.user_details.id;

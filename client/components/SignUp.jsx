@@ -5,15 +5,14 @@ import GoogleLogin from './GoogleLogin';
 import googleAuthAction from '../actions/googleAuthAction';
 
 /**
- * [state creates a  sign up form]
- * @type {Object}
+ * [SignUp creates a  sign up form]
  */
-class SignUp extends React.Component {
+export class SignUp extends React.Component {
   /**
    * [constructor]
    * @method constructor
    * @param  {[object]}    props [data passed to this element]
-   * @return {[html]}          [sign up component]
+   * @return {void}          []
    */
   constructor(props) {
     super(props);
@@ -34,8 +33,8 @@ class SignUp extends React.Component {
   /**
    * [onChange stores the data from the form component]
    * @method onChange
-   * @param  {[object]} event [the current html element]
-   * @return {[object]}   [data from the form]
+   * @param  {object} event [the current html element]
+   * @return {object}   [data from the form]
    */
   onChange(event) {
     this.setState({
@@ -46,8 +45,8 @@ class SignUp extends React.Component {
   /**
    * [onSubmit sends the data supplied through the form to the API]
    * @method onSubmit
-   * @param  {[object]} event [the form event]
-   * @return {[]}   []
+   * @param  {object} event [the form event]
+   * @return {void}   []
    */
   onSubmit(event) {
     event.preventDefault();
@@ -56,7 +55,7 @@ class SignUp extends React.Component {
   /**
    * [checkPassword confirms if the password and confirm password supplied is matches]
    * @method checkPassword
-   * @return {[boolean]}        [test result]
+   * @return {boolean}        [test result]
    */
   checkPassword() {
     if (this.state.password === this.state.cpassword) {
@@ -73,9 +72,9 @@ class SignUp extends React.Component {
   }
 
   /**
-   * [render ]
+   * [render displays the html ]
    * @method render
-   * @return {[type]} [description]
+   * @return {ReactElement} [markup]
    */
   render() {
     const googleAuth = this.props.googleAuthAction;
@@ -185,10 +184,10 @@ SignUp.propTypes = {
 };
 
 /**
- * [mapStateToProps gets values from the store and makes it available for the component]
+ * [mapStateToProps makes the store data available]
  * @method mapStateToProps
- * @param  {[object]}        state [the entire App data]
- * @return {[object]}              [the part of App data needed by this component]
+ * @param  {object}        state [the store date]
+ * @return {object}              [ the data needed by the component]
  */
 const mapStateToProps = (state) => {
   let message;
@@ -200,5 +199,5 @@ const mapStateToProps = (state) => {
   return {
     message
   };
-}
+};
 export default connect(mapStateToProps, { googleAuthAction })(SignUp);

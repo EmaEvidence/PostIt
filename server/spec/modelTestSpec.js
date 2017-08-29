@@ -7,13 +7,13 @@ let newUserId;
 describe('When a new User supplies a password', () => {
   const password = 'qwerty123@';
   const wrongPassword = '1234567890';
-  const valid = User.validatePassword(password);
-  const invalid = User.validatePassword(wrongPassword);
-  it('should return Error message its in a wrong format', () => {
-    expect(valid).toEqual('valid');
+  const validPassword = User.validatePassword(password);
+  const invalidPassword = User.validatePassword(wrongPassword);
+  it('should return Error message if its in a right format', () => {
+    expect(validPassword).toEqual('valid');
   });
   it('should return valid if its in a right format', () => {
-    expect(invalid).toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
+    expect(invalidPassword).toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
   });
 });
 
@@ -219,6 +219,22 @@ describe('When a new User signs up', () => {
     });
     done();
   }, 1000);
+});
+
+describe('When a message is sent to a group a user belongs to', () => {
+  let result;
+  beforeEach((done) => {
+    user.inAppNotify([{ id: newUserId }], 1, 2, (response) => {
+      result = response;
+      done();
+    }, 10000);
+  }, 10000);
+  it('should return Error message its in a wrong format', () => {
+    expect(result).toEqual(' A notification has being sent to every group Member');
+  });
+  xit('an inapp notification should be sent', () => {
+    expect(result).toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
+  });
 });
 
 afterAll((done) => {

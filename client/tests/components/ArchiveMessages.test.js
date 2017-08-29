@@ -1,6 +1,5 @@
 import React from 'react';
 import expect from 'expect';
-// import ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
 import { ArchiveMessages } from '../../components/ArchiveMessages';
 

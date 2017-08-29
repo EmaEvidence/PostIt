@@ -2,10 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 /**
- * [myMessages description]
- * @type {[type]}
+ * [SentMessages]
  */
 export class SentMessages extends React.Component {
+  /**
+   * [render description]
+   * @method render
+   * @return {void} []
+   */
   render() {
     const myMessages = JSON.parse(this.props.myMessages);
     let MessageList;
@@ -53,10 +57,10 @@ SentMessages.propTypes = {
 };
 
 /**
- * [mapStateToProps description]
+ * [mapStateToProps makes the store data available]
  * @method mapStateToProps
- * @param  {[type]}        state [description]
- * @return {[type]}              [description]
+ * @param  {object}        state [the store date]
+ * @return {object}              [ the data needed by the component]
  */
 const mapStateToProps = (state) => {
   let myMessages = '';
@@ -66,5 +70,5 @@ const mapStateToProps = (state) => {
   return {
     myMessages
   };
-}
+};
 export default connect(mapStateToProps)(SentMessages);

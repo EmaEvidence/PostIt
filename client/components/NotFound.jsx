@@ -20,11 +20,4 @@ NotFound.propTypes = {
   status: React.PropTypes.string.isRequired
 };
 
-/**
- * [mapStateToProps makes the data in the store available]
- * @method mapStateToProps
- * @param  {[object]}        state [the store for all app data]
- * @return {[object]}              [login State]
- */
-
 export default NotFound;

@@ -15,8 +15,8 @@ class AddMembers extends React.Component {
   /**
    * [constructor description]
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {object}    props [properties of the Component]
+   * @return {void}          []
    */
   constructor(props) {
     super(props);
@@ -36,8 +36,8 @@ class AddMembers extends React.Component {
   /**
    * [onChange gets search term]
    * @method onChange
-   * @param  {[object]} event [data from the search input]
-   * @return {[object]}             [populate the redux store with data]
+   * @param  {object} event [data from the search input]
+   * @return {object}             [populate the redux store with data]
    */
   onChange(event) {
     if (event.target.value.length !== 0) {
@@ -47,14 +47,13 @@ class AddMembers extends React.Component {
       });
       const offSet = this.state.offset || 0;
       this.props.searchUserAction(event.target.value, offSet, this.props.groupId);
-
     }
   }
   /**
    * [handlePageClick paginates search result]
    * @method handlePageClick
-   * @param  {[object]}        data [click event for page numbers]
-   * @return {[object]}             [populate the redux store with data]
+   * @param  {object}        data [click event for page numbers]
+   * @return {object}             [populate the redux store with data]
    */
   handlePageClick(data) {
     const selected = data.selected;
@@ -63,22 +62,33 @@ class AddMembers extends React.Component {
   }
 
   /**
-   * [addMember description]
+   * [addMember adds a new member to a group]
    * @method addMember
-   * @param  {[type]}  userId [description]
-   * @param  {[type]}  event  [description]
-   * @return  {[type]}  event  [description]
+   * @param  {interger}  userId [the id of the user to id]
+   * @param  {object}  event  [the html element datas]
+   * @return  {void}  event  []
    */
   addMember(userId, event) {
     const groupId = this.props.groupId;
     this.props.addNewMemberAction(groupId, userId);
   }
-
+  /**
+   * [checkIfMember checks if a user is already a member of a group]
+   * @method checkIfMember
+   * @param  {interger}      userId  [id of user to check]
+   * @param  {array}      userIds [ids of members of the group]
+   * @return {boolean}              check result
+   */
   checkIfMember(userId, userIds) {
     if (userIds.indexOf(userId) < 0) {
       return true;
     }
   }
+  /**
+   * [clear returns the state of the component to its default]
+   * @method clear
+   * @return {void} []
+   */
   clear() {
     this.setState({
       user: '',
@@ -93,10 +103,10 @@ class AddMembers extends React.Component {
   /**
    * [render ]
    * @method render
-   * @return {[type]} []
+   * @return {ReactElement} [markup]
    */
   render() {
-    const searchResult = this.props.searchResult;
+    const searchResult = JSON.parse(this.props.searchResult);
     const userIds = [];
     if (this.props.groups !== undefined) {
       (this.props.groups).forEach((group) => {
@@ -192,23 +202,25 @@ AddMembers.propTypes = {
   groupId: PropTypes.number.isRequired,
   searchUserAction: PropTypes.func.isRequired,
   status: PropTypes.string.isRequired,
-  pageCount: PropTypes.string.isRequired,
-  clearStoreAction: PropTypes.func.isRequired
+  pageCount: PropTypes.number.isRequired,
+  clearStoreAction: PropTypes.func.isRequired,
+  searchResult: PropTypes.string.isRequired,
+  groups: PropTypes.string.isRequired
 };
 /**
  * [mapStateToProps makes the data in the redux store available to this component]
  * @method mapStateToProps
- * @param  {[object]}        state [the entire redux store]
- * @return {[object]}              [the bit made available for this component]
+ * @param  {object}        state [the entire redux store]
+ * @return {object}              [the bit made available for this component]
  */
 const mapStateToProps = (state) => {
   return {
     groupId: parseInt((state.setUsersReducer.current_group), 10),
     users: state.setUsersReducer.users,
     status: state.addNewMemberReducer.status,
-    searchResult: state.searchUserReducer.searchResult,
+    searchResult: JSON.stringify(state.searchUserReducer.searchResult),
     pageCount: state.searchUserReducer.pageCount,
-    groups: state.getUserGroupsReducer.groups[0]
+    groups: (state.getUserGroupsReducer.groups[0])
   };
 };
 

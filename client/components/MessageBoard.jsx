@@ -24,8 +24,8 @@ class MessageBoard extends React.Component {
   /**
    * [constructor description]
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {object}    props
+   * @return {type} []
    */
   constructor(props) {
     super(props);
@@ -37,25 +37,25 @@ class MessageBoard extends React.Component {
     this.showForm = this.showForm.bind(this);
   }
   /**
-   * [myMessages description]
+   * [myMessages displays messages sent by the user]
    * @method myMessages
-   * @return {[type]}   [description]
+   * @return {void}   []
    */
   myMessages() {
     this.props.myMessageAction();
   }
   /**
-   * [archivedMessages description]
+   * [archivedMessages displays all messages seen by the user]
    * @method archivedMessages
-   * @return {[type]}         [description]
+   * @return {void}         []
    */
   archivedMessages() {
     this.props.archivedMessagesAction();
   }
   /**
-   * [showForm description]
+   * [showForm displays the form for sending a message]
    * @method showForm
-   * @return {[type]} [description]
+   * @return {object} [new state]
    */
   showForm() {
     if (this.state.display === 'none') {
@@ -72,14 +72,14 @@ class MessageBoard extends React.Component {
     }
   }
   /**
-   * [render description]
+   * [render displays the html ]
    * @method render
-   * @return {[type]} [description]
+   * @return {ReactElement} [markup]
    */
   render() {
     const createGroup = this.props.createGroupAction;
     const groups = this.props.groups;
-    const userDetails = JSON.parse(this.props.user_details);
+    const userDetails = JSON.parse(this.props.userDetails);
     return (
       <div className="container">
         <div className="row">
@@ -91,7 +91,11 @@ class MessageBoard extends React.Component {
               <div className="row center">
                 <a href="#sentmessages" className="dashboardelement" onClick={this.myMessages} >
                 Sent Messages </a>
-                <a href="#archivemessages" className="dashboardelement" onClick={this.archivedMessages} >
+                <a
+                  href="#archivemessages"
+                  className="dashboardelement"
+                  onClick={this.archivedMessages}
+                >
                 Achived Messages </a>
               </div>
             </div>
@@ -121,6 +125,8 @@ class MessageBoard extends React.Component {
           className="addMessage btn btn-floating btn-large deep-purple lighten-4 pulse"
           title="Send Message Here"
           onClick={this.showForm}
+          role="button"
+          tabIndex={0}
         >
           <i className="material-icons addMessage-edit">{this.state.icon}</i></a>
       </div>
@@ -133,14 +139,15 @@ MessageBoard.propTypes = {
   myMessageAction: PropTypes.func.isRequired,
   archivedMessagesAction: PropTypes.func.isRequired,
   groups: PropTypes.string.isRequired,
-  clearStoreAction: PropTypes.func.isRequired
+  clearStoreAction: PropTypes.func.isRequired,
+  userDetails: PropTypes.string.isRequired,
 };
 
 /**
- * [mapStateToProps description]
+ * [mapStateToProps makes the store data available]
  * @method mapStateToProps
- * @param  {[type]}        state [description]
- * @return {[type]}              [description]
+ * @param  {object}        state [the store date]
+ * @return {object}              [ the data needed by the component]
  */
 const mapStateToProps = (state) => {
   let groups = 'xcvxcv';
@@ -149,7 +156,7 @@ const mapStateToProps = (state) => {
   }
   return {
     groups,
-    user_details: JSON.stringify(state.authUser.user_details)
+    userDetails: JSON.stringify(state.authUser.user_details)
   };
 };
 
