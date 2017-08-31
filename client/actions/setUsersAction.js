@@ -8,7 +8,7 @@ export default function setUsersAction(data, groupName) {
     .then((res) => {
       const users = res.data.users;
       dispatch({
-        current_group: data,
+        currentGroup: data,
         type: SET_USERS,
         users
       });

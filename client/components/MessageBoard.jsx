@@ -156,7 +156,7 @@ const mapStateToProps = (state) => {
   }
   return {
     groups,
-    userDetails: JSON.stringify(state.authUser.user_details)
+    userDetails: JSON.stringify(state.authUser.userDetails)
   };
 };
 

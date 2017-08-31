@@ -12,7 +12,7 @@ import setAuthorizationToken from './utils/setAuthorizationToken';
 import authAction from './actions/authAction';
 import getUserGroupsAction from './actions/getUserGroupsAction';
 
-require('./js/creategroup.js');
+require('./js/grouploader.js');
 
 dotenv.config();
 

@@ -6,9 +6,9 @@ describe('auth user reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(
       {
-        logged_in: false,
-        user_details: {},
-        auth_message: ''
+        loggedIn: false,
+        userDetails: {},
+        authMessage: ''
       }
     );
   });
@@ -23,9 +23,9 @@ describe('auth user reducer', () => {
       }
     })).toEqual(
       {
-        auth_message: 'Successful',
-        logged_in: true,
-        user_details: {
+        authMessage: 'Successful',
+        loggedIn: true,
+        userDetails: {
           id: 1,
           username: 'Evidence',
           email: 'ema@gmail.com'

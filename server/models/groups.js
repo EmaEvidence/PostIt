@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 
 const GroupModel = {
-  group_name: {
+  groupName: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,

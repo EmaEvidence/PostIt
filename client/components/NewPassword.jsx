@@ -20,7 +20,7 @@ class NewPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cpassword: '',
+      confirmPassword: '',
       password: '',
       status: ''
     };
@@ -47,7 +47,7 @@ class NewPassword extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    if (this.state.password !== this.state.cpassword) {
+    if (this.state.password !== this.state.confirmPassword) {
       this.setState({
         status: 'Password Mismatch'
       });
@@ -57,7 +57,7 @@ class NewPassword extends React.Component {
       });
       this.props.resetPasswordAction(this.state.password, (this.props.location).search);
       this.setState({
-        cpassword: '',
+        confirmPassword: '',
         password: ''
       });
     }
@@ -87,11 +87,11 @@ class NewPassword extends React.Component {
           />
           <Input
             placeholder={'Confirm New Password'}
-            value={this.state.cpassword}
+            value={this.state.confirmPasswordpassword}
             required
             action={this.onChange}
             type={'password'}
-            name={'cpassword'}
+            name={'confirmPassword'}
             class={'form-control'}
           />
           <div className="form-group">

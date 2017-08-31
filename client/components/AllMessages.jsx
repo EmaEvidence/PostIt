@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 /**
- * [AllMessages displays Allmessages for a group]
+ * AllMessages displays Allmessages for a group
  */
 export class AllMessages extends React.Component {
   /**
-   * [constructor]
+   * constructor
    * @method constructor
-   * @param  {object}    props [properties of the Component]
-   * @return {void}          []
+   * @param  {object} props properties of the Component
+   * @return {void} []
    */
   constructor(props) {
     super(props);
@@ -19,16 +19,16 @@ export class AllMessages extends React.Component {
   /**
    * [seenMessage marks a message as seen]
    * @method seenMessage
-   * @param  {interger}    messageId [id of the message]
-   * @return {void}              []
+   * @param  {interger} messageId id of the message
+   * @return {void} []
    */
   seenMessage(messageId) {
     document.getElementById(`message${messageId}`).removeEventListener('click', this.seenMessage());
   }
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   * @return {ReactElement} markup
    */
   render() {
     const checkIfMessageEmpty = Object.keys(JSON.parse(this.props.messages));
@@ -70,15 +70,14 @@ export class AllMessages extends React.Component {
 /**
  * [mapStateToProps makes the store data available]
  * @method mapStateToProps
- * @param  {object}        state [the store date]
- * @return {object}              [ the data needed by the component]
+ * @param  {object} state the store date
+ * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
   return {
-  //  groupId: state.setCurrentGroupReducer.current_group,
     status: state.setCurrentMessagesReducer.status,
-    messages: JSON.stringify(state.setCurrentMessagesReducer.current_messages),
-    groupName: state.setCurrentMessagesReducer.current_group
+    messages: JSON.stringify(state.setCurrentMessagesReducer.currentMessages),
+    groupName: state.setCurrentMessagesReducer.currentGroup
   };
 };
 

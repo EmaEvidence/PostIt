@@ -1,6 +1,6 @@
 const usersData = {};
 const groupsData = {};
-$.get('http://localhost:3300/api/v1/user/all', function (res) {
+$.get('api/v1/user/all', function (res) {
   const users = res.users;
   users.forEach(function (user) {
     const selectedUser = user.username;

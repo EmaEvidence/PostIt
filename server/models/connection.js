@@ -18,7 +18,6 @@ const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
 const host = process.env.DB_HOST;
 const sequelize = new Sequelize(`postgres://${username}:${password}${host}/${database}`);
-
 const db = {};
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
@@ -49,7 +48,7 @@ Messages.belongsTo(Users, {
 });
 Users.hasMany(Notifications, {
   foreignKey: 'UserId',
-  as: 'Notifications'
+  as: 'notifications'
 });
 sequelize.sync({});
 // sequelize.sync({ alter: true });

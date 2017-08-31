@@ -1,5 +1,5 @@
-function checkPassword(password, cpassword) {
-  if (password === cpassword) {
+function checkPassword(password, confirmPassword) {
+  if (password === confirmPassword) {
     this.setState({
       pwdmatch: 'password matches',
     });

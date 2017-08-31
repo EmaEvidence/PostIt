@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import AddMembers from './AddMembers';
 
 /**
- * [GroupMembers displays members of a group]
+ * GroupMembers displays members of a group
  */
 class GroupMembers extends React.Component {
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   * @return {ReactElement} markup
    */
   render() {
     const checkIfMembersEmpty = Object.keys(JSON.parse(this.props.members));
@@ -68,16 +68,16 @@ GroupMembers.propTypes = {
   groupName: PropTypes.string.isRequired
 };
 /**
- * [mapStateToProps makes the store data available]
+ * mapStateToProps makes the store data available
  * @method mapStateToProps
- * @param  {object}        state [the store date]
- * @return {object}              [ the data needed by the component]
+ * @param  {object} state the store date
+ * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
   return {
     status: state.setCurrentMembersReducer.status,
-    members: JSON.stringify(state.setCurrentMembersReducer.current_members),
-    groupName: state.setCurrentMembersReducer.current_group
+    members: JSON.stringify(state.setCurrentMembersReducer.currentMembers),
+    groupName: state.setCurrentMembersReducer.currentGroup
   };
 };
 

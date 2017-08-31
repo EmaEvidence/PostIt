@@ -119,7 +119,7 @@ LogIn.propTypes = {
  */
 const mapStateToProps = (state) => {
   return {
-    status: state.authUser.auth_message.data
+    status: state.authUser.authMessage.data
   };
 };
 

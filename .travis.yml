@@ -3,6 +3,8 @@ node_js:
 - 6.10.1
 before_script:
 - npm install -g gulp
+- npm install -g jasmine
+- npm install -g istanbul
 script:
 - npm install
 - npm run test

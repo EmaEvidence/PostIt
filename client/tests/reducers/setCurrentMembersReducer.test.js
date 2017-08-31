@@ -6,9 +6,9 @@ describe('setCurrentMembers reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(
       {
-        current_members: [],
+        currentMembers: [],
         status: '',
-        current_group: ''
+        currentGroup: ''
       }
     );
   });
@@ -25,13 +25,13 @@ describe('setCurrentMembers reducer', () => {
       groupName: 'CFH'
     })).toEqual(
       {
-        current_members: [{
+        currentMembers: [{
           id: 1,
           username: 'Evidence',
           email: 'ema@gmail.com'
         }],
         status: 'Retrived',
-        current_group: 'CFH'
+        currentGroup: 'CFH'
       }
     );
   });

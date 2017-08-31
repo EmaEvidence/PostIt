@@ -14,17 +14,19 @@ class User {
  * constructor - creates models for the class and initiates Connection to the
  * database whenever the class is called.
  *
- * @return {STRING} Connection status message
+ * @return {string} Connection status message
  */
   constructor() {
     this.db = db;
   }
 
   /**
-   * [validateInput checks the validity of the supplied Password]
+   * validateInput checks the validity of the supplied Password
+   *
    * @method validateInput
-   * @param  {[string]}      userPassword [user's Password]
-   * @return {[string]}                   [result of validity test]
+   * @param  {string} userPassword user's Password
+   * @return {string} result of validity test
+   *
    */
   static validatePassword(userPassword) {
     let validity;
@@ -36,10 +38,12 @@ class User {
     return validity;
   }
   /**
-   * [flattenUserId removes users from array of json objects to an array of numbers]
+   * flattenUserId removes users from array of json objects to an array ofnumbers
+   *
    * @method flattenUserId
-   * @param  {[array]}      arrayOfIds [array of json user objects]
-   * @return {[array]}                 [array of user ids]
+   * @param  {array} arrayOfIds array of json user objects
+   *
+   * @return {array} array of user ids
    */
   static flattenUserId(arrayOfIds) {
     const ids = [];
@@ -50,11 +54,13 @@ class User {
   }
 
   /**
-   * [sendText sends text messages to users]
+   * sendText sends text messages to users
+   *
    * @method sendText
-   * @param  {[object]} payload [the user date and message body]
-   * @param  {[function]} done [returns the result of the action asynchronously]
-   * @return {[string]}         [success report]
+   * @param  {object} payload the user date and message body
+   * @param  {function} done returns the result of the action asynchronously
+   *
+   * @return {string} success report
    */
   static sendText(payload, done) {
     const Jusibe = new jusibe(process.env.PUBLIC_KEY, process.env.ACCESS_TOKEN);
@@ -67,11 +73,13 @@ class User {
     });
   }
   /**
-   * [mailer sends email messages to users]
+   * mailer sends email messages to users
+   *
    * @method mailer
-   * @param  {[object]} mailOptions [user data and message details]
-   * @param  {[function]} done [returns the result of the action asynchronously]
-   * @return {[string]}         [success report]
+   * @param  {object} mailOptions user data and message details
+   * @param  {function} done returns the result of the action asynchronously
+   *
+   * @return {string} success report
    */
   static mailer(mailOptions, done) {
     const transporter = nodemailer.createTransport({
@@ -89,10 +97,12 @@ class User {
   }
 
   /**
-   * [createToken generates a json web token]
+   * createToken generates a json web token
+   *
    * @method createToken
-   * @param  {[object]}    payload [user data]
-   * @return {[string]}            [json web token]
+   * @param  {object} payload user data
+   *
+   * @return {string} json web token
    */
   static createToken(payload) {
     const createdToken = jwt.sign({
@@ -102,13 +112,15 @@ class User {
     return createdToken;
   }
   /**
-   * [inAppNotify sends an in app notification to members of a group when a new message is sent]
+   * inAppNotify sends an in app notification to members of a group when a new message is sent
+   *
    * @method inAppNotify
-   * @param  {[array]}    users    [array of user ids]
-   * @param  {[integer]}    groupId  [id of the group the message was sent to]
-   * @param  {[integer]}    senderId [id of the user sending the message]
-   * @param  {[function]} done [returns the result of the action asynchronously]
-   * @return {[string]}         [success report]
+   * @param  {array} users array of user ids
+   * @param  {number} groupId id of the group the message was sent to
+   * @param  {number} senderId id of the user sending the message
+   * @param  {function} done returns the result of the action asynchronously
+   *
+   * @return {string} success report
    */
   inAppNotify(users, groupId, senderId, done) {
     users.forEach((user) => {
@@ -131,11 +143,13 @@ class User {
   }
 
   /**
-   * [showNotification retrieves notifications for a user]
+   * showNotification retrieves notifications for a user
+   *
    * @method showNotification
-   * @param  {[integer]}         userId [ id of the user]
-   * @param  {[function]} done [returns the result of the action asynchronously]
-   * @return {[string]}         [success report]
+   * @param  {number} userId id of the user
+   * @param  {function} done returns the result of the action asynchronously
+   *
+   * @return {string} success report
    */
   showNotification(userId, done) {
     this.db.Notifications.findAll({
@@ -153,11 +167,13 @@ class User {
   }
 
   /**
-   * [clearInAppNotitice removes notification onces the user sees it]
+   * clearInAppNotitice removes notification onces the user sees it
+   *
    * @method clearInAppNotitice
-   * @param  {[integer]}           notificationIds [id of the seen notification]
-   * @param  {[function]} done [returns the result of the action asynchronously]
-   * @return {[string]}         [success report]
+   * @param {number} notificationIds [id of the seen notification]
+   * @param {function} done returns the result of the action asynchronously
+   *
+   * @return {string} success report
    */
   clearInAppNotice(notificationIds, done) {
     this.db.notifications.update({ Status: 'Seen' },
@@ -176,13 +192,14 @@ class User {
   /**
    * signUp - Creates a user from the data provided by saving it in the user database.
    *
-   * @param  {[STRING}] userName    Name of the User
-   * @param  {[STRING]} userUsername userName of the user
-   * @param  {[STRING]} userEmail    Email address of the User
-   * @param  {[STRING]} userPassword password of the user
-   * @param  {[STRING]} userPhone phone Number of the user
-   * @param  {[FunctionDeclaration]} done         callback function
-   * @return {[STRING]}              the result of the registration attempt.
+   * @param {string} userName Name of the User
+   * @param {string} userUsername userName of the user
+   * @param {string} userEmail Email address of the User
+   * @param {string} userPassword password of the user
+   * @param {string} userPhone phone Number of the user
+   * @param {FunctionDeclaration} done callback function
+   *
+   * @return {string} the result of the registration attempt.
    */
   signUp(userName, userUsername, userEmail, userPassword, userPhone, done) {
     const validity = User.validatePassword(userPassword);
@@ -206,7 +223,7 @@ class User {
             result.token = User.createToken(result);
             done(result);
           }).catch((err) => {
-            if (err.errors[0] === undefined) {
+            if (err.errors === undefined) {
               done(err.message);
             } else {
               if (err.errors && err.errors[0].message === '') {
@@ -226,9 +243,10 @@ class User {
   /**
    * deleteUser - Deletes a registered User from the database
    *
-   * @param  {[STRING]} userEmail    the email of the user to delete
-   * @param  {[function]} done         callback function that makes the result availale
-   * @return {[oject]}              the result of the deletion
+   * @param  {string} userEmail the email of the user to delete
+   * @param  {function} done callback function that makes the result availale
+   *
+   * @return {oject} the result of the deletion
    */
   deleteUserss(userEmail, done) {
     this.db.Users.destroy({
@@ -245,17 +263,18 @@ class User {
   /**
    * logIn - checks if the provided User/log In details is availale i the database
    *
-   * @param  {[STRING]} userName                  userName of the user
-   * @param  {[STRING]} password                  password of the user
-   * @param  {[FunctionDeclaration]} done         callback function
-   * @return {[STRING]}                           the result of the registration attempt.
+   * @param  {string} userName userName of the user
+   * @param  {string} password password of the user
+   * @param  {FunctionDeclaration} done callback function
+   *
+   * @return {string} the result of the registration attempt.
    */
   logIn(userName, password, done) {
     this.db.Users.findAll({
       where: {
         username: userName
       },
-      include: ['Notifications']
+      include: ['notifications']
     }).then((user) => {
       if (user.length === 0) {
         done('Failed, Username not Found');
@@ -268,7 +287,7 @@ class User {
               username: user[0].username,
               phone: user[0].phone,
               email: user[0].email,
-              notifications: user[0].Notifications
+              notifications: user[0].notifications
             };
             result.token = User.createToken(result);
             done(result);
@@ -281,15 +300,18 @@ class User {
   }
 
   /**
-   * [createGroup description]
+   * createGroup description
+   *
    * @method createGroup
-   * @param  {[string]}    groupName [name of the group to be created]
-   * @param  {[integer]}    creator   [id of the user creating it]
-   * @param  {[array]}    users     [ids of initial members of the groub]
-   * @param  {Function}  done      [callback function]
-   * @return {[object]}              [success or failure data]
+   * @param  {string} groupName name of the group to be created
+   * @param  { } creator id of the user creating it
+   * @param  {array} users ids of initial members of the groub
+   * @param  {Function} done callback function
+   *
+   * @return {object} success or failure data
    */
   createGroup(groupName, creator, users, done) {
+    console.log(groupName, creator, users, '======-------------========');
     let createdGroup;
     this.db.Users.findAll({
       attributes: ['id'],
@@ -305,7 +327,7 @@ class User {
       }
       this.db.Groups.findOrCreate({
         where: {
-          group_name: groupName,
+          groupName,
           gpCreatorIdId: creator
         }
       }).then((group) => {
@@ -326,12 +348,12 @@ class User {
       }).then(() => {
         const result = {
           id: createdGroup[0].id,
-          groupname: createdGroup[0].group_name,
+          groupname: createdGroup[0].groupNname,
           createdBy: createdGroup[0].gpCreatorIdId
         };
         done(result);
       }).catch((err) => {
-        if (err.errors[0] === undefined) {
+        if (err.errors === undefined) {
           done(err);
         } else {
           if (err.errors && err.errors[0].message === '') {
@@ -351,15 +373,16 @@ class User {
   /**
    * deleteGroup - removes a created group from the database
    *
-   * @param  {[integer]} group   id of group to delete
-   * @param  {[integer]} creator id of the creator
-   * @param  {[FunctionDeclaration]} done    callback function
-   * @return {[object]}         success or failure data
+   * @param  {number} group id of group to delete
+   * @param  {number} creator id of the creator
+   * @param  {FunctionDeclaration} done callback function
+   *
+   * @return {object} success or failure data
    */
   deleteGroup(group, creator, done) {
     this.db.Groups.destroy({
       where: {
-        group_name: group,
+        groupName: group,
         gpCreatorIdId: creator
       }
     }).then((result) => {
@@ -369,16 +392,18 @@ class User {
     });
   }
   /**
-   * [deleteGroupWithName removes a group using the name of the group]
+   * deleteGroupWithName removes a group using the name of the group
+   *
    * @method deleteGroupWithName
-   * @param  {[string]}            group   [name of the group]
-   * @param  {[Function]}          done    [callback function]
-   * @return {[object]}                    [success or failure data]
+   * @param {string} groupName name of the group
+   * @param {Function} done callback function
+   *
+   * @return {object} success or failure data
    */
-  deleteGroupWithName(group, done) {
+  deleteGroupWithName(groupName, done) {
     this.db.Groups.destroy({
       where: {
-        group_name: group
+        groupName
       }
     }).then((result) => {
       done(result);
@@ -390,11 +415,12 @@ class User {
   /**
    * addUsers - adds new user to a created group
    *
-   * @param  {[INTEGER]} group id of the group to add users to
-   * @param  {[INTEGER]} user  id of user being added
-   * @param  {[INTEGER]} added id of user adding the new user
-   * @param  {[FunctionDeclaration]} done         callback function
-   * @return {[STRING]}       result of the addition attempt.
+   * @param  {number} group id of the group to add users to
+   * @param  {INTEGER} user  id of user being added
+   * @param  {INTEGER} added id of user adding the new user
+   * @param  {FunctionDeclaration} done callback function
+   *
+   * @return {string} result of the addition attempt.
    */
   addUsers(group, user, added, done) {
     const groupToInt = parseInt(group, 10);
@@ -418,7 +444,7 @@ class User {
         }
       }).catch((err) => {
         if (err.error === undefined) {
-          done(err.parent.detail);
+          done(err);
         } else {
           done(err.errors[0].message || err.message);
         }
@@ -430,11 +456,12 @@ class User {
   /**
    * deleteUserFromGroup - removes a user from a group
    *
-   * @param  {[integer]} group [id of the group]
-   * @param  {[integer]} user  [id of the user]
-   * @param  {[integer]} added [id of the user who added the user to be deleted]
-   * @param  {[FunctionDeclaration]} done [callback]
-   * @return {[object]}      result of the removal
+   * @param {number} group id of the group
+   * @param {number} user id of the user
+   * @param {number} added id of the user who added the user to be deleted
+   * @param {FunctionDeclaration} done callback
+   *
+   * @return {object} result of the removal
    */
   deleteUserFromGroup(group, user, added, done) {
     this.db.GroupMembers.destroy({
@@ -453,12 +480,13 @@ class User {
   /**
    * postMessage - for posting messages to a group
    *
-   * @param  {[INTEGER]} to            id of the group posted to
-   * @param  {[INTEGER]} from          id of the user sending it
-   * @param  {[STRING]} text          the message being sent
-   * @param  {[INTEGER]} priorityLevel Level of message priority
-   * @param  {[FunctionDeclaration]} done         callback function
-   * @return {[STRING]}       result of the post attempt.
+   * @param  {INTEGER} to id of the group posted to
+   * @param  {INTEGER} from id of the user sending it
+   * @param  {string} text the message being sent
+   * @param  {INTEGER} priorityLevel Level of message priority
+   * @param  {FunctionDeclaration} done callback function
+   *
+   * @return {string} result of the post attempt.
    */
   postMessage(to, from, text, priorityLevel, done) {
     this.db.Messages.create({
@@ -484,11 +512,13 @@ class User {
     });
   }
   /**
-   * [notifyUser description]
+   * notifyUser description
+   *
    * @method notifyUser
-   * @param  {[type]}   priority [description]
-   * @param  {[type]}   users    [description]
-   * @return {[type]}            [description]
+   * @param {type} priority description
+   * @param {type} users description
+   *
+   * @return {type} description
    */
   static notifyUser(priority, users) {
     const ids = [];
@@ -537,8 +567,9 @@ class User {
    * retrieveMessage - gets messages for a group
    *
    * @param  {INTEGER} group the id of the group
-   * @param  {FunctionDeclaration} done         callback function
-   * @return {STRING}       result of the get attempt.
+   * @param  {FunctionDeclaration} done callback function
+   *
+   * @return {string} result of the get attempt.
    */
   retrieveMessage(group, done) {
     this.db.Messages.findAll({
@@ -553,10 +584,12 @@ class User {
     });
   }
   /**
-   * [converts an array of id objects to an array of ids]
+   * converts an array of id objects to an array of ids
+   *
    * @method flattenId
-   * @param  {[array]}  arrayOfIds [Array of JSON objects]
-   * @return {[array]}             [Numeric array]
+   * @param  {array} arrayOfIds Array of JSON objects
+   *
+   * @return {array} Numeric array
    */
   static flattenId(arrayOfIds) {
     const ids = [];
@@ -567,10 +600,12 @@ class User {
   }
 
   /**
-   * [converts an array of id objects to an array of ids]
+   * converts an array of id objects to an array of ids
+   *
    * @method flattenId
-   * @param  {[array]}  arrayOfIds [Array of JSON objects]
-   * @return {[array]}             [Numeric array]
+   * @param {array} arrayOfIds Array of JSON objects
+   *
+   * @return {array} Numeric array
    */
   static flattenGroupId(arrayOfIds) {
     const ids = [];
@@ -581,11 +616,13 @@ class User {
   }
 
 /**
- * [getGroupMembers description]
+ * getGroupMembers description
+ *
  * @method getGroupMembers
- * @param  {[type]}        group [description]
- * @param  {Function}      done  [description]
- * @return {[type]}              [description]
+ * @param  {type} group description
+ * @param  {Function} done description
+ *
+ * @return {type} description
  */
   getGroupMembers(group, done) {
     this.db.sequelize.query(`SELECT t."id", phone, name, username, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${group}`, { type: this.db.sequelize.QueryTypes.SELECT })
@@ -600,9 +637,11 @@ class User {
   /**
    *
    * @method getUserGroups
-   * @param  {[integer]}      userId [the id of the user whose groups is being querried]
-   * @param  {Function}    done   [callback function]
-   * @return {[json]}             [json object that can be the groups or the error message]
+   *
+   * @param  {number} userId the id of the user whose groups is being querried
+   * @param  {Function} done callback function
+   *
+   * @return {json} json object that can be the groups or the error message
    */
   getUserGroups(userId, done) {
     this.db.GroupMembers.findAll({
@@ -611,7 +650,7 @@ class User {
     }).then((groups) => {
       const ids = User.flattenGroupId(groups);
       this.db.Groups.findAll({
-        attributes: ['id', 'group_name', 'gpCreatorIdId'],
+        attributes: ['id', 'groupName', 'gpCreatorIdId'],
         where: { id: ids },
         order: [['createdAt', 'DESC']],
         include: ['Users']
@@ -626,10 +665,12 @@ class User {
   }
 
 /**
- * [getAllUsers retrieves every user from the database]
+ * getAllUsers retrieves every user from the database
+ *
  * @method getAllUsers
- * @param  {[FunctionDeclaration]}  done [callback]
- * @return {[object]}         [success or failure data]
+ * @param  {FunctionDeclaration}  done callback
+ *
+ * @return {object} success or failure data
  */
   getAllUsers(done) {
     this.db.Users.findAll({
@@ -642,12 +683,14 @@ class User {
   }
 
 /**
- * [seenMessages groups Messages as seen]
+ * seenMessages groups Messages as seen
+ *
  * @method seenMessages
- * @param  {[integer]}     messageId [id of the message]
- * @param  {[integer]}     userId    [id of user seeing it]
- * @param  {FunctionDeclaration}   done      [callback]
- * @return {[object]}               [success or failure data]
+ * @param {number} messageId id of the message
+ * @param {number} userId id of user seeing it
+ * @param {FunctionDeclaration} done callback
+ *
+ * @return {object} success or failure data
  */
   seenMessages(messageId, userId, done) {
     this.db.Messages.findAll({
@@ -676,13 +719,15 @@ class User {
     });
   }
 /**
- * [searchUsers searches the database for every occurence of the supplied term]
+ * searchUsers searches the database for every occurence of the supplied term
+ *
  * @method searchUsers
- * @param  {[string]}    searchTerm [term to be looked for]
- * @param  {[integer]}  offset     [number of record to skip]
- * @param  {[integer]}    groupId [id of the group from where the search is made]
- * @param  {[FunctionDeclaration]}  done       [callback]
- * @return {[object]}               [success or failure data]
+ * @param  {string} searchTerm term to be looked for
+ * @param {number} offset number of record to skip
+ * @param {number} groupId id of the group from where the search is made
+ * @param {FunctionDeclaration} done callback
+ *
+ * @return {object} success or failure data
  */
   searchUsers(searchTerm, offset, groupId, done) {
     const processedTerm = `%${searchTerm}%`;
@@ -703,11 +748,13 @@ class User {
     });
   }
   /**
-   * [myMessages retrieves messages sent by a user from the database]
+   * myMessages retrieves messages sent by a user from the database
+   *
    * @method myMessages
-   * @param  {[integer]}   userId [id of the user]
-   * @param  {[FunctionDeclaration]} done   [callback]
-   * @return {[object]}          [success or failure data]
+   * @param {number} userId id of the user
+   * @param {FunctionDeclaration} done callback
+   *
+   * @return {object} success or failure data
    */
   myMessages(userId, done) {
     this.db.Messages.findAll({
@@ -721,11 +768,13 @@ class User {
     });
   }
   /**
-   * [archivedMessages retrieves seen messages from the database]
+   * archivedMessages retrieves seen messages from the database
+   *
    * @method archivedMessages
-   * @param  {[integer]}         userId [id of the user seeing it]
-   * @param  {[FunctionDeclaration]}       done   [callback]
-   * @return {[object]}                [success or failure data]
+   * @param {number} userId id of the user seeing it
+   * @param {FunctionDeclaration} done callback
+   *
+   * @return {object} success or failure data
    */
   archivedMessages(userId, done) {
     this.db.Messages.findAll({
@@ -739,11 +788,13 @@ class User {
     });
   }
   /**
-   * [sendPasswordResetMail sends a password reset mail]
+   * sendPasswordResetMail sends a password reset mail
+   *
    * @method sendPasswordResetMail
-   * @param  {[string]}   email [email address of the user requesting for a Change of password]
-   * @param  {[FunctionDeclaration]}    done  [callback]
-   * @return {[objecte]}                [success or failure data]
+   * @param {string} email email address of the user requesting for a Change of password
+   * @param {FunctionDeclaration} done callback
+   *
+   * @return {objecte} success or failure data
    */
   sendPasswordResetMail(email, done) {
     this.db.Users.findOne({
@@ -754,7 +805,7 @@ class User {
       if (result === null) {
         done('Email Address Not found');
       } else {
-        const link = 'http://www.facebook.com';
+        const link = 'https://postaa.herokuapp.com/newpassword';
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(email, salt, (err, hash) => {
             const sendMail = User.mailer({
@@ -775,12 +826,14 @@ class User {
   }
 
   /**
-   * [resetPassword resets the password of a user]
+   * resetPassword resets the password of a user
+   *
    * @method resetPassword
-   * @param  {[string]}      password  [new password from the user]
-   * @param  {[string]}      key [the uniquekey generated for the user]
-   * @param  {FunctionDeclaration}    done      [callback]
-   * @return {[object]}                [success or failure data]
+   * @param {string} password new password from the user
+   * @param {string} key the uniquekey generated for the user
+   * @param {FunctionDeclaration} done callback
+   *
+   * @return {object} success or failure data
    */
   resetPassword(password, key, done) {
     const validate = User.validatePassword(password);
@@ -815,15 +868,17 @@ class User {
   }
 
   /**
-   * [googleSignUp registers a new user with google+]
+   * googleSignUp registers a new user with google+
+   *
    * @method googleSignUp
-   * @param  {[string]}     name                [name of the user]
-   * @param  {[string]}     email               [email of the user]
-   * @param  {[string]}     username            [username of the user]
-   * @param  {[string]}     state               [status of the the authorization]
-   * @param  {[string]}     [password='social'] [default password]
-   * @param  {[Function]}   done                [callback]
-   * @return {[objct]}                         [success or failure data]
+   * @param {string} name name of the user
+   * @param {string} email email of the user
+   * @param {string} username username of the user
+   * @param {string} state status of the the authorization
+   * @param {string} password='social' default password
+   * @param {Function} done callback
+   *
+   * @return {objct} success or failure data
    */
   googleSignUp(name, email, username, state, password = 'social', done) {
     this.db.Users.findOrCreate({
@@ -851,15 +906,17 @@ class User {
   }
 
   /**
-   * [googleSignIn authorizes a user who registered with google+]
+   * googleSignIn registers a new user with google+
+   *
    * @method googleSignIn
-   * @param  {[string]}     name                [name of the user]
-   * @param  {[string]}     email               [email of the user]
-   * @param  {[string]}     username            [username of the user]
-   * @param  {[string]}     state               [status of the the authorization]
-   * @param  {[string]}     [password='social'] [default password]
-   * @param  {[Function]}   done                [callback]
-   * @return {[objct]}                         [success or failure data]
+   * @param {string} name name of the user
+   * @param {string} email email of the user
+   * @param {string} username username of the user
+   * @param {string} state status of the the authorization
+   * @param {string} password default password
+   * @param {Function} done callback
+   *
+   * @return {objct} success or failure data
    */
   googleSignIn(name, email, username, state, password = 'social', done) {
     this.db.Users.findAll({
@@ -888,10 +945,12 @@ class User {
     });
   }
   /**
-   * [clearTables empties every model of data]
+   * clearTables empties every model of data
+   *
    * @method clearTables
-   * @param  {[Function]}  done [callback]
-   * @return {[void]}         []
+   * @param {Function} done callback
+   *
+   * @return {void} []
    */
   clearTables() {
     this.db.Users.destroy({

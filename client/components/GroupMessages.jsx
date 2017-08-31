@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 /**
- * [GroupMessages displays the message of a group]
+ * GroupMessages displays the message of a group
  */
 class GroupMessages extends React.Component {
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   * @return {ReactElement} markup
    */
   render() {
     const checkIfMessageEmpty = Object.keys(JSON.parse(this.props.messages));
@@ -61,15 +61,15 @@ GroupMessages.propTypes = {
 };
 
 /**
- * [mapStateToProps makes the store data available]
+ * mapStateToProps makes the store data available
  * @method mapStateToProps
- * @param  {object}        state [the store date]
- * @return {object}              [ the data needed by the component]
+ * @param  {object} state the store date
+ * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
   return {
     status: state.setCurrentMessagesReducer.status,
-    messages: JSON.stringify(state.setCurrentMessagesReducer.current_messages)
+    messages: JSON.stringify(state.setCurrentMessagesReducer.currentMessages)
   };
 };
 

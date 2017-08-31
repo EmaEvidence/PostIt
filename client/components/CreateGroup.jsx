@@ -6,20 +6,22 @@ import getUserGroupsAction from '../actions/getUserGroupsAction';
 import clearStoreAction from '../actions/clearStoreAction';
 
 /**
- * [createGroup component for creating new group]
+ * createGroup component for creating new group
  */
 class CreateGroup extends React.Component {
   /**
-   * [constructor creates the state]
+   * constructor creates the state
+   *
    * @method constructor
-   * @param  {object}    props [data]
-   * @return {object}          [description]
+   * @param  {object} props
+   *
+   * @return {object} []
    */
   constructor(props) {
     super(props);
     this.createGroup = this.createGroup.bind(this);
     this.state = {
-      groupname: '',
+      groupName: '',
       purpose: '',
       members: '',
       status: ''
@@ -29,10 +31,12 @@ class CreateGroup extends React.Component {
     this.clear = this.clear.bind(this);
   }
   /**
-   * [onChange stores the form component value in the state]
+   * onChange stores the form component value in the state
+   *
    * @method onChange
-   * @param  {object} event [the event triggered on the HTML element]
-   * @return {object}       [new state]
+   * @param  {object} event the event triggered on the HTML element
+   *
+   * @return {object} new state
    */
   onChange(event) {
     this.setState({
@@ -40,23 +44,25 @@ class CreateGroup extends React.Component {
     });
   }
   /**
-   * [createGroup sends the form data to the API for form creation]
+   * createGroup sends the form data to the API for form creation
+   *
    * @method createGroup
-   * @param  {object}    event [the event triggered on the form]
-   * @return {object}          []
+   * @param  {object} event the event triggered on the form
+   *
+   * @return {object} []
    */
   createGroup(event) {
     event.preventDefault();
-    const members = this.refs.members.value;
+    const members = $('#members').val();
     const groupData = {
-      groupname: this.state.groupname,
+      groupName: this.state,
       purpose: this.state.purpose,
       users: members
     };
     this.props.createGroupAction(groupData, this.props.userId)
     .then(() => {
       this.setState({
-        groupname: '',
+        groupName: '',
         purpose: '',
         members: ''
       });
@@ -79,9 +85,11 @@ class CreateGroup extends React.Component {
     this.props.clearStoreAction('createGroup');
   }
   /**
-   * [render ]
+   * render
+   *
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     return (
@@ -95,9 +103,9 @@ class CreateGroup extends React.Component {
               className="form-control"
               placeholder="What will you like to call your Group?"
               required
-              value={this.state.groupname}
+              value={this.state.groupName}
               onChange={this.onChange}
-              name="groupname"
+              name="groupName"
             />
           </div>
           <div className="form-group">
@@ -118,7 +126,6 @@ class CreateGroup extends React.Component {
               id="members"
               value=""
               name="members"
-              ref="members"
             />
           </div>
           <div className="form-group">
@@ -143,20 +150,23 @@ class CreateGroup extends React.Component {
 CreateGroup.propTypes = {
   createGroupAction: PropTypes.func.isRequired,
   status: PropTypes.string.isRequired,
-  clearStoreAction: PropTypes.func.isRequired
+  clearStoreAction: PropTypes.func.isRequired,
+  userId: PropTypes.number.isRequired
 };
 /**
- * [mapStateToProps makes store data available to the component]
+ * mapStateToProps makes store data available to the component
+ *
  * @method mapStateToProps
- * @param  {object}        state [redux store]
- * @return {object}              [data needed by the component]
+ * @param {object} state redux store
+ *
+ * @return {object} data needed by the component
  */
 const mapStateToProps = (state) => {
   let status = 'true';
   let userId = '1';
   if (state.createGroupReducer !== undefined) {
     status = state.createGroupReducer.status;
-    userId = state.authUser.user_details.id;
+    userId = state.authUser.userDetails.id;
   }
   return {
     status,

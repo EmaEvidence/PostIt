@@ -94,8 +94,8 @@
     "copy-files": "cpy ./client/src/**.html client/dist ",
     "clear": "rimraf client/dist",
     "client-test": "jest",
-    "test": "NODE_ENV='test' gulp",
-    "prestart": "babel server/src --out-dir dist && npm run clear && npm run copy-files",
+    "test": "NODE_ENV='test' istanbul cover babel-node run.js",
+    "prestart": "npm run clear && npm run copy-files",
     "start": "nodemon --exec babel-node server/server.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
   },

@@ -3,17 +3,15 @@ import { CREATE_GROUP, CREATE_GROUP_ERROR } from './types/types';
 import getUserGroupsAction from './getUserGroupsAction';
 
 export default function createGroupAction(groupData, id) {
-  return (dispatch, getState) => {
-    const groups = getState().getUserGroupsReducer.groups;
+  return (dispatch) => {
     return axios.post('/api/v1/group', groupData)
     .then((res) => {
-      groups.push(res.data.group);
-      dispatch(getUserGroupsAction({ id }));
       dispatch({
         message: res.data.message,
         type: CREATE_GROUP,
-        groups
+        group: res.data.group
       });
+      dispatch(getUserGroupsAction({ id }));
     })
     .catch((error) => {
       if (error.resonse === undefined) {
@@ -23,7 +21,7 @@ export default function createGroupAction(groupData, id) {
         });
       } else {
         dispatch({
-          message: error,
+          message: error.response.data.message,
           type: CREATE_GROUP_ERROR
         });
       }

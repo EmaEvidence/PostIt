@@ -117,7 +117,7 @@ Index.propTypes = {
  */
 const mapStateToProps = (state) => {
   return {
-    status: state.authUser.logged_in
+    status: state.authUser.loggedIn
   };
 };
 

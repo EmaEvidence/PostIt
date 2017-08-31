@@ -109,8 +109,8 @@ class CreateMessage extends React.Component {
                   name="group"
                   onChange={this.handleValueChange}
                   optionValue="id"
-                  optionFilter={['group_name']}
-                  optionLabelRender={option => `${option.group_name}`}
+                  optionFilter={['groupName']}
+                  optionLabelRender={option => `${option.groupName}`}
                 />
               </div>
               <div className="col s1" />

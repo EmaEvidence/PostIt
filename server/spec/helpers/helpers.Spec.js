@@ -1,5 +1,5 @@
 import expect from 'expect';
-import User from '../src/user';
+import User from '../../helpers/user';
 
 
 describe('when an Array of JSON object with Ids as keys is supplied', () => {

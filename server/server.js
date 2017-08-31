@@ -5,7 +5,8 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import path from 'path';
 
 import webpackConfig from '../webpack.config';
-import Router from './src/route';
+import userRouter from './routes/user';
+import groupRouter from './routes/group';
 
 const app = express();
 
@@ -21,7 +22,8 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(webpackHotMiddleware(webpack(webpackConfig)));
 }
 
-app.use('/', Router);
+app.use('/', userRouter);
+app.use('/', groupRouter);
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/src/index.html'));

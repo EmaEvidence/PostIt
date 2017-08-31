@@ -129,8 +129,8 @@ NavBar.propTypes = {
  */
 const mapStateToProps = (state) => {
   return {
-    loggedInStatus: state.authUser.logged_in,
-    userDetails: JSON.stringify(state.authUser.user_details),
+    loggedInStatus: state.authUser.loggedIn,
+    userDetails: JSON.stringify(state.authUser.userDetails),
   };
 };
 

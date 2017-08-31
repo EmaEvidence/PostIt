@@ -6,9 +6,9 @@ describe('setCurrentMessages reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(
       {
-        current_messages: [],
+        currentMessages: [],
         status: '',
-        current_group: ''
+        currentGroup: ''
       }
     );
   });
@@ -21,9 +21,9 @@ describe('setCurrentMessages reducer', () => {
       groupName: 'CFH'
     })).toEqual(
       {
-        current_messages: [{}],
+        currentMessages: [{}],
         status: 'No Message for this group',
-        current_group: 'CFH'
+        currentGroup: 'CFH'
       }
     );
   });

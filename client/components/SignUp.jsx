@@ -21,7 +21,7 @@ export class SignUp extends React.Component {
       username: '',
       email: '',
       password: '',
-      cpassword: '',
+      confirmPassword: '',
       phone: '',
       status: '',
       pwdmatch: ''
@@ -58,7 +58,7 @@ export class SignUp extends React.Component {
    * @return {boolean}        [test result]
    */
   checkPassword() {
-    if (this.state.password === this.state.cpassword) {
+    if (this.state.password === this.state.confirmPassword) {
       this.setState({
         pwdmatch: 'password matches',
       });
@@ -150,9 +150,9 @@ export class SignUp extends React.Component {
               type="password"
               onChange={this.onChange}
               className="form-control"
-              value={this.state.cpassword}
+              value={this.state.confirmPassword}
               placeholder="Confirm Password"
-              name="cpassword"
+              name="confirmPassword"
               onKeyUp={this.checkPassword}
               required
             />
@@ -191,10 +191,10 @@ SignUp.propTypes = {
  */
 const mapStateToProps = (state) => {
   let message;
-  if (state.authUser.auth_message.data === undefined) {
+  if (state.authUser.authMessage.data === undefined) {
     message = '';
   } else {
-    message = state.authUser.auth_message.data;
+    message = state.authUser.authMessage.data;
   }
   return {
     message

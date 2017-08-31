@@ -25,10 +25,10 @@ class CreateMessage extends React.Component {
   }
 
   /**
-   * [onChange description]
+   * onChange description
    * @method onChange
-   * @param  {[type]} e [description]
-   * @return {[type]}   [description]
+   * @param  {type} event description
+   * @return {type}   description
    */
   onChange(event) {
     this.setState({
@@ -103,8 +103,8 @@ class CreateMessage extends React.Component {
                           name="group"
                           onChange={this.handleValueChange}
                           optionValue="id"
-                          optionFilter={['group_name']}
-                          optionLabelRender={option => `${option.group_name}`}
+                          optionFilter={['groupName']}
+                          optionLabelRender={option => `${option.groupName}`}
                         />
                       </div>
                       <div className="col s1" />

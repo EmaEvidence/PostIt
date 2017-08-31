@@ -8,15 +8,14 @@ import searchUserAction from '../actions/searchUserAction';
 import clearStoreAction from '../actions/clearStoreAction';
 
 /**
- * [state description]
+ * state description
  * @type {Object}
  */
 class AddMembers extends React.Component {
   /**
    * [constructor description]
    * @method constructor
-   * @param  {object}    props [properties of the Component]
-   * @return {void}          []
+   * @param {object} props [properties of the Component]
    */
   constructor(props) {
     super(props);
@@ -30,14 +29,13 @@ class AddMembers extends React.Component {
     this.addMember = this.addMember.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
-    this.checkIfMember = this.checkIfMember.bind(this);
-    this.clear = this.clear.bind(this);
+    this.clearState = this.clearState.bind(this);
   }
   /**
-   * [onChange gets search term]
+   * onChange gets search term
    * @method onChange
-   * @param  {object} event [data from the search input]
-   * @return {object}             [populate the redux store with data]
+   * @param  {object} event data from the search input
+   * @return {object} populate the redux store with data
    */
   onChange(event) {
     if (event.target.value.length !== 0) {
@@ -50,10 +48,10 @@ class AddMembers extends React.Component {
     }
   }
   /**
-   * [handlePageClick paginates search result]
+   * handlePageClick paginates search result
    * @method handlePageClick
-   * @param  {object}        data [click event for page numbers]
-   * @return {object}             [populate the redux store with data]
+   * @param {object} data click event for page numbers
+   * @return {object} populate the redux store with data
    */
   handlePageClick(data) {
     const selected = data.selected;
@@ -64,32 +62,20 @@ class AddMembers extends React.Component {
   /**
    * [addMember adds a new member to a group]
    * @method addMember
-   * @param  {interger}  userId [the id of the user to id]
-   * @param  {object}  event  [the html element datas]
-   * @return  {void}  event  []
+   * @param  {number} userId the id of the user to id
+   * @param  {object} event the html element datas
+   * @return  {void} event []
    */
-  addMember(userId, event) {
+  addMember(userId) {
     const groupId = this.props.groupId;
     this.props.addNewMemberAction(groupId, userId);
-  }
-  /**
-   * [checkIfMember checks if a user is already a member of a group]
-   * @method checkIfMember
-   * @param  {interger}      userId  [id of user to check]
-   * @param  {array}      userIds [ids of members of the group]
-   * @return {boolean}              check result
-   */
-  checkIfMember(userId, userIds) {
-    if (userIds.indexOf(userId) < 0) {
-      return true;
-    }
   }
   /**
    * [clear returns the state of the component to its default]
    * @method clear
    * @return {void} []
    */
-  clear() {
+  clearState() {
     this.setState({
       user: '',
       termIsEmpty: true,
@@ -101,18 +87,18 @@ class AddMembers extends React.Component {
     this.props.clearStoreAction('searchUser');
   }
   /**
-   * [render ]
+   * render
    * @method render
-   * @return {ReactElement} [markup]
+   * @return {ReactElement} markup
    */
   render() {
     const searchResult = JSON.parse(this.props.searchResult);
-    const userIds = [];
+    const members = [];
     if (this.props.groups !== undefined) {
       (this.props.groups).forEach((group) => {
         if (group.id === this.props.groupId) {
           (group.Users).map((user) => {
-            userIds.push(user.id);
+            members.push(user.id);
           });
         }
       });
@@ -130,14 +116,14 @@ class AddMembers extends React.Component {
       resultList = (searchResult).map(result =>
         (
           <tr key={result.id}>
-            { this.checkIfMember(result.id, userIds)}
+            { (members.indexOf(result.id) < 0)}
             <td> { result.username } </td>
             <td> <input
               type="button"
               className="form-control btn custombutton deep-purple lighten-3"
-              value={this.checkIfMember(result.id, userIds) ? 'Add' : 'A Member'}
+              value={(members.indexOf(result.id) < 0) ? 'Add' : 'A Member'}
               onClick={this.addMember.bind(null, result.id)}
-              disabled={!this.checkIfMember(result.id, userIds)}
+              disabled={!(members.indexOf(result.id) < 0)}
             />
             </td>
           </tr>
@@ -183,7 +169,7 @@ class AddMembers extends React.Component {
                   <td>
                     <button
                       type="button"
-                      onClick={this.clear}
+                      onClick={this.clearState}
                       className="modal-close btn right deep-purple lighten-4 custombutton"
                     >Cancel</button>
                   </td>
@@ -210,17 +196,17 @@ AddMembers.propTypes = {
 /**
  * [mapStateToProps makes the data in the redux store available to this component]
  * @method mapStateToProps
- * @param  {object}        state [the entire redux store]
- * @return {object}              [the bit made available for this component]
+ * @param  {object} state the entire redux store
+ * @return {object} the bit made available for this component
  */
 const mapStateToProps = (state) => {
   return {
-    groupId: parseInt((state.setUsersReducer.current_group), 10),
+    groupId: parseInt((state.setUsersReducer.currentGroup), 10),
     users: state.setUsersReducer.users,
     status: state.addNewMemberReducer.status,
     searchResult: JSON.stringify(state.searchUserReducer.searchResult),
     pageCount: state.searchUserReducer.pageCount,
-    groups: (state.getUserGroupsReducer.groups[0])
+    groups: state.getUserGroupsReducer.groups[0]
   };
 };
 

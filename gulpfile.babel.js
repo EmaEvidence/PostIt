@@ -10,7 +10,7 @@ import nodemon from 'gulp-nodemon';
  *gulp task for transpiling ES6 to ES5
  */
 gulp.task('transpile', () =>
-  gulp.src(['server/src/**.js', 'app.js', 'server/spec/**TestSpec.js'])
+  gulp.src(['server/controllers/**.js', 'server/middleware/**.js', 'server/helpers/**.js', 'server/routes/**.js'])
   .pipe(babel({
     presets: ['es2015']
   }))
@@ -36,11 +36,11 @@ gulp.task('run-test', ['transpile'], () =>
  * gulp task for getting coverage report on tests
  */
 gulp.task('coverage', (cb) => {
-  gulp.src(['server/src/user.js', '/server/server.js', 'server/src/route.js', 'server/controlers/controler.js'])
+  gulp.src(['server/controllers/', '/server/helpers/', 'server/middleware/', 'server/routes/, server/models/'])
     .pipe(gulpBabelIstanbul())
     .pipe(injectModules())
     .on('finish', () => {
-      gulp.src('server/spec/**TestSpec.js')
+      gulp.src('server/spec/**.Spec.js')
       .pipe(babel())
       .pipe(injectModules())
       .pipe(jasmine())

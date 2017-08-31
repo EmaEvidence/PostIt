@@ -1,23 +1,23 @@
 /**
- * [reducer description]
+ * reducer
  * @method reducer
- * @param  {Object} [state={                    current_messages: []] [description]
- * @param  {[type]} status        [description]
- * @param  {[type]} current_group [description]
- * @param  {[type]} action        [description]
- * @return {[type]}               [description]
+ * @param  {Object}
+ * @param  {type} status        description
+ * @param  {type} currentGroup description
+ * @param  {type} action       description
+ * @return {type}              description
  */
 export default function reducer(state = {
-  current_messages: [],
+  currentMessages: [],
   status: '',
-  current_group: ''
+  currentGroup: ''
 }, action) {
   switch (action.type) {
     case 'SET_CURRENT_MESSAGES': {
       return { ...state,
-        current_messages: action.messages,
+        currentMessages: action.messages,
         status: action.status,
-        current_group: action.groupName };
+        currentGroup: action.groupName };
     }
     default:
       return state;
