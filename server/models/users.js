@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-const UserModel = {
+const Users = {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -59,4 +59,4 @@ const UserModel = {
   }
 };
 
-export default UserModel;
+export default Users;

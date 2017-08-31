@@ -91,7 +91,7 @@
     "eslint-plugin-react": "^7.0.1"
   },
   "scripts": {
-    "copy-files": "cpy ./client/src/**.html client/dist ",
+    "copy-files": "cpy ./client/source/**.html client/dist ",
     "clear": "rimraf client/dist",
     "client-test": "jest",
     "test": "NODE_ENV='test' istanbul cover babel-node run.js",
