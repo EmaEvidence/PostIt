@@ -1,11 +1,20 @@
 {
   "root": true,
   "extends": "airbnb",
+  "plugins": [ "react", "jsx-a11y" ],
   "env": {
     "node": true,
     "es6": true,
     "mocha": true
   },
+  "ecmaFeatures": { "jsx": true },
+  "globals": {
+    window,
+    document,
+    this,
+    $,
+    "React": true
+    },
   "rules": {
     "one-var": 0,
     "one-var-declaration-per-line": 0,
@@ -23,6 +32,12 @@
       "requireParamDescription": false,
       "requireReturnDescription": true
     }],
+    "react/jsx-no-bind": ["error", {
+      "ignoreRefs": true,
+      "allowArrowFunctions": true,
+      "allowBind": true
+    }],
+    "react/jsx-filename-extension": [1, { "extensions": [".jsx"] }],
     "require-jsdoc": ["error", {
         "require": {
             "FunctionDeclaration": true,
