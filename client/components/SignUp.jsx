@@ -83,7 +83,7 @@ export class SignUp extends React.Component {
         <form className="modal-dialog signupform" onSubmit={this.onSubmit}>
           <div className="modal-header mo">
             <h2 className="form-header center" >Sign Up </h2>
-            <GoogleLogin type={'SignUp'} googleAction={googleAuth} />
+            <GoogleLogin type={'Sign Up'} googleAction={googleAuth} />
             <p className="alert alert-danger center">{this.props.message}</p>
           </div>
           <div className="form-group">

@@ -192,26 +192,26 @@ class User {
   /**
    * signUp - Creates a user from the data provided by saving it in the user database.
    *
-   * @param {string} userName Name of the User
-   * @param {string} userUsername userName of the user
-   * @param {string} userEmail Email address of the User
-   * @param {string} userPassword password of the user
-   * @param {string} userPhone phone Number of the user
+   * @param {string} name Name of the User
+   * @param {string} username userName of the user
+   * @param {string} email Email address of the User
+   * @param {string} password password of the user
+   * @param {string} phone phone Number of the user
    * @param {FunctionDeclaration} done callback function
    *
    * @return {string} the result of the registration attempt.
    */
-  signUp(userName, userUsername, userEmail, userPassword, userPhone, done) {
-    const validity = User.validatePassword(userPassword);
+  signUp(name, username, email, password, phone, done) {
+    const validity = User.validatePassword(password);
     if (validity === 'valid') {
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(userPassword, salt, (err, hash) => {
+        bcrypt.hash(password, salt, (err, hash) => {
           this.db.Users.create({
-            name: userName,
-            username: userUsername,
-            email: userEmail,
+            name,
+            username,
+            email,
             password: hash,
-            phone: userPhone
+            phone
           }).then((user) => {
             const result = {
               id: user.id,
@@ -248,10 +248,10 @@ class User {
    *
    * @return {oject} the result of the deletion
    */
-  deleteUserss(userEmail, done) {
+  deleteUsers(email, done) {
     this.db.Users.destroy({
       where: {
-        email: userEmail
+        email
       }
     }).then((user) => {
       done(user);
@@ -269,10 +269,10 @@ class User {
    *
    * @return {string} the result of the registration attempt.
    */
-  logIn(userName, password, done) {
+  logIn(username, password, done) {
     this.db.Users.findAll({
       where: {
-        username: userName
+        username
       },
       include: ['notifications']
     }).then((user) => {
@@ -304,14 +304,13 @@ class User {
    *
    * @method createGroup
    * @param  {string} groupName name of the group to be created
-   * @param  { } creator id of the user creating it
-   * @param  {array} users ids of initial members of the groub
+   * @param  {number} creator id of the user creating it
+   * @param  {array} users names of initial members of the groub
    * @param  {Function} done callback function
    *
    * @return {object} success or failure data
    */
   createGroup(groupName, creator, users, done) {
-    console.log(groupName, creator, users, '======-------------========');
     let createdGroup;
     this.db.Users.findAll({
       attributes: ['id'],
@@ -354,10 +353,10 @@ class User {
         done(result);
       }).catch((err) => {
         if (err.errors === undefined) {
-          done(err);
+          done(err.message);
         } else {
           if (err.errors && err.errors[0].message === '') {
-            done(`${err.errors[0].path} can not be Undefined`);
+            done(`${err.errors[0].path} can not be empty`);
           } else {
             done(err.errors[0].message || err.message);
           }
@@ -444,7 +443,7 @@ class User {
         }
       }).catch((err) => {
         if (err.error === undefined) {
-          done(err);
+          done(err.message);
         } else {
           done(err.errors[0].message || err.message);
         }
@@ -488,25 +487,34 @@ class User {
    *
    * @return {string} result of the post attempt.
    */
-  postMessage(to, from, text, priorityLevel, done) {
-    this.db.Messages.create({
-      groupIdId: to,
-      message: text,
-      senderIdId: from,
-      priority: priorityLevel
-    }).then((message) => {
-      const result = {
-        id: message.id,
-        message: message.message,
-        groupIdId: message.groupIdId,
-        senderIdId: message.senderIdId,
-        priority: message.priority
-      };
-      this.db.sequelize.query(`SELECT t."id", phone, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${to}`, { type: this.db.sequelize.QueryTypes.SELECT })
-        .then((users) => {
-          User.notifyUser(priorityLevel, users);
-          done(result, users);
-        });
+  postMessage(to, sender, text, priorityLevel, done) {
+    this.db.GroupMembers.findOne({
+      where: {
+        UserId: sender,
+        GroupId: to
+      }
+    }).then((response) => {
+      this.db.Messages.create({
+        groupIdId: to,
+        message: text,
+        senderIdId: sender,
+        priority: priorityLevel
+      }).then((message) => {
+        const result = {
+          id: message.id,
+          message: message.message,
+          groupIdId: message.groupIdId,
+          senderIdId: message.senderIdId,
+          priority: message.priority
+        };
+        this.db.sequelize.query(`SELECT t."id", phone, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${to}`, { type: this.db.sequelize.QueryTypes.SELECT })
+          .then((users) => {
+            User.notifyUser(priorityLevel, users);
+            done(result, users);
+          });
+      }).catch((err) => {
+        done(err.name);
+      });
     }).catch((err) => {
       done(err.name);
     });

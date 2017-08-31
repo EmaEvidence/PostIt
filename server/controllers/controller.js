@@ -11,7 +11,7 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   addUser: (req, res) => {
     const groupId = req.params.groupId;
@@ -39,11 +39,10 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   createGroup: (req, res) => {
     const groupName = req.body.groupName;
-    console.log(groupName, '=========-------===========');
     let users = req.body.users;
     const userId = req.token.data.id;
     if (typeof users === 'string') {
@@ -67,15 +66,19 @@ const Controller = {
    * @param {object} req request sent from frontend
    * @param {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   deleteUser: (req, res) => {
     const userId = req.body.user || req.token.data.email;
-    user.deleteUserss(userId, (result) => {
+    user.deleteUsers(userId, (result) => {
       if (result === 1) {
         res.status(200).json({
           message: 'Deleted'
         });
+      } else if (result === 0) {
+        errorResponseHandler(res, 404, 'User not Found');
+      } else {
+        errorResponseHandler(res, 400, 'Invalid Data');
       }
     });
   },
@@ -86,7 +89,7 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   getGroupMessages: (req, res) => {
     const groupId = req.params.groupId;
@@ -109,7 +112,7 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   getGroupUsers: (req, res) => {
     const groupId = req.params.groupId;
@@ -132,7 +135,7 @@ const Controller = {
    * @param {object} req request sent from frontend
    * @param {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   getUserGroups: (req, res) => {
     const userId = req.token.data.id;
@@ -153,7 +156,7 @@ const Controller = {
    * @param {object} req request sent from frontend
    * @param {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   postMessage: (req, res) => {
     const groupId = req.params.groupId;
@@ -182,7 +185,7 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   signIn: (req, res) => {
     const { username, password } = req.body;
@@ -206,7 +209,7 @@ const Controller = {
    * @param {object} req request sent from frontend
    * @param {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   signUp: (req, res) => {
     const { name, username, email, password, phone } = req.body;
@@ -228,7 +231,7 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   getAllUsers: (req, res) => {
     user.getAllUsers((result) => {
@@ -244,7 +247,7 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   messageRead: (req, res) => {
     const messageId = req.body.messageId;
@@ -271,7 +274,7 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   searchUser: (req, res) => {
     const { searchTerm, offset, groupId } = req.body;
@@ -292,7 +295,7 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   mymessage: (req, res) => {
     const userId = req.token.data.id;
@@ -309,7 +312,7 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   archivedMessages: (req, res) => {
     const userId = req.token.data.id;
@@ -327,7 +330,7 @@ const Controller = {
    * @param {object} req request sent from frontend
    * @param {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   forgotPassword: (req, res) => {
     const email = req.body.email;
@@ -353,7 +356,7 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   newPassword: (req, res) => {
     const { userKey, newPassword } = req.body;
@@ -381,12 +384,12 @@ const Controller = {
    * @param  {object} req request sent from frontend
    * @param  {object} res response from the server
    *
-   * @return {object} []
+   * @return {object} API response
    */
   googleAuth: (req, res) => {
     const { name, email, state } = req.body;
     const username = (email.split('@')[0]).replace(/[^a-zA-Z0-9]/g, '');
-    const password = 'social';
+    const password = 'null';
     if (validate.googleDetails(name, email, username, res)) {
       if (state === 'Sign Up') {
         user.googleSignUp(name, email, username, state, password, (result) => {

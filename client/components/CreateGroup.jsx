@@ -55,7 +55,7 @@ class CreateGroup extends React.Component {
     event.preventDefault();
     const members = $('#members').val();
     const groupData = {
-      groupName: this.state,
+      groupName: this.state.groupName,
       purpose: this.state.purpose,
       users: members
     };

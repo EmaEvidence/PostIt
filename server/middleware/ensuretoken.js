@@ -4,10 +4,12 @@ import errorResponseHandler from '../helpers/errorresponsehandler';
 /**
  * ensureToken verifies the validity of json web token
  * @method ensureToken
+ *
  * @param  {object} req request sent from frontend
  * @param {object} res response from the server
  * @param {Function} next description
- * @return {object} []
+ *
+ * @return {object} status response or adds a token to request object
  */
 const ensureToken = (req, res, next) => {
   const token = req.body.token || req.params.token || req.headers.authorization;
