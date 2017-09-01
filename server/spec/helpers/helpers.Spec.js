@@ -30,75 +30,33 @@ describe('when an Array of JSON object with Ids as keys is supplied', () => {
   });
 });
 
-xdescribe('when a text notification is sent', () => {
-  const payload = {
-    to: '07063747160',
-    from: 'Post App',
-    message: 'You have a new Message on Post It App. Testing'
+describe('when a payload is supplied to generate json web token', () => {
+  const result = {
+    id: 1,
+    name: 'Evidence',
+    username: 'Evidence',
+    phone: '07030092113',
+    email: 'ema@gmail.com'
   };
-  const wrongPayload = {
-    to: '',
-    from: 'Post App',
-    body: 'You have a new Message on Post It App. Testing'
-  };
-  let rightResult;
-  beforeEach((done) => {
-    User.sendText(payload, (result) => {
-      rightResult = result;
-      done();
-    }, 3000);
-  }, 10000);
-
-  it('should return "Message Notification Sent" if sent', () => {
-    expect(rightResult).toEqual('Message Notification Sent');
-  });
-  let wrongResult;
-  beforeEach((done) => {
-    User.sendText(wrongPayload, (result) => {
-      wrongResult = result;
-      done();
-    }, 3000);
-  }, 10000);
-  it('should return "Error Sending Message Notification" if not sent', () => {
-    expect(wrongResult).toEqual('Error Sending Message Notification');
+  const token = User.createToken(result);
+  it('should create a json web token', () => {
+    expect(typeof token).toEqual('string');
   });
 });
 
-xdescribe('when a mail notification is sent', () => {
-  const mailOptions = {
-    from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
-    to: 'emmanuelalabi563@gmail.com',
-    subject: 'New Message Notification',
-    text: 'You have a new message in Post It App.',
-    html: '<a href="#">Click Here To Access it</a>'
-  };
-  const wrongMailOptions = {
-    fro: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
-    t: 'emm@gmail.com',
-    subject: 'New Message Notification',
-    body: 'You have a new message in Post It App.',
-    html: '<a href="#">Click Here To Access it</a>'
-  };
-  let result;
-  let wrongResult;
-  beforeEach((done) => {
-    User.mailer(mailOptions, (msg) => {
-      result = msg;
-      done();
-    }, 3000);
-  }, 3000);
-  it('should return "Mail Sent" if sent', (done) => {
-    expect(result).toEqual('Mail Sent');
-    done();
-  }, 10000);
-  beforeEach((done) => {
-    User.mailer(wrongMailOptions, (msg) => {
-      wrongResult = msg;
-      done();
-    }, 3000);
-  }, 3000);
-  it('should return "Mail Not Sent" if not sent', (done) => {
-    expect(wrongResult).toEqual('Mail Not Sent');
-    done();
-  }, 10000);
+describe('when message is sent', () => {
+  const noticeCritical = User.notifyUser('Critical', [{
+    id: 1,
+    email: 'emmanuelalabi563@gmail.com',
+    phone: '07063747160' }]);
+  it('should notify all users in the user object passed', () => {
+    expect(noticeCritical).toEqual({ email: 'sent', phone: 'sent' });
+  });
+  const noticeUrgent = User.notifyUser('Urgent', [{
+    id: 1,
+    email: 'emmanuelalabi563@gmail.com',
+    phone: '07063747160' }]);
+  it('should notify all users in the user object passed', () => {
+    expect(noticeUrgent).toEqual({ email: 'sent' });
+  });
 });

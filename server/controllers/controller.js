@@ -408,7 +408,7 @@ const Controller = {
             errorResponseHandler(res, 400, result);
           } else {
             return res.status(200).json({
-              message: 'Sign Up Successful',
+              message: 'Sign In Successful',
               user: result
             });
           }

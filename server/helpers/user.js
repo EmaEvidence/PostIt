@@ -123,23 +123,27 @@ class User {
    * @return {string} success report
    */
   inAppNotify(users, groupId, senderId, done) {
-    users.forEach((user) => {
-      const id = user.id;
-      if (id !== senderId) {
-        this.db.Notifications.create({
-          type: 'A New Message',
-          groupId,
-          name: 'Andela',
-          source: senderId,
-          UserId: id,
-          status: 'Not Seen'
-        }).then(() => {
-          done(' A notification has being sent to every group Member');
-        }).catch(() => {
-          done('Error Notifying Group Memberd');
-        });
-      }
-    });
+    if (typeof users !== 'object' && users.length <= 0) {
+      done('No User to Notify');
+    } else {
+      users.forEach((user) => {
+        const id = user.id;
+        if (id !== senderId) {
+          this.db.Notifications.create({
+            type: 'A New Message',
+            groupId,
+            name: 'Andela',
+            source: senderId,
+            UserId: id,
+            status: 'Not Seen'
+          }).then(() => {
+            done(' A notification has being sent to every group Member');
+          }).catch(() => {
+            done('Error Notifying Group Members');
+          });
+        }
+      });
+    }
   }
 
   /**
@@ -243,7 +247,7 @@ class User {
   /**
    * deleteUser - Deletes a registered User from the database
    *
-   * @param  {string} userEmail the email of the user to delete
+   * @param  {string} email the email of the user to delete
    * @param  {function} done callback function that makes the result availale
    *
    * @return {oject} the result of the deletion
@@ -263,7 +267,7 @@ class User {
   /**
    * logIn - checks if the provided User/log In details is availale i the database
    *
-   * @param  {string} userName userName of the user
+   * @param  {string} username userName of the user
    * @param  {string} password password of the user
    * @param  {FunctionDeclaration} done callback function
    *
@@ -347,7 +351,7 @@ class User {
       }).then(() => {
         const result = {
           id: createdGroup[0].id,
-          groupname: createdGroup[0].groupNname,
+          groupName: createdGroup[0].groupName,
           createdBy: createdGroup[0].gpCreatorIdId
         };
         done(result);
@@ -415,8 +419,8 @@ class User {
    * addUsers - adds new user to a created group
    *
    * @param  {number} group id of the group to add users to
-   * @param  {INTEGER} user  id of user being added
-   * @param  {INTEGER} added id of user adding the new user
+   * @param  {number} user  id of user being added
+   * @param  {number} added id of user adding the new user
    * @param  {FunctionDeclaration} done callback function
    *
    * @return {string} result of the addition attempt.
@@ -479,10 +483,10 @@ class User {
   /**
    * postMessage - for posting messages to a group
    *
-   * @param  {INTEGER} to id of the group posted to
-   * @param  {INTEGER} from id of the user sending it
+   * @param  {number} to id of the group posted to
+   * @param  {number} sender id of the user sending it
    * @param  {string} text the message being sent
-   * @param  {INTEGER} priorityLevel Level of message priority
+   * @param  {number} priorityLevel Level of message priority
    * @param  {FunctionDeclaration} done callback function
    *
    * @return {string} result of the post attempt.
@@ -538,43 +542,50 @@ class User {
       phones.push(user.phone);
     });
     if (priority === 'Critical') {
+      const result = {};
       emails.forEach((email) => {
         const mailOptions = {
           from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
           to: email,
           subject: 'New Message Notification',
-          text: 'You have a new message in Post It App.',
+          text: 'Howdy, You have a new message in Post It App.',
           html: '<a href="#">Click Here to Access It</a>'
         };
         User.mailer(mailOptions);
+        result.email = 'sent';
       });
       phones.forEach((phone) => {
         const payload = {
           to: phone,
           from: 'Post App',
-          message: 'You have a new Message on Post It App.'
+          message: 'Howdy, You have a new Message in Post It App.'
         };
         User.sendText(payload, () => {
         });
+        result.phone = 'sent';
       });
+      return result;
     } else {
+      const result = {};
       emails.forEach((email) => {
         const mailOptions = {
           from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
           to: email,
           subject: 'New Message Notification',
-          text: 'You have a new message in Post It App.',
+          text: 'Howdy, You have a new message in Post It App.',
           html: '<a href="#">Click Here To Access it</a>'
         };
         User.mailer(mailOptions);
       });
+      result.email = 'sent';
+      return result;
     }
   }
 
   /**
    * retrieveMessage - gets messages for a group
    *
-   * @param  {INTEGER} group the id of the group
+   * @param  {number} group the id of the group
    * @param  {FunctionDeclaration} done callback function
    *
    * @return {string} result of the get attempt.
@@ -665,10 +676,10 @@ class User {
       }).then((userGroup) => {
         done(userGroup);
       }).catch((err) => {
-        done(err);
+        done(err.name);
       });
     }).catch((err) => {
-      done(err);
+      done(err.name);
     });
   }
 
