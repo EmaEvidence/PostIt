@@ -697,7 +697,7 @@ class User {
     }).then((users) => {
       done(users);
     }).catch((err) => {
-      done(err);
+      done(err.name);
     });
   }
 
@@ -763,7 +763,7 @@ class User {
     .then((result) => {
       done(result);
     }).catch((err) => {
-      done(err);
+      done(err.name);
     });
   }
   /**
@@ -783,7 +783,7 @@ class User {
     }).then((result) => {
       done(result);
     }).catch((err) => {
-      done(err);
+      done(err.name);
     });
   }
   /**
@@ -803,7 +803,7 @@ class User {
     }).then((result) => {
       done(result);
     }).catch((err) => {
-      done(err);
+      done(err.name);
     });
   }
   /**

@@ -4,7 +4,7 @@ import Footer from './Footer';
 import Main from './Main';
 
 /**
- * [Main App structure]
+ * Main App structure
  * @method      App
  * @constructor
  */

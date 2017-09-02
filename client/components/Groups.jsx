@@ -150,10 +150,10 @@ Groups.propTypes = {
 };
 
 /**
- * [mapStateToProps makes the store data available]
+ * mapStateToProps makes the store data available
  * @method mapStateToProps
- * @param  {object}        state [the store date]
- * @return {object}              [ the data needed by the component]
+ * @param  {object} state the store date
+ * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
   return {

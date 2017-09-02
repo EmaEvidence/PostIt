@@ -43,7 +43,7 @@ class GroupMembers extends React.Component {
       <div id="groupmembers" className="modal fade reg-form" role="dialog">
         <div className="modal-dialog">
           <div>
-            <h2 className="center"> {this.props.groupName} Members </h2>
+            <h2 className="center"> Members of {this.props.groupName} </h2>
           </div>
           <div className="messagecard">
             { Memberslist }

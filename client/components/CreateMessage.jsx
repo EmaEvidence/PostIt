@@ -6,7 +6,7 @@ import createGroupAction from '../actions/createGroupAction';
 import postMessageAction from '../actions/postMessageAction';
 
 /**
- * [state description]
+ * CreateMessage react component for group creation
  * @type {Object}
  */
 class CreateMessage extends React.Component {
@@ -27,7 +27,9 @@ class CreateMessage extends React.Component {
   /**
    * onChange description
    * @method onChange
+   *
    * @param  {type} event description
+   *
    * @return {type}   description
    */
   onChange(event) {
@@ -36,12 +38,14 @@ class CreateMessage extends React.Component {
     });
   }
   /**
-   * [handleValueChange description]
+   * handleValueChange control changes in UIAutocomplete
    * @method handleValueChange
-   * @param  {[type]}          newValue     [description]
-   * @param  {[type]}          displayValue [description]
-   * @param  {[type]}          suggestion   [description]
-   * @return {[type]}                       [description]
+   *
+   * @param  {string} newValue new select value
+   * @param  {string} displayValue value displayed to user
+   * @param  {array} suggestion  list of suggestion
+   *
+   * @return {string} selected value
    */
   handleValueChange(newValue, displayValue, suggestion) {
     this.setState({
@@ -49,10 +53,12 @@ class CreateMessage extends React.Component {
     });
   }
   /**
-   * [charactersRemaining description]
+   * charactersRemaining tells the user the number of characters remaining
    * @method charactersRemaining
-   * @param  {[type]}            event [description]
-   * @return {[type]}              [description]
+   *
+   * @param  {SyntheticEvent} event
+   *
+   * @return {number} amount of charaters left
    */
   charactersRemaining(event) {
     const charactersLeft = 300 - (event.target.value).length;
@@ -61,10 +67,12 @@ class CreateMessage extends React.Component {
     });
   }
   /**
-   * [sendMessage description]
+   * sendMessage send message data to the API
    * @method sendMessage
-   * @param  {[type]}    event [description]
-   * @return {[type]}      [description]
+   *
+   * @param  {SyntheticEvent} event
+   *
+   * @return {object} initial state
    */
   sendMessage(event) {
     event.preventDefault();
@@ -75,9 +83,10 @@ class CreateMessage extends React.Component {
     });
   }
   /**
-   * [render description]
+   * render
    * @method render
-   * @return {[type]} [description]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     const createGroup = this.props.createGroupAction;
@@ -174,15 +183,17 @@ CreateMessage.propTypes = {
   status: React.PropTypes.string.isRequired
 };
 /**
- * [mapStateToProps description]
+ * mapStateToProps makes store data available to the component
+ *
  * @method mapStateToProps
- * @param  {[type]}        state [description]
- * @return {[type]}              [description]
+ * @param {object} state redux store
+ *
+ * @return {object} data needed by the component
  */
 const mapStateToProps = (state) => {
   let groups = '';
-  if (state.getUserGroupsReducer.groups !== undefined) {
-    groups = JSON.stringify(state.getUserGroupsReducer.groups);
+  if (state.groupReducer.groups !== undefined) {
+    groups = JSON.stringify(state.groupReducer.groups);
   } else {
     groups = ['No Group Yet'];
   }

@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import authUser from './authReducers';
-import createGroupReducer from './createGroupReducer';
-import getUserGroupsReducer from './getUserGroupsReducer';
+import groupReducer from './groupReducer';
 import postMessageReducer from './postMessageReducer';
 import setUsersReducer from './setUsersReducer';
 import setCurrentMessagesReducer from './setCurrentMessagesReducer';
@@ -14,8 +13,7 @@ import resetPasswordReducer from './resetPasswordReducer';
 
 export default combineReducers({
   authUser,
-  createGroupReducer,
-  getUserGroupsReducer,
+  groupReducer,
   postMessageReducer,
   setUsersReducer,
   setCurrentMessagesReducer,

@@ -9,7 +9,9 @@ export class AllMessages extends React.Component {
   /**
    * constructor
    * @method constructor
+   *
    * @param  {object} props properties of the Component
+   *
    * @return {void} []
    */
   constructor(props) {
@@ -17,9 +19,11 @@ export class AllMessages extends React.Component {
     this.seenMessage = this.seenMessage.bind(this);
   }
   /**
-   * [seenMessage marks a message as seen]
+   * seenMessage marks a message as seen
    * @method seenMessage
+   *
    * @param  {interger} messageId id of the message
+   *
    * @return {void} []
    */
   seenMessage(messageId) {
@@ -58,8 +62,8 @@ export class AllMessages extends React.Component {
       ));
     }
     return (
-      <div className="col-sm-7 deep-purple lighten-4 messagecard">
-        <h2>{ this.props.groupName ? `${this.props.groupName} Messages` : 'Please Select a Group.'} </h2>
+      <div className="col-sm-7 messagecard">
+        <h2>{ this.props.groupName ? `Messages for ${this.props.groupName}` : 'Please Select a Group.'} </h2>
         <div>
           { Messagelist }
         </div>
@@ -68,9 +72,11 @@ export class AllMessages extends React.Component {
   }
 }
 /**
- * [mapStateToProps makes the store data available]
+ * mapStateToProps makes the store data available
  * @method mapStateToProps
+ *
  * @param  {object} state the store date
+ *
  * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {

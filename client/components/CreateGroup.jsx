@@ -28,7 +28,7 @@ class CreateGroup extends React.Component {
     };
     this.onChange = this.onChange.bind(this);
     this.createGroup = this.createGroup.bind(this);
-    this.clear = this.clear.bind(this);
+    this.clearState = this.clearState.bind(this);
   }
   /**
    * onChange stores the form component value in the state
@@ -70,11 +70,12 @@ class CreateGroup extends React.Component {
     });
   }
   /**
-   * [clear description]
+   * clearState returns the state to initial state.
    * @method clear
+   *
    * @return {void} []
    */
-  clear() {
+  clearState() {
     this.setState({
       user: '',
       termIsEmpty: true,
@@ -136,7 +137,7 @@ class CreateGroup extends React.Component {
             />
             <button
               type="reset"
-              onClick={this.clear}
+              onClick={this.clearState}
               className="form-control close custombutton"
               data-dismiss="modal"
             >Cancel</button>
@@ -164,8 +165,8 @@ CreateGroup.propTypes = {
 const mapStateToProps = (state) => {
   let status = 'true';
   let userId = '1';
-  if (state.createGroupReducer !== undefined) {
-    status = state.createGroupReducer.status;
+  if (state.groupReducer !== undefined) {
+    status = state.groupReducer.status;
     userId = state.authUser.userDetails.id;
   }
   return {

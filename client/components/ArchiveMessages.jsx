@@ -2,13 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 /**
- * [archivedMessages displays every message a user as seen]
+ * archivedMessages displays every message a user as seen
+ *
  * @type {object}
  */
 export class ArchiveMessages extends React.Component {
   /**
-   * [render ]
+   * render
    * @method render
+   *
    * @return {ReactElement} markup
    */
   render() {
@@ -57,14 +59,16 @@ ArchiveMessages.propTypes = {
 };
 
 /**
- * [mapStateToProps makes redux store data available to the Component]
+ * mapStateToProps makes redux store data available to the Component
  * @method mapStateToProps
- * @param  {object}        state [store]
- * @return {object}              [data needed by the component]
+ *
+ * @param  {object} state store
+ *
+ * @return {object} data needed by the component
  */
 const mapStateToProps = (state) => {
   let archivedMessages = '';
-  if (state.getUserGroupsReducer !== undefined) {
+  if (state.groupReducer !== undefined) {
     archivedMessages = JSON.stringify(state.archivedMessagesReducer.archivedMessages);
   }
   return {

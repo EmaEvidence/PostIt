@@ -84,7 +84,7 @@ class MessageBoard extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-4 dashboardholder">
-            <div className="deep-purple lighten-4 dashboard">
+            <div className="dashboard">
               <h1 className="row center">
                 {userDetails.username}
               </h1>
@@ -99,8 +99,8 @@ class MessageBoard extends React.Component {
                 Achived Messages </a>
               </div>
             </div>
-            <div className="deep-purple lighten-4 groupholder">
-              <div className="grp-title deep-purple lighten-4">
+            <div className="groupholder">
+              <div className="grp-title">
                 <h3 className="center">Groups</h3>
               </div>
               <div className="grps">
@@ -151,8 +151,8 @@ MessageBoard.propTypes = {
  */
 const mapStateToProps = (state) => {
   let groups = 'xcvxcv';
-  if (state.getUserGroupsReducer !== undefined) {
-    groups = JSON.stringify(state.getUserGroupsReducer.groups);
+  if (state.groupReducer !== undefined) {
+    groups = JSON.stringify(state.groupReducer.groups);
   }
   return {
     groups,

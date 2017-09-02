@@ -11,7 +11,7 @@ export default function createGroupAction(groupData, id) {
         type: CREATE_GROUP,
         group: res.data.group
       });
-      dispatch(getUserGroupsAction({ id }));
+      // dispatch(getUserGroupsAction({ id }));
     })
     .catch((error) => {
       if (error.resonse === undefined) {

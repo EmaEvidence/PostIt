@@ -102,6 +102,7 @@ font-family: GillSans, Calibri, Trebuchet, sans-serif;
   padding: 2%;
   border-radius: 5px;
   margin-top: 6%;
+  background: white;
 }
 .postfieldset legend {
   width:auto;
@@ -130,7 +131,9 @@ section p {
   // padding: 20%;
 }
 .footer {
-  color: purple;
+  color: white;
+  padding: 1%;
+  background: #4527a0;
 }
 .forget-password-wrapper {
   text-align: center;
@@ -148,10 +151,11 @@ section p {
   padding: 2%;
   margin-top:2%;
   text-align: center;
+  background: white;
   color: purple;
   div {
     overflow: scroll;
-    border: 1px solid #fff;
+    border: 1px solid purple;
     padding: 2%;
     height: 85%;
   }
@@ -201,19 +205,21 @@ section p {
   padding: 5%;
   color: purple;
   height: 56%;
+  background: white;
   overflow: scroll;
 }
 .grp-title {
 }
 .grps {
   padding: 4%;
-  border: 1px solid #fff;
+  border: 1px solid purple;
   overflow: scroll;
   height: 80%;
 }
 .dashboard {
   padding: 10px;
   margin-bottom: 3%;
+  background: white;
 }
 .dashboardelement {
   margin: 1%;

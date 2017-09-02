@@ -4,62 +4,7 @@ import * as validate from '../helpers/validate';
 
 const user = new User();
 
-const Controller = {
-  /**
-   * addUser controls the addition of a user to a group
-   *
-   * @param  {object} req request sent from frontend
-   * @param  {object} res response from the server
-   *
-   * @return {object} API response
-   */
-  addUser: (req, res) => {
-    const groupId = req.params.groupId;
-    const usersToAdd = req.body.user;
-    const userAdding = req.token.data.id;
-    user.addUsers(groupId, usersToAdd, userAdding, (result) => {
-      if (typeof result === 'string') {
-        if (result.search('UserId') >= 0) {
-          errorResponseHandler(res, 404, 'User Does not exist');
-        } else if (result.search('GroupId') >= 0) {
-          errorResponseHandler(res, 404, 'Group Does not exist');
-        }
-        errorResponseHandler(res, 400, result);
-      } else {
-        res.status(200).json({
-          user: result,
-          message: 'Added Successfully'
-        });
-      }
-    });
-  },
-  /**
-   * createGroup controls the creation of a group
-   *
-   * @param  {object} req request sent from frontend
-   * @param  {object} res response from the server
-   *
-   * @return {object} API response
-   */
-  createGroup: (req, res) => {
-    const groupName = req.body.groupName;
-    let users = req.body.users;
-    const userId = req.token.data.id;
-    if (typeof users === 'string') {
-      users = users.replace(/ /g, '');
-      users = users.split(',');
-    }
-    user.createGroup(groupName, userId, users, (result) => {
-      if (typeof result === 'string') {
-        errorResponseHandler(res, 400, result);
-      } else {
-        res.status(201).json({
-          group: result,
-          message: 'Group creation Successful'
-        });
-      }
-    });
-  },
+const UserController = {
   /**
    * deleteUser controls the removal of an existing user
    *
@@ -84,52 +29,6 @@ const Controller = {
   },
 
   /**
-   * getGroupMessages controls the retrieval of messages for a group
-   *
-   * @param  {object} req request sent from frontend
-   * @param  {object} res response from the server
-   *
-   * @return {object} API response
-   */
-  getGroupMessages: (req, res) => {
-    const groupId = req.params.groupId;
-    if (validate.group(groupId, res)) {
-      user.retrieveMessage(groupId, (result) => {
-        if (result.length === 0) {
-          errorResponseHandler(res, 404, 'No Message For that Group');
-        } else {
-          res.status(200).json({
-            messages: result,
-            message: 'Message Retrival Successful'
-          });
-        }
-      });
-    }
-  },
-  /**
-   * getGroupUsers controls the retrieval of every member of a group
-   *
-   * @param  {object} req request sent from frontend
-   * @param  {object} res response from the server
-   *
-   * @return {object} API response
-   */
-  getGroupUsers: (req, res) => {
-    const groupId = req.params.groupId;
-    if (validate.group(groupId, res)) {
-      user.getGroupMembers(groupId, (result) => {
-        if (typeof result === 'string' || result.length === 0) {
-          errorResponseHandler(res, 404, 'No Such Group');
-        } else {
-          res.status(200).json({
-            users: result,
-            message: 'Users Retrival Successful'
-          });
-        }
-      });
-    }
-  },
-  /**
    * getUserGroups controls retrieval of every group a user belongs to
    *
    * @param {object} req request sent from frontend
@@ -142,6 +41,8 @@ const Controller = {
     user.getUserGroups(userId, (result) => {
       if (result.length === 0) {
         errorResponseHandler(res, 404, 'No Group Yet');
+      } else if (typeof result === 'string') {
+        errorResponseHandler(res, 500, 'Error Fetching Group');
       } else {
         res.status(200).json({
           groups: result,
@@ -149,34 +50,6 @@ const Controller = {
         });
       }
     });
-  },
-  /**
-   * postMessage controls posting of messages to a group
-   *
-   * @param {object} req request sent from frontend
-   * @param {object} res response from the server
-   *
-   * @return {object} API response
-   */
-  postMessage: (req, res) => {
-    const groupId = req.params.groupId;
-    const message = req.body.message;
-    const priority = (req.body.priority) ? req.body.priority : 'Normal';
-    const from = req.token.data.id;
-    if (validate.messageData(groupId, message, priority, from, res)) {
-      user.postMessage(groupId, from, message, priority, (result, users) => {
-        if (typeof result === 'string') {
-          errorResponseHandler(res, 404, 'Group does not Exist');
-        } else {
-          user.inAppNotify(users, groupId, from, () => {
-          });
-          res.status(200).json({
-            messageData: result,
-            message: 'Message Added.'
-          });
-        }
-      });
-    }
   },
 
   /**
@@ -191,9 +64,10 @@ const Controller = {
     const { username, password } = req.body;
     if (validate.signIn(username, password, res)) {
       user.logIn(username, password, (result) => {
-        if (result === 'Failed, Wrong Password' ||
-          result === 'Failed, Username not Found') {
+        if (result === 'Failed, Wrong Password') {
           errorResponseHandler(res, 400, result);
+        } else if (result === 'Failed, Username not Found') {
+          errorResponseHandler(res, 404, result);
         } else {
           res.status(200).json({
             user: result,
@@ -235,9 +109,13 @@ const Controller = {
    */
   getAllUsers: (req, res) => {
     user.getAllUsers((result) => {
-      res.json({
-        users: result
-      });
+      if (typeof result === 'string') {
+        errorResponseHandler(res, 500, 'Error Fetching users');
+      } else {
+        res.status(200).json({
+          users: result
+        });
+      }
     });
   },
 
@@ -253,7 +131,7 @@ const Controller = {
     const messageId = req.body.messageId;
     const userId = req.token.data.id;
     if (messageId === '' || messageId === undefined) {
-      errorResponseHandler(res, 404, 'No message Specified');
+      errorResponseHandler(res, 400, 'No message Specified');
     } else {
       user.seenMessages(messageId, userId, (result) => {
         if (result === 'Read') {
@@ -280,11 +158,15 @@ const Controller = {
     const { searchTerm, offset, groupId } = req.body;
     if (validate.search(searchTerm, offset, groupId, res)) {
       user.searchUsers(searchTerm, offset, groupId, (result) => {
-        return res.status(200).json({
-          message: 'Search Result',
-          users: result.rows,
-          count: result.count
-        });
+        if (typeof result === 'string') {
+          errorResponseHandler(res, 500, 'Error Searching User');
+        } else {
+          return res.status(200).json({
+            message: 'Search Result',
+            users: result.rows,
+            count: result.count
+          });
+        }
       });
     }
   },
@@ -300,10 +182,14 @@ const Controller = {
   mymessage: (req, res) => {
     const userId = req.token.data.id;
     user.myMessages(userId, (result) => {
-      return res.status(200).json({
-        message: 'You Messages',
-        messages: result
-      });
+      if (typeof result === 'string') {
+        errorResponseHandler(res, 500, 'Error retrieving message');
+      } else {
+        return res.status(200).json({
+          message: 'Your Messages',
+          messages: result
+        });
+      }
     });
   },
   /**
@@ -317,10 +203,14 @@ const Controller = {
   archivedMessages: (req, res) => {
     const userId = req.token.data.id;
     user.archivedMessages(userId, (result) => {
-      return res.status(200).json({
-        message: 'Read Messages',
-        messages: result
-      });
+      if (typeof result === 'string') {
+        errorResponseHandler(res, 500, 'Error retrieving message');
+      } else {
+        return res.status(200).json({
+          message: 'Read Messages',
+          messages: result
+        });
+      }
     });
   },
 
@@ -396,7 +286,7 @@ const Controller = {
           if (typeof result === 'string') {
             errorResponseHandler(res, 400, result);
           } else {
-            return res.status(200).json({
+            return res.status(201).json({
               message: 'Sign Up Successful',
               user: result
             });
@@ -419,4 +309,4 @@ const Controller = {
 
 };
 
-export default Controller;
+export default UserController;

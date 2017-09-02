@@ -13,9 +13,10 @@ import clearStoreAction from '../actions/clearStoreAction';
  */
 class AddMembers extends React.Component {
   /**
-   * [constructor description]
+   * constructor
    * @method constructor
-   * @param {object} props [properties of the Component]
+   *
+   * @param {object} props properties of the Component
    */
   constructor(props) {
     super(props);
@@ -34,7 +35,9 @@ class AddMembers extends React.Component {
   /**
    * onChange gets search term
    * @method onChange
+   *
    * @param  {object} event data from the search input
+   *
    * @return {object} populate the redux store with data
    */
   onChange(event) {
@@ -50,7 +53,9 @@ class AddMembers extends React.Component {
   /**
    * handlePageClick paginates search result
    * @method handlePageClick
+   *
    * @param {object} data click event for page numbers
+   *
    * @return {object} populate the redux store with data
    */
   handlePageClick(data) {
@@ -60,10 +65,12 @@ class AddMembers extends React.Component {
   }
 
   /**
-   * [addMember adds a new member to a group]
+   * addMember adds a new member to a group
    * @method addMember
+   *
    * @param  {number} userId the id of the user to id
    * @param  {object} event the html element datas
+   *
    * @return  {void} event []
    */
   addMember(userId) {
@@ -71,8 +78,10 @@ class AddMembers extends React.Component {
     this.props.addNewMemberAction(groupId, userId);
   }
   /**
-   * [clear returns the state of the component to its default]
+   * clear returns the state of the component to its default
+   *
    * @method clear
+   *
    * @return {void} []
    */
   clearState() {
@@ -89,6 +98,7 @@ class AddMembers extends React.Component {
   /**
    * render
    * @method render
+   *
    * @return {ReactElement} markup
    */
   render() {
@@ -194,9 +204,11 @@ AddMembers.propTypes = {
   groups: PropTypes.string.isRequired
 };
 /**
- * [mapStateToProps makes the data in the redux store available to this component]
+ * mapStateToProps makes the data in the redux store available to this component
  * @method mapStateToProps
+ *
  * @param  {object} state the entire redux store
+ *
  * @return {object} the bit made available for this component
  */
 const mapStateToProps = (state) => {
@@ -206,7 +218,7 @@ const mapStateToProps = (state) => {
     status: state.addNewMemberReducer.status,
     searchResult: JSON.stringify(state.searchUserReducer.searchResult),
     pageCount: state.searchUserReducer.pageCount,
-    groups: state.getUserGroupsReducer.groups[0]
+    groups: state.groupReducer.groups[0]
   };
 };
 

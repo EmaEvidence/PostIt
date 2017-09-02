@@ -57,10 +57,10 @@ class CreateMessage extends React.Component {
     });
   }
   /**
-   * [charactersRemaining description]
+   * charactersRemaining description
    * @method charactersRemaining
-   * @param  {SyntheticEvent}   event []
-   * @return {void}              []
+   * @param  {SyntheticEvent} event []
+   * @return {void} []
    */
   charactersRemaining(event) {
     const charactersLeft = 300 - (event.target.value).length;
@@ -98,7 +98,7 @@ class CreateMessage extends React.Component {
     return (
       <div className="col-sm-12 sendMessage" style={JSON.parse(this.props.display)}>
         <form onSubmit={this.sendMessage}>
-          <fieldset className="postfieldset indigo lighten-4">
+          <fieldset className="postfieldset">
             <legend>Send Message</legend>
             <span className="alert"> {this.props.status} </span>
             <div className="form-group row customcontrol">
@@ -180,8 +180,8 @@ CreateMessage.propTypes = {
  */
 const mapStateToProps = (state) => {
   let groups = '';
-  if (state.getUserGroupsReducer.groups !== undefined) {
-    groups = JSON.stringify(state.getUserGroupsReducer.groups);
+  if (state.groupReducer.groups !== undefined) {
+    groups = JSON.stringify(state.groupReducer.groups);
   } else {
     groups = ['No Group Yet'];
   }
