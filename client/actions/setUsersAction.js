@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { SET_USERS } from './types/types';
 
-
-export default function setUsersAction(data, groupName) {
-  return (dispatch) => {
-    axios.get('/api/v1/user/all')
+const setUsersAction = (data, groupName) => (dispatch) => {
+  axios.get('/api/v1/user/all')
     .then((res) => {
       const users = res.data.users;
       dispatch({
@@ -13,5 +11,6 @@ export default function setUsersAction(data, groupName) {
         users
       });
     });
-  };
-}
+};
+
+export default setUsersAction;

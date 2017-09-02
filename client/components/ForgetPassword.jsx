@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 import passwordResetMailAction from '../actions/passwordResetMailAction';
 
 /**
- * [ForgetPassword displays a form to request for new password]
+ * ForgetPassword displays a form to request for new password
  */
 class ForgetPassword extends React.Component {
   /**
-   * [constructor description]
+   * constructor
    * @method constructor
-   * @param  {object}    props [properties of the Component]
-   * @return {void}          []
+   *
+   * @param  {object} props properties of the Component
+   *
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -23,10 +25,12 @@ class ForgetPassword extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
   /**
-   * [onChange populates the state with data typed into the input]
+   * onChange populates the state with data typed into the input
    * @method onChange
-   * @param  {SyntheticEvent} event []
-   * @return {void}       []
+   *
+   * @param  {SyntheticEvent} event
+   *
+   * @return {void}
    */
   onChange(event) {
     this.setState({
@@ -34,10 +38,12 @@ class ForgetPassword extends React.Component {
     });
   }
   /**
-   * [onSubmit submits the form]
+   * onSubmit submits the form
    * @method onSubmit
-   * @param  {SyntheticEvent} event []
-   * @return {void}       []
+   *
+   * @param  {SyntheticEvent} event
+   *
+   * @return {void}
    */
   onSubmit(event) {
     event.preventDefault();
@@ -47,9 +53,10 @@ class ForgetPassword extends React.Component {
     this.props.passwordResetMailAction(this.state);
   }
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     return (
@@ -95,10 +102,12 @@ ForgetPassword.propTypes = {
 };
 
 /**
- * [mapStateToProps makes the store data available]
+ * mapStateToProps makes the store data available
  * @method mapStateToProps
- * @param  {object}        state [the store date]
- * @return {object}              [ the data needed by the component]
+ *
+ * @param  {object} state the store date
+ *
+ * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
   return {

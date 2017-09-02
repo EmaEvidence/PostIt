@@ -6,14 +6,14 @@ import setCurrentMessagesAction from '../actions/setCurrentMessagesAction';
 import setCurrentMembersAction from '../actions/setCurrentMembersAction';
 
 /**
- * [Groups]
+ * Groups
  */
 class Groups extends React.Component {
   /**
-   * [constructor ]
+   * constructor
    * @method constructor
-   * @param  {object}    props []
-   * @return {void}          []
+   * @param  {object} props
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -23,10 +23,12 @@ class Groups extends React.Component {
     this.setMembers = this.setMembers.bind(this);
   }
   /**
-   * [setUsers adds Users of a group]
+   * setUsers adds Users of a group
    * @method setUsers
-   * @param  {interger} index     [id of the group]
-   * @param  {string} groupName [name of the group]
+   *
+   * @param  {interger} index id of the group
+   *
+   * @param  {string} groupName name of the group
    * @return  {void}
    */
   setUsers(index, groupName) {
@@ -34,10 +36,12 @@ class Groups extends React.Component {
   }
 
   /**
-   * [setMessages adds messages of a group]
+   * setMessages adds messages of a group
    * @method setMessages
-   * @param  {interger} groupId     [id of the group]
-   * @param  {string} groupName [name of the group]
+   *
+   * @param  {interger} groupId id of the group
+   * @param  {string} groupName name of the group
+   *
    * @return  {void}
    */
   setMessages(groupId, groupName) {
@@ -45,10 +49,12 @@ class Groups extends React.Component {
   }
 
   /**
-   * [setMembers populates the store with members of a group]
+   * setMembers populates the store with members of a group
    * @method setMembers
-   * @param  {interger}   index     [id of the group]
-   * @param  {string}   groupName [name of the group]
+   *
+   * @param  {interger} index id of the group
+   * @param  {string} groupName name of the group
+   *
    * @return  {void}
    */
   setMembers(index, groupName) {
@@ -56,9 +62,10 @@ class Groups extends React.Component {
   }
 
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     const grps = JSON.parse(this.props.groups);

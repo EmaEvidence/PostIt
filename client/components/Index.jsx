@@ -11,13 +11,14 @@ import authUser from '../actions/authAction';
 import createGroupAction from '../actions/createGroupAction';
 
 /**
- * [Index displays the landing page]
+ * Index displays the landing page
  */
 class Index extends React.Component {
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     const userSignup = this.props.userSignupRequest;
@@ -112,7 +113,9 @@ Index.propTypes = {
 /**
  * mapStateToProps makes the store data available
  * @method mapStateToProps
+ *
  * @param  {object} state the store date
+ *
  * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {

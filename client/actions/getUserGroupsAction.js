@@ -1,13 +1,7 @@
 import axios from 'axios';
-import { ADD_USER_GROUPS } from './types/types';
+import { ADD_USER_GROUPS, ADD_USER_GROUPS_ERROR } from './types/types';
 
-/**
- * [getUserGroupsAction description]
- * @method getUserGroupsAction
- * @param  {[type]}            data [description]
- * @return {[type]}                 [description]
- */
-export default function getUserGroupsAction(data) {
+const getUserGroupsAction = (data) => {
   const userId = data.id;
   return (dispatch) => {
     axios.get('/api/v1/user/groups', { userId })
@@ -20,9 +14,11 @@ export default function getUserGroupsAction(data) {
     .catch((err) => {
       dispatch({
         group: [''],
-        type: ADD_USER_GROUPS,
+        type: ADD_USER_GROUPS_ERROR,
         message: err.response.data.message
       });
     });
   };
-}
+};
+
+export default getUserGroupsAction;

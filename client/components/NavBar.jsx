@@ -4,14 +4,16 @@ import { connect } from 'react-redux';
 
 // import Notification from './Notification';
 /**
- * [NavBar ]
+ * NavBar
  */
 export class NavBar extends React.Component {
   /**
-   * [constructor description]
+   * constructor
    * @method constructor
-   * @param  {object}    props [description]
-   * @return {void}          []
+   *
+   * @param  {object}  props
+   *
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -19,18 +21,20 @@ export class NavBar extends React.Component {
     this.logOut = this.logOut.bind(this);
   }
   /**
-   * [logOut description]
+   * logOut description
    * @method logOut
-   * @return {void} []
+   *
+   * @return {void}
    */
   logOut() {
     window.localStorage.removeItem('token');
     window.location.href = '/';
   }
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     const status = this.props.loggedInStatus;
@@ -122,10 +126,12 @@ NavBar.propTypes = {
 };
 
 /**
- * [mapStateToProps makes the store data available]
+ * mapStateToProps makes the store data available
  * @method mapStateToProps
- * @param  {object}        state [the store date]
- * @return {object}              [ the data needed by the component]
+ *
+ * @param  {object} state the store date
+ *
+ * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
   return {

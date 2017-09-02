@@ -3,24 +3,27 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 /**
- * [Notification description]
+ * Notification component
  * @type {type}
  */
 export class Notification extends React.Component {
   /**
-   * [constructor description]
+   * constructor
    * @method constructor
-   * @param  {object}    props []
-   * @return {void}          []
+   *
+   * @param  {object} props
+   *
+   * @return {void}
    */
   constructor(props) {
     super(props);
     this.clearNotification = this.clearNotification.bind(this);
   }
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     const notifications = this.props.notifications;

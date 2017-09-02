@@ -2,9 +2,8 @@ import axios from 'axios';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import authAction from './authAction';
 
-export default function userSigninRequest(userData) {
-  return (dispatch) => {
-    axios.post('/api/v1/user/signin', userData)
+const userSigninRequest = userData => (dispatch) => {
+  axios.post('/api/v1/user/signin', userData)
     .then((res) => {
       const token = res.data.user.token;
       setAuthorizationToken(token);
@@ -17,5 +16,6 @@ export default function userSigninRequest(userData) {
         data: err.response.data.message
       }, 'Error'));
     });
-  };
-}
+};
+
+export default userSigninRequest;

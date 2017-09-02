@@ -8,14 +8,16 @@ import LogIn from './LogIn';
 import resetPasswordAction from '../actions/resetPasswordAction';
 
 /**
- * [NewPassword Component]
+ * NewPassword Component
  */
 class NewPassword extends React.Component {
   /**
-   * [sets the state for the login component]
+   * sets the state for the login component
    * @method constructor
-   * @param  {object}    props []
-   * @return {void}          []
+   *
+   * @param  {object} props
+   *
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -29,10 +31,12 @@ class NewPassword extends React.Component {
   }
 
   /**
-   * [stores form values in the components state whenever it changes]
+   * stores form values in the components state whenever it changes
    * @method onChange
-   * @param  {[object]} event [description]
-   * @return {[object]}   [description]
+   *
+   * @param  {SyntheticEvent} event
+   *
+   * @return {object} state
    */
   onChange(event) {
     this.setState({
@@ -40,10 +44,12 @@ class NewPassword extends React.Component {
     });
   }
   /**
-   * [sends the form values to the server]
+   * sends the form values to the server
    * @method onSubmit
-   * @param  {[object]} event [description]
-   * @return {[objec]}   [description]
+   *
+   * @param  {object} event
+   *
+   * @return {object} state
    */
   onSubmit(event) {
     event.preventDefault();
@@ -112,13 +118,16 @@ class NewPassword extends React.Component {
 NewPassword.propTypes = {
   status: PropTypes.string.isRequired,
   resetPasswordAction: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 /**
- * [mapStateToProps makes the store data available]
+ * mapStateToProps makes the store data available
+ *
  * @method mapStateToProps
- * @param  {object}        state [the store date]
- * @return {object}              [ the data needed by the component]
+ * @param  {object} state the store date
+ *
+ * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
   return {

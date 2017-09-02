@@ -1,12 +1,7 @@
 import axios from 'axios';
 import { GET_MY_MESSAGES, GET_MY_MESSAGE_ERROR } from './types/types';
 
-/**
- * [myMessageAction description]
- * @method myMessageAction
- * @return {[type]}        [description]
- */
-export default function myMessageAction() {
+const myMessageAction = () => {
   const url = '/api/v1/user/messages';
   return (dispatch) => {
     axios.get(url)
@@ -23,4 +18,6 @@ export default function myMessageAction() {
       });
     });
   };
-}
+};
+
+export default myMessageAction;

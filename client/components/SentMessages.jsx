@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 /**
- * [SentMessages]
+ * SentMessages
  */
 export class SentMessages extends React.Component {
   /**
-   * [render description]
+   * render
    * @method render
-   * @return {void} []
+   *
+   * @return {void}
    */
   render() {
     const myMessages = JSON.parse(this.props.myMessages);

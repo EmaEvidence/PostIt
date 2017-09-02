@@ -3,13 +3,14 @@ import GoogleLogin from 'react-google-login';
 import PropTypes from 'prop-types';
 
 /**
- * [LoginWithGoogle enables signing up and in with google+]
+ * LoginWithGoogle enables signing up and in with google+
  */
 class LoginWithGoogle extends React.Component {
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     const responseGoogle = (response) => {

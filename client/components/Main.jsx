@@ -8,14 +8,16 @@ import NewPassword from './NewPassword';
 import Index from './Index';
 import NotFound from './NotFound';
 /**
- * [App ]
- * @type {[type]}
+ * App
+ * @type {type}
  */
 class App extends React.Component {
   /**
-   * [render displays the html ]
+   * render displays the html
+   *
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     const token = localStorage.getItem('token');

@@ -5,14 +5,16 @@ import GoogleLogin from './GoogleLogin';
 import googleAuthAction from '../actions/googleAuthAction';
 
 /**
- * [SignUp creates a  sign up form]
+ * SignUp creates a  sign up form
  */
 export class SignUp extends React.Component {
   /**
-   * [constructor]
+   * constructor
    * @method constructor
-   * @param  {[object]}    props [data passed to this element]
-   * @return {void}          []
+   *
+   * @param  {object} props data passed to this element
+   *
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -31,10 +33,12 @@ export class SignUp extends React.Component {
     this.checkPassword = this.checkPassword.bind(this);
   }
   /**
-   * [onChange stores the data from the form component]
+   * onChange stores the data from the form component
    * @method onChange
-   * @param  {object} event [the current html element]
-   * @return {object}   [data from the form]
+   *
+   * @param  {object} event the current html element
+   *
+   * @return {object} data from the form
    */
   onChange(event) {
     this.setState({
@@ -43,19 +47,23 @@ export class SignUp extends React.Component {
   }
 
   /**
-   * [onSubmit sends the data supplied through the form to the API]
+   * onSubmit sends the data supplied through the form to the API
    * @method onSubmit
-   * @param  {object} event [the form event]
-   * @return {void}   []
+   *
+   * @param  {object} event the form event
+   *
+   * @return {void}
    */
   onSubmit(event) {
     event.preventDefault();
     this.props.userSignup(this.state);
   }
   /**
-   * [checkPassword confirms if the password and confirm password supplied is matches]
+   * checkPassword confirms if the password and confirm password supplied is matches
+   *
    * @method checkPassword
-   * @return {boolean}        [test result]
+   *
+   * @return {boolean} test result
    */
   checkPassword() {
     if (this.state.password === this.state.confirmPassword) {
@@ -72,9 +80,10 @@ export class SignUp extends React.Component {
   }
 
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     const googleAuth = this.props.googleAuthAction;
@@ -184,10 +193,12 @@ SignUp.propTypes = {
 };
 
 /**
- * [mapStateToProps makes the store data available]
+ * mapStateToProps makes the store data available
  * @method mapStateToProps
- * @param  {object}        state [the store date]
- * @return {object}              [ the data needed by the component]
+ *
+ * @param  {object} state the store date
+ *
+ * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
   let message;

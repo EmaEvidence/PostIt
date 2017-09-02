@@ -1,8 +1,9 @@
 import React from 'react';
 
 /**
- * [NotFound description]
+ * NotFound component
  * @method      NotFound
+ *
  * @constructor
  */
 function NotFound() {
@@ -15,9 +16,5 @@ function NotFound() {
   );
 }
 
-NotFound.propTypes = {
-  userSignin: React.PropTypes.func.isRequired,
-  status: React.PropTypes.string.isRequired
-};
 
 export default NotFound;

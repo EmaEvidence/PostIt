@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { SET_CURRENT_MESSAGES } from './types/types';
 
-
-export default function setCurrentMessagesAction(data, groupName) {
+const setCurrentMessagesAction = (data, groupName) => {
   const url = `/api/v1/group/${data}/messages`;
   return (dispatch) => {
     axios.get(url)
@@ -26,4 +25,6 @@ export default function setCurrentMessagesAction(data, groupName) {
     });
   });
   };
-}
+};
+
+export default setCurrentMessagesAction;

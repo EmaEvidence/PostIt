@@ -9,6 +9,7 @@ class GroupMessages extends React.Component {
   /**
    * render displays the html
    * @method render
+   *
    * @return {ReactElement} markup
    */
   render() {

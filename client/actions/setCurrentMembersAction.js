@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { SET_CURRENT_MEMBERS } from './types/types';
 
-export default function setCurrentMembersAction(data, groupName) {
+const setCurrentMembersAction = (data, groupName) => {
   const url = `/api/v1/group/${data}/users`;
   return (dispatch) => {
     axios.get(url)
@@ -25,4 +25,7 @@ export default function setCurrentMembersAction(data, groupName) {
     });
   });
   };
-}
+};
+
+
+export default setCurrentMembersAction;

@@ -2,20 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import UIAutocomplete from 'react-ui-autocomplete';
 
-import CreateGroup from './CreateGroup';
 import createGroupAction from '../actions/createGroupAction';
 import postMessageAction from '../actions/postMessageAction';
 
 /**
- * [CreateMessage]
+ * CreateMessage
  * @type {Object}
  */
 class CreateMessage extends React.Component {
   /**
-   * [constructor ]
+   * constructor
+   *
    * @method constructor
-   * @param  {object}    props []
-   * @return {void}          []
+   * @param  {object} props
+   *
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -33,10 +34,12 @@ class CreateMessage extends React.Component {
   }
 
   /**
-   * [onChange description]
+   * onChange
    * @method onChange
-   * @param  {SyntheticEvent} event []
-   * @return {void}   []
+   *
+   * @param  {SyntheticEvent} event
+   *
+   * @return {void}
    */
   onChange(event) {
     this.setState({
@@ -44,12 +47,13 @@ class CreateMessage extends React.Component {
     });
   }
   /**
-   * [handleValueChange suggests groups once data is typed]
+   * handleValueChange suggests groups once data is typed
    * @method handleValueChange
-   * @param  {string}          newValue     [the selected value]
-   * @param  {string}          displayValue [display value]
-   * @param  {array}          suggestion   [suggested names]
-   * @return {void}                       []
+   *
+   * @param  {string} newValue the selected value
+   * @param  {string} displayValue display value
+   * @param  {array} suggestion suggested names
+   * @return {void}
    */
   handleValueChange(newValue, displayValue, suggestion) {
     this.setState({
@@ -57,10 +61,12 @@ class CreateMessage extends React.Component {
     });
   }
   /**
-   * charactersRemaining description
+   * charactersRemaining displays the amount of characters Left
    * @method charactersRemaining
-   * @param  {SyntheticEvent} event []
-   * @return {void} []
+   *
+   * @param  {SyntheticEvent} event
+   *
+   * @return {void}
    */
   charactersRemaining(event) {
     const charactersLeft = 300 - (event.target.value).length;
@@ -69,10 +75,11 @@ class CreateMessage extends React.Component {
     });
   }
   /**
-   * [sendMessage subits the form]
+   * sendMessage subits the form
    * @method sendMessage
-   * @param  {SyntheticEvent}  event []
-   * @return {void}      []
+   *
+   * @param  {SyntheticEvent} event
+   * @return {void}
    */
   sendMessage(event) {
     event.preventDefault();
@@ -88,9 +95,10 @@ class CreateMessage extends React.Component {
     });
   }
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     const groups = this.props.groups;
@@ -173,10 +181,12 @@ CreateMessage.propTypes = {
   display: React.PropTypes.string.isRequired,
 };
 /**
- * [mapStateToProps makes the store data available]
+ * mapStateToProps makes the store data available
  * @method mapStateToProps
- * @param  {object}        state [the store date]
- * @return {object}              [ the data needed by the component]
+ *
+ * @param  {object} state the store date
+ *
+ * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
   let groups = '';

@@ -1,9 +1,10 @@
 import React from 'react';
 
 /**
- * [Footer]
- * @method      Footer
- * @param       {function} props [creates the page footer]
+ * Footer
+ * @method Footer
+ * @param {function} props creates the page footer
+ *
  * @constructor
  */
 export default function Footer() {

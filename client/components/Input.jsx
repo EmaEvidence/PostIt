@@ -1,9 +1,11 @@
 import React from 'react';
 
 /**
- * [Input]
- * @method      Input
- * @param       {function} props [creates the page footer]
+ * Input
+ *
+ * @method Input
+ * @param {function} props creates the page footer
+ *
  * @constructor
  */
 function Input(props) {

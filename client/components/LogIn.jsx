@@ -6,13 +6,14 @@ import GoogleLogin from './GoogleLogin';
 import googleAuthAction from '../actions/googleAuthAction';
 
 /**
- * [Login Component]
+ * Login Component
  */
 class LogIn extends React.Component {
   /**
-   * [sets the state for the login component]
+   * [ets the state for the login component
    * @method constructor
-   * @param  {object}    props [description]
+   *
+   * @param  {object}  props description
    */
   constructor(props) {
     super(props);
@@ -26,10 +27,12 @@ class LogIn extends React.Component {
   }
 
   /**
-   * [stores form values in the components state whenever it changes]
+   * stores form values in the components state whenever it changes
    * @method onChange
-   * @param  {SyntheticEvent} event []
-   * @return {void}   []
+   *
+   * @param  {SyntheticEvent} event
+   *
+   * @return {void}
    */
   onChange(event) {
     this.setState({
@@ -37,10 +40,12 @@ class LogIn extends React.Component {
     });
   }
   /**
-   * [sends the form values to the server]
+   * sends the form values to the server
    * @method onSubmit
-   * @param  {SyntheticEvent} event []
-   * @return {void}   []
+   *
+   * @param  {SyntheticEvent} event
+   *
+   * @return {void}
    */
   onSubmit(event) {
     event.preventDefault();
@@ -50,9 +55,10 @@ class LogIn extends React.Component {
     });
   }
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     const googleAuth = this.props.googleAuthAction;
@@ -112,10 +118,12 @@ LogIn.propTypes = {
 };
 
 /**
- * [mapStateToProps makes the store data available]
+ * mapStateToProps makes the store data available
  * @method mapStateToProps
- * @param  {object}        state [the store date]
- * @return {object}              [ the data needed by the component]
+ *
+ * @param  {object} state the store date
+ *
+ * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
   return {

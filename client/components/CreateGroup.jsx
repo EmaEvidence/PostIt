@@ -49,7 +49,7 @@ class CreateGroup extends React.Component {
    * @method createGroup
    * @param  {object} event the event triggered on the form
    *
-   * @return {object} []
+   * @return {object} state
    */
   createGroup(event) {
     event.preventDefault();
@@ -73,7 +73,7 @@ class CreateGroup extends React.Component {
    * clearState returns the state to initial state.
    * @method clear
    *
-   * @return {void} []
+   * @return {void}
    */
   clearState() {
     this.setState({

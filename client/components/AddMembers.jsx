@@ -82,7 +82,7 @@ class AddMembers extends React.Component {
    *
    * @method clear
    *
-   * @return {void} []
+   * @return {void}
    */
   clearState() {
     this.setState({

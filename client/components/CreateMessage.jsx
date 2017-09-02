@@ -10,6 +10,14 @@ import postMessageAction from '../actions/postMessageAction';
  * @type {Object}
  */
 class CreateMessage extends React.Component {
+  /**
+   * constructor
+   * @method constructor
+   *
+   * @param  {object} props
+   *
+   * @return {object} void
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -28,9 +36,9 @@ class CreateMessage extends React.Component {
    * onChange description
    * @method onChange
    *
-   * @param  {type} event description
+   * @param  {object} event
    *
-   * @return {type}   description
+   * @return {object} state
    */
   onChange(event) {
     this.setState({
@@ -201,6 +209,6 @@ const mapStateToProps = (state) => {
     groups,
     status: state.postMessageReducer.status
   };
-}
+};
 
 export default connect(mapStateToProps, { createGroupAction, postMessageAction })(CreateMessage);

@@ -17,15 +17,16 @@ import archivedMessagesAction from '../actions/archivedMessagesAction';
 import clearStoreAction from '../actions/clearStoreAction';
 
 /**
- * [myMessages description]
- * @type {[type]}
+ * MessageBoard
  */
 class MessageBoard extends React.Component {
   /**
-   * [constructor description]
+   * constructor
    * @method constructor
-   * @param  {object}    props
-   * @return {type} []
+   *
+   * @param  {object}  props
+   *
+   * @return {object}
    */
   constructor(props) {
     super(props);
@@ -37,25 +38,28 @@ class MessageBoard extends React.Component {
     this.showForm = this.showForm.bind(this);
   }
   /**
-   * [myMessages displays messages sent by the user]
+   * myMessages displays messages sent by the user
    * @method myMessages
-   * @return {void}   []
+   *
+   * @return {void}
    */
   myMessages() {
     this.props.myMessageAction();
   }
   /**
-   * [archivedMessages displays all messages seen by the user]
+   * archivedMessages displays all messages seen by the user
    * @method archivedMessages
-   * @return {void}         []
+   *
+   * @return {void}
    */
   archivedMessages() {
     this.props.archivedMessagesAction();
   }
   /**
-   * [showForm displays the form for sending a message]
+   * showForm displays the form for sending a message
    * @method showForm
-   * @return {object} [new state]
+   *
+   * @return {object} new state
    */
   showForm() {
     if (this.state.display === 'none') {
@@ -72,9 +76,10 @@ class MessageBoard extends React.Component {
     }
   }
   /**
-   * [render displays the html ]
+   * render displays the html
    * @method render
-   * @return {ReactElement} [markup]
+   *
+   * @return {ReactElement} markup
    */
   render() {
     const createGroup = this.props.createGroupAction;
@@ -122,7 +127,7 @@ class MessageBoard extends React.Component {
         <SentMessages />
         <SendMessage display={JSON.stringify({ display: this.state.display })} />
         <a
-          className="addMessage btn btn-floating btn-large deep-purple lighten-4 pulse"
+          className="addMessage btn btn-floating btn-large deep-purple lighten-2 pulse"
           title="Send Message Here"
           onClick={this.showForm}
           role="button"
@@ -144,10 +149,12 @@ MessageBoard.propTypes = {
 };
 
 /**
- * [mapStateToProps makes the store data available]
+ * mapStateToProps makes the store data available
  * @method mapStateToProps
- * @param  {object}        state [the store date]
- * @return {object}              [ the data needed by the component]
+ *
+ * @param  {object} state the store date
+ *
+ * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
   let groups = 'xcvxcv';

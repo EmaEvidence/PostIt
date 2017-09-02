@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 /**
- * archivedMessages displays every message a user as seen
+ * ArchivedMessages displays every message a user as seen
  *
  * @type {object}
  */
