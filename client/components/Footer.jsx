@@ -4,8 +4,7 @@ import React from 'react';
  * Footer
  * @method Footer
  * @param {function} props creates the page footer
- *
- * @constructor
+ * @returns {ReactElement} markup
  */
 export default function Footer() {
   return (

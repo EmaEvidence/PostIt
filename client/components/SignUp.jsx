@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import GoogleLogin from './GoogleLogin';
 import googleAuthAction from '../actions/googleAuthAction';
@@ -187,9 +188,9 @@ export class SignUp extends React.Component {
 }
 
 SignUp.propTypes = {
-  userSignup: React.PropTypes.func.isRequired,
-  googleAuthAction: React.PropTypes.func.isRequired,
-  message: React.PropTypes.string.isRequired
+  userSignup: PropTypes.func.isRequired,
+  googleAuthAction: PropTypes.func.isRequired,
+  message: PropTypes.string.isRequired
 };
 
 /**

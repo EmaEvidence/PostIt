@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 /**
  * ArchivedMessages displays every message a user as seen
@@ -56,7 +57,7 @@ export class ArchiveMessages extends React.Component {
 }
 
 ArchiveMessages.propTypes = {
-  archivedMessages: React.PropTypes.string.isRequired,
+  archivedMessages: PropTypes.string.isRequired,
 };
 
 /**

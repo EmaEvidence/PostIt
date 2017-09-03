@@ -1,14 +1,13 @@
 const usersData = {};
-const groupsData = {};
-$.get('api/v1/user/all', function (res) {
+$.get('api/v1/user/all', (res) => {
   const users = res.users;
-  users.forEach(function (user) {
+  users.forEach((user) => {
     const selectedUser = user.username;
     usersData[selectedUser] = null;
   });
 });
 
-$(document).ready(function() {
+$(document).ready(() => {
   $('.chips-autocomplete').material_chip({
     placeholder: 'Enter a username',
     secondaryPlaceholder: 'e.g. emmanuel',
@@ -19,12 +18,12 @@ $(document).ready(function() {
     }
   });
   let members = [];
-  $('.chips').on('chip.add', function (e, chip){
+  $('.chips').on('chip.add', (e, chip) => {
     members.push(chip.tag);
     document.getElementById('members').value = members;
   });
 
-  $('.chips').on('chip.delete', function (e, chip){
+  $('.chips').on('chip.delete', (e, chip) => {
     const index = members[chip.tag];
     members = members.splice(index, 1);
     document.getElementById('members').value = members;
@@ -40,17 +39,17 @@ $(document).ready(function() {
     }
   });
   const member = [];
-  $('.chip').on('chip.add', function (e, chip) {
+  $('.chip').on('chip.add', (e, chip) => {
     document.getElementById('memberrr').value = 'check';
   });
 
-  $('.chip').on('chip.delete', function (e, chip){
+  $('.chip').on('chip.delete', (e, chip) => {
     const index = member[chip.tag];
     members = member.splice(index, 1);
     document.getElementById('member').value = member;
   });
 });
 
-$(document).ready(function () {
+$(document).ready(() => {
     $('.modal').modal();
 });

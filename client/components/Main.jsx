@@ -20,14 +20,12 @@ class App extends React.Component {
    */
   render() {
     const token = localStorage.getItem('token');
-    let creatMessageBody;
     let createGroupBody;
     let messageBoardBody;
     if (token) {
       messageBoardBody = MessageBoard;
       createGroupBody = CreateGroup;
     } else {
-      creatMessageBody = Index;
       messageBoardBody = Index;
       createGroupBody = Index;
     }

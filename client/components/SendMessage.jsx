@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import UIAutocomplete from 'react-ui-autocomplete';
+import PropTypes from 'prop-types';
 
 import createGroupAction from '../actions/createGroupAction';
 import postMessageAction from '../actions/postMessageAction';
@@ -179,10 +180,10 @@ class CreateMessage extends React.Component {
 }
 
 CreateMessage.propTypes = {
-  groups: React.PropTypes.string.isRequired,
-  postMessageAction: React.PropTypes.func.isRequired,
-  status: React.PropTypes.string.isRequired,
-  display: React.PropTypes.string.isRequired,
+  groups: PropTypes.string.isRequired,
+  postMessageAction: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired,
+  display: PropTypes.string.isRequired,
 };
 /**
  * mapStateToProps makes the store data available

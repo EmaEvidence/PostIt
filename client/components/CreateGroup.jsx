@@ -15,7 +15,7 @@ class CreateGroup extends React.Component {
    * @method constructor
    * @param  {object} props
    *
-   * @return {object} []
+   * @return {void}
    */
   constructor(props) {
     super(props);

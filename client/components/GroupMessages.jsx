@@ -22,11 +22,11 @@ class GroupMessages extends React.Component {
         </p>
       );
     } else {
-      Messagelist = (JSON.parse(this.props.messages)).map(message =>
+      Messagelist = (JSON.parse(this.props.messages)).map((message, index) =>
         (
           <span>
             <p
-              key={message.id}
+              key={index}
             >
               { message.message }
               <br />

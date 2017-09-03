@@ -12,19 +12,7 @@ class MessageViewersList extends React.Component {
    * @return {ReactElement} markup
    */
   render() {
-    // let viewersList;
-    // if (JSON.parse(this.props.views).length === 0) {
-    //   viewersList = (<li>No Viewer Yet </li>);
-    // } else {
-    //   viewersList = (JSON.parse(this.props.views)).map(view =>
-    //     (
-    //       <li>
-    //         { view }
-    //       </li>
-    //   ));
-    // }
     return (
-      // { viewersList }
     (<li> me </li>)
     );
   }

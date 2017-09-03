@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import userSignupRequest from '../actions/SignUpAction';
 import userSigninRequest from '../actions/SignInAction';
@@ -103,11 +104,11 @@ class Index extends React.Component {
 }
 
 Index.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired,
-  userSigninRequest: React.PropTypes.func.isRequired,
-  createGroupAction: React.PropTypes.func.isRequired,
-  authUser: React.PropTypes.func.isRequired,
-  status: React.PropTypes.string.isRequired
+  userSignupRequest: PropTypes.func.isRequired,
+  userSigninRequest: PropTypes.func.isRequired,
+  createGroupAction: PropTypes.func.isRequired,
+  authUser: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired
 };
 
 /**

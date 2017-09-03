@@ -13,7 +13,7 @@ export class AllMessages extends React.Component {
    *
    * @param  {object} props properties of the Component
    *
-   * @return {void} []
+   * @return {void}
    */
   constructor(props) {
     super(props);

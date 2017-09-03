@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 /**
  * SentMessages
@@ -54,7 +55,7 @@ export class SentMessages extends React.Component {
   }
 }
 SentMessages.propTypes = {
-  myMessages: React.PropTypes.string.isRequired,
+  myMessages: PropTypes.string.isRequired,
 };
 
 /**

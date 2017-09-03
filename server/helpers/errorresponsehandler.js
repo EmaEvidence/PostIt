@@ -8,12 +8,10 @@
  *
  * @return {object} response object
  */
-const errorResponseHandler = (res, status, message) => {
-  return (
+const errorResponseHandler = (res, status, message) => (
     res.status(status).json({
       message
     })
   );
-};
 
 export default errorResponseHandler;

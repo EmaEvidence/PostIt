@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import jusibe from 'jusibe';
-import db from '../models/connection';
+import database from '../models/connection';
 
 dotenv.config();
 /**
@@ -17,7 +17,7 @@ class User {
  * @return {string} Connection status message
  */
   constructor() {
-    this.db = db;
+    this.database = database;
   }
 
   /**
@@ -130,7 +130,7 @@ class User {
       users.forEach((user) => {
         const id = user.id;
         if (id !== senderId) {
-          this.db.Notifications.create({
+          this.database.Notifications.create({
             type: 'A New Message',
             groupId,
             groupName,
@@ -157,7 +157,7 @@ class User {
    * @return {string} success report
    */
   clearNotifications(userId, done) {
-    this.db.Notifications.destroy({
+    this.database.Notifications.destroy({
       where: {
         UserId: userId
       }
@@ -188,7 +188,7 @@ class User {
     if (validity === 'valid') {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
-          this.db.Users.create({
+          this.database.Users.create({
             name,
             username,
             email,
@@ -231,7 +231,7 @@ class User {
    * @return {oject} the result of the deletion
    */
   deleteUsers(email, done) {
-    this.db.Users.destroy({
+    this.database.Users.destroy({
       where: {
         email
       }
@@ -252,7 +252,7 @@ class User {
    * @return {string} the result of the registration attempt.
    */
   logIn(username, password, done) {
-    this.db.Users.findAll({
+    this.database.Users.findAll({
       where: {
         username
       },
@@ -294,7 +294,7 @@ class User {
    */
   createGroup(groupName, creator, users, done) {
     let createdGroup;
-    this.db.Users.findAll({
+    this.database.Users.findAll({
       attributes: ['id'],
       where: {
         username: users
@@ -306,7 +306,7 @@ class User {
       } else {
         members.push(creator);
       }
-      this.db.Groups.findOrCreate({
+      this.database.Groups.findOrCreate({
         where: {
           groupName,
           gpCreatorIdId: creator
@@ -317,7 +317,7 @@ class User {
         } else {
           createdGroup = group;
           members.forEach((member) => {
-            this.db.GroupMembers.findOrCreate({
+            this.database.GroupMembers.findOrCreate({
               where: {
                 GroupId: group[0].id,
                 UserId: member,
@@ -361,7 +361,7 @@ class User {
    * @return {object} success or failure data
    */
   deleteGroup(group, creator, done) {
-    this.db.Groups.destroy({
+    this.database.Groups.destroy({
       where: {
         groupName: group,
         gpCreatorIdId: creator
@@ -382,7 +382,7 @@ class User {
    * @return {object} success or failure data
    */
   deleteGroupWithName(groupName, done) {
-    this.db.Groups.destroy({
+    this.database.Groups.destroy({
       where: {
         groupName
       }
@@ -411,7 +411,7 @@ class User {
     } else if (userToInt === '' || isNaN(userToInt)) {
       done('User Id must be stated');
     } else {
-      this.db.GroupMembers.findOrCreate({
+      this.database.GroupMembers.findOrCreate({
         where: {
           GroupId: group,
           UserId: user,
@@ -445,7 +445,7 @@ class User {
    * @return {object} result of the removal
    */
   deleteUserFromGroup(group, user, added, done) {
-    this.db.GroupMembers.destroy({
+    this.database.GroupMembers.destroy({
       where: {
         GroupId: group,
         UserId: user,
@@ -470,13 +470,13 @@ class User {
    * @return {string} result of the post attempt.
    */
   postMessage(to, sender, text, priorityLevel, done) {
-    this.db.GroupMembers.findOne({
+    this.database.GroupMembers.findOne({
       where: {
         UserId: sender,
         GroupId: to
       }
     }).then((response) => {
-      this.db.Messages.create({
+      this.database.Messages.create({
         groupIdId: to,
         message: text,
         senderIdId: sender,
@@ -489,7 +489,7 @@ class User {
           senderIdId: message.senderIdId,
           priority: message.priority
         };
-        this.db.sequelize.query(`SELECT t."id", phone, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${to}`, { type: this.db.sequelize.QueryTypes.SELECT })
+        this.database.sequelize.query(`SELECT t."id", phone, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${to}`, { type: this.database.sequelize.QueryTypes.SELECT })
           .then((users) => {
             User.notifyUser(priorityLevel, users);
             done(result, users);
@@ -570,7 +570,7 @@ class User {
    * @return {string} result of the get attempt.
    */
   retrieveMessage(group, username, done) {
-    this.db.Messages.findAll({
+    this.database.Messages.findAll({
       where: {
         groupIdId: group,
       },
@@ -631,7 +631,7 @@ class User {
  * @return {type} description
  */
   getGroupMembers(group, done) {
-    this.db.sequelize.query(`SELECT t."id", phone, name, username, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${group}`, { type: this.db.sequelize.QueryTypes.SELECT })
+    this.database.database.sequelize.query(`SELECT t."id", phone, name, username, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${group}`, { type: this.database.sequelize.QueryTypes.SELECT })
     .then((users) => {
       done(users);
     })
@@ -650,12 +650,12 @@ class User {
    * @return {json} json object that can be the groups or the error message
    */
   getUserGroups(userId, done) {
-    this.db.GroupMembers.findAll({
+    this.database.GroupMembers.findAll({
       where: { UserId: userId },
       attributes: ['GroupId']
     }).then((groups) => {
       const ids = User.flattenGroupId(groups);
-      this.db.Groups.findAll({
+      this.database.Groups.findAll({
         attributes: ['id', 'groupName', 'gpCreatorIdId'],
         where: { id: ids },
         order: [['createdAt', 'DESC']],
@@ -679,7 +679,7 @@ class User {
  * @return {object} success or failure data
  */
   getAllUsers(done) {
-    this.db.Users.findAll({
+    this.database.Users.findAll({
       attributes: ['id', 'username']
     }).then((users) => {
       done(users);
@@ -703,7 +703,7 @@ class User {
     messages.forEach((message) => {
       idOfMessages.push(message.id);
     });
-    this.db.Messages.findAll({
+    this.database.Messages.findAll({
       attributes: ['id', 'views'],
       where: { id: idOfMessages }
     }).then((messageViews) => {
@@ -711,7 +711,7 @@ class User {
         const updatedViews = [];
         if (messageView.views === null || messageView.views === '') {
           updatedViews.push(username);
-          this.db.Messages.update({ views: updatedViews },
+          this.database.Messages.update({ views: updatedViews },
             {
               where: {
                 id: messageView.id
@@ -719,7 +719,7 @@ class User {
             });
         } else if ((messageView.views).indexOf(username) < 0) {
           messageView.views.push(username);
-          this.db.Messages.update({ views: messageView.views },
+          this.database.Messages.update({ views: messageView.views },
             {
               where: {
                 id: messageView.id
@@ -745,7 +745,7 @@ class User {
  */
   searchUsers(searchTerm, offset, groupId, done) {
     const processedTerm = `%${searchTerm}%`;
-    this.db.Users.findAndCountAll({
+    this.database.Users.findAndCountAll({
       attributes: ['id', 'email', 'username'],
       where: {
         username: {
@@ -771,7 +771,7 @@ class User {
    * @return {object} success or failure data
    */
   myMessages(userId, done) {
-    this.db.Messages.findAll({
+    this.database.Messages.findAll({
       where: {
         senderIdId: userId
       }
@@ -792,7 +792,7 @@ class User {
    * @return {object} success or failure data
    */
   archivedMessages(username, groupId, done) {
-    this.db.Messages.findAll({
+    this.database.Messages.findAll({
       where: {
         groupIdId: groupId,
         views: { $contains: [username] }
@@ -813,7 +813,7 @@ class User {
    * @return {objecte} success or failure data
    */
   sendPasswordResetMail(email, done) {
-    this.db.Users.findOne({
+    this.database.Users.findOne({
       where: {
         email
       }
@@ -858,7 +858,7 @@ class User {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(userKey, salt, (err, keyHash) => {
           bcrypt.hash(password, salt, (err, hash) => {
-            this.db.Users.update({ password: hash },
+            this.database.Users.update({ password: hash },
               {
                 where: { email: keyHash }
               }
@@ -897,7 +897,7 @@ class User {
    * @return {objct} success or failure data
    */
   googleSignUp(name, email, username, state, password = 'social', done) {
-    this.db.Users.findOrCreate({
+    this.database.Users.findOrCreate({
       where: {
         name,
         username,
@@ -935,7 +935,7 @@ class User {
    * @return {objct} success or failure data
    */
   googleSignIn(name, email, username, state, password = 'social', done) {
-    this.db.Users.findAll({
+    this.database.Users.findAll({
       where: {
         username,
         email,
@@ -966,38 +966,38 @@ class User {
    * @method clearTables
    * @param {Function} done callback
    *
-   * @return {void} []
+   * @return {void}
    */
   clearTables() {
-    this.db.Users.destroy({
+    this.database.Users.destroy({
       where: {
         id: {
           $gte: 0
         }
       }
     });
-    this.db.Groups.destroy({
+    this.database.Groups.destroy({
       where: {
         id: {
           $gte: 0
         }
       }
     });
-    this.db.GroupMembers.destroy({
+    this.database.GroupMembers.destroy({
       where: {
         id: {
           $gte: 0
         }
       }
     });
-    this.db.Messages.destroy({
+    this.database.Messages.destroy({
       where: {
         id: {
           $gte: 0
         }
       }
     });
-    this.db.Notifications.destroy({
+    this.databaseNotifications.destroy({
       where: {
         id: {
           $gte: 0

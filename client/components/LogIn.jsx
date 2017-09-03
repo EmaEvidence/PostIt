@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Input from './Input';
 import GoogleLogin from './GoogleLogin';
@@ -112,9 +113,9 @@ class LogIn extends React.Component {
 }
 
 LogIn.propTypes = {
-  userSignin: React.PropTypes.func.isRequired,
-  status: React.PropTypes.string.isRequired,
-  googleAuthAction: React.PropTypes.func.isRequired,
+  userSignin: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired,
+  googleAuthAction: PropTypes.func.isRequired,
 };
 
 /**

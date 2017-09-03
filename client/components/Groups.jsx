@@ -42,8 +42,8 @@ class Groups extends React.Component {
    * @method setArchivedMessages
    *
    * @param  {number} groupId  unique identifier of the group
-   *
    * @param  {string} groupName description
+   * @return {void}
    */
   setArchivedMessages(groupId, groupName) {
     this.props.archivedMessageAction(groupId, groupName);
@@ -185,4 +185,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, { setUsersAction,
   setCurrentMessagesAction,
-  setCurrentMembersAction, archivedMessageAction })(Groups);
+  setCurrentMembersAction,
+  archivedMessageAction })(Groups);

@@ -17,7 +17,6 @@ export class Notification extends React.Component {
    */
   constructor(props) {
     super(props);
-    // this.clearNotification = this.clearNotification.bind(this);
   }
   /**
    * render displays the html

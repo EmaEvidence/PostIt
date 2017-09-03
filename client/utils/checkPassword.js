@@ -1,4 +1,13 @@
-function checkPassword(password, confirmPassword) {
+/**
+ * checkPassword confirms if password supplied is the same
+ * @method checkPassword
+ *
+ * @param  {string} password
+ * @param  {string} confirmPassword
+ *
+ * @return {object} state new state
+ */
+const checkPassword = (password, confirmPassword) => {
   if (password === confirmPassword) {
     this.setState({
       pwdmatch: 'password matches',
@@ -10,6 +19,6 @@ function checkPassword(password, confirmPassword) {
     });
     this.refs.submit.disabled = true;
   }
-}
+};
 
 export default checkPassword;
