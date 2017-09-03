@@ -104,7 +104,7 @@
     "copy-files": "cpy ./client/source/**.html client/dist ",
     "clear": "rimraf client/dist",
     "client-test": "jest",
-    "test": "NODE_ENV='test' nyc babel-node run.js",
+    "test": "NODE_ENV='test' nyc --reporter=html --reporter=text babel-node run.js",
     "prestart": "npm run clear && npm run copy-files",
     "start": "nodemon --exec babel-node server/server.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls"

@@ -67,6 +67,7 @@ export class AllMessages extends React.Component {
             >
               { message.message }
               <br />
+              <i className="chip">Sender: {message.senderUsername}</i>
               <i className="chip">{message.priority}</i>
               <i className="chip">{(message.createdAt).split('T')[0]}</i>
               <i className="chip dropdown" href="">

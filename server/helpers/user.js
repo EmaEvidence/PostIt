@@ -462,24 +462,26 @@ class User {
    * postMessage - for posting messages to a group
    *
    * @param  {number} to id of the group posted to
-   * @param  {number} sender id of the user sending it
+   * @param  {string} senderUsername the message being sent
+   * @param  {number} senderId id of the user sending it
    * @param  {string} text the message being sent
    * @param  {number} priorityLevel Level of message priority
    * @param  {FunctionDeclaration} done callback function
    *
    * @return {string} result of the post attempt.
    */
-  postMessage(to, sender, text, priorityLevel, done) {
+  postMessage(to, senderUsername, senderId, text, priorityLevel, done) {
     this.database.GroupMembers.findOne({
       where: {
-        UserId: sender,
+        UserId: senderId,
         GroupId: to
       }
     }).then((response) => {
       this.database.Messages.create({
         groupIdId: to,
         message: text,
-        senderIdId: sender,
+        senderIdId: senderId,
+        senderUsername,
         priority: priorityLevel
       }).then((message) => {
         const result = {
@@ -487,6 +489,7 @@ class User {
           message: message.message,
           groupIdId: message.groupIdId,
           senderIdId: message.senderIdId,
+          senderUsername: message.senderUsername,
           priority: message.priority
         };
         this.database.sequelize.query(`SELECT t."id", phone, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${to}`, { type: this.database.sequelize.QueryTypes.SELECT })

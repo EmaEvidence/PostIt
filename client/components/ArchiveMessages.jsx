@@ -31,6 +31,7 @@ export class ArchiveMessages extends React.Component {
             >
               { message.message }
               <br />
+              <i className="chip">Sender: {message.senderUsername}</i>
               <i className="chip">{message.priority}</i>
               <i className="chip">{message.createdAt}</i><br />
               <i className="chip">Edit</i>

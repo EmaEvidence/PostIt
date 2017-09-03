@@ -119,8 +119,9 @@ const Group = {
     const message = req.body.message;
     const priority = (req.body.priority) ? req.body.priority : 'Normal';
     const from = req.token.data.id;
+    const username = req.token.data.username;
     if (validate.messageData(groupId, message, priority, groupName, from, res)) {
-      user.postMessage(groupId, from, message, priority, (result, users) => {
+      user.postMessage(groupId, username, from, message, priority, (result, users) => {
         if (typeof result === 'string') {
           errorResponseHandler(res, 404, 'Group does not Exist');
         } else {
