@@ -72,10 +72,13 @@ const Group = {
    */
   getGroupMessages: (req, res) => {
     const groupId = req.params.groupId;
+    const username = req.token.data.username;
     if (validate.group(groupId, res)) {
-      user.retrieveMessage(groupId, (result) => {
+      user.retrieveMessage(groupId, username, (result) => {
         if (result.length === 0) {
           errorResponseHandler(res, 404, 'No Message For that Group');
+        } else if (typeof result === 'string') {
+          errorResponseHandler(res, 500, 'Error Reading Message');
         } else {
           res.status(200).json({
             messages: result,

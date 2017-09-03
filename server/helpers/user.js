@@ -586,20 +586,29 @@ class User {
    * retrieveMessage - gets messages for a group
    *
    * @param  {number} group the id of the group
+   * @param  {number} username the id of the group
    * @param  {FunctionDeclaration} done callback function
    *
    * @return {string} result of the get attempt.
    */
-  retrieveMessage(group, done) {
+  retrieveMessage(group, username, done) {
     this.db.Messages.findAll({
       where: {
-        groupIdId: group
+        groupIdId: group,
       },
       order: [['id', 'DESC']]
     }).then((messages) => {
-      done(messages);
+      const newMessages = [];
+      messages.forEach((message) => {
+        if (message.views === null) {
+          newMessages.push(message);
+        } else if ((message.views).indexOf(username) < 0) {
+          newMessages.push(message);
+        }
+      });
+      done(newMessages);
     }).catch((err) => {
-      done(err);
+      done(err.name);
     });
   }
   /**
@@ -702,37 +711,45 @@ class User {
   }
 
 /**
- * seenMessages groups Messages as seen
- *
+ * seenMessages marks Messages as seen
  * @method seenMessages
- * @param {number} messageId id of the message
+ *
+ * @param {number} messages id of the message
  * @param {number} userId id of user seeing it
  * @param {FunctionDeclaration} done callback
  *
  * @return {object} success or failure data
  */
-  seenMessages(messageId, userId, done) {
+  seenMessages(messages, username, done) {
+    const idOfMessages = [];
+    messages.forEach((message) => {
+      idOfMessages.push(message.id);
+    });
     this.db.Messages.findAll({
       attributes: ['id', 'views'],
-      where: { id: messageId }
-    }).then((message) => {
-      let updateViews = [];
-      if (message[0].views === null) {
-        updateViews.push(userId);
-      } else if ((message[0].views).indexOf(userId) < 0) {
-        updateViews = (message[0].views).push(userId);
-      } else {
-        updateViews = (message[0].views);
-      }
-      this.db.Messages.update({ views: updateViews },
-        { where: {
-          id: messageId
-        } }
-        ).then(() => {
-          done('Read');
-        }).catch(() => {
-          done('Error Reading Message');
-        });
+      where: { id: idOfMessages }
+    }).then((messageViews) => {
+      messageViews.forEach((messageView) => {
+        const updatedViews = [];
+        if (messageView.views === null || messageView.views === '') {
+          updatedViews.push(username);
+          this.db.Messages.update({ views: updatedViews },
+            {
+              where: {
+                id: messageView.id
+              }
+            });
+        } else if ((messageView.views).indexOf(username) < 0) {
+          updatedViews.push(username);
+          this.db.Messages.update({ views: updatedViews },
+            {
+              where: {
+                id: messageView.id
+              }
+            });
+        }
+      });
+      done('Message Read');
     }).catch(() => {
       done('Error Reading Message');
     });

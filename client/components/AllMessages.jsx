@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import messageSeenAction from '../actions/messageSeenAction';
+import MessageViewersList from './MessageViewersList';
 /**
  * AllMessages displays Allmessages for a group
  */
@@ -19,12 +21,24 @@ export class AllMessages extends React.Component {
     this.seenMessage = this.seenMessage.bind(this);
   }
   /**
+   * componentDidUpdate sends messages as read.
+   * @method componentDidUpdate
+   *
+   * @return {function} action for marking meassages as read
+   */
+  componentDidUpdate() {
+    if ((JSON.parse(this.props.messages)).length !== 0) {
+      const messages = JSON.parse(this.props.messages);
+      this.props.messageSeenAction(messages);
+    }
+  }
+  /**
    * seenMessage marks a message as seen
    * @method seenMessage
    *
    * @param  {interger} messageId id of the message
    *
-   * @return {void} []
+   * @return {void}
    */
   seenMessage(messageId) {
     document.getElementById(`message${messageId}`).removeEventListener('click', this.seenMessage());
@@ -40,7 +54,7 @@ export class AllMessages extends React.Component {
     if (checkIfMessageEmpty.length === 0) {
       Messagelist = (
         <p>
-            No Message Yet
+            No new Message or none Yet.
         </p>
       );
     } else {
@@ -55,7 +69,14 @@ export class AllMessages extends React.Component {
               { message.message }
               <br />
               <i className="chip">{message.priority}</i>
-              <i className="chip">{(message.createdAt).split('T')[0]}</i><br />
+              <i className="chip">{(message.createdAt).split('T')[0]}</i>
+              <i className="chip dropdown" href="">
+                Seen {message.views}
+                <span className="caret dropdown-toggle" data-toggle="dropdown" />
+                <ul className="dropdown-menu notifications">
+                  <li>1</li>
+                </ul>
+              </i>
             </p>
             <hr />
           </span>
@@ -90,5 +111,6 @@ const mapStateToProps = (state) => {
 AllMessages.propTypes = {
   messages: PropTypes.string.isRequired,
   groupName: PropTypes.string.isRequired,
+  messageSeenAction: PropTypes.func.isRequired
 };
-export default connect(mapStateToProps)(AllMessages);
+export default connect(mapStateToProps, { messageSeenAction })(AllMessages);

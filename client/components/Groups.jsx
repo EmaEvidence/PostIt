@@ -114,7 +114,7 @@ class Groups extends React.Component {
               <li>
                 <a
                   className="modal-close"
-                  href="#addmembers"
+                  href="#archivemessages"
                   onClick={this.setUsers.bind(null, grp.id, grp.groupName)}
                 >
                 Archived Messages</a>

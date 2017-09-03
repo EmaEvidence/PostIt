@@ -1,16 +1,15 @@
 import axios from 'axios';
-import { SET_CURRENT_MESSAGES, SET_CURRENT_MESSAGES_ERROR } from './types/types';
+import { GET_ARCHIVED_MESSAGE, GET_ARCHIVED_MESSAGE_ERROR } from './types/types';
 
-const setCurrentMessagesAction = (data, groupName) => {
-  const url = `/api/v1/group/${data}/messages`;
+const archivedMessageAction = (data, groupName) => {
   return (dispatch) => {
-    axios.get(url)
+    axios.get('/api/v1/user/messages/archived')
   .then((res) => {
     const messages = res.data.messages;
     const status = res.data.message;
     return dispatch({
       messages,
-      type: SET_CURRENT_MESSAGES,
+      type: GET_ARCHIVED_MESSAGE,
       status,
       groupName
     });
@@ -19,7 +18,7 @@ const setCurrentMessagesAction = (data, groupName) => {
     const status = err.response.data.message;
     return dispatch({
       messages: '',
-      type: SET_CURRENT_MESSAGES_ERROR,
+      type: GET_ARCHIVED_MESSAGE_ERROR,
       status,
       groupName
     });
@@ -27,4 +26,4 @@ const setCurrentMessagesAction = (data, groupName) => {
   };
 };
 
-export default setCurrentMessagesAction;
+export default archivedMessageAction;

@@ -128,12 +128,12 @@ const UserController = {
    * @return {object} API response
    */
   messageRead: (req, res) => {
-    const messageId = req.body.messageId;
-    const userId = req.token.data.id;
-    if (messageId === '' || messageId === undefined) {
+    const messages = req.body.messages;
+    const username = req.token.data.username;
+    if (messages === '' || messages === undefined) {
       errorResponseHandler(res, 400, 'No message Specified');
     } else {
-      user.seenMessages(messageId, userId, (result) => {
+      user.seenMessages(messages, username, (result) => {
         if (result === 'Read') {
           return res.status(200).json({
             messageRead: result,
