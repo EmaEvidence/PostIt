@@ -715,7 +715,7 @@ class User {
  * @method seenMessages
  *
  * @param {number} messages id of the message
- * @param {number} userId id of user seeing it
+ * @param {number} username unique name of the user seeing it
  * @param {FunctionDeclaration} done callback
  *
  * @return {object} success or failure data
@@ -740,8 +740,8 @@ class User {
               }
             });
         } else if ((messageView.views).indexOf(username) < 0) {
-          updatedViews.push(username);
-          this.db.Messages.update({ views: updatedViews },
+          messageView.views.push(username);
+          this.db.Messages.update({ views: messageView.views },
             {
               where: {
                 id: messageView.id
@@ -807,19 +807,23 @@ class User {
    * archivedMessages retrieves seen messages from the database
    *
    * @method archivedMessages
-   * @param {number} userId id of the user seeing it
+   * @param {string} username unique name of the user seeing it
+   * @param {number} groupId id of the group seeing it
    * @param {FunctionDeclaration} done callback
    *
    * @return {object} success or failure data
    */
-  archivedMessages(userId, done) {
+  archivedMessages(username, groupId, done) {
+    console.log(groupId, '-------------------====id===========--------------------');
     this.db.Messages.findAll({
       where: {
-        views: { contains: [userId] }
+        groupIdId: groupId,
+        views: { $contains: [username] }
       }
-    }).then((result) => {
-      done(result);
+    }).then((messages) => {
+      done(messages);
     }).catch((err) => {
+      console.log(err, '-------------------===============--------------------');
       done(err.name);
     });
   }

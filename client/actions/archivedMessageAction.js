@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { GET_ARCHIVED_MESSAGE, GET_ARCHIVED_MESSAGE_ERROR } from './types/types';
 
-const archivedMessageAction = (data, groupName) => {
+const archivedMessageAction = (groupId, groupName) => {
   return (dispatch) => {
-    axios.get('/api/v1/user/messages/archived')
+    const url = `/api/v1/user/${groupId}/messages/archived`;
+    axios.get(url)
   .then((res) => {
     const messages = res.data.messages;
     const status = res.data.message;

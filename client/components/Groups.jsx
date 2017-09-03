@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import setUsersAction from '../actions/setUsersAction';
 import setCurrentMessagesAction from '../actions/setCurrentMessagesAction';
 import setCurrentMembersAction from '../actions/setCurrentMembersAction';
+import archivedMessageAction from '../actions/archivedMessageAction';
 
 /**
  * Groups
@@ -18,6 +20,7 @@ class Groups extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.setArchivedMessages = this.setArchivedMessages.bind(this);
     this.setUsers = this.setUsers.bind(this);
     this.setMessages = this.setMessages.bind(this);
     this.setMembers = this.setMembers.bind(this);
@@ -33,6 +36,17 @@ class Groups extends React.Component {
    */
   setUsers(index, groupName) {
     this.props.setUsersAction(index, groupName);
+  }
+  /**
+   * setArchivedMessages
+   * @method setArchivedMessages
+   *
+   * @param  {number} groupId  unique identifier of the group
+   *
+   * @param  {string} groupName description
+   */
+  setArchivedMessages(groupId, groupName) {
+    this.props.archivedMessageAction(groupId, groupName);
   }
 
   /**
@@ -115,7 +129,7 @@ class Groups extends React.Component {
                 <a
                   className="modal-close"
                   href="#archivemessages"
-                  onClick={this.setUsers.bind(null, grp.id, grp.groupName)}
+                  onClick={this.setArchivedMessages.bind(null, grp.id, grp.groupName)}
                 >
                 Archived Messages</a>
               </li>
@@ -150,10 +164,11 @@ class Groups extends React.Component {
 }
 
 Groups.propTypes = {
-  setUsersAction: React.PropTypes.func.isRequired,
-  setCurrentMessagesAction: React.PropTypes.func.isRequired,
-  setCurrentMembersAction: React.PropTypes.func.isRequired,
-  groups: React.PropTypes.string.isRequired
+  setUsersAction: PropTypes.func.isRequired,
+  setCurrentMessagesAction: PropTypes.func.isRequired,
+  setCurrentMembersAction: PropTypes.func.isRequired,
+  groups: PropTypes.string.isRequired,
+  archivedMessageAction: PropTypes.func.isRequired
 };
 
 /**
@@ -170,4 +185,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, { setUsersAction,
   setCurrentMessagesAction,
-  setCurrentMembersAction })(Groups);
+  setCurrentMembersAction, archivedMessageAction })(Groups);

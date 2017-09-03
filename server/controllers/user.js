@@ -201,13 +201,14 @@ const UserController = {
    * @return {object} API response
    */
   archivedMessages: (req, res) => {
-    const userId = req.token.data.id;
-    user.archivedMessages(userId, (result) => {
+    const groupId = req.params.groupId;
+    const username = req.token.data.username;
+    user.archivedMessages(username, groupId, (result) => {
       if (typeof result === 'string') {
         errorResponseHandler(res, 500, 'Error retrieving message');
       } else {
         return res.status(200).json({
-          message: 'Read Messages',
+          message: 'Archived Messages',
           messages: result
         });
       }

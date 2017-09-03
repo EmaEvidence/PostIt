@@ -62,7 +62,7 @@ userRouter.get('/api/v1/user/messages', ensureToken, user.mymessage);
 /**
  * for retrieving archived messages
  */
-userRouter.get('/api/v1/user/messages/archived', ensureToken, user.archivedMessages);
+userRouter.get('/api/v1/user/:groupId/messages/archived', ensureToken, user.archivedMessages);
 
 /**
  * For Groups a Users belongs to

@@ -2,26 +2,26 @@
  * reducer
  * @method reducer
  * @param  {Object}
- * @param  {type} status        description
- * @param  {type} currentGroup description
- * @param  {type} action       description
- * @return {type}              description
+ * @param  {string} status
+ * @param  {number} currentGroup
+ * @param  {string} action
+ * @return {object} state
  */
 export default function reducer(state = {
-  currentMessages: [],
+  archivedMessages: [],
   status: '',
   currentGroup: ''
 }, action) {
   switch (action.type) {
-    case 'SET_CURRENT_MESSAGES': {
+    case 'GET_ARCHIVED_MESSAGE': {
       return { ...state,
-        currentMessages: action.messages,
+        archivedMessages: action.messages,
         status: action.status,
         currentGroup: action.groupName };
     }
-    case 'SET_CURRENT_MESSAGES_ERROR': {
+    case 'GET_ARCHIVED_MESSAGE_ERROR': {
       return { ...state,
-        currentMessages: [],
+        archivedMessages: [],
         status: action.status,
         currentGroup: action.groupName };
     }

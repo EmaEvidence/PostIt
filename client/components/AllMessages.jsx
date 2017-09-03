@@ -71,10 +71,10 @@ export class AllMessages extends React.Component {
               <i className="chip">{message.priority}</i>
               <i className="chip">{(message.createdAt).split('T')[0]}</i>
               <i className="chip dropdown" href="">
-                Seen {message.views}
+                Seen
                 <span className="caret dropdown-toggle" data-toggle="dropdown" />
                 <ul className="dropdown-menu notifications">
-                  <li>1</li>
+                  <li>{JSON.stringify(message.views)}</li>
                 </ul>
               </i>
             </p>

@@ -33,7 +33,8 @@ export class ArchiveMessages extends React.Component {
               <i className="chip">{message.priority}</i>
               <i className="chip">{message.createdAt}</i><br />
               <i className="chip">Edit</i>
-              <i className="chip">Delete</i>
+              <i className="chip">Delete</i><br />
+              <i className="chip">Seen by {JSON.stringify(message.views)}</i>
             </p>
         ));
     }
@@ -69,7 +70,7 @@ ArchiveMessages.propTypes = {
 const mapStateToProps = (state) => {
   let archivedMessages = '';
   if (state.groupReducer !== undefined) {
-    archivedMessages = JSON.stringify(state.archivedMessagesReducer.archivedMessages);
+    archivedMessages = JSON.stringify(state.archivedMessageReducer.archivedMessages);
   }
   return {
     archivedMessages
