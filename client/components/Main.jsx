@@ -1,7 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import CreateMessage from './CreateMessage';
 import CreateGroup from './CreateGroup';
 import MessageBoard from './MessageBoard';
 import NewPassword from './NewPassword';
@@ -25,7 +24,6 @@ class App extends React.Component {
     let createGroupBody;
     let messageBoardBody;
     if (token) {
-      creatMessageBody = CreateMessage;
       messageBoardBody = MessageBoard;
       createGroupBody = CreateGroup;
     } else {
@@ -37,7 +35,6 @@ class App extends React.Component {
       <div>
         <Switch>
           <Route exact path="/" component={Index} />
-          <Route path="/createmessage" component={creatMessageBody} />
           <Route path="/creategroup" component={createGroupBody} />
           <Route path="/messageboard" component={messageBoardBody} />
           <Route path="/newpassword" component={NewPassword} />

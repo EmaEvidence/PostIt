@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import validator from 'express-validator';
 
-// import controller from '../controllers/controller';
 import group from '../controllers/group';
 import ensureToken from '../middleware/ensuretoken';
 

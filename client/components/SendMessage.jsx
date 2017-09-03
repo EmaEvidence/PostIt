@@ -25,6 +25,7 @@ class CreateMessage extends React.Component {
       message: '',
       priority: 'Select a Priority',
       charactersLeft: 300,
+      groupName: '',
       display: 'none'
     };
     this.sendMessage = this.sendMessage.bind(this);
@@ -58,6 +59,7 @@ class CreateMessage extends React.Component {
   handleValueChange(newValue, displayValue, suggestion) {
     this.setState({
       group: newValue,
+      groupName: displayValue
     });
   }
   /**
@@ -86,12 +88,14 @@ class CreateMessage extends React.Component {
     this.props.postMessageAction({
       id: this.state.group,
       message: this.state.message,
-      priority: this.state.priority
+      priority: this.state.priority,
+      groupName: this.state.groupName
     });
     this.setState({
       group: '',
       message: '',
       priority: 'Select a Priority',
+      groupName: ''
     });
   }
   /**

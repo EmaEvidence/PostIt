@@ -11,7 +11,7 @@ import errorResponseHandler from '../helpers/errorresponsehandler';
  *
  * @return {boolean} validity response back to the controller
  */
-export const messageData = (groupId, message, priority, from, res) => {
+export const messageData = (groupId, message, priority, groupName, from, res) => {
   if (groupId === '' || groupId === undefined) {
     errorResponseHandler(res, 400, 'Group must be specified');
   } else if (from === '' || from === undefined) {
@@ -20,6 +20,8 @@ export const messageData = (groupId, message, priority, from, res) => {
     errorResponseHandler(res, 400, 'message cannot be empty');
   } else if (priority !== 'Normal' && priority !== 'Critical' && priority !== 'Urgent') {
     errorResponseHandler(res, 400, 'Wrong Priority level');
+  } else if (groupName === '' && groupName === undefined) {
+    errorResponseHandler(res, 400, 'Group Name must be defined');
   } else {
     return true;
   }

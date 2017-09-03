@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import messageSeenAction from '../actions/messageSeenAction';
-import MessageViewersList from './MessageViewersList';
 /**
  * AllMessages displays Allmessages for a group
  */
@@ -54,7 +53,7 @@ export class AllMessages extends React.Component {
     if (checkIfMessageEmpty.length === 0) {
       Messagelist = (
         <p>
-            No new Message or none Yet.
+            No new Message.
         </p>
       );
     } else {

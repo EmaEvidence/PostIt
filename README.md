@@ -10,7 +10,7 @@ The functionality of this web app being a node.js app depends on the following t
 [**Express.js**](https://expressjs.com/): A Fast, opinionated, minimalist web framework for node which was used in routing this application.  
 [**BodyParser**](https://babeljs.io/): This module was used to collect search data sent from the client side to the routing page.   
 [**Babel**](https://babeljs.io/): This project is written in ES6, babel transpiles the code to ES5.  
-[**Sequelize**](https://www.sequelizejs.com): Sequelize is a promise-based Node.js ORM for Postgres Server which is the database server for the APP . It features solid transaction support, relations, read replication and more. 
+[**Sequelize**](https://www.sequelizejs.com): Sequelize is a promise-based Node.js ORM for Postgres Server which is the database server for the APP . It features solid transaction support, relations, read replication and more.
 [**postgresql**](https://www.postgresql.org/): PostgreSQL is a powerful, open source object-relational database system.
 [**Webpack**](https://webpack.js.org/): webpack is a module bundler. Its main purpose is to bundle JavaScript files for usage in browser, it is also used for transpiling scss to css.  
 [**React**](https://facebook.github.io/react/): A javascript library for building user interfaces.
@@ -73,10 +73,12 @@ Frontend tests is written with ``` jest ``` and ``` enzyme ```.
 
 ## Limitations.
 The Notification system of this project is not real time.
+Users can't be removed from a group Yet.
+Messages can't be edited or deleted.
 
 
 ## How to Contribute
-The project is open for contribution. You can start by making the Notifcation system real time. If you have other improvements you want to add, feel free to do so. Ensure you follow style guide and visit the wiki page for a guide as regards project convention
+The project is open for contribution. You can start by making the Notifcation system real time using socket.io. If you have other improvements you want to add, feel free to do so. Ensure you follow style guide and visit the wiki page for a guide as regards project convention
 [wiki](wiki.com)
 
 ## FAQ

@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 import ensureToken from '../middleware/ensuretoken';
-// import controller from '../controllers/controller';
 import user from '../controllers/user';
 
 const userRouter = express.Router();
@@ -68,6 +67,11 @@ userRouter.get('/api/v1/user/:groupId/messages/archived', ensureToken, user.arch
  * For Groups a Users belongs to
  */
 userRouter.get('/api/v1/user/groups', ensureToken, user.getUserGroups);
+
+/**
+ * For Groups a Users belongs to
+ */
+userRouter.get('/api/v1/user/notifications', ensureToken, user.clearNotifications);
 
 
 export default userRouter;

@@ -26,6 +26,11 @@ const reducer = (state = {
         authMessage: action.data
       };
     }
+    case 'CLEAR_NOTIFICATION': {
+      const newState = { ...state };
+      newState.userDetails.Notifications = [];
+      return newState;
+    }
     default:
       return state;
   }

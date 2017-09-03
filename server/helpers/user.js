@@ -118,11 +118,12 @@ class User {
    * @param  {array} users array of user ids
    * @param  {number} groupId id of the group the message was sent to
    * @param  {number} senderId id of the user sending the message
+   * @param  {groupName} groupName name of the group
    * @param  {function} done returns the result of the action asynchronously
    *
    * @return {string} success report
    */
-  inAppNotify(users, groupId, senderId, done) {
+  inAppNotify(users, groupId, senderId, groupName, done) {
     if (typeof users !== 'object' && users.length <= 0) {
       done('No User to Notify');
     } else {
@@ -132,7 +133,7 @@ class User {
           this.db.Notifications.create({
             type: 'A New Message',
             groupId,
-            name: 'Andela',
+            groupName,
             source: senderId,
             UserId: id,
             status: 'Not Seen'
@@ -147,51 +148,28 @@ class User {
   }
 
   /**
-   * showNotification retrieves notifications for a user
-   *
-   * @method showNotification
-   * @param  {number} userId id of the user
-   * @param  {function} done returns the result of the action asynchronously
-   *
-   * @return {string} success report
-   */
-  showNotification(userId, done) {
-    this.db.Notifications.findAll({
-      where: {
-        UserId: userId,
-        status: 'Not Seen'
-      }
-    })
-    .then((notifications) => {
-      done(notifications);
-    })
-    .catch(() => {
-      done('Error Retrieving Notification');
-    });
-  }
-
-  /**
    * clearInAppNotitice removes notification onces the user sees it
    *
    * @method clearInAppNotitice
-   * @param {number} notificationIds [id of the seen notification]
+   * @param {number} userId id of the seen notification
    * @param {function} done returns the result of the action asynchronously
    *
    * @return {string} success report
    */
-  clearInAppNotice(notificationIds, done) {
-    this.db.notifications.update({ Status: 'Seen' },
-      {
-        where: {
-          id: notificationIds
-        }
-      })
-      .then(() => {
-        done('Notification done');
-      })
-      .catch(() => {
-        done('Error Clearing Notifications');
-      });
+  clearNotifications(userId, done) {
+    this.db.Notifications.destroy({
+      where: {
+        UserId: userId
+      }
+    })
+    .then((res) => {
+      console.log(res);
+      done('Notification Cleared');
+    })
+    .catch((err) => {
+      console.log(err);
+      done('Error Clearing Notifications');
+    });
   }
   /**
    * signUp - Creates a user from the data provided by saving it in the user database.
@@ -814,7 +792,6 @@ class User {
    * @return {object} success or failure data
    */
   archivedMessages(username, groupId, done) {
-    console.log(groupId, '-------------------====id===========--------------------');
     this.db.Messages.findAll({
       where: {
         groupIdId: groupId,
@@ -823,7 +800,6 @@ class User {
     }).then((messages) => {
       done(messages);
     }).catch((err) => {
-      console.log(err, '-------------------===============--------------------');
       done(err.name);
     });
   }

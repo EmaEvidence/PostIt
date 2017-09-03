@@ -307,6 +307,17 @@ const UserController = {
       }
     }
   },
+  clearNotifications: (req, res) => {
+    user.clearNotifications(req.token.data.id, (result) => {
+      if (result === 'Notification Cleared') {
+        res.status(200).json({
+          message: result
+        });
+      } else {
+        errorResponseHandler(res, 500, 'Internal Error Clearing Notification');
+      }
+    });
+  }
 
 };
 

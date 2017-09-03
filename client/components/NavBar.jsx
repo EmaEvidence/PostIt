@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-// import Notification from './Notification';
+import Notification from './Notification';
+import clearNotificationAction from '../actions/clearNotificationAction';
 /**
  * NavBar
  */
@@ -19,6 +21,7 @@ export class NavBar extends React.Component {
     super(props);
 
     this.logOut = this.logOut.bind(this);
+    this.clearNotification = this.clearNotification.bind(this);
   }
   /**
    * logOut description
@@ -29,6 +32,15 @@ export class NavBar extends React.Component {
   logOut() {
     window.localStorage.removeItem('token');
     window.location.href = '/';
+  }
+  /**
+   * clearNotification removes a notification from user's notification
+   * @method clearNotification
+   * @return {void}
+   */
+  clearNotification() {
+    alert(1234);
+    this.props.clearNotificationAction();
   }
   /**
    * render displays the html
@@ -51,11 +63,17 @@ export class NavBar extends React.Component {
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/messageboard"> Message Board </Link></li>
-            <li className="dropdown">
-              <a className="dropdown-toggle" href="" data-toggle="dropdown">
+            <li className="dropdown" onClick={this.clearNotification}>
+              <a
+                className="dropdown-toggle"
+                href=""
+                data-toggle="dropdown"
+              >
              Notification
-             <span className="new badge deep-purple lighten-3">{notifications.length}</span>
+             <span className="new badge deep-purple lighten-3">
+               {notifications.length}</span>
               </a>
+              <Notification notifications={JSON.stringify(notifications)} />
             </li>
             <li>
               <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
@@ -70,13 +88,18 @@ export class NavBar extends React.Component {
             <li className="dropdown">
               <a className="dropdown-toggle" href="" data-toggle="dropdown">
              Notification
-             <span className="new badge deep-purple lighten-3">{notifications.length}</span>
+                <span className="new badge deep-purple lighten-3">
+                  messages {notifications.length}</span>
               </a>
+              <ul className="dropdown-menu notifications">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+              </ul>
             </li>
             <li><Link to="/messageboard"> Messages </Link></li>
             <li>
               <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
-            <li> <Link to="/createmessage">Send Message</Link> </li>
             <li><a href="#!" onClick={this.logOut}>Log Out</a></li>
           </ul>
         </nav>
@@ -121,8 +144,9 @@ export class NavBar extends React.Component {
 }
 
 NavBar.propTypes = {
-  loggedInStatus: React.PropTypes.bool.isRequired,
-  userDetails: React.PropTypes.string.isRequired
+  loggedInStatus: PropTypes.bool.isRequired,
+  userDetails: PropTypes.string.isRequired,
+  clearNotificationAction: PropTypes.func.isRequired
 };
 
 /**
@@ -140,4 +164,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToProps, { clearNotificationAction })(NavBar);

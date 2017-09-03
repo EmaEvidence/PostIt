@@ -17,7 +17,7 @@ export class Notification extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.clearNotification = this.clearNotification.bind(this);
+    // this.clearNotification = this.clearNotification.bind(this);
   }
   /**
    * render displays the html
@@ -26,7 +26,7 @@ export class Notification extends React.Component {
    * @return {ReactElement} markup
    */
   render() {
-    const notifications = this.props.notifications;
+    const notifications = JSON.parse(this.props.notifications);
     let notificationList;
     if (notifications.length === 0) {
       notificationList = (
@@ -39,22 +39,21 @@ export class Notification extends React.Component {
         (
           <li
             key={index}
-            onMouseOver={this.clearNotification.bind(null, notification.id)}
           >
-            { notification.type } in { notification.groupName || notification.groupId}
+            { notification.type } posted to { notification.groupName } by { notification.source }
           </li>
       ));
     }
     return (
       <ul className="dropdown-menu notifications">
-        { notificationList }
+        <li> {notificationList} </li>
       </ul>
     );
   }
 }
 
 Notification.propTypes = {
-  notifications: PropTypes.object.isRequired
+  notifications: PropTypes.string.isRequired,
 };
 
 export default connect(null, {})(Notification);

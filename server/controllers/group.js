@@ -115,15 +115,16 @@ const Group = {
 
   postMessage: (req, res) => {
     const groupId = req.params.groupId;
+    const groupName = req.body.groupName;
     const message = req.body.message;
     const priority = (req.body.priority) ? req.body.priority : 'Normal';
     const from = req.token.data.id;
-    if (validate.messageData(groupId, message, priority, from, res)) {
+    if (validate.messageData(groupId, message, priority, groupName, from, res)) {
       user.postMessage(groupId, from, message, priority, (result, users) => {
         if (typeof result === 'string') {
           errorResponseHandler(res, 404, 'Group does not Exist');
         } else {
-          user.inAppNotify(users, groupId, from, () => {
+          user.inAppNotify(users, groupId, req.token.data.username, groupName, from, () => {
           });
           res.status(201).json({
             messageData: result,
