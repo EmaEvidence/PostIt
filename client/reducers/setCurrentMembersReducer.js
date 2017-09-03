@@ -1,18 +1,17 @@
-
 /**
  * reducer
  * @method reducer
- * @param  {Object}
- * @param  {type} status       description
- * @param  {type} currentGroup description
- * @param  {type} action       description
- * @return {type}              description
+ *
+ * @param  {Object} state initial state
+ * @param  {object} action
+ *
+ * @return {object} state new state
  */
-export default function reducer(state = {
+const reducer = (state = {
   currentMembers: [],
   status: '',
   currentGroup: ''
-}, action) {
+}, action) => {
   switch (action.type) {
     case 'SET_CURRENT_MEMBERS': {
       return { ...state,
@@ -23,4 +22,6 @@ export default function reducer(state = {
     default:
       return state;
   }
-}
+};
+
+export default reducer;

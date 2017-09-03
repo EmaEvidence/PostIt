@@ -1,13 +1,15 @@
 /**
- * [reducer description]
+ * reducer
  * @method reducer
- * @param  {Object} [state={status: ''}] [description]
- * @param  {[type]} action   [description]
- * @return {[type]}          [description]
+ *
+ * @param  {Object} state initial state
+ * @param  {object} action
+ *
+ * @return {object} state new state
  */
-export default function reducer(state = {
+const reducer = (state = {
   status: '',
-}, action) {
+}, action) => {
   switch (action.type) {
     case 'RESET_MAIL_SUCCESS': {
       return { ...state, status: action.status };
@@ -24,4 +26,6 @@ export default function reducer(state = {
     default:
       return state;
   }
-}
+};
+
+export default reducer;

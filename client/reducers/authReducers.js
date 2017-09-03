@@ -2,10 +2,10 @@
  * reducer
  * @method reducer
  *
- * @param  {Object} state
+ * @param  {Object} state initial state
  * @param  {object} action
  *
- * @return {type} []
+ * @return {object} state new state
  */
 const reducer = (state = {
   loggedIn: false,

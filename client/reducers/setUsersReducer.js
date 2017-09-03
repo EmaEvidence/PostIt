@@ -1,8 +1,16 @@
-export default function reducer(state = {
+/**
+ * reducer
+ * @method reducer
+ *
+ * @param  {Object} state initial state
+ * @param  {object} action
+ *
+ * @return {object} state new state
+ */
+const reducer = (state = {
   currentGroup: '',
   users: {},
-
-}, action) {
+}, action) => {
   switch (action.type) {
     case 'SET_USERS': {
       return { ...state,
@@ -12,4 +20,6 @@ export default function reducer(state = {
     default:
       return state;
   }
-}
+};
+
+export default reducer;

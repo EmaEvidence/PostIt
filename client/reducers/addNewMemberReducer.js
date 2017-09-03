@@ -1,13 +1,15 @@
 /**
- * [reducer adds addMember action result to the store]
+ * reducer
  * @method reducer
- * @param  {Object} [state={               status: ''}] [Progress message of the action]
- * @param  {[string]} action   [ the name of the action carried out]
- * @return {[object]}          [the changed store]
+ *
+ * @param  {Object} state initial state
+ * @param  {object} action
+ *
+ * @return {object} state new state
  */
-export default function reducer(state = {
+const reducer = (state = {
   status: ''
-}, action) {
+}, action) => {
   switch (action.type) {
     case 'ADD_NEW_MEMBER': {
       return { ...state, status: action.status };
@@ -18,4 +20,6 @@ export default function reducer(state = {
     default:
       return state;
   }
-}
+};
+
+export default reducer;
