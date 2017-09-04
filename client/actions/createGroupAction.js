@@ -10,17 +10,10 @@ const createGroupAction = groupData => dispatch => axios.post('/api/v1/group', g
       });
     })
     .catch((error) => {
-      if (error.resonse === undefined) {
-        dispatch({
-          message: error.response.data.message,
-          type: CREATE_GROUP_ERROR
-        });
-      } else {
-        dispatch({
-          message: error.response.data.message,
-          type: CREATE_GROUP_ERROR
-        });
-      }
+      dispatch({
+        message: error.response.data.message,
+        type: CREATE_GROUP_ERROR
+      });
     });
 
 export default createGroupAction;

@@ -152,7 +152,7 @@ describe('when a user makes a request to the APIs', () => {
           message: 'How are you'
         })
         .end((err, res) => {
-          expect(res.status).toEqual(200);
+          expect(res.status).toEqual(201);
           expect(JSON.parse(res.text).message).toEqual('Message Added.');
           done(err);
         });
@@ -289,13 +289,13 @@ describe('when a user makes a request to the APIs', () => {
   }, 3000);
 
   it('should return message object When a signed in user request for his archived messages', (done) => {
-    const url = '/api/v1/user/messages/archived';
+    const url = '/api/v1/user/1/messages/archived';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
           expect(res.status).toEqual(200);
           expect(typeof JSON.parse(res.text)).toEqual('object');
-          expect(JSON.parse(res.text).message).toEqual('Read Messages');
+          expect(JSON.parse(res.text).message).toEqual('Archived Messages');
           done(err);
         });
   }, 3000);

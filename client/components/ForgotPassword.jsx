@@ -6,7 +6,7 @@ import passwordResetMailAction from '../actions/passwordResetMailAction';
 /**
  * ForgetPassword displays a form to request for new password
  */
-class ForgetPassword extends React.Component {
+export class ForgotPassword extends React.Component {
   /**
    * constructor
    * @method constructor
@@ -96,7 +96,7 @@ class ForgetPassword extends React.Component {
   }
 }
 
-ForgetPassword.propTypes = {
+ForgotPassword.propTypes = {
   passwordResetMailAction: PropTypes.func.isRequired,
   response: PropTypes.string.isRequired
 };
@@ -115,4 +115,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { passwordResetMailAction })(ForgetPassword);
+export default connect(mapStateToProps, { passwordResetMailAction })(ForgotPassword);

@@ -20,7 +20,7 @@ describe('SentMessages component should', () => {
       createdAt: '19/12/2017'
     }];
     const wrapper = mount(<SentMessages myMessages={JSON.stringify(messages)} />);
-    expect(wrapper.find('p').text()).toEqual('Here we areNormal19/12/2017EditDelete');
+    expect(wrapper.find('p').text()).toEqual('Here we areNormal19/12/2017EditDeleteSeen by ');
     expect(wrapper.find('button').length).toBe(1);
   });
 });

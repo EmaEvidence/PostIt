@@ -3,26 +3,24 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 /**
- * SentMessages
+ * SentMessages displays every message sent by the user
+ * @method SentMessages
+ *
+ * @param  {object} props store data passed to the component
+ *
+ * @return {ReactElement} markup
  */
-export class SentMessages extends React.Component {
-  /**
-   * render
-   * @method render
-   *
-   * @return {void}
-   */
-  render() {
-    const myMessages = JSON.parse(this.props.myMessages);
-    let MessageList;
-    if (myMessages.length === 0) {
-      MessageList = (
-        <p>
-              No Message Yet
-        </p>
+export const SentMessages = (props) => {
+  const myMessages = JSON.parse(props.myMessages);
+  let MessageList;
+  if (myMessages.length === 0) {
+    MessageList = (
+      <p>
+            No Message Yet
+      </p>
       );
-    } else {
-      MessageList = (myMessages).map(message =>
+  } else {
+    MessageList = (myMessages).map(message =>
           (
             <p
               key={message.id}
@@ -30,30 +28,30 @@ export class SentMessages extends React.Component {
               { message.message }
               <br />
               <i className="chip">{message.priority}</i>
-              <i className="chip">{message.createdAt}</i><br />
+              <i className="chip">{(message.createdAt).split('T')[0]}</i>
               <i className="chip">Edit</i>
               <i className="chip">Delete</i>
+              <i className="chip">Seen by {(message.views)}</i>
             </p>
         ));
-    }
-    return (
-      <div id="sentmessages" className="modal fade reg-form" role="dialog">
-        <div className="modal-dialog">
-          <div>
-            <h2>Sent Messages</h2>
-          </div>
-          <div className="messagecard">
-            { MessageList }
-          </div>
-          <button
-            type="button"
-            className="form-control modal-close deep-purple lighten-4 custombutton"
-          >Close</button>
-        </div>
-      </div>
-    );
   }
-}
+  return (
+    <div id="sentmessages" className="modal fade reg-form" role="dialog">
+      <div className="modal-dialog">
+        <div>
+          <h2>Sent Messages</h2>
+        </div>
+        <div className="messagecard">
+          { MessageList }
+        </div>
+        <button
+          type="button"
+          className="form-control modal-close deep-purple lighten-4 custombutton"
+        >Close</button>
+      </div>
+    </div>
+  );
+};
 SentMessages.propTypes = {
   myMessages: PropTypes.string.isRequired,
 };

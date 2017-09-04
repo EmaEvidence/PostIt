@@ -169,19 +169,21 @@ describe('When a new User signs up', () => {
 
   let postResult;
   beforeEach((done) => {
-    user.postMessage(groupId, userId, 'Hello Everyone', 'Normal', (response) => {
+    user.postMessage(groupId, 'Evidence', userId, 'Hello Everyone', 'Normal', (response) => {
       postResult = response;
     }, 3000);
     done();
   });
   it('should return "Hello Everyone" when a signed user posts message to a group', (done) => {
-    expect(postResult.message).toEqual('Hello Everyone');
+    expect((postResult).message).toEqual('Hello Everyone');
+    expect((postResult).priority).toEqual('Normal');
+    expect((postResult).senderUsername).toEqual('Evidence');
     done();
   }, 3000);
 
   let retrivalResult;
   beforeEach((done) => {
-    user.retrieveMessage(groupId, (response) => {
+    user.retrieveMessage(groupId, 'Evidence', (response) => {
       retrivalResult = response;
     }, 3000);
     done();
@@ -200,6 +202,29 @@ describe('When a new User signs up', () => {
   });
   it('should return array of groups when the user requests for groups he belongs to', (done) => {
     expect(typeof userGroups).toEqual('object');
+    done();
+  }, 3000);
+  let clearNotice;
+  beforeEach((done) => {
+    user.clearNotifications(1, (response) => {
+      clearNotice = response;
+    }, 3000);
+    done();
+  });
+  it('should clear notifications when clearNotifications is called', (done) => {
+    expect(clearNotice).toEqual('Notification Cleared');
+    done();
+  }, 3000);
+
+  let searchResult;
+  beforeEach((done) => {
+    user.searchUsers('Evi', 0, 1, (response) => {
+      searchResult = response;
+    }, 3000);
+    done();
+  });
+  it('should clear notifications when clearNotifications is called', (done) => {
+    expect(searchResult.count).toBeGreaterThan(0);
     done();
   }, 3000);
 

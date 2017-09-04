@@ -1,17 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import jwt from 'jsonwebtoken';
 
 import Groups from './Groups';
 import CreateGroup from './CreateGroup';
 import AllMessages from './AllMessages';
 import GroupMembers from './GroupMembers';
-import GroupMessages from './GroupMessages';
 import AddMembers from './AddMembers';
 import ArchiveMessages from './ArchiveMessages';
 import SentMessages from './SentMessages';
 import SendMessage from './SendMessage';
 import createGroupAction from '../actions/createGroupAction';
+import getUserGroupsAction from '../actions/getUserGroupsAction';
+import authAction from '../actions/authAction';
 import myMessageAction from '../actions/myMessageAction';
 import archivedMessagesAction from '../actions/archivedMessagesAction';
 import clearStoreAction from '../actions/clearStoreAction';
@@ -19,7 +21,7 @@ import clearStoreAction from '../actions/clearStoreAction';
 /**
  * MessageBoard
  */
-class MessageBoard extends React.Component {
+export class MessageBoard extends React.Component {
   /**
    * constructor
    * @method constructor
@@ -120,7 +122,6 @@ class MessageBoard extends React.Component {
           createGroupAction={createGroup}
           group={groups[0]}
         />
-        <GroupMessages />
         <GroupMembers />
         <AddMembers />
         <ArchiveMessages />

@@ -10,7 +10,7 @@ import postMessageAction from '../actions/postMessageAction';
  * CreateMessage
  * @type {Object}
  */
-class CreateMessage extends React.Component {
+export class CreateMessage extends React.Component {
   /**
    * constructor
    *
@@ -106,17 +106,23 @@ class CreateMessage extends React.Component {
    * @return {ReactElement} markup
    */
   render() {
-    const groups = this.props.groups;
-    const getOptions = () => JSON.parse(groups)['0'];
+    let groups;
+    if (JSON.parse(this.props.groups) === '' || JSON.parse(this.props.groups)[0] === '') {
+      groups = [{ groupName: 'No Group Yet, Please create a Group First' }];
+    } else {
+      groups = JSON.parse(this.props.groups)['0'];
+    }
+    const getOptions = () => groups;
     return (
       <div className="col-sm-12 sendMessage" style={JSON.parse(this.props.display)}>
         <form onSubmit={this.sendMessage}>
           <fieldset className="postfieldset">
             <legend>Send Message</legend>
-            <span className="alert"> {this.props.status} </span>
+            <span className="alert">{}{this.props.status} </span>
             <div className="form-group row customcontrol">
               <div className="form-control col s6 bordered-element extended">
-                <label htmlFor="UIAutocomplete"> Type Group Name </label>
+                <label htmlFor="UIAutocomplete">Type Group Name
+                </label>
                 <UIAutocomplete
                   options={getOptions()}
                   name="group"
@@ -198,7 +204,7 @@ const mapStateToProps = (state) => {
   if (state.groupReducer.groups !== undefined) {
     groups = JSON.stringify(state.groupReducer.groups);
   } else {
-    groups = ['No Group Yet'];
+    groups = ['None'];
   }
   return {
     groups,

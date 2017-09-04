@@ -1,10 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import jwt from 'jsonwebtoken';
 import PropTypes from 'prop-types';
 
 import Notification from './Notification';
 import clearNotificationAction from '../actions/clearNotificationAction';
+import authAction from '../actions/authAction';
+import getUserGroupsAction from '../actions/getUserGroupsAction';
+
 /**
  * NavBar
  */
@@ -39,7 +43,6 @@ export class NavBar extends React.Component {
    * @return {void}
    */
   clearNotification() {
-    alert(1234);
     this.props.clearNotificationAction();
   }
   /**

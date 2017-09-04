@@ -11,7 +11,7 @@ import clearStoreAction from '../actions/clearStoreAction';
  * state description
  * @type {Object}
  */
-class AddMembers extends React.Component {
+export class AddMembers extends React.Component {
   /**
    * constructor
    * @method constructor
@@ -71,7 +71,7 @@ class AddMembers extends React.Component {
    * @param  {number} userId the id of the user to id
    * @param  {object} event the html element datas
    *
-   * @return  {void} event []
+   * @return  {void} event
    */
   addMember(userId) {
     const groupId = this.props.groupId;
@@ -104,8 +104,8 @@ class AddMembers extends React.Component {
   render() {
     const searchResult = JSON.parse(this.props.searchResult);
     const members = [];
-    if (this.props.groups !== undefined) {
-      (this.props.groups).forEach((group) => {
+    if (JSON.parse(this.props.groups !== undefined)) {
+      (JSON.parse(this.props.groups)).forEach((group) => {
         if (group.id === this.props.groupId) {
           (group.Users).map((user) => {
             members.push(user.id);
@@ -218,7 +218,7 @@ const mapStateToProps = (state) => {
     status: state.addNewMemberReducer.status,
     searchResult: JSON.stringify(state.searchUserReducer.searchResult),
     pageCount: state.searchUserReducer.pageCount,
-    groups: state.groupReducer.groups[0]
+    groups: JSON.stringify(state.groupReducer.groups[0] || [])
   };
 };
 

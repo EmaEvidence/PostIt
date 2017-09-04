@@ -3,22 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import messageSeenAction from '../actions/messageSeenAction';
+
 /**
  * AllMessages displays Allmessages for a group
  */
 export class AllMessages extends React.Component {
-  /**
-   * constructor
-   * @method constructor
-   *
-   * @param  {object} props properties of the Component
-   *
-   * @return {void}
-   */
-  constructor(props) {
-    super(props);
-    this.seenMessage = this.seenMessage.bind(this);
-  }
   /**
    * componentDidUpdate sends messages as read.
    * @method componentDidUpdate
@@ -30,17 +19,6 @@ export class AllMessages extends React.Component {
       const messages = JSON.parse(this.props.messages);
       this.props.messageSeenAction(messages);
     }
-  }
-  /**
-   * seenMessage marks a message as seen
-   * @method seenMessage
-   *
-   * @param  {interger} messageId id of the message
-   *
-   * @return {void}
-   */
-  seenMessage(messageId) {
-    document.getElementById(`message${messageId}`).removeEventListener('click', this.seenMessage());
   }
   /**
    * render displays the html
@@ -57,12 +35,11 @@ export class AllMessages extends React.Component {
         </p>
       );
     } else {
-      Messagelist = (JSON.parse(this.props.messages)).map(message =>
+      Messagelist = (JSON.parse(this.props.messages)).map((message, index) =>
         (
           <span>
             <p
-              key={message.id}
-              onmouseEnter={this.seenMessage.bind(null, message.id)}
+              key={index}
               id={`message${message.id}`}
             >
               { message.message }
@@ -74,7 +51,7 @@ export class AllMessages extends React.Component {
                 Seen
                 <span className="caret dropdown-toggle" data-toggle="dropdown" />
                 <ul className="dropdown-menu notifications">
-                  <li>{JSON.stringify(message.views)}</li>
+                  <li>{message.views ? message.views : 'None' }</li>
                 </ul>
               </i>
             </p>

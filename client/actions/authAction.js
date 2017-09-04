@@ -4,7 +4,8 @@ const authAction = (data, message) => {
   if (message === 'Error') {
     return {
       type: ADD_USER_DETAILS_ERROR,
-      data
+      data,
+      message
     };
   } else {
     return {

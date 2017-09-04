@@ -11,7 +11,7 @@ const userSignupRequest = userData => (dispatch) => {
       dispatch(authAction({
         data: res.data.user
       }, 'Success'));
-      window.location = '/messageboard';
+      location.href = '/messageboard';
     }).catch((err) => {
       if (err.response === undefined) {
         dispatch(authAction({

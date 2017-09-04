@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Input
@@ -8,30 +9,28 @@ import React from 'react';
  *
  * @constructor
  */
-function Input(props) {
-  return (
-    <div className="form-group">
-      <input
-        type={props.type || 'text'}
-        onChange={props.action}
-        className={`${props.class} form-control` || 'form-control'}
-        value={props.value || ''}
-        name={props.name}
-        placeholder={props.placeholder || ''}
-        required={props.required || 'false'}
-      />
-    </div>
+const Input = props => (
+  <div className="form-group">
+    <input
+      type={props.type ? props.type : 'text'}
+      onChange={props.action ? props.action : 'onchange'}
+      className={`${props.class} form-control` || 'form-control'}
+      value={props.value ? props.value : ''}
+      name={props.name}
+      placeholder={props.placeholder ? props.placeholder : 'Fill This'}
+      required={props.required ? props.required : 'false'}
+    />
+  </div>
   );
-}
 
 Input.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  action: React.PropTypes.func.isRequired,
-  class: React.PropTypes.string.isRequired,
-  value: React.PropTypes.string.isRequired,
-  placeholder: React.PropTypes.string.isRequired,
-  required: React.PropTypes.bool.isRequired,
-  name: React.PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  action: PropTypes.func.isRequired,
+  class: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  required: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired
 };
 
 export default Input;

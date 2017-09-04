@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 import Input from './Input';
 import GoogleLogin from './GoogleLogin';
@@ -9,7 +10,7 @@ import googleAuthAction from '../actions/googleAuthAction';
 /**
  * Login Component
  */
-class LogIn extends React.Component {
+export class LogIn extends React.Component {
   /**
    * [ets the state for the login component
    * @method constructor
@@ -90,10 +91,10 @@ class LogIn extends React.Component {
             class={'form-control'}
           />
           <div className="form-group">
-            <Input
-              value={'Log In'}
-              type={'submit'}
-              class={'form-control btn deep-purple lighten-3 custombutton'}
+            <input
+              value="Log In"
+              type="submit"
+              className="form-control btn deep-purple lighten-3 custombutton"
             />
             <button
               type="reset"
@@ -127,8 +128,13 @@ LogIn.propTypes = {
  * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
+  let status = '';
+  if (state.authUser.authMessage.data !== undefined) {
+    status = state.authUser.authMessage.data;
+  }
   return {
-    status: state.authUser.authMessage.data
+    status,
+    loggedInStatus: state.authUser.loggedIn
   };
 };
 

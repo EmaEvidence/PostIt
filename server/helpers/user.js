@@ -163,11 +163,9 @@ class User {
       }
     })
     .then((res) => {
-      console.log(res);
       done('Notification Cleared');
     })
     .catch((err) => {
-      console.log(err);
       done('Error Clearing Notifications');
     });
   }
@@ -210,8 +208,9 @@ class User {
             } else {
               if (err.errors && err.errors[0].message === '') {
                 done(`${err.errors[0].path} must be defined`);
+              } else {
+                done(err.errors[0].message || 'Internal Sever Error');
               }
-              done(err.errors[0].message || err.message);
             }
           });
         });
@@ -634,7 +633,7 @@ class User {
  * @return {type} description
  */
   getGroupMembers(group, done) {
-    this.database.database.sequelize.query(`SELECT t."id", phone, name, username, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${group}`, { type: this.database.sequelize.QueryTypes.SELECT })
+    this.database.sequelize.query(`SELECT t."id", phone, name, username, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${group}`, { type: this.database.sequelize.QueryTypes.SELECT })
     .then((users) => {
       done(users);
     })
@@ -1000,7 +999,7 @@ class User {
         }
       }
     });
-    this.databaseNotifications.destroy({
+    this.database.Notifications.destroy({
       where: {
         id: {
           $gte: 0

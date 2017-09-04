@@ -8,7 +8,7 @@ import clearStoreAction from '../actions/clearStoreAction';
 /**
  * createGroup component for creating new group
  */
-class CreateGroup extends React.Component {
+export class CreateGroup extends React.Component {
   /**
    * constructor creates the state
    *
@@ -167,7 +167,7 @@ const mapStateToProps = (state) => {
   let userId = '1';
   if (state.groupReducer !== undefined) {
     status = state.groupReducer.status;
-    userId = state.authUser.userDetails.id;
+    userId = state.authUser.userDetails.id || 0;
   }
   return {
     status,

@@ -1,6 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import Footer from '../../components/Footer';
 
 describe('Footer component should', () => {

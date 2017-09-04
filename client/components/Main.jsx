@@ -1,46 +1,37 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import CreateGroup from './CreateGroup';
 import MessageBoard from './MessageBoard';
 import NewPassword from './NewPassword';
 import Index from './Index';
 import NotFound from './NotFound';
+
 /**
- * App
- * @type {type}
+ * App controls routing in the App
+ * @method App
+ *
+ * @param  {object} props store data passed to the component
+ *
+ * @return {ReactElement} markup
  */
-class App extends React.Component {
-  /**
-   * render displays the html
-   *
-   * @method render
-   *
-   * @return {ReactElement} markup
-   */
-  render() {
-    const token = localStorage.getItem('token');
-    let createGroupBody;
-    let messageBoardBody;
-    if (token) {
-      messageBoardBody = MessageBoard;
-      createGroupBody = CreateGroup;
-    } else {
-      messageBoardBody = Index;
-      createGroupBody = Index;
-    }
-    return (
-      <div>
-        <Switch>
-          <Route exact path="/" component={Index} />
-          <Route path="/creategroup" component={createGroupBody} />
-          <Route path="/messageboard" component={messageBoardBody} />
-          <Route path="/newpassword" component={NewPassword} />
-          <Route path="/*" component={NotFound} />
-        </Switch>
-      </div>
-    );
+const App = () => {
+  const token = window.localStorage.getItem('token');
+  let messageBoardBody;
+  if (token) {
+    messageBoardBody = MessageBoard;
+  } else {
+    messageBoardBody = Index;
   }
-}
+  return (
+    <div>
+      <Switch>
+        <Route exact path="/" component={Index} />
+        <Route path="/messageboard" component={messageBoardBody} />
+        <Route path="/newpassword" component={NewPassword} />
+        <Route path="/*" component={NotFound} />
+      </Switch>
+    </div>
+  );
+};
 
 export default App;

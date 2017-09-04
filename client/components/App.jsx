@@ -8,12 +8,12 @@ import Main from './Main';
  * @method      App
  * @constructor
  */
-export default function App() {
-  return (
-    <div>
-      <Navbar />
-      <Main />
-      <Footer />
-    </div>
+const App = () => (
+  <div>
+    <Navbar />
+    <Main />
+    <Footer />
+  </div>
   );
-}
+
+export default App;

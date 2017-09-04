@@ -10,7 +10,7 @@ import archivedMessageAction from '../actions/archivedMessageAction';
 /**
  * Groups
  */
-class Groups extends React.Component {
+export class Groups extends React.Component {
   /**
    * constructor
    * @method constructor
@@ -82,15 +82,15 @@ class Groups extends React.Component {
    * @return {ReactElement} markup
    */
   render() {
-    const grps = JSON.parse(this.props.groups);
-    let grpList = '';
-    if (grps['0'] !== undefined) {
-      grpList = grps['0'].map(grp =>
+    const groups = JSON.parse(this.props.groups);
+    let groupList = '';
+    if (groups['0'] !== undefined && groups['0'].length !== 0) {
+      groupList = groups['0'].map(group =>
         (
           <li
             className="grouplist dropdown"
-            key={grp.id}
-          > { grp.groupName }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            key={group.id}
+          > { group.groupName }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span className="right dropdown-toggle clickable" type="button" data-toggle="dropdown">
             More <span className="caret" /> </span>
             <ul className="dropdown-menu mydropDown">
@@ -98,7 +98,7 @@ class Groups extends React.Component {
                 <a
                   className="clickable"
                   onClick={this.showMessage}
-                  onClick={this.setMessages.bind(null, grp.id, grp.groupName)}
+                  onClick={this.setMessages.bind(null, group.id, group.groupName)}
                   role="button"
                   tabIndex={0}
                 >
@@ -110,7 +110,7 @@ class Groups extends React.Component {
                   className="clickable"
                   data-toggle="modal"
                   data-target="#groupmembers"
-                  onClick={this.setMembers.bind(null, grp.id, grp.groupName)}
+                  onClick={this.setMembers.bind(null, group.id, group.groupName)}
                   role="button"
                   tabIndex={0}
                 >
@@ -121,7 +121,7 @@ class Groups extends React.Component {
                 <a
                   className="modal-close"
                   href="#addmembers"
-                  onClick={this.setUsers.bind(null, grp.id, grp.groupName)}
+                  onClick={this.setUsers.bind(null, group.id, group.groupName)}
                 >
                 Add New</a>
               </li>
@@ -129,7 +129,7 @@ class Groups extends React.Component {
                 <a
                   className="modal-close"
                   href="#archivemessages"
-                  onClick={this.setArchivedMessages.bind(null, grp.id, grp.groupName)}
+                  onClick={this.setArchivedMessages.bind(null, group.id, group.groupName)}
                 >
                 Archived Messages</a>
               </li>
@@ -137,7 +137,7 @@ class Groups extends React.Component {
                 <a
                   className="modal-close"
                   href="#addmembers"
-                  onClick={this.setUsers.bind(null, grp.id, grp.groupName)}
+                  onClick={this.setUsers.bind(null, group.id, group.groupName)}
                 >
                 Edit</a>
               </li>
@@ -145,7 +145,7 @@ class Groups extends React.Component {
                 <a
                   className="modal-close"
                   href="#addmembers"
-                  onClick={this.setUsers.bind(null, grp.id, grp.groupName)}
+                  onClick={this.setUsers.bind(null, group.id, group.groupName)}
                 >
                 Delete</a>
               </li>
@@ -153,11 +153,11 @@ class Groups extends React.Component {
           </li>
       ));
     } else {
-      grpList = <li> No Group Yet</li>;
+      groupList = <li> No Group Yet</li>;
     }
     return (
       <ul>
-        { grpList }
+        { groupList }
       </ul>
     );
   }

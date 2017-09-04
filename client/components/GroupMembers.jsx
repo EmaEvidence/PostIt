@@ -5,26 +5,24 @@ import PropTypes from 'prop-types';
 import AddMembers from './AddMembers';
 
 /**
- * GroupMembers displays members of a group
+ * GroupMembers displays every membwe of a group
+ * @method GroupMembers
+ *
+ * @param  {object} props store data passed to the component
+ *
+ * @return {ReactElement} markup
  */
-class GroupMembers extends React.Component {
-  /**
-   * render displays the html
-   * @method render
-   *
-   * @return {ReactElement} markup
-   */
-  render() {
-    const checkIfMembersEmpty = Object.keys(JSON.parse(this.props.members));
-    let Memberslist;
-    if (checkIfMembersEmpty.length === 0) {
-      Memberslist = (
-        <p>
+export const GroupMembers = (props) => {
+  const checkIfMembersEmpty = Object.keys(JSON.parse(props.members));
+  let Memberslist;
+  if (checkIfMembersEmpty.length === 0) {
+    Memberslist = (
+      <p>
             No Member Yet
         </p>
       );
-    } else {
-      Memberslist = (JSON.parse(this.props.members)).map((member, index) =>
+  } else {
+    Memberslist = (JSON.parse(props.members)).map((member, index) =>
         (
           <p
             key={index}
@@ -39,30 +37,29 @@ class GroupMembers extends React.Component {
             <hr />
           </p>
       ));
-    }
-    return (
-      <div id="groupmembers" className="modal fade reg-form" role="dialog">
-        <div className="modal-dialog">
-          <div>
-            <h2 className="center"> Members of {this.props.groupName} </h2>
-          </div>
-          <div className="messagecard">
-            { Memberslist }
-          </div>
-          <div>
-            <button
-              type="button"
-              className="form-control close custombutton"
-              data-dismiss="modal"
-            >
-            Cancel</button>
-          </div>
-        </div>
-        <AddMembers />
-      </div>
-    );
   }
-}
+  return (
+    <div id="groupmembers" className="modal fade reg-form" role="dialog">
+      <div className="modal-dialog">
+        <div>
+          <h2 className="center"> Members of {props.groupName} </h2>
+        </div>
+        <div className="messagecard">
+          { Memberslist }
+        </div>
+        <div>
+          <button
+            type="button"
+            className="form-control close custombutton"
+            data-dismiss="modal"
+          >
+            Cancel</button>
+        </div>
+      </div>
+      <AddMembers />
+    </div>
+  );
+};
 
 GroupMembers.propTypes = {
   members: PropTypes.string.isRequired,

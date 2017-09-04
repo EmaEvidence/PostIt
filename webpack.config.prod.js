@@ -1,6 +1,11 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const GLOBALS = {
+  'process.env.NODE_ENV': JSON.stringify('production')
+};
 
 const extractSass = new ExtractTextPlugin({
   filename: '[name].[contenthash].css',
@@ -55,7 +60,10 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-  plugins: [HtmlWebpackPluginConfig, extractSass],
+  plugins: [HtmlWebpackPluginConfig,
+    new webpack.DefinePlugin(GLOBALS),
+    new webpack.optimize.UglifyJsPlugin(),
+    extractSass],
   devServer: {
     historyApiFallback: true
   },

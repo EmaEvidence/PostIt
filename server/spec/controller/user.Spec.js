@@ -8,7 +8,7 @@ const api = new supertest(app);
 
 describe('When a User makes a request to the APIs', () => {
   let token;
-  it('should return status code 200', (done) => {
+  xit('should return status code 200', (done) => {
     api.get('/')
           .send({
           })
@@ -24,7 +24,7 @@ describe('When a User makes a request to the APIs', () => {
           })
           .end((err, res) => {
             expect(res.status).toEqual(400);
-            expect(JSON.parse(res.text).message).toEqual('name must be defined');
+            expect(JSON.parse(res.text).message).toEqual('name cannot be null');
             done(err);
           });
   }, 10000);
@@ -38,7 +38,7 @@ describe('When a User makes a request to the APIs', () => {
           })
           .end((err, res) => {
             expect(res.status).toEqual(400);
-            expect(JSON.parse(res.text).message).toEqual('email must be defined');
+            expect(JSON.parse(res.text).message).toEqual('email cannot be null');
             done(err);
           });
   }, 10000);
@@ -182,19 +182,19 @@ describe('When a User makes a request to the APIs', () => {
           });
   }, 3000);
   it('should return message object when a signed in user requests for his archived messages', (done) => {
-    const url = '/api/v1/user/messages/archived';
+    const url = '/api/v1/user/1/messages/archived';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
           expect(res.status).toEqual(200);
           expect(typeof JSON.parse(res.text)).toEqual('object');
-          expect(JSON.parse(res.text).message).toEqual('Read Messages');
+          expect(JSON.parse(res.text).message).toEqual('Archived Messages');
           done(err);
         });
   }, 3000);
 
   it('should return error when an unregistered user requests for password reset', (done) => {
-    const url = '/api/v1/user/forgetpassword';
+    const url = '/api/v1/user/forgotpassword';
     api.post(url)
         .send({
           email: 'emaa@gmail.com'
@@ -206,8 +206,8 @@ describe('When a User makes a request to the APIs', () => {
         });
   }, 3000);
 
-  it('should return error when a registered user requests for password reset', (done) => {
-    const url = '/api/v1/user/forgetpassword';
+  it('should return error user requests for password reset with email undefined', (done) => {
+    const url = '/api/v1/user/forgotpassword';
     api.post(url)
         .send({
         })
@@ -219,7 +219,7 @@ describe('When a User makes a request to the APIs', () => {
   }, 3000);
 
   it('should return success when a registered user request for password reset', (done) => {
-    const url = '/api/v1/user/forgetpassword';
+    const url = '/api/v1/user/forgotpassword';
     api.post(url)
         .send({
           email: 'sammy@gmail.com'
@@ -315,7 +315,7 @@ describe('When a User signs up with google+', () => {
             state: 'Sign Up'
           })
           .end((err, res) => {
-            expect(res.status).toEqual(200);
+            expect(res.status).toEqual(201);
             expect(JSON.parse(res.text).user.username).toEqual('emaala');
             done(err);
           });
@@ -340,7 +340,7 @@ describe('When a User signs in with google+', () => {
           .send({
             name: 'ema alabi',
             email: 'emaala@gmail.com',
-            state: 'Sign Up'
+            state: 'Sign In'
           })
           .end((err, res) => {
             expect(res.status).toEqual(200);

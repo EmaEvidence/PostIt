@@ -10,7 +10,7 @@ import resetPasswordAction from '../actions/resetPasswordAction';
 /**
  * NewPassword Component
  */
-class NewPassword extends React.Component {
+export class NewPassword extends React.Component {
   /**
    * sets the state for the login component
    * @method constructor

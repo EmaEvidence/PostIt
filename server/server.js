@@ -20,13 +20,14 @@ app.use((req, res, next) => {
 if (process.env.NODE_ENV !== 'test') {
   app.use(webpackMiddleware(webpack(webpackConfig)));
   app.use(webpackHotMiddleware(webpack(webpackConfig)));
+  app.use(express.static('dist'));
 }
 
 app.use('/', userRouter);
 app.use('/', groupRouter);
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/source/index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 let server;

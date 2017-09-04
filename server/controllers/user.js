@@ -88,7 +88,9 @@ const UserController = {
   signUp: (req, res) => {
     const { name, username, email, password, phone } = req.body;
     user.signUp(name, username, email, password, phone, (result) => {
-      if (typeof result !== 'object') {
+      if (result === 'Internal Server Error') {
+        errorResponseHandler(res, 500, result);
+      } else if (typeof result !== 'object') {
         errorResponseHandler(res, 400, result);
       } else {
         res.status(201).json({

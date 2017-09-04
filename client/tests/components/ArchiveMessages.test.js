@@ -19,6 +19,6 @@ describe('ArchiveMessages component should', () => {
       createdAt: '19/12/2017'
     }];
     const wrapper = mount(<ArchiveMessages archivedMessages={JSON.stringify(messages)} />);
-    expect(wrapper.find('p').text()).toEqual('Here we areNormal19/12/2017EditDelete');
+    expect(wrapper.find('p').text()).toEqual('Here we areSender: Normal19/12/2017EditDeleteSeen by ');
   });
 });

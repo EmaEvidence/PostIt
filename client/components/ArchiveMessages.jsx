@@ -3,59 +3,54 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 /**
- * ArchivedMessages displays every message a user as seen
+ * ArchiveMessages displays every message the user has seen
+ * @method ArchiveMessages
  *
- * @type {object}
+ * @param  {object} props store data passed to the component
+ *
+ * @return {ReactElement} markup
  */
-export class ArchiveMessages extends React.Component {
-  /**
-   * render
-   * @method render
-   *
-   * @return {ReactElement} markup
-   */
-  render() {
-    const archivedMessages = JSON.parse(this.props.archivedMessages);
-    let messageList;
-    if (archivedMessages.length === 0) {
-      messageList = (
-        <p>
+export const ArchiveMessages = (props) => {
+  const archivedMessages = JSON.parse(props.archivedMessages);
+  let messageList;
+  if (archivedMessages.length === 0) {
+    messageList = (
+      <p>
               No Message Yet
         </p>
       );
-    } else {
-      messageList = (archivedMessages).map(message =>
+  } else {
+    messageList = (archivedMessages).map((message, index) =>
           (
             <p
-              key={message.id}
+              key={index}
             >
               { message.message }
               <br />
               <i className="chip">Sender: {message.senderUsername}</i>
               <i className="chip">{message.priority}</i>
-              <i className="chip">{message.createdAt}</i><br />
+              <i className="chip">{(message.createdAt).split('T')[0]}</i>
               <i className="chip">Edit</i>
               <i className="chip">Delete</i><br />
-              <i className="chip">Seen by {JSON.stringify(message.views)}</i>
+              <i className="chip">Seen by {(message.views)}</i>
             </p>
         ));
-    }
-    return (
-      <div id="archivemessages" className="modal fade reg-form">
-        <div className="modal-dialog">
-          <h2>Archived Messages</h2>
-          <div className="messagecard">
-            { messageList }
-          </div>
-          <button
-            type="button"
-            className="form-control modal-close deep-purple lighten-4 custombutton"
-          >Close</button>
-        </div>
-      </div>
-    );
   }
-}
+  return (
+    <div id="archivemessages" className="modal fade reg-form">
+      <div className="modal-dialog">
+        <h2>Archived Messages</h2>
+        <div className="messagecard">
+          { messageList }
+        </div>
+        <button
+          type="button"
+          className="form-control modal-close deep-purple lighten-4 custombutton"
+        >Close</button>
+      </div>
+    </div>
+  );
+};
 
 ArchiveMessages.propTypes = {
   archivedMessages: PropTypes.string.isRequired,

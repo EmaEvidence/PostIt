@@ -17,7 +17,12 @@ if (process.env.NODE_ENV === 'test') {
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
 const host = process.env.DB_HOST;
-const sequelize = new Sequelize(`postgres://${username}:${password}${host}/${database}`);
+let sequelize;
+if (process.env.NODE_ENV === 'test') {
+  sequelize = new Sequelize('postgres://ldgtnhia:eD38PggvdWn9EVRdZi12DuhwrfECTqo8@pellefant.db.elephantsql.com:5432/ldgtnhia');
+} else {
+  sequelize = new Sequelize(`postgres://${username}:${password}${host}/${database}`);
+}
 const db = {};
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
