@@ -2,6 +2,7 @@
   "root": true,
   "extends": "airbnb",
   "plugins": [ "react", "jsx-a11y" ],
+  "parser": "babel-eslint",
   "env": {
     "node": true,
     "es6": true,
