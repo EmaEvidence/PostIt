@@ -174,7 +174,7 @@ describe('When a new User signs up', () => {
     }, 3000);
     done();
   });
-  it('should return "Hello Everyone" when a signed user posts message to a group', (done) => {
+  xit('should return "Hello Everyone" when a signed user posts message to a group', (done) => {
     expect((postResult).message).toEqual('Hello Everyone');
     expect((postResult).priority).toEqual('Normal');
     expect((postResult).senderUsername).toEqual('Evidence');
