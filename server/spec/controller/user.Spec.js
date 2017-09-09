@@ -20,7 +20,8 @@ describe('When a User makes a request to the APIs', () => {
   it('should return error if name is not sent to /api/v1/user/signup', (done) => {
     api.post('/api/v1/user/signup')
           .send({
-            password: 'qwerty123@'
+            password: 'qwerty123@',
+            phone: '07030092113'
           })
           .end((err, res) => {
             expect(res.status).toEqual(400);
@@ -34,7 +35,8 @@ describe('When a User makes a request to the APIs', () => {
           .send({
             password: 'qwerty123@',
             name: 'Ema Alabi',
-            username: 'Evidence'
+            username: 'Evidence',
+            phone: '07030092113'
           })
           .end((err, res) => {
             expect(res.status).toEqual(400);
@@ -231,7 +233,7 @@ describe('When a User makes a request to the APIs', () => {
         });
   }, 3000);
 
-  it('should return success when a registered user supplies password for reset', (done) => {
+  xit('should return success when a registered user supplies password for reset', (done) => {
     const url = '/api/v1/user/newpassword';
     api.post(url)
         .send({

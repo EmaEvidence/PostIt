@@ -7,8 +7,8 @@ let newUserId;
 describe('When a new User supplies a password', () => {
   const password = 'qwerty123@';
   const wrongPassword = '1234567890';
-  const validPassword = User.validatePassword(password);
-  const invalidPassword = User.validatePassword(wrongPassword);
+  const validPassword = User.validate(password, 1);
+  const invalidPassword = User.validate(wrongPassword, 1);
   it('should return Error message if its in a right format', () => {
     expect(validPassword).toEqual('valid');
   });

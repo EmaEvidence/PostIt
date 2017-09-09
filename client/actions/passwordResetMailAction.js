@@ -2,7 +2,7 @@ import axios from 'axios';
 import { RESET_MAIL_SUCCESS, RESET_MAIL_ERROR } from './types/types';
 
 const passwordResetMailAction = data => (dispatch) => {
-  axios.post('/api/v1/user/forgetpassword', data)
+  axios.post('/api/v1/user/forgotpassword', data)
     .then(res => dispatch({
       status: res.data.message,
       type: RESET_MAIL_SUCCESS,

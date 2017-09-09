@@ -1,6 +1,6 @@
 import * as types from './types/types';
 
-const clearStoreAction = action => (dispatch) => {
+const clearStatus = action => (dispatch) => {
   if (action === 'sendMessage') {
     dispatch({
       message: '',
@@ -24,4 +24,4 @@ const clearStoreAction = action => (dispatch) => {
   }
 };
 
-export default clearStoreAction;
+export default clearStatus;

@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Input from './Input';
-import SignUp from './SignUp';
-import LogIn from './LogIn';
 import resetPasswordAction from '../actions/resetPasswordAction';
 
 /**
@@ -40,7 +38,8 @@ export class NewPassword extends React.Component {
    */
   onChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      status: ''
     });
   }
   /**
@@ -61,7 +60,7 @@ export class NewPassword extends React.Component {
       this.setState({
         status: 'Processing'
       });
-      this.props.resetPasswordAction(this.state.password, (this.props.location).search);
+      this.props.resetPasswordAction(this.state.password, this.props.location.search.split('=')[1]);
       this.setState({
         confirmPassword: '',
         password: ''
@@ -93,7 +92,7 @@ export class NewPassword extends React.Component {
           />
           <Input
             placeholder={'Confirm New Password'}
-            value={this.state.confirmPasswordpassword}
+            value={this.state.confirmPassword}
             required
             action={this.onChange}
             type={'password'}
@@ -101,15 +100,20 @@ export class NewPassword extends React.Component {
             class={'form-control'}
           />
           <div className="form-group">
-            <Input
-              value={'Reset Password'}
-              type={'submit'}
-              class={'form-control btn deep-purple lighten-3 custombutton'}
+            <input
+              value="Reset Password"
+              type="submit"
+              className="form-control btn deep-purple lighten-3 custombutton"
             />
+            <a href="/">
+              <input
+                value="Return Home"
+                type="button"
+                className="form-control btn deep-purple lighten-3 custombutton right"
+              />
+            </a>
           </div>
         </form>
-        <SignUp />
-        <LogIn />
       </div>
     );
   }

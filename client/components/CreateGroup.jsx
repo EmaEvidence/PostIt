@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import getUserGroupsAction from '../actions/getUserGroupsAction';
-import clearStoreAction from '../actions/clearStoreAction';
+import clearStatusAction from '../actions/clearStatusAction';
 
 /**
  * createGroup component for creating new group
@@ -83,7 +83,7 @@ export class CreateGroup extends React.Component {
       offset: 0,
       pageCount: ''
     });
-    this.props.clearStoreAction('createGroup');
+    this.props.clearStatusAction('createGroup');
   }
   /**
    * render
@@ -151,7 +151,7 @@ export class CreateGroup extends React.Component {
 CreateGroup.propTypes = {
   createGroupAction: PropTypes.func.isRequired,
   status: PropTypes.string.isRequired,
-  clearStoreAction: PropTypes.func.isRequired,
+  clearStatusAction: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired
 };
 /**
@@ -175,4 +175,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getUserGroupsAction, clearStoreAction })(CreateGroup);
+export default connect(mapStateToProps, { getUserGroupsAction, clearStatusAction })(CreateGroup);

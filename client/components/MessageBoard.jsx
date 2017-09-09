@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import jwt from 'jsonwebtoken';
 
 import Groups from './Groups';
 import CreateGroup from './CreateGroup';
@@ -16,7 +15,7 @@ import getUserGroupsAction from '../actions/getUserGroupsAction';
 import authAction from '../actions/authAction';
 import myMessageAction from '../actions/myMessageAction';
 import archivedMessagesAction from '../actions/archivedMessagesAction';
-import clearStoreAction from '../actions/clearStoreAction';
+import clearStatusAction from '../actions/clearStatusAction';
 
 /**
  * MessageBoard
@@ -74,7 +73,7 @@ export class MessageBoard extends React.Component {
         display: 'none',
         icon: 'edit'
       });
-      this.props.clearStoreAction('sendMessage');
+      this.props.clearStatusAction('sendMessage');
     }
   }
   /**
@@ -145,7 +144,7 @@ MessageBoard.propTypes = {
   myMessageAction: PropTypes.func.isRequired,
   archivedMessagesAction: PropTypes.func.isRequired,
   groups: PropTypes.string.isRequired,
-  clearStoreAction: PropTypes.func.isRequired,
+  clearStatusAction: PropTypes.func.isRequired,
   userDetails: PropTypes.string.isRequired,
 };
 
@@ -169,4 +168,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  createGroupAction, myMessageAction, archivedMessagesAction, clearStoreAction })(MessageBoard);
+  createGroupAction, myMessageAction, archivedMessagesAction, clearStatusAction })(MessageBoard);

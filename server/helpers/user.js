@@ -21,16 +21,17 @@ class User {
   }
 
   /**
-   * validateInput checks the validity of the supplied Password
+   * validate checks the validity of the supplied Password and phone Number
    *
-   * @method validateInput
+   * @method validate
    * @param  {string} userPassword user's Password
+   * @param  {string} phone user's Password
    * @return {string} result of validity test
    *
    */
-  static validatePassword(userPassword) {
+  static validate(userPassword, phone) {
     let validity;
-    if (/^(?=.*\d)(?=.*\W)(?=.*[a-zA-Z])(?!.*\s).{8,}$/.test(userPassword)) {
+    if (/^(?=.*\d)(?=.*\W)(?=.*[a-zA-Z])(?!.*\s).{8,}$/.test(userPassword) && !isNaN(phone)) {
       validity = 'valid';
     } else {
       validity = 'Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8';
@@ -182,7 +183,7 @@ class User {
    * @return {string} the result of the registration attempt.
    */
   signUp(name, username, email, password, phone, done) {
-    const validity = User.validatePassword(password);
+    const validity = User.validate(password, phone);
     if (validity === 'valid') {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
@@ -216,7 +217,11 @@ class User {
         });
       });
     } else {
-      done(validity);
+      if (isNaN(phone)) {
+        done('Wrong Phone Number');
+      } else {
+        done(validity);
+      }
     }
   }
 
@@ -824,19 +829,16 @@ class User {
         done('Email Address Not found');
       } else {
         const link = 'https://postaa.herokuapp.com/newpassword';
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(email, salt, (err, hash) => {
-            const sendMail = User.mailer({
-              from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
-              to: email,
-              subject: 'Password Reset',
-              text: 'You have requested for a password reset. Follow the link below to reset your password',
-              html: `<h3>You have requested for a password reset. Follow the link below to reset your password</h3>
-                      <a href=${link}/${hash}>Click Me to Change Password</a>`
-            });
-            done(sendMail);
-          });
+        const userKey = User.createToken({ email });
+        const sendMail = User.mailer({
+          from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
+          to: email,
+          subject: 'Password Reset',
+          text: 'You have requested for a password reset. Follow the link below to reset your password',
+          html: `<h3>You have requested for a password reset. Follow the link below to reset your password</h3>
+                <a href=${link}?tok=${userKey}>Click Me to Change Password</a>`
         });
+        done(sendMail);
       }
     }).catch(() => {
       done('Email Address Not found');
@@ -854,30 +856,32 @@ class User {
    * @return {object} success or failure data
    */
   resetPassword(password, key, done) {
-    const validate = User.validatePassword(password);
+    const validate = User.validate(password, 1);
     if (validate === 'valid') {
-      const userKey = key.split('=')[1];
+      const { email } = (jwt.decode(key)).data;
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(userKey, salt, (err, keyHash) => {
-          bcrypt.hash(password, salt, (err, hash) => {
-            this.database.Users.update({ password: hash },
-              {
-                where: { email: keyHash }
+        bcrypt.hash(password, salt, (err, hash) => {
+          this.database.Users.update({ password: hash },
+            {
+              where: { email }
+            }
+            ).then((result) => {
+              if (result[0] === 0) {
+                done('Error Updating Password');
+              } else {
+                const mailOptions = {
+                  from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
+                  to: email,
+                  subject: 'Password Reset Successful',
+                  text: 'Your password has being changed. Please Login with your new password',
+                  html: '<a href="">Click Here to Login</a>'
+                };
+                User.mailer(mailOptions);
+                done('Password Updated');
               }
-            ).then(() => {
-              const mailOptions = {
-                from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
-                to: keyHash,
-                subject: 'Password Reset Successful',
-                text: 'Your password has being changed. Please Login with your new password',
-                html: '<a href="">Click Here to Login</a>'
-              };
-              User.mailer(mailOptions);
-              done('Password Updated');
             }).catch(() => {
               done('Error Updating Password');
             });
-          });
         });
       });
     } else {

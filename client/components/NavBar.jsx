@@ -62,7 +62,7 @@ export class NavBar extends React.Component {
     if (status || username === '') {
       nav = (<header className="navbar-fixed postitheader">
         <nav className="postitnav">
-          <a href="" className="brandname">Post IT</a>
+          <a href="/" className="brandname">Post IT</a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/messageboard"> Message Board </Link></li>

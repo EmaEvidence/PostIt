@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 
 import addNewMemberAction from '../actions/addNewMemberAction';
 import searchUserAction from '../actions/searchUserAction';
-import clearStoreAction from '../actions/clearStoreAction';
+import clearStatusAction from '../actions/clearStatusAction';
 
 /**
  * state description
@@ -92,8 +92,8 @@ export class AddMembers extends React.Component {
       offset: 0,
       pageCount: ''
     });
-    this.props.clearStoreAction('addMember');
-    this.props.clearStoreAction('searchUser');
+    this.props.clearStatusAction('addMember');
+    this.props.clearStatusAction('searchUser');
   }
   /**
    * render
@@ -199,7 +199,7 @@ AddMembers.propTypes = {
   searchUserAction: PropTypes.func.isRequired,
   status: PropTypes.string.isRequired,
   pageCount: PropTypes.number.isRequired,
-  clearStoreAction: PropTypes.func.isRequired,
+  clearStatusAction: PropTypes.func.isRequired,
   searchResult: PropTypes.string.isRequired,
   groups: PropTypes.string.isRequired
 };
@@ -224,4 +224,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, { addNewMemberAction,
   searchUserAction,
-  clearStoreAction })(AddMembers);
+  clearStatusAction })(AddMembers);
