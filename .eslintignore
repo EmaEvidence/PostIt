@@ -1,0 +1,5 @@
+node_modules
+coverage
+jquery-1.11.1.min.js
+dist/
+client/dist/
