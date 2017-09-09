@@ -1,0 +1,9 @@
+DB_USERNAME=postgres
+DB_PASSWORD=dbpassword
+DB_HOST=dbhost
+DB_DATABASE=databasename
+DB_DATABASE_TEST=databasename
+JWT_SECRET=yoursecret
+EMAIL_PASSWORD=password
+PUBLIC_KEY=youkeyfromnodemailer
+ACCESS_TOKEN=tokenfromnodemailer
