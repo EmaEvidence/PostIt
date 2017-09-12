@@ -46,6 +46,7 @@ const Users = {
   phone: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: {
         args: true,

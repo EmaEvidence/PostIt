@@ -91,6 +91,11 @@ const UserController = {
       if (result === 'Internal Server Error') {
         errorResponseHandler(res, 500, result);
       } else if (typeof result !== 'object') {
+        if (result === 'username must be unique' ||
+            result === 'email must be unique' ||
+          result === 'phone must be unique') {
+          errorResponseHandler(res, 409, result);
+        }
         errorResponseHandler(res, 400, result);
       } else {
         res.status(201).json({

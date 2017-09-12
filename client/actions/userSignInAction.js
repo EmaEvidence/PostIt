@@ -3,7 +3,7 @@ import axios from 'axios';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import authAction from './authAction';
 
-const userSigninRequest = userData => (dispatch) => {
+const userSignInAction = userData => (dispatch) => {
   return axios.post('/api/v1/user/signin', userData)
     .then((res) => {
       const token = res.data.user.token;
@@ -19,4 +19,4 @@ const userSigninRequest = userData => (dispatch) => {
     });
 };
 
-export default userSigninRequest;
+export default userSignInAction;

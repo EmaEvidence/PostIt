@@ -163,10 +163,10 @@ class User {
         UserId: userId
       }
     })
-    .then((res) => {
+    .then(() => {
       done('Notification Cleared');
     })
-    .catch((err) => {
+    .catch(() => {
       done('Error Clearing Notifications');
     });
   }

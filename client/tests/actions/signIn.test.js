@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import expect from 'expect';
-import userSigninRequest from '../../actions/SignInAction';
+import userSignInRequest from '../../actions/userSignInAction';
 import authAction from '../../actions/authAction';
 
 const middlewares = [thunk];
@@ -23,7 +23,7 @@ describe('async actions', () => {
     const expectedAction = [authAction({
       data: { name: 'Evidence', username: 'Evidence', phone: '07073213443', email: 'ema@gg.com', token: '213123ddgdr23erwer' }
     }, 'Success')];
-    store.dispatch(userSigninRequest({ userData: { username: 'Evidence', password: 'qwerty123@' } })).then(() => {
+    store.dispatch(userSignInRequest({ userData: { username: 'Evidence', password: 'qwerty123@' } })).then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
@@ -40,7 +40,7 @@ describe('async actions', () => {
     const expectedAction = [authAction({
       data: 'Internal Error'
     }, 'Error')];
-    store.dispatch(userSigninRequest({ userData: { username: '', password: 'qwerty123@' } })).then(() => {
+    store.dispatch(userSignInRequest({ userData: { username: '', password: 'qwerty123@' } })).then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

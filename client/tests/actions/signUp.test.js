@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import expect from 'expect';
 
-import userSignupRequest from '../../actions/SignUpAction';
+import userSignUpRequest from '../../actions/userSignUpAction';
 import authAction from '../../actions/authAction';
 
 const middlewares = [thunk];
@@ -24,7 +24,7 @@ describe('async actions', () => {
     const expectedAction = [authAction({
       data: { name: 'Evidence', username: 'Evidence', phone: '07073213443', email: 'ema@gg.com', token: '213123ddgdr23erwer' }
     }, 'Success')];
-    store.dispatch(userSignupRequest({ userData: { name: 'Evidence', username: 'Evidence', phone: '07073213443', email: 'ema@gg.com' } })).then(() => {
+    store.dispatch(userSignUpRequest({ userData: { name: 'Evidence', username: 'Evidence', phone: '07073213443', email: 'ema@gg.com' } })).then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
@@ -41,7 +41,7 @@ describe('async actions', () => {
     const expectedAction = [authAction({
       data: 'Internal Error'
     }, 'Error')];
-    store.dispatch(userSignupRequest({ userData: { name: '', username: '', phone: '07073213443', email: '', token: '213123ddgdr23erwer' } })).then(() => {
+    store.dispatch(userSignUpRequest({ userData: { name: '', username: '', phone: '07073213443', email: '', token: '213123ddgdr23erwer' } })).then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
