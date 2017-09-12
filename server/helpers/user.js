@@ -349,8 +349,8 @@ class User {
         }
       });
     })
-      .catch((err) => {
-        done(err.name);
+      .catch(() => {
+        done('Internal Server Error');
       });
   }
 

@@ -52,7 +52,15 @@ const Group = {
     }
     user.createGroup(groupName, userId, users, (result) => {
       if (typeof result === 'string') {
-        errorResponseHandler(res, 400, result);
+        if (result === 'Group Exists already') {
+          errorResponseHandler(res, 409, result);
+        } else if (result === 'value too long for type character varying(255)') {
+          errorResponseHandler(res, 400, 'Group Name is too Long, It should be below 255 characters');
+        } else if (result === 'Internal Server Error') {
+          errorResponseHandler(res, 500, result);
+        } else {
+          errorResponseHandler(res, 400, result);
+        }
       } else {
         res.status(201).json({
           group: result,
