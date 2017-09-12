@@ -3,4 +3,6 @@ eslint:
   config_file: .eslintrc
 exclude:
   - "template/"
-  - "client/dist"
+  - "client"
+  - "test"
+  - "spec"
