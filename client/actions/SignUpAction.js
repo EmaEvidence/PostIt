@@ -4,7 +4,7 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 import authAction from './authAction';
 
 const userSignupRequest = userData => (dispatch) => {
-  axios.post('/api/v1/user/signup', userData)
+  return axios.post('/api/v1/user/signup', userData)
     .then((res) => {
       const token = res.data.user.token;
       setAuthorizationToken(token);

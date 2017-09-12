@@ -3,7 +3,7 @@ import axios from 'axios';
 import { MARK_MESSAGE_AS_SEEN, MARK_MESSAGE_AS_SEEN_ERROR } from './types/types';
 
 const messageSeenAction = messages => (dispatch) => {
-  axios.post('/api/v1/user/message/read', { messages })
+  return axios.post('/api/v1/user/message/read', { messages })
     .then(res => dispatch({
       type: MARK_MESSAGE_AS_SEEN,
       status: res.data.message,

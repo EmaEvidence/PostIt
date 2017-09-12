@@ -4,7 +4,7 @@ import { SET_CURRENT_MESSAGES, SET_CURRENT_MESSAGES_ERROR } from './types/types'
 const setCurrentMessagesAction = (data, groupName) => {
   const url = `/api/v1/group/${data}/messages`;
   return (dispatch) => {
-    axios.get(url)
+    return axios.get(url)
   .then((res) => {
     const messages = res.data.messages;
     const status = res.data.message;

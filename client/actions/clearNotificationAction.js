@@ -2,7 +2,7 @@ import axios from 'axios';
 import { CLEAR_NOTIFICATION, CLEAR_NOTIFICATION_ERROR } from './types/types';
 
 const clearNotificationAction = () => (dispatch) => {
-  axios.get('/api/v1/user/notifications')
+  return axios.get('/api/v1/user/notifications')
     .then((res) => {
       dispatch({
         type: CLEAR_NOTIFICATION,

@@ -1,4 +1,5 @@
 import expect from 'expect';
+
 import * as types from '../../actions/types/types';
 import authAction from '../../actions/authAction';
 

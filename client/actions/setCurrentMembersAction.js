@@ -4,7 +4,7 @@ import { SET_CURRENT_MEMBERS } from './types/types';
 const setCurrentMembersAction = (data, groupName) => {
   const url = `/api/v1/group/${data}/users`;
   return (dispatch) => {
-    axios.get(url)
+    return axios.get(url)
   .then((res) => {
     const members = res.data.users;
     const status = res.data.message;
