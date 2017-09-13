@@ -1,11 +1,13 @@
-import errorResponseHandler from '../helpers/errorresponsehandler';
+import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
  * messageData validates data sent to postMessage endpoint
  * @method messageData
+ *
  * @param  {number} groupId id of the group the message is for
  * @param  {string} message body of the message
  * @param  {pstring} priority level of priority
+ * @param  {pstring} groupName level of priority
  * @param  {number} from id of the user sending the message
  * @param  {object} res response object if the data is invalid
  *

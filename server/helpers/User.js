@@ -633,8 +633,8 @@ class User {
     .then((users) => {
       done(users);
     })
-    .catch((err) => {
-      done(err.name);
+    .catch(() => {
+      done('Error Retrieving Users');
     });
   }
 
@@ -893,7 +893,7 @@ class User {
    *
    * @return {objct} success or failure data
    */
-  googleSignUp(name, email, username, state, password = 'social', done) {
+  googleSignUp(name, email, username, state, password = null, done) {
     this.database.Users.findOrCreate({
       where: {
         name,
