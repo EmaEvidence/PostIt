@@ -8,13 +8,10 @@ const messageSeenAction = messages => (dispatch) => {
       type: MARK_MESSAGE_AS_SEEN,
       status: res.data.message,
       message: res.data.messages
-    })).catch((err) => {
-      const status = err.response.data.message;
-      return dispatch({
-        type: MARK_MESSAGE_AS_SEEN_ERROR,
-        status,
-      });
-    });
+    })).catch(err => dispatch({
+      status: err.response.data.message,
+      type: MARK_MESSAGE_AS_SEEN_ERROR,
+    }));
 };
 
 export default messageSeenAction;
