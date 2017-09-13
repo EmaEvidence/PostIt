@@ -1,14 +1,14 @@
 import expect from 'expect';
 import supertest from 'supertest';
-import User from '../../helpers/user';
+import User from '../../helpers/User';
 import app from '../../server';
 
 const user = new User();
 const api = new supertest(app);
 
-xdescribe('When a User makes a request to the APIs', () => {
+describe('When a User makes a request to the APIs', () => {
   let token;
-  xit('should return status code 200', (done) => {
+  it('should return status code 200', (done) => {
     api.get('/')
           .send({
           })
@@ -50,18 +50,18 @@ xdescribe('When a User makes a request to the APIs', () => {
           .send({
             password: 'qwerty123@',
             name: 'Ema Alabi',
-            username: 'Evi',
-            phone: '07063747160',
-            email: 'emmanuel@gmail.com'
+            username: 'Evii',
+            phone: '07063777160',
+            email: 'emmanueli@gmail.com'
           })
           .end((err, res) => {
             expect(res.status).toEqual(201);
             const response = JSON.parse(res.text);
             expect(response.message).toEqual('Registration Successful');
-            expect(response.user.username).toEqual('Evi');
-            expect(response.user.email).toEqual('emmanuel@gmail.com');
+            expect(response.user.username).toEqual('Evii');
+            expect(response.user.email).toEqual('emmanueli@gmail.com');
             token = response.user.token;
-            expect(response.user.phone).toEqual('07063747160');
+            expect(response.user.phone).toEqual('07063777160');
             done(err);
           });
   }, 10000);
@@ -233,7 +233,7 @@ xdescribe('When a User makes a request to the APIs', () => {
         });
   }, 3000);
 
-  xit('should return success when a registered user supplies password for reset', (done) => {
+  xit('should return success when a registered user supplies new password', (done) => {
     const url = '/api/v1/user/newpassword';
     api.post(url)
         .send({
@@ -308,7 +308,7 @@ xdescribe('When a User makes a request to the APIs', () => {
   }, 3000);
 });
 
-xdescribe('When a User signs up with google+', () => {
+describe('When a User signs up with google+', () => {
   it('should return user object if the user has a google account', (done) => {
     api.post('/api/v1/user/google')
           .send({
@@ -326,7 +326,7 @@ xdescribe('When a User signs up with google+', () => {
     api.post('/api/v1/user/google')
           .send({
             name: 'ema alabi',
-            email: 'emmanuel@gmail.com',
+            email: 'emmanueli@gmail.com',
             state: 'Sign Up'
           })
           .end((err, res) => {
@@ -336,7 +336,7 @@ xdescribe('When a User signs up with google+', () => {
   }, 10000);
 });
 
-xdescribe('When a User signs in with google+', () => {
+describe('When a User signs in with google+', () => {
   it('should return success if the user has a google account', (done) => {
     api.post('/api/v1/user/google')
           .send({

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import errorResponseHandler from '../helpers/errorresponsehandler';
+import errorResponseHandler from '../helpers/errorResponseHandler';
 /**
  * ensureToken verifies the validity of json web token
  * @method ensureToken
@@ -12,7 +12,6 @@ import errorResponseHandler from '../helpers/errorresponsehandler';
  * @return {object} status response or adds a token to request object
  */
 const ensureToken = (req, res, next) => {
-  console.log('================.>>>>>>>>>>>>>>>entering<<<<<<<<===================================.>>>>>>>>>>>>>>>entering<<<<<<<<===================================.>>>>>>>>>>>>>>>entering<<<<<<<<===================================.>>>>>>>>>>>>>>>entering<<<<<<<<===================================.>>>>>>>>>>>>>>>entering<<<<<<<<===================================.>>>>>>>>>>>>>>>entering<<<<<<<<===================================.>>>>>>>>>>>>>>>entering<<<<<<<<===================');
   const token = req.body.token || req.params.token || req.headers.authorization;
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {

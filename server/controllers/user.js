@@ -1,5 +1,5 @@
 import User from '../helpers/User';
-import errorResponseHandler from '../helpers/errorresponsehandler';
+import errorResponseHandler from '../helpers/errorResponseHandler';
 import * as validate from '../helpers/validate';
 
 const user = new User();

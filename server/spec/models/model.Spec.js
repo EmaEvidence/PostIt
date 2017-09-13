@@ -42,7 +42,7 @@ describe('When a new User signs up', () => {
   const username = 'Evidence';
   const email = 'emmanuelalabi563@gmail.com';
   const password = 'qwerty123@';
-  const phone = '07063747160';
+  const phone = '07063707160';
   let userId;
 
   beforeEach((done) => {
@@ -174,7 +174,7 @@ describe('When a new User signs up', () => {
     }, 3000);
     done();
   });
-  xit('should return "Hello Everyone" when a signed user posts message to a group', (done) => {
+  it('should return "Hello Everyone" when a signed user posts message to a group', (done) => {
     expect((postResult).message).toEqual('Hello Everyone');
     expect((postResult).priority).toEqual('Normal');
     expect((postResult).senderUsername).toEqual('Evidence');

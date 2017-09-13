@@ -1,5 +1,5 @@
 import User from '../helpers/User';
-import errorResponseHandler from '../helpers/errorresponsehandler';
+import errorResponseHandler from '../helpers/errorResponseHandler';
 import * as validate from '../helpers/validate';
 
 const user = new User();
@@ -114,8 +114,10 @@ export const getGroupUsers = (req, res) => {
   const groupId = req.params.groupId;
   if (validate.group(groupId, res)) {
     user.getGroupMembers(groupId, (result) => {
-      if (typeof result === 'string' || result.length === 0) {
+      if (typeof result === 'string') {
         errorResponseHandler(res, 404, 'No Such Group');
+      } else if (result.length === 0) {
+        errorResponseHandler(res, 404, 'No Member for this Group');
       } else {
         res.status(200).json({
           users: result,
