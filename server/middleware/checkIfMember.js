@@ -1,5 +1,7 @@
-import user from '../helpers/user';
+import User from '../helpers/User';
 import errorResponseHandler from '../helpers/errorresponsehandler';
+
+const user = new User();
 
 /**
  * checkIfMember checks if a user is amember of a group
@@ -13,14 +15,14 @@ import errorResponseHandler from '../helpers/errorresponsehandler';
  */
 const checkIfMember = (req, res, next) => {
   const userId = req.token.data.id;
-  const groupId = req.params.group;
+  const groupId = req.params.groupId;
   if ((userId !== null && userId !== undefined) &&
   (groupId !== null && groupId !== undefined)) {
     user.checkIfMember(userId, groupId, (result) => {
       if (result) {
         next();
       } else {
-        errorResponseHandler(res, 403, 'You are not allowed here');
+        errorResponseHandler(res, 403, 'You are not a member of this group');
       }
     });
   } else {

@@ -66,7 +66,6 @@ export class CreateGroup extends React.Component {
         purpose: '',
         members: ''
       });
-      $('#creategroup').modal('hide');
     });
   }
   /**
