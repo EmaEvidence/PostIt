@@ -1,6 +1,6 @@
 import React from 'react';
 import expect from 'expect';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import { GroupMembers } from '../../components/GroupMembers';
 
 describe('GroupMembers component should', () => {

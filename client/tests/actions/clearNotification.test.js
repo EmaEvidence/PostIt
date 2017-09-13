@@ -12,8 +12,8 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should retrive users when the action is called', (done) => {
-    moxios.stubRequest('/api/v1/user/newpassword', {
+  it('should clear Notification when the action is called', (done) => {
+    moxios.stubRequest('/api/v1/user/notifications', {
       status: 200,
       response: {
         messages: [{ id: 1, message: 'Evi' }, { id: 2, mess: 'Evi' }],
@@ -31,7 +31,7 @@ describe('async actions', () => {
     done();
   });
   it('should return error if data is invalid when the action is called', (done) => {
-    moxios.stubRequest('/api/v1/users/search', {
+    moxios.stubRequest('/api/v1/user/notifications', {
       status: 400,
       response: {
         messages: [{ id: 1, message: 'Evi' }, { id: 2, mess: 'Evi' }],

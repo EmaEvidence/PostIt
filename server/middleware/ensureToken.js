@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import errorResponseHandler from '../helpers/errorresponsehandler';
+import errorResponseHandler from '../helpers/errorResponseHandler';
 /**
  * ensureToken verifies the validity of json web token
  * @method ensureToken

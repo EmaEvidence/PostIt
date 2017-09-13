@@ -12,7 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should sets users when the action is called', (done) => {
+  it('should sets create group action when the action is called', (done) => {
     moxios.stubRequest('/api/v1/group', {
       status: 200,
       response: {
@@ -31,7 +31,7 @@ describe('async actions', () => {
     });
     done();
   });
-  it('should sets users when the action is called', (done) => {
+  it('should throw error when the action is called with error', (done) => {
     moxios.stubRequest('/api/v1/group', {
       status: 400,
       response: {

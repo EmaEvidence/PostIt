@@ -35,7 +35,7 @@ if (process.env.NODE_ENV !== 'test') {
   server = app.listen(process.env.PORT || 3300, () => {
   });
 } else {
-  server = app.listen(process.env.PORT || 3000, () => {
+  server = app.listen(process.env.PORT || 4000, () => {
   });
 }
 

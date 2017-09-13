@@ -247,7 +247,7 @@ class User {
   }
 
   /**
-   * logIn - checks if the provided User/log In details is availale i the database
+   * logIn - checks if the provided User/log In details is availale in the database
    *
    * @param  {string} username userName of the user
    * @param  {string} password password of the user
@@ -349,8 +349,8 @@ class User {
         }
       });
     })
-      .catch((err) => {
-        done(err.name);
+      .catch(() => {
+        done('Internal Server Error');
       });
   }
 
@@ -401,15 +401,15 @@ class User {
    * addUsers - adds new user to a created group
    *
    * @param  {number} group id of the group to add users to
-   * @param  {number} user  id of user being added
-   * @param  {number} added id of user adding the new user
+   * @param  {number} userToAdd  id of user being added
+   * @param  {number} userAdding id of user adding the new user
    * @param  {FunctionDeclaration} done callback function
    *
    * @return {string} result of the addition attempt.
    */
-  addUsers(group, user, added, done) {
+  addUsers(group, userToAdd, userAdding, done) {
     const groupToInt = parseInt(group, 10);
-    const userToInt = parseInt(user, 10);
+    const userToInt = parseInt(userToAdd, 10);
     if (groupToInt === '' || isNaN(groupToInt)) {
       done('Group Id must be stated');
     } else if (userToInt === '' || isNaN(userToInt)) {
@@ -418,8 +418,8 @@ class User {
       this.database.GroupMembers.findOrCreate({
         where: {
           GroupId: group,
-          UserId: user,
-          addedBy: added
+          UserId: userToAdd,
+          addedBy: userAdding
         }
       }).then((result) => {
         if (result[1] === false) {
@@ -475,35 +475,26 @@ class User {
    * @return {string} result of the post attempt.
    */
   postMessage(to, senderUsername, senderId, text, priorityLevel, done) {
-    this.database.GroupMembers.findOne({
-      where: {
-        UserId: senderId,
-        GroupId: to
-      }
-    }).then((response) => {
-      this.database.Messages.create({
-        groupIdId: to,
-        message: text,
-        senderIdId: senderId,
-        senderUsername,
-        priority: priorityLevel
-      }).then((message) => {
-        const result = {
-          id: message.id,
-          message: message.message,
-          groupIdId: message.groupIdId,
-          senderIdId: message.senderIdId,
-          senderUsername: message.senderUsername,
-          priority: message.priority
-        };
-        this.database.sequelize.query(`SELECT t."id", phone, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${to}`, { type: this.database.sequelize.QueryTypes.SELECT })
-          .then((users) => {
-            User.notifyUser(priorityLevel, users);
-            done(result, users);
-          });
-      }).catch((err) => {
-        done(err.name);
-      });
+    this.database.Messages.create({
+      groupIdId: to,
+      message: text,
+      senderIdId: senderId,
+      senderUsername,
+      priority: priorityLevel
+    }).then((message) => {
+      const result = {
+        id: message.id,
+        message: message.message,
+        groupIdId: message.groupIdId,
+        senderIdId: message.senderIdId,
+        senderUsername: message.senderUsername,
+        priority: message.priority
+      };
+      this.database.sequelize.query(`SELECT t."id", phone, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${to}`, { type: this.database.sequelize.QueryTypes.SELECT })
+            .then((users) => {
+              User.notifyUser(priorityLevel, users);
+              done(result, users);
+            });
     }).catch((err) => {
       done(err.name);
     });
@@ -642,8 +633,8 @@ class User {
     .then((users) => {
       done(users);
     })
-    .catch((err) => {
-      done(err.name);
+    .catch(() => {
+      done('Error Retrieving Users');
     });
   }
 
@@ -902,7 +893,7 @@ class User {
    *
    * @return {objct} success or failure data
    */
-  googleSignUp(name, email, username, state, password = 'social', done) {
+  googleSignUp(name, email, username, state, password = null, done) {
     this.database.Users.findOrCreate({
       where: {
         name,
@@ -964,6 +955,33 @@ class User {
       }
     }).catch(() => {
       done('Error Signing In with Google, Try Again');
+    });
+  }
+  /**
+   * checkIfMember checks if user is a member of a group
+   * @method checkIfMember
+   *
+   * @param {number} userId unique Identity of the user
+   * @param {number} groupId unique Identity of the group
+   * @param {Function} done callback function
+   *
+   * @return {boolean} result of the check
+   */
+  checkIfMember(userId, groupId, done) {
+    this.database.GroupMembers.findOne({
+      where: {
+        UserId: userId,
+        GroupId: groupId
+      }
+    }).then((response) => {
+      if (response !== null) {
+        done(true);
+      } else {
+        done(false);
+      }
+    })
+    .catch(() => {
+      done(false);
     });
   }
   /**

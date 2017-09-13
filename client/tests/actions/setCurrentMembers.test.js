@@ -12,7 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should retrive messages for a group in when the action is called', (done) => {
+  it('should retrive members for a group in when the action is called', (done) => {
     moxios.stubRequest('/api/v1/group/1/users', {
       status: 200,
       response: {

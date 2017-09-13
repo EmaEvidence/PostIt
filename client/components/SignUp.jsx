@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 
 import GoogleLogin from './GoogleLogin';
 import googleAuthAction from '../actions/googleAuthAction';
@@ -58,7 +57,7 @@ export class SignUp extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.userSignup(this.state)
+    this.props.userSignup(this.state);
   }
   /**
    * checkPassword confirms if the password and confirm password supplied is matches

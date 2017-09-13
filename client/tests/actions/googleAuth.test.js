@@ -4,7 +4,6 @@ import moxios from 'moxios';
 import expect from 'expect';
 
 import googleAuthAction from '../../actions/googleAuthAction';
-import * as types from '../../actions/types/types';
 import authAction from '../../actions/authAction';
 
 const middlewares = [thunk];
@@ -13,7 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should add a with google+ when the action is called', (done) => {
+  it('should add a user with google+ when the action is called', (done) => {
     moxios.stubRequest('/api/v1/user/google', {
       status: 200,
       response: {
