@@ -6,7 +6,7 @@ import app from '../../server';
 const user = new User();
 const api = new supertest(app);
 
-describe('When a User makes a request to the APIs', () => {
+xdescribe('When a User makes a request to the APIs', () => {
   let token;
   xit('should return status code 200', (done) => {
     api.get('/')
@@ -308,7 +308,7 @@ describe('When a User makes a request to the APIs', () => {
   }, 3000);
 });
 
-describe('When a User signs up with google+', () => {
+xdescribe('When a User signs up with google+', () => {
   it('should return user object if the user has a google account', (done) => {
     api.post('/api/v1/user/google')
           .send({
@@ -336,7 +336,7 @@ describe('When a User signs up with google+', () => {
   }, 10000);
 });
 
-describe('When a User signs in with google+', () => {
+xdescribe('When a User signs in with google+', () => {
   it('should return success if the user has a google account', (done) => {
     api.post('/api/v1/user/google')
           .send({

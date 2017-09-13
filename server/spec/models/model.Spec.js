@@ -1,5 +1,5 @@
 import expect from 'expect';
-import User from '../../helpers/user';
+import User from '../../helpers/User';
 
 const user = new User();
 let newUserId;
