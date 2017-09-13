@@ -97,7 +97,6 @@ export class Groups extends React.Component {
               <li>
                 <a
                   className="clickable"
-                  onClick={this.showMessage}
                   onClick={this.setMessages.bind(null, group.id, group.groupName)}
                   role="button"
                   tabIndex={0}

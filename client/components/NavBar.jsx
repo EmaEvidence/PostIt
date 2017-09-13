@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 
 import Notification from './Notification';
 import clearNotificationAction from '../actions/clearNotificationAction';
-import authAction from '../actions/authAction';
-import getUserGroupsAction from '../actions/getUserGroupsAction';
 
 /**
  * NavBar
