@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === 'test') {
   host = process.env.DB_HOST;
   sequelize = new Sequelize(`postgres://${username}:${password}${host}/${dataBase}`);
 }
+
 const database = {};
 database.sequelize = sequelize;
 database.Sequelize = Sequelize;
