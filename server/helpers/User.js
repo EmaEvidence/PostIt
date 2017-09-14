@@ -258,7 +258,9 @@ class User {
   logIn(username, password, done) {
     this.database.Users.findAll({
       where: {
-        username
+        username: {
+          $iLike: `${username}`
+        }
       },
       include: ['notifications']
     }).then((user) => {

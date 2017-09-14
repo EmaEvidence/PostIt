@@ -6,6 +6,7 @@ before_script:
 - npm install -g gulp
 - npm install -g jasmine
 - npm install -g istanbul
+- psql -c 'create database postit_test;' -U postgres
 
 script:
 - npm install
@@ -19,3 +20,5 @@ after_success:
     - codeclimate-test-reporter < coverage/lcov.info
 
 env:
+services:
+  - postgresql

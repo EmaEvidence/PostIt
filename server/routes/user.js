@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import ensureToken from '../middleware/ensuretoken';
+import ensureToken from '../middleware/ensureToken';
 import * as user from '../controllers/user';
 import checkIfMember from '../middleware/checkIfMember';
 
