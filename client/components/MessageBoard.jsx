@@ -11,8 +11,6 @@ import ArchiveMessages from './ArchiveMessages';
 import SentMessages from './SentMessages';
 import SendMessage from './SendMessage';
 import createGroupAction from '../actions/createGroupAction';
-import getUserGroupsAction from '../actions/getUserGroupsAction';
-import authAction from '../actions/authAction';
 import myMessageAction from '../actions/myMessageAction';
 import archivedMessagesAction from '../actions/archivedMessagesAction';
 import clearStatusAction from '../actions/clearStatusAction';
@@ -27,7 +25,7 @@ export class MessageBoard extends React.Component {
    *
    * @param  {object}  props
    *
-   * @return {object}
+   * @return {object} state
    */
   constructor(props) {
     super(props);

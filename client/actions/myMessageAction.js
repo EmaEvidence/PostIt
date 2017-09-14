@@ -4,7 +4,7 @@ import { GET_MY_MESSAGES, GET_MY_MESSAGE_ERROR } from './types/types';
 const myMessageAction = () => {
   const url = '/api/v1/user/messages';
   return (dispatch) => {
-    axios.get(url)
+    return axios.get(url)
     .then((res) => {
       dispatch({
         messages: res.data.messages,

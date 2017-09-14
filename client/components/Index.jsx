@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import userSignupRequest from '../actions/SignUpAction';
-import userSigninRequest from '../actions/SignInAction';
+import userSignUpRequest from '../actions/userSignUpAction';
+import userSignInRequest from '../actions/userSignInAction';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
 import CreateGroup from './CreateGroup';
@@ -20,8 +20,8 @@ import createGroupAction from '../actions/createGroupAction';
  * @return {ReactElement} markup
  */
 const Index = (props) => {
-  const userSignup = props.userSignupRequest;
-  const Login = props.userSigninRequest;
+  const userSignup = props.userSignUpRequest;
+  const Login = props.userSignInRequest;
   const authUserAction = props.authUser;
   const createGroup = props.createGroupAction;
   let button;
@@ -101,8 +101,8 @@ const Index = (props) => {
 };
 
 Index.propTypes = {
-  userSignupRequest: PropTypes.func.isRequired,
-  userSigninRequest: PropTypes.func.isRequired,
+  userSignUpRequest: PropTypes.func.isRequired,
+  userSignInRequest: PropTypes.func.isRequired,
   createGroupAction: PropTypes.func.isRequired,
   authUser: PropTypes.func.isRequired,
   status: PropTypes.bool.isRequired
@@ -123,7 +123,7 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, { userSignupRequest,
-  userSigninRequest,
+export default connect(mapStateToProps, { userSignUpRequest,
+  userSignInRequest,
   authUser,
   createGroupAction })(Index);

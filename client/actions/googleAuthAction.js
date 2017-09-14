@@ -5,7 +5,7 @@ import authAction from './authAction';
 const googleAuthAction = (data) => {
   const url = '/api/v1/user/google';
   return (dispatch) => {
-    axios.post(url, data)
+    return axios.post(url, data)
     .then((res) => {
       const token = res.data.user.token;
       setAuthorizationToken(token);

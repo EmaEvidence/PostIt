@@ -3,8 +3,8 @@ import axios from 'axios';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import authAction from './authAction';
 
-const userSignupRequest = userData => (dispatch) => {
-  axios.post('/api/v1/user/signup', userData)
+const userSignUpRequest = userData => (dispatch) => {
+  return axios.post('/api/v1/user/signup', userData)
     .then((res) => {
       const token = res.data.user.token;
       setAuthorizationToken(token);
@@ -25,4 +25,4 @@ const userSignupRequest = userData => (dispatch) => {
     });
 };
 
-export default userSignupRequest;
+export default userSignUpRequest;

@@ -1,6 +1,6 @@
 import React from 'react';
 import expect from 'expect';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { ForgotPassword } from '../../components/ForgotPassword';
 
 describe('ForgotPassword component should', () => {

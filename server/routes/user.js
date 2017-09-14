@@ -1,8 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import ensureToken from '../middleware/ensuretoken';
-import user from '../controllers/user';
+import ensureToken from '../middleware/ensureToken';
+import * as user from '../controllers/user';
+import checkIfMember from '../middleware/checkIfMember';
 
 const userRouter = express.Router();
 userRouter.use(bodyParser.json());
@@ -51,7 +52,7 @@ userRouter.post('/api/v1/user/forgotpassword', user.forgotPassword);
 /**
  * for setting a new password
  */
-userRouter.post('/api/v1/user/newpassword', user.newPassword);
+userRouter.post('/api/v1/user/newpassword', user.resetPassword);
 
 /**
  * for getting all messages a user posted
@@ -71,7 +72,7 @@ userRouter.get('/api/v1/user/groups', ensureToken, user.getUserGroups);
 /**
  * For Groups a Users belongs to
  */
-userRouter.get('/api/v1/user/notifications', ensureToken, user.clearNotifications);
+userRouter.get('/api/v1/user/notifications', ensureToken, checkIfMember, user.clearNotifications);
 
 
 export default userRouter;

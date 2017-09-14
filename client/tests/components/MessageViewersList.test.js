@@ -1,6 +1,6 @@
 import React from 'react';
 import expect from 'expect';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import { AddMembers } from '../../components/AddMembers';
 
 describe('AddMembers component should', () => {

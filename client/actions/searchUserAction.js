@@ -8,7 +8,7 @@ const searchUserAction = (searchTerm, offset, groupId) => {
     groupId
   };
   return (dispatch) => {
-    axios.post('/api/v1/users/search', payload)
+    return axios.post('/api/v1/users/search', payload)
     .then(res => dispatch({
       message: res.data.message,
       type: SEARCH_USER,

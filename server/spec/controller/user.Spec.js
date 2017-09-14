@@ -1,6 +1,6 @@
 import expect from 'expect';
 import supertest from 'supertest';
-import User from '../../helpers/user';
+import User from '../../helpers/User';
 import app from '../../server';
 
 const user = new User();
@@ -8,7 +8,7 @@ const api = new supertest(app);
 
 describe('When a User makes a request to the APIs', () => {
   let token;
-  xit('should return status code 200', (done) => {
+  it('should return status code 200', (done) => {
     api.get('/')
           .send({
           })
@@ -50,18 +50,18 @@ describe('When a User makes a request to the APIs', () => {
           .send({
             password: 'qwerty123@',
             name: 'Ema Alabi',
-            username: 'Evi',
-            phone: '07063747160',
-            email: 'emmanuel@gmail.com'
+            username: 'Evii',
+            phone: '07063777160',
+            email: 'emmanueli@gmail.com'
           })
           .end((err, res) => {
             expect(res.status).toEqual(201);
             const response = JSON.parse(res.text);
             expect(response.message).toEqual('Registration Successful');
-            expect(response.user.username).toEqual('Evi');
-            expect(response.user.email).toEqual('emmanuel@gmail.com');
+            expect(response.user.username).toEqual('Evii');
+            expect(response.user.email).toEqual('emmanueli@gmail.com');
             token = response.user.token;
-            expect(response.user.phone).toEqual('07063747160');
+            expect(response.user.phone).toEqual('07063777160');
             done(err);
           });
   }, 10000);
@@ -146,7 +146,7 @@ describe('When a User makes a request to the APIs', () => {
               expect(JSON.parse(res.text).user.name).toEqual('Samuel Oke');
               done(err);
             });
-  }, 3000);
+  }, 6000);
   it('should return error when a user signs in with invalid username', (done) => {
     api.post('/api/v1/user/signin')
             .send({
@@ -233,7 +233,7 @@ describe('When a User makes a request to the APIs', () => {
         });
   }, 3000);
 
-  xit('should return success when a registered user supplies password for reset', (done) => {
+  xit('should return success when a registered user supplies new password', (done) => {
     const url = '/api/v1/user/newpassword';
     api.post(url)
         .send({
@@ -326,7 +326,7 @@ describe('When a User signs up with google+', () => {
     api.post('/api/v1/user/google')
           .send({
             name: 'ema alabi',
-            email: 'emmanuel@gmail.com',
+            email: 'emmanueli@gmail.com',
             state: 'Sign Up'
           })
           .end((err, res) => {

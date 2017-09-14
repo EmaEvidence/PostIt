@@ -2,7 +2,7 @@ import * as types from './types/types';
 
 const clearStatus = action => (dispatch) => {
   if (action === 'sendMessage') {
-    dispatch({
+    return dispatch({
       message: '',
       type: types.CLEAR_POST_MESSAGE_STATUS,
     });

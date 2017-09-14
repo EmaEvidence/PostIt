@@ -1,12 +1,8 @@
 import React from 'react';
 import expect from 'expect';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { SignUp } from '../../components/SignUp';
 
-const props = {
-  onChange: jest.fn(),
-  onSubmit: jest.fn()
-};
 describe('SignUp component should', () => {
   it('renders without crashing', () => {
     const wrapper = shallow(<SignUp />);

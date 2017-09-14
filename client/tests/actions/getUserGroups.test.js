@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import expect from 'expect';
-import createGroupAction from '../../actions/createGroupAction';
+import getUserGroupsAction from '../../actions/getUserGroupsAction';
 import * as types from '../../actions/types/types';
 
 const middlewares = [thunk];
@@ -12,26 +12,25 @@ describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
   it('should sets users when the action is called', (done) => {
-    moxios.stubRequest('/api/v1/group', {
+    moxios.stubRequest('/api/v1/user/groups', {
       status: 200,
       response: {
-        group: [{ id: 1 }, { id: 2 }],
-        message: 'Group Created successfully'
+        group: [{ id: 1, groupName: 'Andela' }, { id: 2, groupName: 'Man' }],
+        message: 'Message Retrived successfully'
       }
     });
     const store = mockStore({});
     const expectedAction = [{
-      group: { id: 1 },
-      type: types.CREATE_GROUP,
-      message: 'Group Created successfully'
+      status: '',
+      groups: [{ id: 1, groupName: 'Andela' }, { id: 2, groupName: 'Man' }]
     }];
-    store.dispatch(createGroupAction({ groupName: 'Andela', users: [1, 3] })).then(() => {
+    store.dispatch(getUserGroupsAction({ userId: 1 })).then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
   });
   it('should sets users when the action is called', (done) => {
-    moxios.stubRequest('/api/v1/group', {
+    moxios.stubRequest('/api/v1/user/groups', {
       status: 400,
       response: {
         message: 'Group Name can not be empty'
@@ -42,7 +41,7 @@ describe('async actions', () => {
       message: 'Group Name can not be empty',
       type: types.CREATE_GROUP_ERROR,
     }];
-    store.dispatch(createGroupAction({ groupName: '', users: [1, 3] })).then(() => {
+    store.dispatch(getUserGroupsAction({ groupName: '', users: [1, 3] })).then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
