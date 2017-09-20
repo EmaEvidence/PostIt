@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import validator from 'express-validator';
 
 import * as group from '../controllers/group';
-import ensureToken from '../middleware/ensuretoken';
+import ensureToken from '../middleware/ensureToken';
 import checkIfMember from '../middleware/checkIfMember';
 
 const groupRouter = express.Router();

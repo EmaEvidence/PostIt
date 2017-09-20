@@ -146,7 +146,7 @@ describe('When a User makes a request to the APIs', () => {
               expect(JSON.parse(res.text).user.name).toEqual('Samuel Oke');
               done(err);
             });
-  }, 3000);
+  }, 6000);
   it('should return error when a user signs in with invalid username', (done) => {
     api.post('/api/v1/user/signin')
             .send({

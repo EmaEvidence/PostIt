@@ -8,30 +8,31 @@ import NotificationModel from './Notification';
 
 dotenv.config();
 
-let database;
+let dataBase, username, password, host, sequelize;
 if (process.env.NODE_ENV === 'test') {
-  database = process.env.DB_DATABASE_TEST;
+  sequelize = new Sequelize('postgres://postgres@localhost/postit_test');
 } else {
-  database = process.env.DB_DATABASE;
+  dataBase = process.env.DB_DATABASE;
+  username = process.env.DB_USERNAME;
+  password = process.env.DB_PASSWORD;
+  host = process.env.DB_HOST;
+  sequelize = new Sequelize(`postgres://${username}:${password}${host}/${dataBase}`);
 }
-const username = process.env.DB_USERNAME;
-const password = process.env.DB_PASSWORD;
-const host = process.env.DB_HOST;
-const sequelize = new Sequelize(`postgres://${username}:${password}${host}/${database}`);
-const db = {};
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+
+const database = {};
+database.sequelize = sequelize;
+database.Sequelize = Sequelize;
 
 const Users = sequelize.define('Users', UserModel);
-db.Users = Users;
+database.Users = Users;
 const Groups = sequelize.define('Groups', GroupModel);
-db.Groups = Groups;
+database.Groups = Groups;
 const GroupMembers = sequelize.define('GroupMembers', GroupMembersModel);
-db.GroupMembers = GroupMembers;
+database.GroupMembers = GroupMembers;
 const Messages = sequelize.define('Messages', MessagesModel);
-db.Messages = Messages;
+database.Messages = Messages;
 const Notifications = sequelize.define('Notifications', NotificationModel);
-db.Notifications = Notifications;
+database.Notifications = Notifications;
 Users.belongsToMany(Groups, { through: 'GroupMembers' });
 Groups.belongsToMany(Users, { through: 'GroupMembers' });
 Users.hasOne(Groups, {
@@ -52,4 +53,4 @@ Users.hasMany(Notifications, {
 });
 sequelize.sync({});
 
-export default db;
+export default database;
