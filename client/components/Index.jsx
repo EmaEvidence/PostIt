@@ -60,21 +60,20 @@ const Index = (props) => {
         <div className="about">
           <h1> How It works </h1>
         </div>
-        <div className="container row howitworks">
-          <div className="col s4 about">
-            <h1><i className="large material-icons">perm_identity</i></h1>
-            <h3> Register </h3>
-            Hi we are here
+        <div className="col s12">
+          <div className="row">
+            <div className="col s4 about">
+              <h1><i className="large material-icons">perm_identity</i></h1>
+              <h3> Register </h3>
             </div>
-          <div className="col s4 about">
-            <h1><i className="large material-icons">contacts</i></h1>
-            <h3> Create Groups </h3>
-            Hi we are here
-          </div>
-          <div className="col s4 about">
-            <h1><i className="large material-icons">present_to_all</i></h1>
-            <h3> Broadcast Message </h3>
-          Hi we are here
+            <div className="col s4 about">
+              <h1><i className="large material-icons">contacts</i></h1>
+              <h3> Create Groups </h3>
+            </div>
+            <div className="col s4 about">
+              <h1><i className="large material-icons">present_to_all</i></h1>
+              <h3> Broadcast Message </h3>
+            </div>
           </div>
         </div>
       </section>

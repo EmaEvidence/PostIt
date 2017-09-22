@@ -68,9 +68,10 @@ export class NewPassword extends React.Component {
     }
   }
   /**
-   * [displays the form to login]
+   * displays the form to login
    * @method render
-   * @return {[jsx]} [description]
+   *
+   * @return {jsx} description
    */
   render() {
     return (

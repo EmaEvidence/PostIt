@@ -33,7 +33,6 @@ export const GroupMembers = (props) => {
             &nbsp;&nbsp;&nbsp;&nbsp;
             {member.phone}
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <button className="btn deep-purple lighten-3"> X </button>
             <hr />
           </p>
       ));

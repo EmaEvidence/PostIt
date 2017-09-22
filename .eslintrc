@@ -15,7 +15,8 @@
     this,
     $,
     location,
-    "React": true
+    "React": true,
+    Materialize
     },
   "rules": {
     "one-var": 0,

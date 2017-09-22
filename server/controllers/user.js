@@ -6,6 +6,7 @@ const user = new User();
 
 /**
  * deleteUser controls the removal of an existing user
+ * @method deleteUser
  *
  * @param {object} req request sent from frontend
  * @param {object} res response from the server
@@ -29,6 +30,7 @@ export const deleteUser = (req, res) => {
 
 /**
  * getUserGroups controls retrieval of every group a user belongs to
+ * @method getUserGroups
  *
  * @param {object} req request sent from frontend
  * @param {object} res response from the server
@@ -52,7 +54,8 @@ export const getUserGroups = (req, res) => {
 };
 
 /**
- * signin controls authorization of an existing user
+ * signIn controls authorization of an existing user
+ * @method signIn
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -79,6 +82,7 @@ export const signIn = (req, res) => {
 
 /**
  * signup controls registration of a new user
+ * @method signUp
  *
  * @param {object} req request sent from frontend
  * @param {object} res response from the server
@@ -108,6 +112,7 @@ export const signUp = (req, res) => {
 
 /**
  * getAllUsers retrieves every user in the App
+ * @method getAllUsers
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -128,6 +133,7 @@ export const getAllUsers = (req, res) => {
 
 /**
  * messageRead controls the group of messages as seen
+ * @method messageRead
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -155,6 +161,7 @@ export const messageRead = (req, res) => {
 
 /**
  * searchUser controls searching for user
+ * @method searchUser
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -179,14 +186,15 @@ export const searchUser = (req, res) => {
 };
 
 /**
- * mymessage controls the retrieval of messages sent by a user
+ * myMessage controls the retrieval of messages sent by a user
+ * @method myMessage
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
  *
  * @return {object} API response
  */
-export const mymessage = (req, res) => {
+export const myMessage = (req, res) => {
   const userId = req.token.data.id;
   user.myMessages(userId, (result) => {
     if (typeof result === 'string') {
@@ -202,6 +210,7 @@ export const mymessage = (req, res) => {
 
 /**
  * archivedMessages controls retrieval of seen messages
+ * @method archivedMessages
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -224,7 +233,8 @@ export const archivedMessages = (req, res) => {
 };
 
 /**
- * forgetPassword controls the requesting for changing password
+ * forgotPassword controls the requesting for changing password
+ * @method forgotPassword
  *
  * @param {object} req request sent from frontend
  * @param {object} res response from the server
@@ -251,6 +261,7 @@ export const forgotPassword = (req, res) => {
 
 /**
  * newPassword controls resetting of password
+ * @method newPassword
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -279,6 +290,7 @@ export const resetPassword = (req, res) => {
 
 /**
  * googleAuth controls authorization with google+
+ * @method googleAuth
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server

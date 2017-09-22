@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import dotenv from 'dotenv';
+
 import UserModel from './Users';
 import GroupModel from './Groups';
 import GroupMembersModel from './GroupMembers';

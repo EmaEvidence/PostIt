@@ -5,13 +5,15 @@ import PropTypes from 'prop-types';
 import Input from './Input';
 import GoogleLogin from './GoogleLogin';
 import googleAuthAction from '../actions/googleAuthAction';
+import SubmitButton from './SubmitButton';
+import CloseButton from './CloseButton';
 
 /**
  * Login Component
  */
 export class LogIn extends React.Component {
   /**
-   * [ets the state for the login component
+   * sets the state for the login component
    * @method constructor
    *
    * @param  {object}  props description
@@ -25,6 +27,7 @@ export class LogIn extends React.Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.clearState = this.clearState.bind(this);
   }
 
   /**
@@ -56,6 +59,19 @@ export class LogIn extends React.Component {
     });
   }
   /**
+   * clearState returns state to its inital value
+   * @method clearState
+   *
+   * @return {object} state
+   */
+  clearState() {
+    this.setState({
+      username: '',
+      password: '',
+      status: ''
+    });
+  }
+  /**
    * render displays the html
    * @method render
    *
@@ -64,12 +80,11 @@ export class LogIn extends React.Component {
   render() {
     const googleAuth = this.props.googleAuthAction;
     return (
-      <div id="signin" className="modal fade reg-form" role="dialog">
+      <div id="signin" className="modal fade reg-form login" role="dialog">
         <form onSubmit={this.onSubmit} className="modal-dialog">
           <div className="modal-header">
             <h2 className="form-header" >Sign In </h2>
             <GoogleLogin type={'Sign In '} googleAction={googleAuth} />
-            <p className="center">{this.props.status ? this.props.status : this.state.status}</p>
           </div>
           <Input
             placeholder={'Username'}
@@ -90,16 +105,8 @@ export class LogIn extends React.Component {
             class={'form-control'}
           />
           <div className="form-group">
-            <input
-              value="Log In"
-              type="submit"
-              className="form-control btn deep-purple lighten-3 custombutton"
-            />
-            <button
-              type="reset"
-              className="right close form-header"
-              data-dismiss="modal"
-            >Close</button>
+            <SubmitButton value={'Log In'} />
+            <CloseButton action={this.clearState} />
           </div>
         </form>
         <div className="form-group forget-password-wrapper">
@@ -114,27 +121,8 @@ export class LogIn extends React.Component {
 
 LogIn.propTypes = {
   userSignin: PropTypes.func.isRequired,
-  status: PropTypes.string.isRequired,
   googleAuthAction: PropTypes.func.isRequired,
 };
 
-/**
- * mapStateToProps makes the store data available
- * @method mapStateToProps
- *
- * @param  {object} state the store date
- *
- * @return {object} the data needed by the component
- */
-const mapStateToProps = (state) => {
-  let status = '';
-  if (state.authUser.authMessage.data !== undefined) {
-    status = state.authUser.authMessage.data;
-  }
-  return {
-    status,
-    loggedInStatus: state.authUser.loggedIn
-  };
-};
 
-export default connect(mapStateToProps, { googleAuthAction })(LogIn);
+export default connect(null, { googleAuthAction })(LogIn);

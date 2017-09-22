@@ -64,11 +64,13 @@ font-family: GillSans, Calibri, Trebuchet, sans-serif;
     }
     i:hover {
       font-size: 110px;
+      text-decoration: underline;
     }
   }
 }
 .howitworks {
   margin-left: 4%;
+  border: 1px solid red;
 }
 #about {
   color: #4527a0;
@@ -331,4 +333,13 @@ font-family: GillSans, Calibri, Trebuchet, sans-serif;
 }
 #creategroup {
   color: purple;
+}
+.forgot-password {
+  height: 40%;
+  form {
+    margin-top: 8%;
+  }
+}
+.login {
+  height: 40%;
 }

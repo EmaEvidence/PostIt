@@ -144,7 +144,6 @@ export class AddMembers extends React.Component {
         <form className="modal-dialog" onSubmit={this.addMember}>
           <div>
             <h2 className="center"> Add Members </h2>
-            <h6 className="center"> { this.props.status }</h6>
           </div>
           <div className="form-group">
             <label htmlFor="search"> Enter your search term </label>

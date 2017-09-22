@@ -6,6 +6,7 @@ const user = new User();
 
 /**
  * addUser controls the addition of a user to a group
+ * @method addUser
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -41,6 +42,7 @@ export const addUser = (req, res) => {
 
 /**
  * createGroup controls the creation of a group
+ * @method createGroup
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -77,6 +79,7 @@ export const createGroup = (req, res) => {
 
 /**
  * getGroupMessages controls the retrieval of messages for a group
+ * @method getGroupMessages
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -104,6 +107,7 @@ export const getGroupMessages = (req, res) => {
 
 /**
  * getGroupUsers controls the retrieval of every member of a group
+ * @method getGroupUsers
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server

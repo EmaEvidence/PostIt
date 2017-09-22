@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import getUserGroupsAction from '../actions/getUserGroupsAction';
 import clearStatusAction from '../actions/clearStatusAction';
+import SubmitButton from './SubmitButton';
+import CloseButton from './CloseButton';
 
 /**
  * createGroup component for creating new group
@@ -76,12 +78,11 @@ export class CreateGroup extends React.Component {
    */
   clearState() {
     this.setState({
-      user: '',
-      termIsEmpty: true,
-      searchTerm: '',
-      offset: 0,
-      pageCount: ''
+      groupName: '',
+      purpose: '',
+      members: ''
     });
+    $('#display').text('');
     this.props.clearStatusAction('createGroup');
   }
   /**
@@ -93,10 +94,9 @@ export class CreateGroup extends React.Component {
    */
   render() {
     return (
-      <div id="creategroup" className="modal fade reg-form" role="dialog">
+      <div id="creategroup" className="modal fade reg-form create-group" role="dialog">
         <form className="modal-dialog" onSubmit={this.createGroup}>
           <h2 className="center"> Create a Group </h2>
-          <h6 className="center">{this.props.status}</h6>
           <div className="form-group">
             <input
               type="text"
@@ -120,7 +120,7 @@ export class CreateGroup extends React.Component {
           </div>
           <div className="form-group">
             <label htmlFor="input"> Add members by username </label>
-            <div className="chips chips-autocomplete" />
+            <div className="chips chips-autocomplete" id="display" />
             <input
               type="hidden"
               id="members"
@@ -129,17 +129,8 @@ export class CreateGroup extends React.Component {
             />
           </div>
           <div className="form-group">
-            <input
-              type="submit"
-              className="form-control btn custombutton deep-purple lighten-3"
-              value="Create"
-            />
-            <button
-              type="reset"
-              onClick={this.clearState}
-              className="form-control close custombutton"
-              data-dismiss="modal"
-            >Cancel</button>
+            <SubmitButton value={'Create'} />
+            <CloseButton action={this.clearState} />
           </div>
         </form>
       </div>
@@ -149,7 +140,6 @@ export class CreateGroup extends React.Component {
 
 CreateGroup.propTypes = {
   createGroupAction: PropTypes.func.isRequired,
-  status: PropTypes.string.isRequired,
   clearStatusAction: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired
 };
@@ -162,14 +152,11 @@ CreateGroup.propTypes = {
  * @return {object} data needed by the component
  */
 const mapStateToProps = (state) => {
-  let status = 'true';
   let userId = '1';
   if (state.groupReducer !== undefined) {
-    status = state.groupReducer.status;
     userId = state.authUser.userDetails.id || 0;
   }
   return {
-    status,
     userId
   };
 };

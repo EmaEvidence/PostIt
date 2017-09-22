@@ -11,7 +11,7 @@ const user = new User();
  * @param {object} res response from the server
  * @param {Function} next description
  *
- *  @return {object} status response or adds a token to request object
+ * @return {object} status response or adds a token to request object
  */
 const checkIfMember = (req, res, next) => {
   const userId = parseInt(req.token.data.id, 10);

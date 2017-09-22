@@ -3,9 +3,7 @@ node_js:
 - 6.10.1
 
 before_script:
-- npm install -g gulp
 - npm install -g jasmine
-- npm install -g istanbul
 - psql -c 'create database postit_test;' -U postgres
 
 script:

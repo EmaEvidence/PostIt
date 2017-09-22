@@ -6,17 +6,22 @@ const postMessageAction = (data) => {
   const url = `/api/v1/group/${id}/message`;
   return (dispatch) => {
     return axios.post(url, data)
-    .then(res => dispatch({
-      message: res.data.message,
-      type: POST_MESSAGE
-    }))
+    .then((res) => {
+      Materialize.toast(res.data.message, 2500, 'green white-text rounded');
+      dispatch({
+        message: res.data.message,
+        type: POST_MESSAGE
+      });
+    })
     .catch((error) => {
       if (error.response !== undefined) {
+        Materialize.toast(error.response.data.message, 2500, 'red white-text rounded');
         return dispatch({
           message: error.response.data.message,
           type: POST_MESSAGE_ERROR
         });
       } else {
+        Materialize.toast('Internal Server Error', 2500, 'red white-text rounded');
         return dispatch({
           message: error,
           type: POST_MESSAGE_ERROR

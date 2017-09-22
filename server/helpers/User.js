@@ -22,10 +22,11 @@ class User {
 
   /**
    * validate checks the validity of the supplied Password and phone Number
-   *
    * @method validate
+   *
    * @param  {string} userPassword user's Password
    * @param  {string} phone user's Password
+   *
    * @return {string} result of validity test
    *
    */
@@ -40,8 +41,8 @@ class User {
   }
   /**
    * flattenUserId removes users from array of json objects to an array ofnumbers
-   *
    * @method flattenUserId
+   *
    * @param  {array} arrayOfIds array of json user objects
    *
    * @return {array} array of user ids
@@ -56,8 +57,8 @@ class User {
 
   /**
    * sendText sends text messages to users
-   *
    * @method sendText
+   *
    * @param  {object} payload the user date and message body
    * @param  {function} done returns the result of the action asynchronously
    *
@@ -74,15 +75,15 @@ class User {
     });
   }
   /**
-   * mailer sends email messages to users
+   * sendMailer sends email messages to user
+   * @method sendMailer
    *
-   * @method mailer
    * @param  {object} mailOptions user data and message details
    * @param  {function} done returns the result of the action asynchronously
    *
    * @return {string} success report
    */
-  static mailer(mailOptions, done) {
+  static sendMail(mailOptions, done) {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
@@ -99,8 +100,8 @@ class User {
 
   /**
    * createToken generates a json web token
-   *
    * @method createToken
+   *
    * @param  {object} payload user data
    *
    * @return {string} json web token
@@ -114,8 +115,8 @@ class User {
   }
   /**
    * inAppNotify sends an in app notification to members of a group when a new message is sent
-   *
    * @method inAppNotify
+   *
    * @param  {array} users array of user ids
    * @param  {number} groupId id of the group the message was sent to
    * @param  {number} senderId id of the user sending the message
@@ -150,8 +151,8 @@ class User {
 
   /**
    * clearInAppNotitice removes notification onces the user sees it
-   *
    * @method clearInAppNotitice
+   *
    * @param {number} userId id of the seen notification
    * @param {function} done returns the result of the action asynchronously
    *
@@ -172,6 +173,7 @@ class User {
   }
   /**
    * signUp - Creates a user from the data provided by saving it in the user database.
+   * @method signUp
    *
    * @param {string} name Name of the User
    * @param {string} username userName of the user
@@ -228,6 +230,7 @@ class User {
 
   /**
    * deleteUser - Deletes a registered User from the database
+   * @method deleteUser
    *
    * @param  {string} email the email of the user to delete
    * @param  {function} done callback function that makes the result availale
@@ -248,6 +251,7 @@ class User {
 
   /**
    * logIn - checks if the provided User/log In details is availale in the database
+   * @method logIn
    *
    * @param  {string} username userName of the user
    * @param  {string} password password of the user
@@ -289,8 +293,8 @@ class User {
 
   /**
    * createGroup description
-   *
    * @method createGroup
+   *
    * @param  {string} groupName name of the group to be created
    * @param  {number} creator id of the user creating it
    * @param  {array} users names of initial members of the groub
@@ -359,6 +363,7 @@ class User {
 
   /**
    * deleteGroup - removes a created group from the database
+   * @method deleteGroup
    *
    * @param  {number} group id of group to delete
    * @param  {number} creator id of the creator
@@ -380,8 +385,8 @@ class User {
   }
   /**
    * deleteGroupWithName removes a group using the name of the group
-   *
    * @method deleteGroupWithName
+   *
    * @param {string} groupName name of the group
    * @param {Function} done callback function
    *
@@ -401,6 +406,7 @@ class User {
 
   /**
    * addUsers - adds new user to a created group
+   * @method addUsers
    *
    * @param  {number} group id of the group to add users to
    * @param  {number} userToAdd  id of user being added
@@ -442,6 +448,7 @@ class User {
 
   /**
    * deleteUserFromGroup - removes a user from a group
+   * @method deleteUsersFromGroup
    *
    * @param {number} group id of the group
    * @param {number} user id of the user
@@ -466,6 +473,7 @@ class User {
 
   /**
    * postMessage - for posting messages to a group
+   * @method postMessage
    *
    * @param  {number} to id of the group posted to
    * @param  {string} senderUsername the message being sent
@@ -503,8 +511,8 @@ class User {
   }
   /**
    * notifyUser description
-   *
    * @method notifyUser
+   *
    * @param {type} priority description
    * @param {type} users description
    *
@@ -529,7 +537,7 @@ class User {
           text: 'Howdy, You have a new message in Post It App.',
           html: '<a href="#">Click Here to Access It</a>'
         };
-        User.mailer(mailOptions);
+        User.sendMail(mailOptions);
         result.email = 'sent';
       });
       phones.forEach((phone) => {
@@ -553,7 +561,7 @@ class User {
           text: 'Howdy, You have a new message in Post It App.',
           html: '<a href="#">Click Here To Access it</a>'
         };
-        User.mailer(mailOptions);
+        User.sendMail(mailOptions);
       });
       result.email = 'sent';
       return result;
@@ -562,6 +570,7 @@ class User {
 
   /**
    * retrieveMessage - gets messages for a group
+   * @method retrieveMessage
    *
    * @param  {number} group the id of the group
    * @param  {number} username the id of the group
@@ -591,8 +600,8 @@ class User {
   }
   /**
    * converts an array of id objects to an array of ids
-   *
    * @method flattenId
+   *
    * @param  {array} arrayOfIds Array of JSON objects
    *
    * @return {array} Numeric array
@@ -607,8 +616,8 @@ class User {
 
   /**
    * converts an array of id objects to an array of ids
-   *
    * @method flattenId
+   *
    * @param {array} arrayOfIds Array of JSON objects
    *
    * @return {array} Numeric array
@@ -623,8 +632,8 @@ class User {
 
 /**
  * getGroupMembers description
- *
  * @method getGroupMembers
+ *
  * @param  {type} group description
  * @param  {Function} done description
  *
@@ -641,7 +650,7 @@ class User {
   }
 
   /**
-   *
+   * getUserGroups retrieves users for a group
    * @method getUserGroups
    *
    * @param  {number} userId the id of the user whose groups is being querried
@@ -672,8 +681,8 @@ class User {
 
 /**
  * getAllUsers retrieves every user from the database
- *
  * @method getAllUsers
+ *
  * @param  {FunctionDeclaration}  done callback
  *
  * @return {object} success or failure data
@@ -734,8 +743,8 @@ class User {
   }
 /**
  * searchUsers searches the database for every occurence of the supplied term
- *
  * @method searchUsers
+ *
  * @param  {string} searchTerm term to be looked for
  * @param {number} offset number of record to skip
  * @param {number} groupId id of the group from where the search is made
@@ -763,8 +772,8 @@ class User {
   }
   /**
    * myMessages retrieves messages sent by a user from the database
-   *
    * @method myMessages
+   *
    * @param {number} userId id of the user
    * @param {FunctionDeclaration} done callback
    *
@@ -783,8 +792,8 @@ class User {
   }
   /**
    * archivedMessages retrieves seen messages from the database
-   *
    * @method archivedMessages
+   *
    * @param {string} username unique name of the user seeing it
    * @param {number} groupId id of the group seeing it
    * @param {FunctionDeclaration} done callback
@@ -805,8 +814,8 @@ class User {
   }
   /**
    * sendPasswordResetMail sends a password reset mail
-   *
    * @method sendPasswordResetMail
+   *
    * @param {string} email email address of the user requesting for a Change of password
    * @param {FunctionDeclaration} done callback
    *
@@ -823,7 +832,7 @@ class User {
       } else {
         const link = 'https://postaa.herokuapp.com/newpassword';
         const userKey = User.createToken({ email });
-        const sendMail = User.mailer({
+        const sendMail = User.sendMail({
           from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
           to: email,
           subject: 'Password Reset',
@@ -840,8 +849,8 @@ class User {
 
   /**
    * resetPassword resets the password of a user
-   *
    * @method resetPassword
+   *
    * @param {string} password new password from the user
    * @param {string} key the uniquekey generated for the user
    * @param {FunctionDeclaration} done callback
@@ -869,7 +878,7 @@ class User {
                   text: 'Your password has being changed. Please Login with your new password',
                   html: '<a href="">Click Here to Login</a>'
                 };
-                User.mailer(mailOptions);
+                User.sendMail(mailOptions);
                 done('Password Updated');
               }
             }).catch(() => {
@@ -884,8 +893,8 @@ class User {
 
   /**
    * googleSignUp registers a new user with google+
-   *
    * @method googleSignUp
+   *
    * @param {string} name name of the user
    * @param {string} email email of the user
    * @param {string} username username of the user
@@ -922,8 +931,8 @@ class User {
 
   /**
    * googleSignIn registers a new user with google+
-   *
    * @method googleSignIn
+   *
    * @param {string} name name of the user
    * @param {string} email email of the user
    * @param {string} username username of the user
@@ -988,8 +997,8 @@ class User {
   }
   /**
    * clearTables empties every model of data
-   *
    * @method clearTables
+   *
    * @param {Function} done callback
    *
    * @return {void}

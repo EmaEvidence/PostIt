@@ -132,22 +132,6 @@ export class Groups extends React.Component {
                 >
                 Archived Messages</a>
               </li>
-              <li>
-                <a
-                  className="modal-close"
-                  href="#addmembers"
-                  onClick={this.setUsers.bind(null, group.id, group.groupName)}
-                >
-                Edit</a>
-              </li>
-              <li>
-                <a
-                  className="modal-close"
-                  href="#addmembers"
-                  onClick={this.setUsers.bind(null, group.id, group.groupName)}
-                >
-                Delete</a>
-              </li>
             </ul>
           </li>
       ));
@@ -173,7 +157,9 @@ Groups.propTypes = {
 /**
  * mapStateToProps makes the store data available
  * @method mapStateToProps
+ *
  * @param  {object} state the store date
+ *
  * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import GoogleLogin from './GoogleLogin';
 import googleAuthAction from '../actions/googleAuthAction';
+import CloseButton from './CloseButton';
 
 /**
  * SignUp creates a  sign up form
@@ -32,6 +33,7 @@ export class SignUp extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
+    this.clearState = this.clearState.bind(this);
   }
   /**
    * onChange stores the data from the form component
@@ -79,7 +81,24 @@ export class SignUp extends React.Component {
       this.refs.submit.disabled = true;
     }
   }
-
+  /**
+   * clearState returns state to its inital value
+   * @method clearState
+   *
+   * @return {object} state
+   */
+  clearState() {
+    this.setState({
+      name: '',
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      phone: '',
+      status: '',
+      pwdmatch: ''
+    });
+  }
   /**
    * render displays the html
    * @method render
@@ -94,7 +113,6 @@ export class SignUp extends React.Component {
           <div className="modal-header mo">
             <h2 className="form-header center" >Sign Up </h2>
             <GoogleLogin type={'Sign Up'} googleAction={googleAuth} />
-            <p className="alert alert-danger center">{this.props.message}</p>
           </div>
           <div className="form-group">
             <input
@@ -175,11 +193,7 @@ export class SignUp extends React.Component {
               disabled
               ref="submit"
             />
-            <button
-              type="reset"
-              className="right close form-header"
-              data-dismiss="modal"
-            >Close</button>
+            <CloseButton action={this.clearState} />
           </div>
         </form>
       </div>
@@ -202,14 +216,7 @@ SignUp.propTypes = {
  * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
-  let message;
-  if (state.authUser.authMessage === undefined) {
-    message = '';
-  } else {
-    message = state.authUser.authMessage.data || '';
-  }
   return {
-    message,
     status: state.authUser.loggedIn
   };
 };

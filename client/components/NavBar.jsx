@@ -38,6 +38,7 @@ export class NavBar extends React.Component {
   /**
    * clearNotification removes a notification from user's notification
    * @method clearNotification
+   *
    * @return {void}
    */
   clearNotification() {
@@ -92,11 +93,7 @@ export class NavBar extends React.Component {
                 <span className="new badge deep-purple lighten-3">
                   messages {notifications.length}</span>
               </a>
-              <ul className="dropdown-menu notifications">
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-              </ul>
+              <Notification notifications={JSON.stringify(notifications)} />
             </li>
             <li><Link to="/messageboard"> Messages </Link></li>
             <li>
@@ -126,7 +123,7 @@ export class NavBar extends React.Component {
                 Menu
                 <i className="material-icons right">arrow_drop_down</i>
             </a>
-            <ul id="menu-hidden" className="dropdown-content">
+            <ul id="menu-hidden" className="dropdown-content ">
               <li> <a href="" data-toggle="modal" data-target="#signup">
                 Sign Up
               </a> </li>

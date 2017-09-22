@@ -55,6 +55,7 @@ export class CreateMessage extends React.Component {
    * @param  {string} newValue the selected value
    * @param  {string} displayValue display value
    * @param  {array} suggestion suggested names
+   *
    * @return {void}
    */
   handleValueChange(newValue, displayValue, suggestion) {
@@ -118,7 +119,6 @@ export class CreateMessage extends React.Component {
         <form onSubmit={this.sendMessage}>
           <fieldset className="postfieldset">
             <legend>Send Message</legend>
-            <span className="alert">{}{this.props.status} </span>
             <div className="form-group row customcontrol">
               <div className="form-control col s6 bordered-element extended">
                 <label htmlFor="UIAutocomplete">Type Group Name
@@ -146,12 +146,6 @@ export class CreateMessage extends React.Component {
                   <option>Urgent</option>
                   <option>Critical</option>
                 </select>
-                <label htmlFor="input"> Attach a file </label>
-                <input
-                  type="file"
-                  className="form-control bordered-element"
-                  placeholder="Email"
-                />
               </div>
             </div>
             <div className="form-group">
@@ -207,8 +201,7 @@ const mapStateToProps = (state) => {
     groups = ['None'];
   }
   return {
-    groups,
-    status: state.postMessageReducer.status
+    groups
   };
 };
 

@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import passwordResetMailAction from '../actions/passwordResetMailAction';
+import Input from './Input';
+import SubmitButton from './SubmitButton';
+import CloseButton from './CloseButton';
+
 
 /**
  * ForgetPassword displays a form to request for new password
@@ -23,6 +28,7 @@ export class ForgotPassword extends React.Component {
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.clearState = this.clearState.bind(this);
   }
   /**
    * onChange populates the state with data typed into the input
@@ -52,6 +58,19 @@ export class ForgotPassword extends React.Component {
     });
     this.props.passwordResetMailAction(this.state);
   }
+
+  /**
+   * clearState returns state to its inital value
+   * @method clearState
+   *
+   * @return {object} state
+   */
+  clearState() {
+    this.setState({
+      email: '',
+      status: ''
+    });
+  }
   /**
    * render displays the html
    * @method render
@@ -60,7 +79,7 @@ export class ForgotPassword extends React.Component {
    */
   render() {
     return (
-      <div id="forgetpwd" className="modal fade reg-form">
+      <div id="forgetpwd" className="modal fade reg-form forgot-password">
         <form className="modal-dialog" onSubmit={this.onSubmit}>
           <div className="modal-header">
             <h2 className="form-header" > Forgot Password </h2>
@@ -68,27 +87,18 @@ export class ForgotPassword extends React.Component {
               {this.props.response ? this.props.response : this.state.status}</span>
             <h5> Enter your email address to recieve a link to reset your password </h5>
           </div>
+          <Input
+            placeholder={'Email'}
+            value={this.state.email}
+            required
+            action={this.onChange}
+            type={'email'}
+            name={'email'}
+            class={'form-control'}
+          />
           <div className="form-group">
-            <input
-              type="email"
-              name="email"
-              onChange={this.onChange}
-              className="form-control"
-              placeholder="Email"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="submit"
-              className="form-control btn deep-purple lighten-3 custombutton"
-              value="Submit"
-            />
-            <button
-              type="button"
-              className="right modal-close form-header btn deep-purple lighten-4 custombutton"
-              data-dismiss="modal"
-            >Close</button>
+            <SubmitButton value={'Submit'} />
+            <CloseButton action={this.clearState} />
           </div>
         </form>
       </div>

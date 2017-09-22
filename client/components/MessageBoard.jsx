@@ -131,7 +131,12 @@ export class MessageBoard extends React.Component {
           role="button"
           tabIndex={0}
         >
-          <i className="material-icons addMessage-edit">{this.state.icon}</i></a>
+          <i
+            className="material-icons addMessage-edit tooltipped"
+            data-position="top"
+            data-delay="50"
+            data-tooltip="Send Messages Here"
+          >{this.state.icon}</i></a>
       </div>
     );
   }

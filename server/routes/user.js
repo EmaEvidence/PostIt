@@ -57,7 +57,7 @@ userRouter.post('/api/v1/user/newpassword', user.resetPassword);
 /**
  * for getting all messages a user posted
  */
-userRouter.get('/api/v1/user/messages', ensureToken, user.mymessage);
+userRouter.get('/api/v1/user/messages', ensureToken, user.myMessage);
 
 /**
  * for retrieving archived messages
