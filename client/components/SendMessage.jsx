@@ -91,7 +91,8 @@ export class CreateMessage extends React.Component {
       id: this.state.group,
       message: this.state.message,
       priority: this.state.priority,
-      groupName: this.state.groupName
+      groupName: this.state.groupName,
+      currentGroup: this.props.currentGroup
     });
     this.setState({
       group: '',
@@ -182,8 +183,8 @@ export class CreateMessage extends React.Component {
 CreateMessage.propTypes = {
   groups: PropTypes.string.isRequired,
   postMessageAction: PropTypes.func.isRequired,
-  status: PropTypes.string.isRequired,
   display: PropTypes.string.isRequired,
+  currentGroup: PropTypes.string.isRequired
 };
 /**
  * mapStateToProps makes the store data available
@@ -201,6 +202,7 @@ const mapStateToProps = (state) => {
     groups = ['None'];
   }
   return {
+    currentGroup: state.setCurrentMessagesReducer.currentGroup,
     groups
   };
 };

@@ -66,9 +66,7 @@ export const signIn = (req, res) => {
   const { username, password } = req.body;
   if (validate.signIn(username, password, res)) {
     user.logIn(username, password, (result) => {
-      if (result === 'Failed, Wrong Password') {
-        errorResponseHandler(res, 400, result);
-      } else if (result === 'Failed, Username not Found') {
+      if (result === 'Failed, Invalid Login details') {
         errorResponseHandler(res, 404, result);
       } else {
         res.status(200).json({

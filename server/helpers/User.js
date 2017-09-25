@@ -85,11 +85,11 @@ class User {
    */
   static sendMail(mailOptions, done) {
     const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_HOST_PORT,
       secure: true,
       auth: {
-        user: 'emmanuelalabi563@gmail.com',
+        user: process.env.EMAIL_HOST_USER,
         pass: process.env.EMAIL_PASSWORD
       }
     });
@@ -119,13 +119,14 @@ class User {
    *
    * @param  {array} users array of user ids
    * @param  {number} groupId id of the group the message was sent to
-   * @param  {number} senderId id of the user sending the message
+   * @param  {number} senderUsername id of the user sending the message
    * @param  {groupName} groupName name of the group
+   * @param  {number} senderId id of the user sending the message
    * @param  {function} done returns the result of the action asynchronously
    *
    * @return {string} success report
    */
-  inAppNotify(users, groupId, senderId, groupName, done) {
+  inAppNotify(users, groupId, senderUsername, groupName, senderId, done) {
     if (typeof users !== 'object' && users.length <= 0) {
       done('No User to Notify');
     } else {
@@ -136,13 +137,9 @@ class User {
             type: 'A New Message',
             groupId,
             groupName,
-            source: senderId,
+            source: senderUsername,
             UserId: id,
             status: 'Not Seen'
-          }).then(() => {
-            done(' A notification has being sent to every group Member');
-          }).catch(() => {
-            done('Error Notifying Group Members');
           });
         }
       });
@@ -269,7 +266,7 @@ class User {
       include: ['notifications']
     }).then((user) => {
       if (user.length === 0) {
-        done('Failed, Username not Found');
+        done('Failed, Invalid Login details');
       } else {
         bcrypt.compare(password, user[0].password, (err, res) => {
           if (res) {
@@ -284,7 +281,7 @@ class User {
             result.token = User.createToken(result);
             done(result);
           } else {
-            done('Failed, Wrong Password');
+            done('Failed, Invalid Login details');
           }
         });
       }
@@ -319,7 +316,7 @@ class User {
       this.database.Groups.findOrCreate({
         where: {
           groupName,
-          gpCreatorIdId: creator
+          groupCreatorId: creator
         }
       }).then((group) => {
         if (group[1] === false) {
@@ -340,7 +337,7 @@ class User {
         const result = {
           id: createdGroup[0].id,
           groupName: createdGroup[0].groupName,
-          createdBy: createdGroup[0].gpCreatorIdId
+          createdBy: createdGroup[0].groupCreatorId
         };
         done(result);
       }).catch((err) => {
@@ -375,7 +372,7 @@ class User {
     this.database.Groups.destroy({
       where: {
         groupName: group,
-        gpCreatorIdId: creator
+        groupCreatorId: creator
       }
     }).then((result) => {
       done(result);
@@ -486,25 +483,31 @@ class User {
    */
   postMessage(to, senderUsername, senderId, text, priorityLevel, done) {
     this.database.Messages.create({
-      groupIdId: to,
+      groupId: to,
       message: text,
-      senderIdId: senderId,
+      senderId,
       senderUsername,
       priority: priorityLevel
     }).then((message) => {
       const result = {
         id: message.id,
         message: message.message,
-        groupIdId: message.groupIdId,
-        senderIdId: message.senderIdId,
+        groupId: message.groupId,
+        senderId: message.senderId,
         senderUsername: message.senderUsername,
-        priority: message.priority
+        priority: message.priority,
+        createdAt: message.createdAt
       };
-      this.database.sequelize.query(`SELECT t."id", phone, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${to}`, { type: this.database.sequelize.QueryTypes.SELECT })
-            .then((users) => {
-              User.notifyUser(priorityLevel, users);
-              done(result, users);
-            });
+      this.database.Groups.findOne({
+        attributes: ['id'],
+        where: { id: to },
+        include: ['Users']
+      }).then((group) => {
+        User.notifyUser(priorityLevel, group.Users);
+        done(result, group.Users);
+      }).catch(() => {
+        done('Internal Error');
+      });
     }).catch((err) => {
       done(err.name);
     });
@@ -535,7 +538,13 @@ class User {
           to: email,
           subject: 'New Message Notification',
           text: 'Howdy, You have a new message in Post It App.',
-          html: '<a href="#">Click Here to Access It</a>'
+          html: `<div style="color: purple;">
+                  Howdy, You have a new message in Post It App.
+                  <button style="padding: 5px">
+                  <a href="https://postaa.herokuapp.com">
+                  Click Here To Access it 👻</a>
+                  </button>
+                </div>`
         };
         User.sendMail(mailOptions);
         result.email = 'sent';
@@ -559,7 +568,13 @@ class User {
           to: email,
           subject: 'New Message Notification',
           text: 'Howdy, You have a new message in Post It App.',
-          html: '<a href="#">Click Here To Access it</a>'
+          html: `<div style="color: purple;">
+                  Howdy, You have a new message in Post It App.
+                  <button style="padding: 5px">
+                  <a href="https://postaa.herokuapp.com">
+                  Click Here To Access it 👻</a>
+                  </button>
+                </div>`
         };
         User.sendMail(mailOptions);
       });
@@ -581,19 +596,11 @@ class User {
   retrieveMessage(group, username, done) {
     this.database.Messages.findAll({
       where: {
-        groupIdId: group,
+        groupId: group,
       },
       order: [['id', 'DESC']]
     }).then((messages) => {
-      const newMessages = [];
-      messages.forEach((message) => {
-        if (message.views === null) {
-          newMessages.push(message);
-        } else if ((message.views).indexOf(username) < 0) {
-          newMessages.push(message);
-        }
-      });
-      done(newMessages);
+      done(messages);
     }).catch((err) => {
       done(err.name);
     });
@@ -640,12 +647,14 @@ class User {
  * @return {type} description
  */
   getGroupMembers(group, done) {
-    this.database.sequelize.query(`SELECT t."id", phone, name, username, email FROM "GroupMembers" as a, "Users" as t where "UserId"=t.id and a."GroupId"=${group}`, { type: this.database.sequelize.QueryTypes.SELECT })
-    .then((users) => {
-      done(users);
-    })
-    .catch(() => {
-      done('Error Retrieving Users');
+    this.database.Groups.findOne({
+      attributes: ['id'],
+      where: { id: group },
+      include: ['Users']
+    }).then((users) => {
+      done(users.Users);
+    }).catch(() => {
+      done('Internal Error');
     });
   }
 
@@ -665,7 +674,7 @@ class User {
     }).then((groups) => {
       const ids = User.flattenGroupId(groups);
       this.database.Groups.findAll({
-        attributes: ['id', 'groupName', 'gpCreatorIdId'],
+        attributes: ['id', 'groupName', 'groupCreatorId'],
         where: { id: ids },
         order: [['createdAt', 'DESC']],
         include: ['Users']
@@ -782,7 +791,7 @@ class User {
   myMessages(userId, done) {
     this.database.Messages.findAll({
       where: {
-        senderIdId: userId
+        senderId: userId
       }
     }).then((result) => {
       done(result);
@@ -803,7 +812,7 @@ class User {
   archivedMessages(username, groupId, done) {
     this.database.Messages.findAll({
       where: {
-        groupIdId: groupId,
+        groupId,
         views: { $contains: [username] }
       }
     }).then((messages) => {
@@ -832,7 +841,7 @@ class User {
       } else {
         const link = 'https://postaa.herokuapp.com/newpassword';
         const userKey = User.createToken({ email });
-        const sendMail = User.sendMail({
+        const sendMailResult = User.sendMail({
           from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
           to: email,
           subject: 'Password Reset',
@@ -840,7 +849,7 @@ class User {
           html: `<h3>You have requested for a password reset. Follow the link below to reset your password</h3>
                 <a href=${link}?tok=${userKey}>Click Me to Change Password</a>`
         });
-        done(sendMail);
+        done(sendMailResult);
       }
     }).catch(() => {
       done('Email Address Not found');
@@ -911,7 +920,7 @@ class User {
         username,
         email,
         password,
-        phone: '08000000000',
+        phone: null,
         authType: 'Google'
       }
     }).then((result) => {
@@ -937,17 +946,15 @@ class User {
    * @param {string} email email of the user
    * @param {string} username username of the user
    * @param {string} state status of the the authorization
-   * @param {string} password default password
    * @param {Function} done callback
    *
    * @return {objct} success or failure data
    */
-  googleSignIn(name, email, username, state, password = 'social', done) {
+  googleSignIn(name, email, username, state, done) {
     this.database.Users.findAll({
       where: {
         username,
         email,
-        password,
         authType: 'Google'
       }
     }).then((result) => {

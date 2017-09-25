@@ -83,8 +83,6 @@ export class ForgotPassword extends React.Component {
         <form className="modal-dialog" onSubmit={this.onSubmit}>
           <div className="modal-header">
             <h2 className="form-header" > Forgot Password </h2>
-            <span className="center">
-              {this.props.response ? this.props.response : this.state.status}</span>
             <h5> Enter your email address to recieve a link to reset your password </h5>
           </div>
           <Input
@@ -107,22 +105,7 @@ export class ForgotPassword extends React.Component {
 }
 
 ForgotPassword.propTypes = {
-  passwordResetMailAction: PropTypes.func.isRequired,
-  response: PropTypes.string.isRequired
+  passwordResetMailAction: PropTypes.func.isRequired
 };
 
-/**
- * mapStateToProps makes the store data available
- * @method mapStateToProps
- *
- * @param  {object} state the store date
- *
- * @return {object} the data needed by the component
- */
-const mapStateToProps = (state) => {
-  return {
-    response: state.resetPasswordReducer.status
-  };
-};
-
-export default connect(mapStateToProps, { passwordResetMailAction })(ForgotPassword);
+export default connect(null, { passwordResetMailAction })(ForgotPassword);

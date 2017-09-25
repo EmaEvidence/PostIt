@@ -36,15 +36,15 @@ database.Notifications = Notifications;
 Users.belongsToMany(Groups, { through: 'GroupMembers' });
 Groups.belongsToMany(Users, { through: 'GroupMembers' });
 Users.hasOne(Groups, {
-  foreignKey: 'gpCreatorIdId',
+  foreignKey: 'groupCreatorId',
   as: 'users'
 });
 Messages.belongsTo(Groups, {
-  foreignKey: 'groupIdId',
+  foreignKey: 'groupId',
   as: 'group'
 });
 Messages.belongsTo(Users, {
-  foreignKey: 'senderIdId',
+  foreignKey: 'senderId',
   as: 'sender'
 });
 Users.hasMany(Notifications, {

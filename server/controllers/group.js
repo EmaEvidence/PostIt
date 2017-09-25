@@ -153,15 +153,20 @@ export const postMessage = (req, res) => {
       if (typeof result === 'string') {
         if (result === 'Not a Group Member') {
           errorResponseHandler(res, 403, 'Not a Group Member');
+        } else if (result === 'Internal Error') {
+          errorResponseHandler(res, 500, 'Internal Error');
         } else {
           errorResponseHandler(res, 404, 'Group does not Exist');
         }
       } else {
-        user.inAppNotify(users, groupId, req.token.data.username, groupName, from, () => {
-        });
+        const userId = req.token.data.id;
+        user.inAppNotify(users, groupId, username, groupName, userId);
         res.status(201).json({
           messageData: result,
-          message: 'Message Added.'
+          message: 'Message Added.',
+          notification: {
+            message: 'Notification sent'
+          }
         });
       }
     });

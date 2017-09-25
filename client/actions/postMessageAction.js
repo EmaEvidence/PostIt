@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { POST_MESSAGE, POST_MESSAGE_ERROR } from './types/types';
+import { POST_MESSAGE, POST_MESSAGE_ERROR, POST_MESSAGE_TO_CURRENT_GROUP } from './types/types';
 
 const postMessageAction = (data) => {
   const id = data.id;
@@ -8,10 +8,17 @@ const postMessageAction = (data) => {
     return axios.post(url, data)
     .then((res) => {
       Materialize.toast(res.data.message, 2500, 'green white-text rounded');
-      dispatch({
-        message: res.data.message,
-        type: POST_MESSAGE
-      });
+      if (data.currentGroup === data.groupName) {
+        dispatch({
+          messageData: res.data.messageData,
+          type: POST_MESSAGE_TO_CURRENT_GROUP
+        });
+      } else {
+        dispatch({
+          message: res.data.message,
+          type: POST_MESSAGE
+        });
+      }
     })
     .catch((error) => {
       if (error.response !== undefined) {

@@ -203,8 +203,7 @@ export class SignUp extends React.Component {
 
 SignUp.propTypes = {
   userSignup: PropTypes.func.isRequired,
-  googleAuthAction: PropTypes.func.isRequired,
-  message: PropTypes.string.isRequired
+  googleAuthAction: PropTypes.func.isRequired
 };
 
 /**

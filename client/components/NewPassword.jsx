@@ -80,7 +80,6 @@ export class NewPassword extends React.Component {
           <div className="modal-header">
             <h3 className="form-header" > Reset Password </h3>
             <p className="center"> Please use the Form Below to Reset Your Password </p>
-            <p className="center">{this.props.status ? this.props.status : this.state.status}</p>
           </div>
           <Input
             placeholder={'New Password'}
@@ -121,23 +120,8 @@ export class NewPassword extends React.Component {
 }
 
 NewPassword.propTypes = {
-  status: PropTypes.string.isRequired,
   resetPasswordAction: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired
 };
 
-/**
- * mapStateToProps makes the store data available
- *
- * @method mapStateToProps
- * @param  {object} state the store date
- *
- * @return {object} the data needed by the component
- */
-const mapStateToProps = (state) => {
-  return {
-    status: state.resetPasswordReducer.status
-  };
-};
-
-export default connect(mapStateToProps, { resetPasswordAction })(NewPassword);
+export default connect(null, { resetPasswordAction })(NewPassword);

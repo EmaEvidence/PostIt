@@ -63,7 +63,6 @@ export class AddMembers extends React.Component {
     const offset = Math.ceil(selected * 5);
     this.props.searchUserAction(this.state.searchTerm, offset, this.props.groupId);
   }
-
   /**
    * addMember adds a new member to a group
    * @method addMember

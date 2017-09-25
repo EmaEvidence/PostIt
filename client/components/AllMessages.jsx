@@ -35,11 +35,12 @@ export class AllMessages extends React.Component {
         </p>
       );
     } else {
-      Messagelist = (JSON.parse(this.props.messages)).map((message, index) =>
+      let messages = JSON.parse(this.props.messages);
+      messages = messages.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      Messagelist = messages.map((message, index) =>
         (
-          <span>
+          <span key={index}>
             <p
-              key={index}
               id={`message${message.id}`}
             >
               { message.message }

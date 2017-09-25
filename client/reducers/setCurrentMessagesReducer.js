@@ -25,6 +25,11 @@ const reducer = (state = {
         status: action.status,
         currentGroup: action.groupName };
     }
+    case 'POST_MESSAGE_TO_CURRENT_GROUP': {
+      const newState = { ...state };
+      newState.currentMessages = [...newState.currentMessages, action.messageData];
+      return { ...state, ...newState };
+    }
     default:
       return state;
   }
