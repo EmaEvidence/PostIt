@@ -317,9 +317,13 @@ export const googleAuth = (req, res) => {
         }
       });
     } else {
-      user.googleSignIn(name, email, username, state, password, (result) => {
+      user.googleSignIn(name, email, username, state, (result) => {
         if (typeof result === 'string') {
-          errorResponseHandler(res, 500, result);
+          if (result === 'Please Sign Up First') {
+            errorResponseHandler(res, 404, result);
+          } else {
+            errorResponseHandler(res, 500, result);
+          }
         } else {
           return res.status(200).json({
             message: 'Sign In Successful',

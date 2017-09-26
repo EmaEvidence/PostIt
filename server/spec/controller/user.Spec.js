@@ -345,7 +345,7 @@ describe('When a User signs in with google+', () => {
             email: 'emmanuel@gmail.com'
           })
           .end((err, res) => {
-            expect(res.status).toEqual(400);
+            expect(res.status).toEqual(404);
             done();
           });
   }, 15000);
@@ -354,4 +354,4 @@ describe('When a User signs in with google+', () => {
     });
     done();
   }, 1000);
-});
+}, 3000);

@@ -157,7 +157,7 @@ describe('When a new User signs up', () => {
     expect((postResult).senderUsername).toEqual('Evidence');
     done();
   }, 3000);
-  
+
   let clearNotice;
   beforeEach((done) => {
     user.clearNotifications(1, (response) => {
