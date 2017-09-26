@@ -28,8 +28,11 @@ export const addUser = (req, res) => {
       } else if ((result.search('invalid input syntax for integer') >= 0) ||
     (result.search('is out of range for type integer') >= 0)) {
         errorResponseHandler(res, 400, 'Supplied Group or User Identity Out of Range');
-      } else {
+      } else if (result === 'Group Id must be stated' ||
+        result === 'User Id must be stated') {
         errorResponseHandler(res, 400, result);
+      } else {
+        errorResponseHandler(res, 500, 'Internal Server Error');
       }
     } else {
       res.status(200).json({
@@ -142,9 +145,8 @@ export const getGroupUsers = (req, res) => {
  * @return {object} API response
  */
 export const postMessage = (req, res) => {
+  const { groupName, message } = req.body;
   const groupId = req.params.groupId;
-  const groupName = req.body.groupName;
-  const message = req.body.message;
   const priority = (req.body.priority) ? req.body.priority : 'Normal';
   const from = req.token.data.id;
   const username = req.token.data.username;

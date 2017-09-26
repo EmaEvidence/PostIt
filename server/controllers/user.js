@@ -66,8 +66,10 @@ export const signIn = (req, res) => {
   const { username, password } = req.body;
   if (validate.signIn(username, password, res)) {
     user.logIn(username, password, (result) => {
-      if (result === 'Failed, Invalid Login details') {
+      if (result === 'Failed, User not found') {
         errorResponseHandler(res, 404, result);
+      } else if (result === 'Internal Error') {
+        errorResponseHandler(res, 500, result);
       } else {
         res.status(200).json({
           user: result,
@@ -97,8 +99,9 @@ export const signUp = (req, res) => {
           result === 'email must be unique' ||
         result === 'phone must be unique') {
         errorResponseHandler(res, 409, result);
+      } else {
+        errorResponseHandler(res, 400, result);
       }
-      errorResponseHandler(res, 400, result);
     } else {
       res.status(201).json({
         user: result,
@@ -245,6 +248,8 @@ export const forgotPassword = (req, res) => {
     user.sendPasswordResetMail(email, (result) => {
       if (result === 'Email Address Not found') {
         errorResponseHandler(res, 404, 'Email Address Not found');
+      } else if (result === 'Error Sending Mail') {
+        errorResponseHandler(res, 500, 'Error Sending Mail');
       } else {
         return res.status(200).json({
           message: 'A mail has being sent to you.',
@@ -314,7 +319,7 @@ export const googleAuth = (req, res) => {
     } else {
       user.googleSignIn(name, email, username, state, password, (result) => {
         if (typeof result === 'string') {
-          errorResponseHandler(res, 400, result);
+          errorResponseHandler(res, 500, result);
         } else {
           return res.status(200).json({
             message: 'Sign In Successful',

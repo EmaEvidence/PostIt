@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Input from './Input';
 import resetPasswordAction from '../actions/resetPasswordAction';
+import SubmitButton from './SubmitButton';
 
 /**
  * NewPassword Component
@@ -100,11 +101,7 @@ export class NewPassword extends React.Component {
             class={'form-control'}
           />
           <div className="form-group">
-            <input
-              value="Reset Password"
-              type="submit"
-              className="form-control btn deep-purple lighten-3 custombutton"
-            />
+            <SubmitButton value={'Reset Password'} />
             <a href="/">
               <input
                 value="Return Home"

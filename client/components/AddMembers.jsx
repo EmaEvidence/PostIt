@@ -91,7 +91,6 @@ export class AddMembers extends React.Component {
       offset: 0,
       pageCount: ''
     });
-    this.props.clearStatusAction('addMember');
     this.props.clearStatusAction('searchUser');
   }
   /**

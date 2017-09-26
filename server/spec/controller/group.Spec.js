@@ -9,7 +9,7 @@ const api = new supertest(server);
 let newUserId;
 
 describe('When a User makes a request to the API', () => {
-  it('should return status code 401 when a user access "/api/v1/group" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group" without logging in', (done) => {
     api.post('/api/v1/group')
             .send({
             })
@@ -21,7 +21,7 @@ describe('When a User makes a request to the API', () => {
             });
   }, 10000);
 
-  it('should return code 401 when a user access "/api/v1/group/3/user" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group/3/user" without logging in', (done) => {
     api.post('/api/v1/group/3/user')
             .send({
             })
@@ -33,7 +33,7 @@ describe('When a User makes a request to the API', () => {
             });
   }, 10000);
 
-  it('should return code 401 when a user access "/api/v1/group/1/message" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group/1/message" without logging in', (done) => {
     api.post('/api/v1/group/1/message')
             .send({
             })
@@ -45,7 +45,7 @@ describe('When a User makes a request to the API', () => {
             });
   }, 10000);
 
-  it('should return code 401 when a user access "/api/v1/group/eewewe/messages" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group/eewewe/messages" without logging in', (done) => {
     api.get('/api/v1/group/eewewe/messages')
             .send({
             })
@@ -249,6 +249,7 @@ describe('when a user makes a request to the API', () => {
         .end((err, res) => {
           expect(res.status).toEqual(200);
           expect(JSON.parse(res.text).message).toEqual('Message Retrival Successful');
+          expect(JSON.parse(res.text).messages[0].message).toEqual('How are you');
           done(err);
         });
   }, 3000);
@@ -314,6 +315,7 @@ describe('when a user makes a request to the API', () => {
           expect(res.status).toEqual(200);
           expect(JSON.parse(res.text).message).toEqual('Users Retrival Successful');
           expect(JSON.parse(res.text).users.length).toBeGreaterThan(0);
+          expect(JSON.parse(res.text).users[0].username).toEqual('Trial1');
           done(err);
         });
   }, 3000);

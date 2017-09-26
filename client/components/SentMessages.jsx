@@ -29,8 +29,6 @@ export const SentMessages = (props) => {
               <br />
               <i className="chip">{message.priority}</i>
               <i className="chip">{(message.createdAt).split('T')[0]}</i>
-              <i className="chip">Edit</i>
-              <i className="chip">Delete</i>
               <i className="chip">Seen by {(message.views)}</i>
             </p>
         ));

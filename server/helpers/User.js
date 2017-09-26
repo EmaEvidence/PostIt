@@ -134,9 +134,9 @@ class User {
         const id = user.id;
         if (id !== senderId) {
           this.database.Notifications.create({
-            type: 'A New Message',
             groupId,
             groupName,
+            type: 'A New Message',
             source: senderUsername,
             UserId: id,
             status: 'Not Seen'
@@ -266,7 +266,7 @@ class User {
       include: ['notifications']
     }).then((user) => {
       if (user.length === 0) {
-        done('Failed, Invalid Login details');
+        done('Failed, User not found');
       } else {
         bcrypt.compare(password, user[0].password, (err, res) => {
           if (res) {
@@ -281,10 +281,12 @@ class User {
             result.token = User.createToken(result);
             done(result);
           } else {
-            done('Failed, Invalid Login details');
+            done('Failed, User not found');
           }
         });
       }
+    }).catch(() => {
+      done('Internal Error');
     });
   }
 
@@ -702,7 +704,7 @@ class User {
     }).then((users) => {
       done(users);
     }).catch((err) => {
-      done(err.name);
+      done(err.name || 'Internal Server Error');
     });
   }
 
@@ -767,7 +769,7 @@ class User {
       attributes: ['id', 'email', 'username'],
       where: {
         username: {
-          like: processedTerm
+          $iLike: `${processedTerm}`
         }
       },
       offset,
@@ -776,7 +778,7 @@ class User {
     .then((result) => {
       done(result);
     }).catch((err) => {
-      done(err.name);
+      done(err.name || 'Internal Server Error');
     });
   }
   /**
@@ -796,7 +798,7 @@ class User {
     }).then((result) => {
       done(result);
     }).catch((err) => {
-      done(err.name);
+      done(err.name || 'Internal Server Error');
     });
   }
   /**
@@ -818,7 +820,7 @@ class User {
     }).then((messages) => {
       done(messages);
     }).catch((err) => {
-      done(err.name);
+      done(err.name || 'Internal Server Error');
     });
   }
   /**
@@ -852,7 +854,7 @@ class User {
         done(sendMailResult);
       }
     }).catch(() => {
-      done('Email Address Not found');
+      done('Error Sending Mail');
     });
   }
 

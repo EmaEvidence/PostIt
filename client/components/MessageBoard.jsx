@@ -13,7 +13,6 @@ import SendMessage from './SendMessage';
 import createGroupAction from '../actions/createGroupAction';
 import myMessageAction from '../actions/myMessageAction';
 import archivedMessagesAction from '../actions/archivedMessagesAction';
-import clearStatusAction from '../actions/clearStatusAction';
 
 /**
  * MessageBoard
@@ -71,7 +70,6 @@ export class MessageBoard extends React.Component {
         display: 'none',
         icon: 'edit'
       });
-      this.props.clearStatusAction('sendMessage');
     }
   }
   /**
@@ -147,7 +145,6 @@ MessageBoard.propTypes = {
   myMessageAction: PropTypes.func.isRequired,
   archivedMessagesAction: PropTypes.func.isRequired,
   groups: PropTypes.string.isRequired,
-  clearStatusAction: PropTypes.func.isRequired,
   userDetails: PropTypes.string.isRequired,
 };
 
@@ -171,4 +168,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  createGroupAction, myMessageAction, archivedMessagesAction, clearStatusAction })(MessageBoard);
+  createGroupAction, myMessageAction, archivedMessagesAction })(MessageBoard);

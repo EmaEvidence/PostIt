@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import getUserGroupsAction from '../actions/getUserGroupsAction';
-import clearStatusAction from '../actions/clearStatusAction';
 import SubmitButton from './SubmitButton';
 import CloseButton from './CloseButton';
 
@@ -83,7 +82,6 @@ export class CreateGroup extends React.Component {
       members: ''
     });
     $('#display').text('');
-    this.props.clearStatusAction('createGroup');
   }
   /**
    * render
@@ -140,7 +138,6 @@ export class CreateGroup extends React.Component {
 
 CreateGroup.propTypes = {
   createGroupAction: PropTypes.func.isRequired,
-  clearStatusAction: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired
 };
 /**
@@ -161,4 +158,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getUserGroupsAction, clearStatusAction })(CreateGroup);
+export default connect(mapStateToProps, { getUserGroupsAction })(CreateGroup);
