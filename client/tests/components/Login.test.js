@@ -7,11 +7,8 @@ describe('Login component should', () => {
   it('renders without crashing if there is no message', () => {
     const wrapper = shallow(<LogIn />);
     expect(wrapper.find('div').length).toBe(4);
-    expect(wrapper.find('input').length).toBe(1);
     expect(wrapper.find('form').length).toBe(1);
-    expect(wrapper.find('button').length).toBe(1);
     expect(wrapper.find('Input').length).toBe(2);
-    expect(wrapper.find('input').length).toBe(1);
     expect(wrapper.find('b').length).toBe(1);
     expect(wrapper.find('h2').length).toBe(1);
     expect(wrapper.find('p').length).toBe(1);

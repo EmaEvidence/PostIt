@@ -80,11 +80,13 @@ export class LogIn extends React.Component {
   render() {
     const googleAuth = this.props.googleAuthAction;
     return (
-      <div id="signin" className="modal fade reg-form login" role="dialog">
-        <form onSubmit={this.onSubmit} className="modal-dialog">
-          <div className="modal-header">
-            <h2 className="form-header" >Sign In </h2>
-            <GoogleLogin type={'Sign In '} googleAction={googleAuth} />
+      <div id="signin" className="modal">
+        <form onSubmit={this.onSubmit} className="signupform">
+          <div className="">
+            <h2 className="form-header center">Sign In</h2>
+            <p className="center">
+              <GoogleLogin type={'Sign In '} googleAction={googleAuth} />
+            </p>
           </div>
           <Input
             placeholder={'Username'}
@@ -112,7 +114,7 @@ export class LogIn extends React.Component {
         <div className="form-group forget-password-wrapper">
           <b className="forget-password">
           Forgot Password click
-          <a href="#forgetpwd" className="" data-dismiss="modal"> here </a> </b>
+          <a href="#forgetpwd" className="modal-trigger modal-close"> here </a> </b>
         </div>
       </div>
     );

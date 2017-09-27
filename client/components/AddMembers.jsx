@@ -48,6 +48,8 @@ export class AddMembers extends React.Component {
       });
       const offSet = this.state.offset || 0;
       this.props.searchUserAction(event.target.value, offSet, this.props.groupId);
+    } else {
+      this.props.clearStatusAction('searchUser');
     }
   }
   /**
@@ -102,6 +104,7 @@ export class AddMembers extends React.Component {
   render() {
     const searchResult = JSON.parse(this.props.searchResult);
     const members = [];
+    let paginate;
     if (JSON.parse(this.props.groups !== undefined)) {
       (JSON.parse(this.props.groups)).forEach((group) => {
         if (group.id === this.props.groupId) {
@@ -110,6 +113,25 @@ export class AddMembers extends React.Component {
           });
         }
       });
+    }
+    if (searchResult.length !== 0) {
+      paginate = (
+        <ReactPaginate
+          previousLabel={'previous'}
+          nextLabel={'next'}
+          breakLabel={<a href>...</a>}
+          breakClassName={'break-me'}
+          pageCount={this.props.pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+      );
+    } else {
+      paginate = '';
     }
     let resultList;
     if (searchResult.length === 0 || this.state.termIsEmpty === true) {
@@ -159,19 +181,7 @@ export class AddMembers extends React.Component {
               <tbody>
                 <tr>
                   <td>
-                    <ReactPaginate
-                      previousLabel={'previous'}
-                      nextLabel={'next'}
-                      breakLabel={<a href>...</a>}
-                      breakClassName={'break-me'}
-                      pageCount={this.props.pageCount}
-                      marginPagesDisplayed={2}
-                      pageRangeDisplayed={5}
-                      onPageChange={this.handlePageClick}
-                      containerClassName={'pagination'}
-                      subContainerClassName={'pages pagination'}
-                      activeClassName={'active'}
-                    />
+                    { paginate }
                   </td>
                   <td>
                     <button

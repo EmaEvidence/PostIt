@@ -4,6 +4,7 @@ const clearStatus = action => (dispatch) => {
   if (action === 'searchUser') {
     dispatch({
       message: '',
+      searchResult: [],
       type: types.CLEAR_SEARCH_USER_STATUS
     });
   }

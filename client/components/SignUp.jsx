@@ -108,11 +108,13 @@ export class SignUp extends React.Component {
   render() {
     const googleAuth = this.props.googleAuthAction;
     return (
-      <div id="signup" className="modal fade reg-form" role="dialog">
-        <form className="modal-dialog signupform" onSubmit={this.onSubmit}>
-          <div className="modal-header mo">
+      <div id="signup" className="modal">
+        <form className="signupform" onSubmit={this.onSubmit}>
+          <div className="">
             <h2 className="form-header center" >Sign Up </h2>
-            <GoogleLogin type={'Sign Up'} googleAction={googleAuth} />
+            <p className="center">
+              <GoogleLogin type={'Sign Up'} googleAction={googleAuth} />
+            </p>
           </div>
           <div className="form-group">
             <input
@@ -188,7 +190,7 @@ export class SignUp extends React.Component {
           <div className="form-group">
             <input
               type="submit"
-              className="form-control btn deep-purple lighten-3 custombutton"
+              className="form-control btn deep-purple lighten-3 custombutton left"
               value="Submit"
               disabled
               ref="submit"

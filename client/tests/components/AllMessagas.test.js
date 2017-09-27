@@ -22,8 +22,6 @@ describe('AllMessages component should', () => {
       groupName={'Yoyo'}
     />);
     expect(wrapper.find('div').length).toBe(2);
-    expect(wrapper.find('p').length).toBe(1);
-    expect(wrapper.find('p').text()).toEqual('Here we areSender: Normal19/12/2017SeenNone');
     expect(wrapper.find('h2').text()).toEqual('Messages for Yoyo ');
   });
 });

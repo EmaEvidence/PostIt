@@ -38,8 +38,8 @@ export const GroupMembers = (props) => {
       ));
   }
   return (
-    <div id="groupmembers" className="modal fade reg-form" role="dialog">
-      <div className="modal-dialog">
+    <div id="groupmembers" className="modal">
+      <div className="">
         <div>
           <h2 className="center"> Members of {props.groupName} </h2>
         </div>

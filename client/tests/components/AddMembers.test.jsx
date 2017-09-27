@@ -11,7 +11,6 @@ describe('AddMembers component should', () => {
     expect(wrapper.find('form').length).toBe(1);
     expect(wrapper.find('table').length).toBe(2);
     expect(wrapper.find('h2').length).toBe(1);
-    expect(wrapper.find('h6').length).toBe(1);
   });
 
   it('render without crashing if there is search Result', () => {

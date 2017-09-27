@@ -78,7 +78,8 @@ export class NavBar extends React.Component {
               <Notification notifications={JSON.stringify(notifications)} />
             </li>
             <li>
-              <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
+              <a href="#creategroup" className="modal-trigger">
+                Create a Group </a> </li>
             <li> <a href="" onClick={this.logOut}> Log Out </a> </li>
           </ul>
           <a className="dropdown-button right hide-on-large-only" href="" data-activates="menu">
@@ -97,7 +98,8 @@ export class NavBar extends React.Component {
             </li>
             <li><Link to="/messageboard"> Messages </Link></li>
             <li>
-              <a href="" data-toggle="modal" data-target="#creategroup"> Create a Group </a> </li>
+              <a href="#creategroup" className="modal-trigger">
+                Create a Group </a> </li>
             <li><a href="#!" onClick={this.logOut}>Log Out</a></li>
           </ul>
         </nav>
@@ -108,10 +110,10 @@ export class NavBar extends React.Component {
           <nav className="postitnav">
             <a href="" className="brandname">Post IT</a>
             <ul id="nav-mobile" className="right hide-on-small-only">
-              <li> <a href="" data-toggle="modal" data-target="#signup">
+              <li> <a href="#signup" className="modal-trigger">
                 Sign Up
               </a> </li>
-              <li> <a href="" data-toggle="modal" data-target="#signin">
+              <li> <a href="#signin" className="modal-trigger">
                   Sign In
               </a> </li>
             </ul>
@@ -123,11 +125,11 @@ export class NavBar extends React.Component {
                 Menu
                 <i className="material-icons right">arrow_drop_down</i>
             </a>
-            <ul id="menu-hidden" className="dropdown-content ">
-              <li> <a href="" data-toggle="modal" data-target="#signup">
+            <ul id="menu-hidden" className="dropdown-content">
+              <li> <a href="#signup" className="modal-trigger">
                 Sign Up
               </a> </li>
-              <li> <a href="" data-toggle="modal" data-target="#signin">
+              <li> <a href="#signin" className="modal-trigger">
                   Sign In
               </a> </li>
             </ul>

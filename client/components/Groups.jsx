@@ -106,9 +106,8 @@ export class Groups extends React.Component {
               </li>
               <li>
                 <a
-                  className="clickable"
-                  data-toggle="modal"
-                  data-target="#groupmembers"
+                  className="modal-trigger modal-close"
+                  href="#groupmembers"
                   onClick={this.setMembers.bind(null, group.id, group.groupName)}
                   role="button"
                   tabIndex={0}

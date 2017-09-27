@@ -90,12 +90,15 @@ export class MessageBoard extends React.Component {
                 {userDetails.username}
               </h1>
               <div className="row center">
-                <a href="#sentmessages" className="dashboardelement" onClick={this.myMessages} >
+                <a
+                  href="#sentmessages"
+                  className="dashboardelement"
+                  onClick={this.myMessages}
+                >
                 Sent Messages </a>
                 <a
-                  href=""
-                  data-toggle="modal"
-                  data-target="#creategroup"
+                  href="#creategroup"
+                  className="modal-trigger"
                 >
                   Create a Group </a>
               </div>
@@ -118,8 +121,16 @@ export class MessageBoard extends React.Component {
         />
         <GroupMembers />
         <AddMembers />
-        <MessageDisplay id={'sentmessages'} type={'Sent Messages'} messages={this.props.sentMessages} />
-        <MessageDisplay id={'archivemessages'} type={'Archived Messages'} messages={this.props.archivedMessages} />
+        <MessageDisplay
+          id={'sentmessages'}
+          type={'Sent Messages'}
+          messages={this.props.sentMessages}
+        />
+        <MessageDisplay
+          id={'archivemessages'}
+          type={'Archived Messages'}
+          messages={this.props.archivedMessages}
+        />
         <SendMessage display={JSON.stringify({ display: this.state.display })} />
         <a
           className="addMessage btn btn-floating btn-large deep-purple lighten-2 pulse"

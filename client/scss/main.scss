@@ -120,8 +120,9 @@ font-family: GillSans, Calibri, Trebuchet, sans-serif;
 }
 .reg-form {
   background: #ede7f6;
-  padding:5px;
+  padding:20px;
   border-radius: 3px;
+  opacity: 0;
 }
 .form-header {
   color: purple;
@@ -235,6 +236,7 @@ font-family: GillSans, Calibri, Trebuchet, sans-serif;
 }
 .signupform {
   font-size: 40px;
+  padding: 5%;
 }
 .alert {
   font-size: 12px;
@@ -312,6 +314,7 @@ font-family: GillSans, Calibri, Trebuchet, sans-serif;
   }
 }
 #groupmembers {
+  padding: 8%;
   color: purple;
   .messagecard{
     height: 70%;
@@ -333,6 +336,10 @@ font-family: GillSans, Calibri, Trebuchet, sans-serif;
 }
 #creategroup {
   color: purple;
+  .create-group {
+    padding: 4%;
+    height: 50%;
+  }
 }
 .forgot-password {
   height: 40%;
@@ -342,4 +349,11 @@ font-family: GillSans, Calibri, Trebuchet, sans-serif;
 }
 .login {
   height: 50%;
+}
+.modal {
+  max-height: 55%;
+  width: 50%;
+}
+.modal-backdrop {
+    position: static !important;
 }

@@ -101,7 +101,7 @@
     "test": "NODE_ENV='test' nyc --reporter=html --reporter=text babel-node run.js",
     "dev-test": "NODE_ENV='development' nyc --reporter=html --reporter=text babel-node run.js",
     "dev-build": "webpack --config ./webpack.config.js --progress --colors --watch",
-    "build": "babel-node ./client/utils/build.js",
+    "prestart": "babel-node ./client/utils/build.js",
     "start": "nodemon --exec babel-node server/server.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },

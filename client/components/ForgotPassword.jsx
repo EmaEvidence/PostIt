@@ -79,11 +79,11 @@ export class ForgotPassword extends React.Component {
    */
   render() {
     return (
-      <div id="forgetpwd" className="modal fade reg-form forgot-password">
-        <form className="modal-dialog" onSubmit={this.onSubmit}>
-          <div className="modal-header">
-            <h2 className="form-header" > Forgot Password </h2>
-            <h5> Enter your email address to recieve a link to reset your password </h5>
+      <div id="forgetpwd" className="modal">
+        <form className="" onSubmit={this.onSubmit}>
+          <div className="">
+            <h2 className="form-header center" > Forgot Password </h2>
+            <h5 className="center"> Enter your email address to recieve a link to reset your password </h5>
           </div>
           <Input
             placeholder={'Email'}

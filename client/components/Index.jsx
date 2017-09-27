@@ -37,9 +37,10 @@ const Index = (props) => {
     button = (
       <button
         className="btn deep-purple lighten-3 homebtn"
-        data-toggle="modal"
-        data-target="#signin"
-      > Login </button>
+      > <a href="#signin" className="modal-trigger">
+          Login
+        </a>
+      </button>
       );
   }
   return (

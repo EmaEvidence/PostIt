@@ -193,15 +193,9 @@ class User {
             password: hash,
             phone
           }).then((user) => {
-            const result = {
-              id: user.id,
-              name: user.name,
-              username: user.username,
-              phone: user.phone,
-              email: user.email
-            };
-            result.token = User.createToken(result);
-            done(result);
+            const id = user.id;
+            const token = User.createToken({ id, name, username, phone, email });
+            done({ id, name, username, phone, email, token });
           }).catch((err) => {
             if (err.errors === undefined) {
               done(err.message);
@@ -268,18 +262,15 @@ class User {
       if (user.length === 0) {
         done('Failed, User not found');
       } else {
+        const { id, name, email, notification, phone } = user[0];
         bcrypt.compare(password, user[0].password, (err, res) => {
           if (res) {
-            const result = {
-              id: user[0].id,
-              name: user[0].name,
-              username: user[0].username,
-              phone: user[0].phone,
-              email: user[0].email,
-              notifications: user[0].notifications
-            };
-            result.token = User.createToken(result);
-            done(result);
+            const token = User.createToken({ id,
+              name,
+              username,
+              email,
+              phone });
+            done({ id, name, username, email, notification, phone, token });
           } else {
             done('Failed, User not found');
           }
@@ -336,13 +327,8 @@ class User {
           });
         }
       }).then(() => {
-        const result = {
-          id: createdGroup[0].id,
-          groupName: createdGroup[0].groupName,
-          createdBy: createdGroup[0].groupCreatorId,
-          createdAt: createdGroup[0].createdAt
-        };
-        done(result);
+        const { id, createdBy, createdAt } = createdGroup[0];
+        done({ id, groupName, createdBy, createdAt });
       }).catch((err) => {
         if (err.errors === undefined) {
           done(err.message);
@@ -491,23 +477,21 @@ class User {
       senderId,
       senderUsername,
       priority: priorityLevel
-    }).then((message) => {
-      const result = {
-        id: message.id,
-        message: message.message,
-        groupId: message.groupId,
-        senderId: message.senderId,
-        senderUsername: message.senderUsername,
-        priority: message.priority,
-        createdAt: message.createdAt
-      };
+    }).then((messageData) => {
+      const { id, message, groupId, priority, createdAt } = messageData;
       this.database.Groups.findOne({
         attributes: ['id'],
         where: { id: to },
         include: ['Users']
       }).then((group) => {
         User.notifyUser(priorityLevel, group.Users);
-        done(result, group.Users);
+        done({ id,
+          message,
+          groupId,
+          priority,
+          createdAt,
+          senderId,
+          senderUsername }, group.Users);
       }).catch(() => {
         done('Internal Error');
       });
@@ -849,7 +833,9 @@ class User {
           to: email,
           subject: 'Password Reset',
           text: 'You have requested for a password reset. Follow the link below to reset your password',
-          html: `<h3>You have requested for a password reset. Follow the link below to reset your password</h3>
+          html: `<h3>
+                  You have requested for a password reset. Follow the link below to reset your password
+                </h3>
                 <a href=${link}?tok=${userKey}>Click Me to Change Password</a>`
         });
         done(sendMailResult);
@@ -927,15 +913,9 @@ class User {
         authType: 'Google'
       }
     }).then((result) => {
-      const user = {
-        id: result[0].id,
-        name: result[0].name,
-        username: result[0].username,
-        phone: result[0].phone,
-        email: result[0].email
-      };
-      user.token = User.createToken(user);
-      done(user);
+      const id = result[0].id;
+      const token = User.createToken({ id, name, username, email });
+      done({ id, name, username, email, token });
     }).catch(() => {
       done('Error Signing Up with Google, Try Again');
     });
@@ -959,20 +939,15 @@ class User {
         username,
         email,
         authType: 'Google'
-      }
+      },
+      include: ['notifications']
     }).then((result) => {
       if (result.length === 0) {
         done('Please Sign Up First');
       } else {
-        const user = {
-          id: result[0].id,
-          name: result[0].name,
-          username: result[0].username,
-          phone: result[0].phone,
-          email: result[0].email
-        };
-        user.token = User.createToken(user);
-        done(user);
+        const { id, phone } = result[0];
+        const token = User.createToken({ id, name, username, phone, email });
+        done({ id, name, username, phone, email, token });
       }
     }).catch(() => {
       done('Error Signing In with Google, Try Again');

@@ -115,8 +115,8 @@ export class CreateGroup extends React.Component {
    */
   render() {
     return (
-      <div id="creategroup" className="modal fade reg-form create-group" role="dialog">
-        <form className="modal-dialog" onSubmit={this.createGroup}>
+      <div id="creategroup" className="modal">
+        <form className="create-group" onSubmit={this.createGroup}>
           <h2 className="center"> Create a Group </h2>
           <div className="form-group">
             <input
