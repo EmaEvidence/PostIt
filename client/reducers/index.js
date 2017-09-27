@@ -11,6 +11,7 @@ import myMessagesReducer from './myMessageReducer';
 import searchUserReducer from './searchUserReducer';
 import resetPasswordReducer from './resetPasswordReducer';
 import archivedMessageReducer from './archivedMessageReducer';
+import getAllUsersReducer from './getAllUsersReducer';
 
 export default combineReducers({
   authUser,
@@ -23,5 +24,6 @@ export default combineReducers({
   myMessagesReducer,
   searchUserReducer,
   resetPasswordReducer,
-  archivedMessageReducer
+  archivedMessageReducer,
+  getAllUsersReducer
 });

@@ -11,13 +11,16 @@ import PropTypes from 'prop-types';
  */
 const SubmitButton = props => (
   <input
-    type="submit"
+    type={props.type ? props.type : 'submit'}
     className="form-control btn deep-purple lighten-3 custombutton"
     value={props.value}
   />
   );
-
+SubmitButton.defaultProps = {
+  type: 'submit'
+};
 SubmitButton.propTypes = {
   value: PropTypes.string.isRequired,
+  type: PropTypes.string
 };
 export default SubmitButton;

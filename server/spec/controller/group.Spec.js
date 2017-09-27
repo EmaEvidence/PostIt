@@ -105,20 +105,6 @@ describe('when a user makes a request to the API', () => {
             done(err);
           });
   }, 3000);
-  xit('should return user object when a user signs in', (done) => {
-    api.post('/api/v1/user/signin')
-          .send({
-            username: 'Sammy',
-            password: 'qwerty123@'
-          })
-          .end((err, res) => {
-            expect(res.status).toEqual(200);
-            expect(JSON.parse(res.text).user.username).toEqual('Sammy');
-            expect(JSON.parse(res.text).user.email).toEqual('sammy@gmail.com');
-            expect(JSON.parse(res.text).user.name).toEqual('Samuel Oke');
-            done(err);
-          });
-  }, 6000);
   let groupId;
   it('should return group object when a signed in user creates a group', (done) => {
     api.post('/api/v1/group')
@@ -228,20 +214,6 @@ describe('when a user makes a request to the API', () => {
           done(err);
         });
   }, 3000);
-  xit('should return error when a signed in user posts to a non existing group', (done) => {
-    const url = '/api/v1/group/0/message';
-    api.post(url)
-        .set('authorization', token)
-        .send({
-          user: newUserId,
-          message: 'How are you'
-        })
-        .end((err, res) => {
-          expect(res.status).toEqual(404);
-          expect(JSON.parse(res.text).message).toEqual('Group does not Exist');
-          done(err);
-        });
-  }, 3000);
   it('should return message object when a signed in user requests for messages for an existing group', (done) => {
     const url = `/api/v1/group/${groupId}/messages`;
     api.get(url)
@@ -250,25 +222,6 @@ describe('when a user makes a request to the API', () => {
           expect(res.status).toEqual(200);
           expect(JSON.parse(res.text).message).toEqual('Message Retrival Successful');
           expect(JSON.parse(res.text).messages[0].message).toEqual('How are you');
-          done(err);
-        });
-  }, 3000);
-  xit('should return error when a signed in user requests for messages for non existing group', (done) => {
-    const url = '/api/v1/group/0/messages';
-    api.get(url)
-        .set('authorization', token)
-        .end((err, res) => {
-          expect(res.status).toEqual(404);
-          expect(JSON.parse(res.text).message).toEqual('No Message For that Group');
-          done(err);
-        });
-  }, 3000);
-  xit('should return error when a signed in user requests for messages for non existing group', (done) => {
-    api.get('/api/v1/group/uiy/messages')
-        .set('authorization', token)
-        .end((err, res) => {
-          expect(res.status).toEqual(400);
-          expect(JSON.parse(res.text).message).toEqual('Invalid Group Selected');
           done(err);
         });
   }, 3000);

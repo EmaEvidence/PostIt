@@ -7,8 +7,7 @@ import CreateGroup from './CreateGroup';
 import AllMessages from './AllMessages';
 import GroupMembers from './GroupMembers';
 import AddMembers from './AddMembers';
-import ArchiveMessages from './ArchiveMessages';
-import SentMessages from './SentMessages';
+import MessageDisplay from './MessageDisplay';
 import SendMessage from './SendMessage';
 import createGroupAction from '../actions/createGroupAction';
 import myMessageAction from '../actions/myMessageAction';
@@ -94,11 +93,11 @@ export class MessageBoard extends React.Component {
                 <a href="#sentmessages" className="dashboardelement" onClick={this.myMessages} >
                 Sent Messages </a>
                 <a
-                  href="#archivemessages"
-                  className="dashboardelement"
-                  onClick={this.archivedMessages}
+                  href=""
+                  data-toggle="modal"
+                  data-target="#creategroup"
                 >
-                Achived Messages </a>
+                  Create a Group </a>
               </div>
             </div>
             <div className="groupholder">
@@ -119,8 +118,8 @@ export class MessageBoard extends React.Component {
         />
         <GroupMembers />
         <AddMembers />
-        <ArchiveMessages />
-        <SentMessages />
+        <MessageDisplay id={'sentmessages'} type={'Sent Messages'} messages={this.props.sentMessages} />
+        <MessageDisplay id={'archivemessages'} type={'Archived Messages'} messages={this.props.archivedMessages} />
         <SendMessage display={JSON.stringify({ display: this.state.display })} />
         <a
           className="addMessage btn btn-floating btn-large deep-purple lighten-2 pulse"
@@ -146,6 +145,8 @@ MessageBoard.propTypes = {
   archivedMessagesAction: PropTypes.func.isRequired,
   groups: PropTypes.string.isRequired,
   userDetails: PropTypes.string.isRequired,
+  archivedMessages: PropTypes.string.isRequired,
+  sentMessages: PropTypes.string.isRequired
 };
 
 /**
@@ -163,7 +164,9 @@ const mapStateToProps = (state) => {
   }
   return {
     groups,
-    userDetails: JSON.stringify(state.authUser.userDetails)
+    userDetails: JSON.stringify(state.authUser.userDetails),
+    archivedMessages: JSON.stringify(state.archivedMessageReducer.archivedMessages),
+    sentMessages: JSON.stringify(state.myMessagesReducer.myMessages)
   };
 };
 

@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Chips from 'react-chips';
 
 import getUserGroupsAction from '../actions/getUserGroupsAction';
+import getUsersAction from '../actions/getUsersAction';
 import SubmitButton from './SubmitButton';
 import CloseButton from './CloseButton';
 
@@ -20,16 +22,25 @@ export class CreateGroup extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.createGroup = this.createGroup.bind(this);
     this.state = {
       groupName: '',
       purpose: '',
-      members: '',
+      members: [],
       status: ''
     };
     this.onChange = this.onChange.bind(this);
     this.createGroup = this.createGroup.bind(this);
     this.clearState = this.clearState.bind(this);
+    this.createGroup = this.createGroup.bind(this);
+    this.chipOnChange = this.chipOnChange.bind(this);
+  }
+  /**
+   * [componentWillMount description]
+   * @method componentWillMount
+   * @return {[type]}           [description]
+   */
+  componentWillMount() {
+    this.props.getUsersAction();
   }
   /**
    * onChange stores the form component value in the state
@@ -58,16 +69,28 @@ export class CreateGroup extends React.Component {
     const groupData = {
       groupName: this.state.groupName,
       purpose: this.state.purpose,
-      users: members
+      users: this.state.members
     };
     this.props.createGroupAction(groupData, this.props.userId)
     .then(() => {
       this.setState({
         groupName: '',
         purpose: '',
-        members: ''
+        members: []
       });
     });
+  }
+
+  /**
+   * chipOnChange description
+   * @method onChange
+   *
+   * @param  {array} members registered members of the app
+   *
+   * @return {object} state
+   */
+  chipOnChange(members) {
+    this.setState({ members });
   }
   /**
    * clearState returns the state to initial state.
@@ -79,7 +102,7 @@ export class CreateGroup extends React.Component {
     this.setState({
       groupName: '',
       purpose: '',
-      members: ''
+      members: []
     });
     $('#display').text('');
   }
@@ -117,13 +140,11 @@ export class CreateGroup extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="input"> Add members by username </label>
-            <div className="chips chips-autocomplete" id="display" />
-            <input
-              type="hidden"
-              id="members"
-              value=""
-              name="members"
+            <Chips
+              value={this.state.members}
+              onChange={this.chipOnChange}
+              suggestions={JSON.parse(this.props.users)}
+              placeholder="Type Username of members to add them to this Group"
             />
           </div>
           <div className="form-group">
@@ -138,7 +159,9 @@ export class CreateGroup extends React.Component {
 
 CreateGroup.propTypes = {
   createGroupAction: PropTypes.func.isRequired,
-  userId: PropTypes.number.isRequired
+  userId: PropTypes.number.isRequired,
+  users: PropTypes.string.isRequired,
+  getUsersAction: PropTypes.func.isRequired
 };
 /**
  * mapStateToProps makes store data available to the component
@@ -154,8 +177,9 @@ const mapStateToProps = (state) => {
     userId = state.authUser.userDetails.id || 0;
   }
   return {
-    userId
+    userId,
+    users: JSON.stringify(state.getAllUsersReducer.users)
   };
 };
 
-export default connect(mapStateToProps, { getUserGroupsAction })(CreateGroup);
+export default connect(mapStateToProps, { getUserGroupsAction, getUsersAction })(CreateGroup);

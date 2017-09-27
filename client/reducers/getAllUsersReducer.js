@@ -8,14 +8,14 @@
  * @return {object} state new state
  */
 const reducer = (state = {
-  status: ''
+  users: [],
 }, action) => {
   switch (action.type) {
-    case 'POST_MESSAGE': {
-      return { ...state, status: action.message };
+    case 'GET_USERS': {
+      return { ...state, users: [...action.users] };
     }
-    case 'POST_MESSAGE_ERROR': {
-      return { ...state, status: action.message };
+    case 'GET_USERS_ERROR': {
+      return { ...state };
     }
     default:
       return state;

@@ -24,17 +24,17 @@ export const GroupMembers = (props) => {
   } else {
     Memberslist = (JSON.parse(props.members)).map((member, index) =>
         (
-          <p
-            key={index}
-          >
-            {member.username}
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            {member.email}
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            {member.phone}
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <span key={index}>
+            <p>
+              {member.username}
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              {member.email}
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              {member.phone}
+              &nbsp;&nbsp;&nbsp;&nbsp;
+            </p>
             <hr />
-          </p>
+          </span>
       ));
   }
   return (

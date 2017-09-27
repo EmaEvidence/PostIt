@@ -102,12 +102,8 @@ export class NewPassword extends React.Component {
           />
           <div className="form-group">
             <SubmitButton value={'Reset Password'} />
-            <a href="/">
-              <input
-                value="Return Home"
-                type="button"
-                className="form-control btn deep-purple lighten-3 custombutton right"
-              />
+            <a href="/" className="right">
+              <SubmitButton value={'Return Home'} type="button" />
             </a>
           </div>
         </form>

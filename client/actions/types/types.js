@@ -40,6 +40,10 @@ export const RESET_MAIL_ERROR = 'RESET_MAIL_ERROR';
 
 export const SEARCH_USER = 'SEARCH_USER';
 
+export const GET_USERS = 'GET_USERS';
+
+export const GET_USERS_ERROR = 'GET_USERS_ERROR';
+
 export const SEARCH_USER_ERROR = 'SEARCH_USER_ERROR';
 
 export const RESET_PASSWORD_ERROR = 'RESET_PASSWORD_ERROR';

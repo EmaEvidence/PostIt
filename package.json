@@ -47,6 +47,7 @@
     "pg": "^6.2.4",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
+    "react-chips": "^0.6.2",
     "react-dom": "^15.6.1",
     "react-google-login": "^2.9.3",
     "react-paginate": "^4.4.3",

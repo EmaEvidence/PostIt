@@ -31,7 +31,7 @@ export const Notification = (props) => {
   }
   return (
     <ul className="dropdown-menu notifications">
-      <li> {notificationList} </li>
+      {notificationList}
     </ul>
   );
 };

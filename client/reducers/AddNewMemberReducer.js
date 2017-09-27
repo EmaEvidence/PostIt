@@ -14,9 +14,6 @@ const reducer = (state = {
     case 'ADD_NEW_MEMBER_ERROR': {
       return { ...state, status: action.status };
     }
-    case 'CLEAR_ADD_NEW_MEMBER_STATUS': {
-      return { ...state, status: '' };
-    }
     default:
       return state;
   }

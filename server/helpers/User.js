@@ -339,7 +339,8 @@ class User {
         const result = {
           id: createdGroup[0].id,
           groupName: createdGroup[0].groupName,
-          createdBy: createdGroup[0].groupCreatorId
+          createdBy: createdGroup[0].groupCreatorId,
+          createdAt: createdGroup[0].createdAt
         };
         done(result);
       }).catch((err) => {
