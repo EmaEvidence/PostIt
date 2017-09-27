@@ -327,8 +327,8 @@ class User {
           });
         }
       }).then(() => {
-        const { id, createdBy, createdAt } = createdGroup[0];
-        done({ id, groupName, createdBy, createdAt });
+        const { id, createdAt } = createdGroup[0];
+        done({ id, groupName, groupCreatorId: creator, createdAt });
       }).catch((err) => {
         if (err.errors === undefined) {
           done(err.message);
@@ -661,7 +661,7 @@ class User {
     }).then((groups) => {
       const ids = User.flattenGroupId(groups);
       this.database.Groups.findAll({
-        attributes: ['id', 'groupName', 'groupCreatorId'],
+        attributes: ['id', 'groupName', 'groupCreatorId', 'createdAt'],
         where: { id: ids },
         order: [['createdAt', 'DESC']],
         include: ['Users']

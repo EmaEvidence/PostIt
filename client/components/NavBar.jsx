@@ -82,7 +82,11 @@ export class NavBar extends React.Component {
                 Create a Group </a> </li>
             <li> <a href="" onClick={this.logOut}> Log Out </a> </li>
           </ul>
-          <a className="dropdown-button right hide-on-large-only" href="" data-activates="menu">
+          <a
+            className="dropdown-button right hide-on-large-only"
+            href=""
+            data-activates="menu"
+          >
               Menu
               <i className="material-icons right">arrow_drop_down</i>
           </a>

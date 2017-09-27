@@ -29,9 +29,8 @@ const Index = (props) => {
     button = (
       <button
         className="btn deep-purple lighten-3 homebtn"
-        data-toggle="modal"
-        data-target="#creategroup"
-      > Create Group </button>
+      > <a href="/Messageboard">
+      Messageboard </a></button>
     );
   } else {
     button = (

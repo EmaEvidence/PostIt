@@ -8,6 +8,7 @@ const userSignUpRequest = userData => (dispatch) => {
     .then((res) => {
       const token = res.data.user.token;
       setAuthorizationToken(token);
+      $('.modal').modal('close');
       Materialize.toast(res.data.message, 2500, 'green white-text rounded');
       dispatch(authAction({
         data: res.data.user

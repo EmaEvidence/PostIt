@@ -85,7 +85,8 @@ export class Groups extends React.Component {
     const groups = JSON.parse(this.props.groups);
     let groupList = '';
     if (groups['0'] !== undefined && groups['0'].length !== 0) {
-      groupList = groups['0'].map(group =>
+      const sortedGroups = groups['0'].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      groupList = sortedGroups.map(group =>
         (
           <li
             className="grouplist dropdown"
