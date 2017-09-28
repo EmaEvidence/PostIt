@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 import PropTypes from 'prop-types';
 
 import Notification from './Notification';
-import clearNotificationAction from '../actions/clearNotificationAction';
 
 /**
  * NavBar
@@ -23,7 +22,6 @@ export class NavBar extends React.Component {
     super(props);
 
     this.logOut = this.logOut.bind(this);
-    this.clearNotification = this.clearNotification.bind(this);
   }
   /**
    * logOut description
@@ -34,15 +32,6 @@ export class NavBar extends React.Component {
   logOut() {
     window.localStorage.removeItem('token');
     window.location.href = '/';
-  }
-  /**
-   * clearNotification removes a notification from user's notification
-   * @method clearNotification
-   *
-   * @return {void}
-   */
-  clearNotification() {
-    this.props.clearNotificationAction();
   }
   /**
    * render displays the html
@@ -65,7 +54,7 @@ export class NavBar extends React.Component {
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/messageboard"> Message Board </Link></li>
-            <li className="dropdown" onClick={this.clearNotification}>
+            <li className="dropdown">
               <a
                 className="dropdown-toggle"
                 href=""
@@ -150,7 +139,6 @@ export class NavBar extends React.Component {
 NavBar.propTypes = {
   loggedInStatus: PropTypes.bool.isRequired,
   userDetails: PropTypes.string.isRequired,
-  clearNotificationAction: PropTypes.func.isRequired
 };
 
 /**
@@ -168,4 +156,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { clearNotificationAction })(NavBar);
+export default connect(mapStateToProps)(NavBar);

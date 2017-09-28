@@ -12,7 +12,6 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  * @return {object} status response or adds a token to request object
  */
 const ensureToken = (req, res, next) => {
-  console.log(req.token, '=========toeken');
   const token = req.body.token || req.params.token || req.headers.authorization;
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {

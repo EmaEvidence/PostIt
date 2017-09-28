@@ -7,10 +7,10 @@ import createGroupAction from '../actions/createGroupAction';
 import postMessageAction from '../actions/postMessageAction';
 
 /**
- * CreateMessage
+ * SendMessage
  * @type {Object}
  */
-export class CreateMessage extends React.Component {
+export class SendMessage extends React.Component {
   /**
    * constructor
    *
@@ -180,7 +180,7 @@ export class CreateMessage extends React.Component {
   }
 }
 
-CreateMessage.propTypes = {
+SendMessage.propTypes = {
   groups: PropTypes.string.isRequired,
   postMessageAction: PropTypes.func.isRequired,
   display: PropTypes.string.isRequired,
@@ -207,4 +207,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { createGroupAction, postMessageAction })(CreateMessage);
+export default connect(mapStateToProps, { createGroupAction, postMessageAction })(SendMessage);

@@ -74,10 +74,5 @@ userRouter.get('/api/v1/user/:groupId/messages/archived', ensureToken, user.arch
  */
 userRouter.get('/api/v1/user/groups', ensureToken, user.getUserGroups);
 
-/**
- * For Groups a Users belongs to
- */
-userRouter.get('/api/v1/user/notifications', ensureToken, checkIfMember, user.clearNotifications);
-
 
 export default userRouter;

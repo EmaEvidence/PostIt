@@ -1,11 +1,11 @@
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import { CreateMessage } from '../../components/SendMessage';
+import { SendMessage } from '../../components/SendMessage';
 
 describe('SendMessage component should', () => {
   it('renders without crashing if there is no message', () => {
-    const wrapper = shallow(<CreateMessage />);
+    const wrapper = shallow(<SendMessage />);
     expect(wrapper.find('div').length).toBe(6);
     expect(wrapper.find('select').length).toBe(1);
     expect(wrapper.find('form').length).toBe(1);
