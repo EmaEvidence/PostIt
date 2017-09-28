@@ -23,5 +23,6 @@ describe('AllMessages component should', () => {
     />);
     expect(wrapper.find('div').length).toBe(2);
     expect(wrapper.find('h2').text()).toEqual('Messages for Yoyo ');
+    expect(Object.keys(wrapper.props()).length).toBe(2);
   });
 });

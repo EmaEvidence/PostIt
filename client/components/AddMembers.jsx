@@ -204,7 +204,6 @@ AddMembers.propTypes = {
   addNewMemberAction: PropTypes.func.isRequired,
   groupId: PropTypes.number.isRequired,
   searchUserAction: PropTypes.func.isRequired,
-  status: PropTypes.string.isRequired,
   pageCount: PropTypes.number.isRequired,
   clearStatusAction: PropTypes.func.isRequired,
   searchResult: PropTypes.string.isRequired,
@@ -222,7 +221,6 @@ const mapStateToProps = (state) => {
   return {
     groupId: parseInt((state.setUsersReducer.currentGroup), 10),
     users: state.setUsersReducer.users,
-    status: state.addNewMemberReducer.status,
     searchResult: JSON.stringify(state.searchUserReducer.searchResult),
     pageCount: state.searchUserReducer.pageCount,
     groups: JSON.stringify(state.groupReducer.groups[0] || [])

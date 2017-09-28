@@ -20,5 +20,6 @@ describe('AddMembers component should', () => {
     expect(wrapper.find('table').length).toBe(2);
     expect(wrapper.find('h2').length).toBe(1);
     expect(wrapper.find('button').length).toBe(1);
+    expect(Object.keys(wrapper.props()).length).toBe(3);
   });
 });

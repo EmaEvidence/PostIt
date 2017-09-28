@@ -6,6 +6,14 @@ import { SendMessage } from '../../components/SendMessage';
 describe('SendMessage component should', () => {
   it('renders without crashing if there is no message', () => {
     const wrapper = shallow(<SendMessage />);
+    const event = {
+      target: {
+        name: 'message',
+        value: 'Welcome to Andela',
+      }
+    };
+    wrapper.instance().onChange(event);
+    expect(wrapper.state().message).toEqual('Welcome to Andela');
     expect(wrapper.find('div').length).toBe(6);
     expect(wrapper.find('select').length).toBe(1);
     expect(wrapper.find('form').length).toBe(1);

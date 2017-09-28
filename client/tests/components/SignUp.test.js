@@ -6,8 +6,15 @@ import authUser from '../../actions/authAction';
 
 
 describe('SignUp component should', () => {
-  const wrapper = shallow(
-      <SignUp userSignup={userSignUpRequest} authUser={authUser} />);
+  const setup = () => {
+    const props = {
+      userSignup: jest.fn(),
+      authUser: jest.fn()
+    };
+    return shallow(<SignUp {...props} />);
+  };
+
+  const wrapper = setup();
   const event = {
     target: {
       name: 'name',
@@ -24,21 +31,6 @@ describe('SignUp component should', () => {
     expect(wrapper.find('input').length).toBe(7);
     expect(wrapper.find('span').length).toBe(1);
     expect(wrapper.find('h2').text()).toEqual('Sign Up ');
-  });
-  it('should call the onSubmit function', () => {
-    const mockSubmit = {
-      preventDefault: () => jest.fn(),
-      userSign: () => jest.fn(),
-    };
-    wrapper.find('form').simulate('submit', mockSubmit);
-    expect(mockSubmit.preventDefault).toBeCalledWith(1);
-    expect(wrapper.find('form').props().onSubmit).toBeA('function');
-  });
-  it('should call the checkPassword function', () => {
-    const mockPasswordCheck = {
-      checkPassword: () => {}
-    };
-    wrapper.find('#confirmPassword').simulate('keyUp', mockPasswordCheck);
-    expect(mockPasswordCheck.checkPassword).toBeCalledWith(1);
+    expect(Object.keys(wrapper.props()).length).toBe(3);
   });
 });

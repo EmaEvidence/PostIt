@@ -14,5 +14,6 @@ describe('GroupMembers component should', () => {
     const wrapper = shallow(<GroupMembers members={JSON.stringify([{ id: 1, username: 'Evidence' }])} />);
     expect(wrapper.find('div').length).toBe(5);
     expect(wrapper.find('h2').length).toBe(1);
+    expect(Object.keys(wrapper.props()).length).toBe(3);
   });
 });

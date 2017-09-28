@@ -24,5 +24,6 @@ describe('NavBar component should', () => {
     expect(wrapper.find('li').length).toBe(11);
     expect(wrapper.find('a').first().text()).toEqual('Post IT');
     expect(wrapper.contains('Log Out')).toBe(true);
+    expect(Object.keys(wrapper.props()).length).toBe(3);
   });
 });
