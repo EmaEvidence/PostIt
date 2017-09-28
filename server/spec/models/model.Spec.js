@@ -158,18 +158,6 @@ describe('When a new User signs up', () => {
     done();
   }, 3000);
 
-  let clearNotice;
-  beforeEach((done) => {
-    user.clearNotifications(1, (response) => {
-      clearNotice = response;
-    }, 3000);
-    done();
-  });
-  it('should clear notifications when clearNotifications is called', (done) => {
-    expect(clearNotice).toEqual('Notification Cleared');
-    done();
-  }, 3000);
-
   afterEach((done) => {
     user.deleteUsers(email, () => {
       user.deleteGroupWithName('Andela', () => {
