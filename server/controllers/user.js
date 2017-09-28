@@ -336,27 +336,6 @@ export const googleAuth = (req, res) => {
 };
 
 /**
- * clearNotifications deletes seen notifications from the database
- * @method clearNotifications
- *
- * @param  {object} req request sent from frontend
- * @param  {object} res response from the server
- *
- * @return {object} API response
- */
-export const clearNotifications = (req, res) => {
-  user.clearNotifications(req.token.data.id, (result) => {
-    if (result === 'Notification Cleared') {
-      res.status(200).json({
-        message: result
-      });
-    } else {
-      errorResponseHandler(res, 500, 'Internal Error Clearing Notification');
-    }
-  });
-};
-
-/**
  * verifyToken validates a token sent from the frontend
  * @method verifyToken
  *

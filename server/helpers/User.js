@@ -147,28 +147,6 @@ class User {
   }
 
   /**
-   * clearInAppNotitice removes notification onces the user sees it
-   * @method clearInAppNotitice
-   *
-   * @param {number} userId id of the seen notification
-   * @param {function} done returns the result of the action asynchronously
-   *
-   * @return {string} success report
-   */
-  clearNotifications(userId, done) {
-    this.database.Notifications.destroy({
-      where: {
-        UserId: userId
-      }
-    })
-    .then(() => {
-      done('Notification Cleared');
-    })
-    .catch(() => {
-      done('Error Clearing Notifications');
-    });
-  }
-  /**
    * signUp - Creates a user from the data provided by saving it in the user database.
    * @method signUp
    *
