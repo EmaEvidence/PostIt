@@ -28,7 +28,7 @@ const reducer = (state = {
     }
     case 'CLEAR_NOTIFICATION': {
       const newState = { ...state };
-      newState.userDetails.Notifications = [];
+      newState.userDetails.notifications = [];
       return newState;
     }
     default:

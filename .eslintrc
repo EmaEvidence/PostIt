@@ -16,7 +16,9 @@
     $,
     location,
     "React": true,
-    Materialize
+    Materialize,
+    expect,
+    jest
     },
   "rules": {
     "one-var": 0,

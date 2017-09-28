@@ -91,8 +91,10 @@ export class Groups extends React.Component {
           <li
             className="grouplist dropdown"
             key={group.id}
-          > { group.groupName }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          > <span className="group" />&nbsp;&nbsp;
+            { group.groupName } &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span className="right dropdown-toggle clickable" type="button" data-toggle="dropdown">
+              <span className="more" />
             More <span className="caret" /> </span>
             <ul className="dropdown-menu mydropDown">
               <li>

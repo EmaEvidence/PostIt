@@ -125,6 +125,7 @@ export class SignUp extends React.Component {
               name="name"
               placeholder="FirstName LastName"
               required
+              id="name"
             />
           </div>
           <div className="form-group">
@@ -136,6 +137,7 @@ export class SignUp extends React.Component {
               placeholder="Username"
               name="username"
               required
+              id="username"
             />
           </div>
           <div className="form-group">
@@ -147,6 +149,7 @@ export class SignUp extends React.Component {
               placeholder="Email"
               name="email"
               required
+              id="email"
             />
           </div>
           <div className="form-group">
@@ -158,6 +161,7 @@ export class SignUp extends React.Component {
               placeholder="Phone Number"
               name="phone"
               required
+              id="phone"
             />
           </div>
           <div className="form-group">
@@ -185,6 +189,7 @@ export class SignUp extends React.Component {
               name="confirmPassword"
               onKeyUp={this.checkPassword}
               required
+              id="confirmPassword"
             />
           </div>
           <div className="form-group">
@@ -194,6 +199,7 @@ export class SignUp extends React.Component {
               value="Submit"
               disabled
               ref="submit"
+              id="submit"
             />
             <CloseButton action={this.clearState} />
           </div>

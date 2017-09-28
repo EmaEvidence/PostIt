@@ -35,6 +35,11 @@ userRouter.post('/api/v1/users/delete', ensureToken, user.deleteUser);
 userRouter.post('/api/v1/user/message/read', ensureToken, user.messageRead);
 
 /**
+ * for verifying json web token
+ */
+userRouter.post('/api/v1/user/verify', ensureToken, user.verifyToken);
+
+/**
  * for search for users
  */
 userRouter.post('/api/v1/users/search', ensureToken, user.searchUser);

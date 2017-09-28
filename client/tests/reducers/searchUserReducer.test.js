@@ -17,13 +17,65 @@ describe('searchUser reducer', () => {
     expect(reducer({}, {
       type: types.SEARCH_USER,
       message: 'Search Result',
-      users: [{}],
-      count: 10
+      users: [{ id: 1,
+        name: 'Evi Ade',
+        createdAt: '12/1/2017',
+        username: 'Evidence'
+      }, { id: 1,
+        name: 'Ema Eva',
+        createdAt: '12/1/2017',
+        username: 'Eva'
+      }],
+      count: 2
     })).toEqual(
       {
         status: 'Search Result',
-        searchResult: [{}],
-        pageCount: 2
+        searchResult: [{ id: 1,
+          name: 'Evi Ade',
+          createdAt: '12/1/2017',
+          username: 'Evidence'
+        }, { id: 1,
+          name: 'Ema Eva',
+          createdAt: '12/1/2017',
+          username: 'Eva'
+        }],
+        pageCount: 1
+      }
+    );
+  });
+
+  it('should handle SEARCH_USER_ERROR', () => {
+    expect(reducer({}, {
+      type: types.SEARCH_USER_ERROR,
+      message: 'Nothing Found',
+      users: [],
+      count: 0
+    })).toEqual(
+      {
+        status: 'Nothing Found',
+      }
+    );
+  });
+
+  it('should handle CLEAR_SEARCH_USER_STATUS', () => {
+    expect(reducer({}, {
+      type: types.CLEAR_SEARCH_USER_STATUS,
+      message: 'Search Result',
+      users: [{ id: 1,
+        name: 'Evi Ade',
+        createdAt: '12/1/2017',
+        username: 'Evidence'
+      }, { id: 1,
+        name: 'Ema Eva',
+        createdAt: '12/1/2017',
+        username: 'Eva'
+      }],
+      count: 2
+    })).toEqual(
+      {
+        status: '',
+        searchResult: [],
+        pageCount: 0
       }
     );
   });

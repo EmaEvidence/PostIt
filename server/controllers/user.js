@@ -355,3 +355,18 @@ export const clearNotifications = (req, res) => {
     }
   });
 };
+
+/**
+ * verifyToken validates a token sent from the frontend
+ * @method verifyToken
+ *
+ * @param  {object} req request sent from frontend
+ * @param  {object} res response from the server
+ *
+ * @return {object} API response
+ */
+export const verifyToken = (req, res) => {
+  res.status(200).json({
+    message: 'Valid User'
+  });
+};

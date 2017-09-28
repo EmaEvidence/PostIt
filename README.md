@@ -67,6 +67,7 @@ The API exposes the following endpoints for consumption:
   17. ```GET``` /api/v1/group/:groupId/users. The API takes groupId as parameter.  
     For getting members of a group  
 # The Application uses JSON web token. Ensure you send it in the header request.  
+The API documentation for this project can be found [here](http://docs.postit9.apiary.io/#)
 ## Test  
 API test is written with ``` jasmine ``` and ``` supertest ```.
 Frontend tests is written with ``` jest ``` and ``` enzyme ```.

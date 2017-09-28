@@ -5,12 +5,14 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
+import axios from 'axios';
 
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import App from './components/App';
 import rootReducer from './reducers';
 import authAction from './actions/authAction';
 import getUserGroupsAction from './actions/getUserGroupsAction';
+import verifyTokenAction from './actions/verifyTokenAction';
 import './scss/main.scss';
 import './js/grouploader';
 
@@ -23,10 +25,17 @@ const store = createStore(
 );
 if (localStorage.token) {
   const token = localStorage.getItem('token');
-  const decoded = jwt.decode(token);
-  setAuthorizationToken(token);
-  store.dispatch(authAction(decoded.data, 'Success'));
-  store.dispatch(getUserGroupsAction(decoded.data));
+  verifyTokenAction(token)
+    .then((res) => {
+      const decoded = jwt.decode(token);
+      setAuthorizationToken(token);
+      store.dispatch(authAction(decoded.data, 'Success'));
+      store.dispatch(getUserGroupsAction(decoded.data));
+    })
+    .catch((err) => {
+      localStorage.removeItem('token');
+      location.href = '/';
+    });
 }
 
 ReactDOM.render((

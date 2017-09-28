@@ -43,8 +43,8 @@ export const MessageDisplay = (props) => {
   }
   return (
     <div id={props.id} className="modal fade reg-form">
-      <div className="modal-dialog">
-        <h2>{props.type}</h2>
+      <div className="">
+        <h2 className="center">{props.type}</h2>
         <div className="messagecard">
           { messageList }
         </div>

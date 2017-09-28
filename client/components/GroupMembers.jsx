@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import AddMembers from './AddMembers';
+import CloseButton from './CloseButton';
 
 /**
  * GroupMembers displays every membwe of a group
@@ -47,12 +48,7 @@ export const GroupMembers = (props) => {
           { Memberslist }
         </div>
         <div>
-          <button
-            type="button"
-            className="form-control close custombutton"
-            data-dismiss="modal"
-          >
-            Cancel</button>
+          <CloseButton />
         </div>
       </div>
       <AddMembers />

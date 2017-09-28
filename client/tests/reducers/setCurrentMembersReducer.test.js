@@ -20,6 +20,10 @@ describe('setCurrentMembers reducer', () => {
         id: 1,
         username: 'Evidence',
         email: 'ema@gmail.com'
+      }, {
+        id: 1,
+        username: 'Noordean',
+        email: 'noor@gmail.com'
       }],
       status: 'Retrived',
       groupName: 'CFH'
@@ -29,6 +33,10 @@ describe('setCurrentMembers reducer', () => {
           id: 1,
           username: 'Evidence',
           email: 'ema@gmail.com'
+        }, {
+          id: 1,
+          username: 'Noordean',
+          email: 'noor@gmail.com'
         }],
         status: 'Retrived',
         currentGroup: 'CFH'

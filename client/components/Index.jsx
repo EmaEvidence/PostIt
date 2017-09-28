@@ -6,10 +6,8 @@ import userSignUpRequest from '../actions/userSignUpAction';
 import userSignInRequest from '../actions/userSignInAction';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
-import CreateGroup from './CreateGroup';
 import ForgotPassword from './ForgotPassword';
 import authUser from '../actions/authAction';
-import createGroupAction from '../actions/createGroupAction';
 
 /**
  * Index the landing page for the App
@@ -23,7 +21,6 @@ const Index = (props) => {
   const userSignup = props.userSignUpRequest;
   const Login = props.userSignInRequest;
   const authUserAction = props.authUser;
-  const createGroup = props.createGroupAction;
   let button;
   if (props.status) {
     button = (
@@ -93,7 +90,6 @@ const Index = (props) => {
       </section>
       <SignUp userSignup={userSignup} authUser={authUserAction} />
       <LogIn userSignin={Login} authUser={authUserAction} />
-      <CreateGroup createGroupAction={createGroup} />
       <ForgotPassword />
     </div>
   );
@@ -102,7 +98,6 @@ const Index = (props) => {
 Index.propTypes = {
   userSignUpRequest: PropTypes.func.isRequired,
   userSignInRequest: PropTypes.func.isRequired,
-  createGroupAction: PropTypes.func.isRequired,
   authUser: PropTypes.func.isRequired,
   status: PropTypes.bool.isRequired
 };
@@ -124,5 +119,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, { userSignUpRequest,
   userSignInRequest,
-  authUser,
-  createGroupAction })(Index);
+  authUser })(Index);

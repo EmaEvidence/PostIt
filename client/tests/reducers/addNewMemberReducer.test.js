@@ -10,22 +10,12 @@ describe('add new member reducer', () => {
       }
     );
   });
-
-  it('should handle ADD_NEW_MEMBER', () => {
-    expect(reducer({}, {
-      type: types.ADD_NEW_MEMBER,
-      status: 'Added'
-    })).toEqual(
-      {
-        status: 'Added'
-      }
-    );
-  });
-
-  it('should handle ADD_NEW_MEMBER', () => {
-    expect(reducer({}, {
-      type: types.ADD_NEW_MEMBER,
-      status: 'User already a member'
+  it('should return error', () => {
+    expect(reducer({
+      status: ''
+    }, {
+      type: types.ADD_NEW_MEMBER_ERROR,
+      status: 'User already a member',
     })).toEqual(
       {
         status: 'User already a member'
