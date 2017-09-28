@@ -132,7 +132,7 @@ describe('when a user makes a request to the API', () => {
           expect(JSON.parse(res.text).message).toEqual('User Id must be stated');
           done(err);
         });
-  }, 3000);
+  }, 6000);
   it('should return error when a signed in user sends invalid data when adding member', (done) => {
     const url = `/api/v1/group/${groupId}/user`;
     api.post(url)

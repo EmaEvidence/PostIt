@@ -8,15 +8,6 @@ const api = new supertest(app);
 
 describe('When a User makes a request to the APIs', () => {
   let token;
-  it('should return status code 200', (done) => {
-    api.get('/')
-          .send({
-          })
-          .end((err, res) => {
-            expect(res.status).toEqual(200);
-            done(err);
-          });
-  }, 10000);
   it('should return error if name is not sent to /api/v1/user/signup', (done) => {
     api.post('/api/v1/user/signup')
           .send({
