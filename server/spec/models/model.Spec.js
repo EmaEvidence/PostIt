@@ -43,6 +43,7 @@ describe('When a new User signs up', () => {
   const email = 'emmanuelalabi563@gmail.com';
   const password = 'qwerty123@';
   const phone = '07063707060';
+  
   let userId;
 
   beforeEach((done) => {
