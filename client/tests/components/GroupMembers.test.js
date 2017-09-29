@@ -11,7 +11,9 @@ describe('GroupMembers component should', () => {
   });
 
   it('render without crashing if there is search Result', () => {
-    const wrapper = shallow(<GroupMembers members={JSON.stringify([{ id: 1, username: 'Evidence' }])} />);
+    const wrapper = shallow(<GroupMembers
+      members={JSON.stringify([{ id: 1, username: 'Evidence' }])}
+    />);
     expect(wrapper.find('div').length).toBe(5);
     expect(wrapper.find('h2').length).toBe(1);
     expect(Object.keys(wrapper.props()).length).toBe(3);

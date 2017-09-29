@@ -43,7 +43,8 @@ const Index = (props) => {
     <div>
       <section className="indeximage valign-wrapper center-align">
         <p className="center-align">
-          <b className="imgdesc">Rethinking and Reinventing Mass Communication</b><br />
+          <b className="imgdesc">
+            Rethinking and Reinventing Mass Communication</b><br />
             PostIt is a simple application that allows friends and colleagues create groups
             for notifications.
             This way one person can post notifications to everyone by sending a message once.

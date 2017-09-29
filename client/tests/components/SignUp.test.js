@@ -32,5 +32,6 @@ describe('SignUp component should', () => {
     expect(wrapper.find('span').length).toBe(1);
     expect(wrapper.find('h2').text()).toEqual('Sign Up ');
     expect(Object.keys(wrapper.props()).length).toBe(3);
+    expect(wrapper.instance().clearState());
   });
 });

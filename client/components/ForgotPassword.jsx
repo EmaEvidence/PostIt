@@ -83,7 +83,9 @@ export class ForgotPassword extends React.Component {
         <form className="" onSubmit={this.onSubmit}>
           <div className="">
             <h2 className="form-header center" > Forgot Password </h2>
-            <h5 className="center"> Enter your email address to recieve a link to reset your password </h5>
+            <h5 className="center">
+              Enter your email address to recieve a link to reset your password
+            </h5>
           </div>
           <Input
             placeholder={'Email'}

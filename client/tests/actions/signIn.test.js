@@ -15,17 +15,28 @@ describe('async actions', () => {
     moxios.stubRequest('/api/v1/user/signin', {
       status: 201,
       response: {
-        user: { name: 'Evidence', username: 'Evidence', phone: '07073213443', email: 'ema@gg.com', token: '213123ddgdr23erwer' },
+        user: {
+          name: 'Evidence',
+          username: 'Evidence',
+          phone: '07073213443',
+          email: 'ema@gg.com',
+          token: '213123ddgdr23erwer' },
         message: 'Registration Successful'
       }
     });
     const store = mockStore({});
     const expectedAction = [authAction({
-      data: { name: 'Evidence', username: 'Evidence', phone: '07073213443', email: 'ema@gg.com', token: '213123ddgdr23erwer' }
+      data: {
+        name: 'Evidence',
+        username: 'Evidence',
+        phone: '07073213443',
+        email: 'ema@gg.com',
+        token: '213123ddgdr23erwer' }
     }, 'Success')];
-    store.dispatch(userSignInRequest({ userData: { username: 'Evidence', password: 'qwerty123@' } })).then(() => {
-      expect(store.getActions()).toEqual(expectedAction);
-    });
+    store.dispatch(userSignInRequest({
+      userData: { username: 'Evidence', password: 'qwerty123@' } })).then(() => {
+        expect(store.getActions()).toEqual(expectedAction);
+      });
     done();
   });
   it('should return error if data is invalid when the action is called', (done) => {
@@ -40,9 +51,10 @@ describe('async actions', () => {
     const expectedAction = [authAction({
       data: 'Internal Error'
     }, 'Error')];
-    store.dispatch(userSignInRequest({ userData: { username: '', password: 'qwerty123@' } })).then(() => {
-      expect(store.getActions()).toEqual(expectedAction);
-    });
+    store.dispatch(userSignInRequest({
+      userData: { username: '', password: 'qwerty123@' } })).then(() => {
+        expect(store.getActions()).toEqual(expectedAction);
+      });
     done();
   });
 });

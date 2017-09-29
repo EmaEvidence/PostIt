@@ -118,7 +118,7 @@ describe('get user groups reducer', () => {
     }, {
       type: types.CREATE_GROUP,
       message: 'Added',
-      group: { id: 1,
+      group: { id: 2,
         groupName: 'Andela1',
         Users: [
           {
@@ -151,7 +151,7 @@ describe('get user groups reducer', () => {
             }
           ]
         }, {
-          id: 1,
+          id: 2,
           groupName: 'Andela1',
           Users: [
             {
@@ -165,6 +165,55 @@ describe('get user groups reducer', () => {
               email: 'noor@gmail.com'
             }
           ] }]]
+      }
+    );
+  });
+
+  it('should handle ADD_NEW_MEMBER', () => {
+    expect(reducer({
+      status: '',
+      groups: [[{
+        id: 1,
+        groupName: 'Andela',
+        Users: [
+          {
+            id: 1,
+            username: 'Evidence',
+            email: 'ema@gmail.com'
+          }
+        ]
+      }]]
+    }, {
+      type: types.ADD_NEW_MEMBER,
+      message: 'Added Successfully',
+      group: { id: 1,
+        groupName: 'Andela',
+        Users: [
+          {
+            id: 2,
+            username: 'Noor',
+            email: 'noor@gmail.com'
+          }
+        ] }
+    })).toEqual(
+      {
+        status: '',
+        groups: [[{
+          id: 1,
+          groupName: 'Andela',
+          Users: [
+            {
+              id: 1,
+              username: 'Evidence',
+              email: 'ema@gmail.com'
+            },
+            {
+              id: 2,
+              username: 'Noor',
+              email: 'noor@gmail.com'
+            }
+          ]
+        }]]
       }
     );
   });

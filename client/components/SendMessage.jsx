@@ -207,4 +207,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { createGroupAction, postMessageAction })(SendMessage);
+export default connect(mapStateToProps, { createGroupAction,
+  postMessageAction })(SendMessage);

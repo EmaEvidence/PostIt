@@ -1,6 +1,6 @@
 import React from 'react';
 import expect from 'expect';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { AllMessages } from '../../components/AllMessages';
 
 describe('AllMessages component should', () => {
@@ -24,5 +24,22 @@ describe('AllMessages component should', () => {
     expect(wrapper.find('div').length).toBe(2);
     expect(wrapper.find('h2').text()).toEqual('Messages for Yoyo ');
     expect(Object.keys(wrapper.props()).length).toBe(2);
+  });
+
+  it('should call all methods of the class', () => {
+    const props = {
+      messageSeenAction: jest.fn(),
+      searchResult: JSON.stringify([{ id: 1, username: 'Evidence' }]),
+      messages: JSON.stringify([{
+        message: 'Here we are',
+        priority: 'Normal',
+        createdAt: '19/12/2017'
+      }]),
+      groupName: 'Yoyo'
+    };
+    const wrapper = shallow(<AllMessages
+      {...props}
+    />);
+    expect(wrapper.instance().componentDidUpdate());
   });
 });

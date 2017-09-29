@@ -5,7 +5,15 @@ import { NewPassword } from '../../components/NewPassword';
 
 describe('NewPassword component should', () => {
   it('renders without crashing', () => {
+    const event = {
+      target: {
+        name: 'password',
+        value: 'qwerty123@',
+      }
+    };
     const wrapper = shallow(<NewPassword />);
+    wrapper.instance().onChange(event);
+    expect(wrapper.state().password).toEqual('qwerty123@');
     expect(toJson(wrapper)).toMatchSnapshot();
     expect(wrapper.find('div').length).toBe(3);
     expect(wrapper.find('form').length).toBe(1);

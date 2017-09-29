@@ -77,10 +77,15 @@ export class NewPassword extends React.Component {
   render() {
     return (
       <div id="" className="row">
-        <form onSubmit={this.onSubmit} className="newpassword col s4 offset-s4 valign">
+        <form
+          onSubmit={this.onSubmit}
+          className="newpassword col s4 offset-s4 valign"
+        >
           <div className="modal-header">
             <h3 className="form-header" > Reset Password </h3>
-            <p className="center"> Please use the Form Below to Reset Your Password </p>
+            <p className="center">
+              Please use the Form Below to Reset Your Password
+            </p>
           </div>
           <Input
             placeholder={'New Password'}

@@ -12,7 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should retrive users when the action is called', (done) => {
+  it('should create POST_MESSAGE action when called', (done) => {
     moxios.stubRequest('/api/v1/group/1/message', {
       status: 200,
       response: {
@@ -51,10 +51,10 @@ describe('async actions', () => {
   it('should return error if data is invalid when the action is called', (done) => {
     moxios.stubRequest('/api/v1/group//message', {
       status: 400,
-      response: {
+      error: { response: {
         messageData: { message: 'Evi', priority: 'Normal' },
         message: 'Group Must be defined'
-      }
+      } }
     });
     const store = mockStore({});
     const expectedAction = [{ users: [],

@@ -62,7 +62,9 @@ export class AllMessages extends React.Component {
     }
     return (
       <div className="col-sm-7 messagecard">
-        <h2>{ this.props.groupName ? `Messages for ${this.props.groupName}` : 'Please Select a Group.'} </h2>
+        <h2>
+          { this.props.groupName ? `Messages for ${this.props.groupName}` : 'Please Select a Group.'}
+        </h2>
         <div>
           <ul>
             { Messagelist }

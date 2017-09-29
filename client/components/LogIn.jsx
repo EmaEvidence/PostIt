@@ -114,7 +114,8 @@ export class LogIn extends React.Component {
         <div className="form-group forget-password-wrapper">
           <b className="forget-password">
           Forgot Password click
-          <a href="#forgetpwd" className="modal-trigger modal-close"> here </a> </b>
+          <a href="#forgetpwd" className="modal-trigger modal-close"> here
+          </a> </b>
         </div>
       </div>
     );

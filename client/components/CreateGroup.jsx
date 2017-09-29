@@ -35,9 +35,10 @@ export class CreateGroup extends React.Component {
     this.chipOnChange = this.chipOnChange.bind(this);
   }
   /**
-   * [componentWillMount description]
+   * componentWillMount description
    * @method componentWillMount
-   * @return {[type]}           [description]
+   *
+   * @return {array} all application user
    */
   componentWillMount() {
     this.props.getUsersAction();
@@ -65,7 +66,6 @@ export class CreateGroup extends React.Component {
    */
   createGroup(event) {
     event.preventDefault();
-    const members = $('#members').val();
     const groupData = {
       groupName: this.state.groupName,
       purpose: this.state.purpose,
@@ -104,7 +104,6 @@ export class CreateGroup extends React.Component {
       purpose: '',
       members: []
     });
-    $('#display').text('');
   }
   /**
    * render
@@ -182,4 +181,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getUserGroupsAction, getUsersAction })(CreateGroup);
+export default connect(mapStateToProps, { getUserGroupsAction,
+  getUsersAction })(CreateGroup);
