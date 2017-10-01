@@ -49,6 +49,10 @@ export class AddMembers extends React.Component {
       const offSet = this.state.offset || 0;
       this.props.searchUserAction(event.target.value, offSet, this.props.groupId);
     } else {
+      this.setState({
+        termIsEmpty: false,
+        searchTerm: event.target.value,
+      });
       this.props.clearStatusAction('searchUser');
     }
   }
@@ -167,7 +171,7 @@ export class AddMembers extends React.Component {
           </div>
           <div className="form-group">
             <label htmlFor="search"> Enter your search term </label>
-            <input type="search" onChange={this.onChange} />
+            <input type="search" value={this.state.searchTerm} onChange={this.onChange} />
           </div>
           <div className="result-holder">
             <table className="center add-table">

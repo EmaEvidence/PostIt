@@ -34,7 +34,19 @@ export class SendMessage extends React.Component {
     this.handleValueChange = this.handleValueChange.bind(this);
     this.charactersRemaining = this.charactersRemaining.bind(this);
   }
-
+  /**
+   * componentWillReceiveProps change state value when new prop is passed
+   * @method componentWillReceiveProps
+   *
+   * @return {object} initial state
+   */
+  componentWillReceiveProps() {
+    this.setState({
+      message: '',
+      priority: 'Select a Priority',
+      charactersLeft: 300,
+    });
+  }
   /**
    * onChange
    * @method onChange
