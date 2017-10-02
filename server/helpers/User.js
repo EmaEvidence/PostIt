@@ -1,9 +1,13 @@
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer';
-import jusibe from 'jusibe';
+
 import database from '../models/connection';
+import validate from '../services/validate';
+import createToken from '../services/createToken';
+import * as flatten from '../services/flattenArray';
+import sendMail from '../services/sendMail';
+import notifyUsers from '../services/notifyUsers';
 
 dotenv.config();
 /**
@@ -20,99 +24,6 @@ class User {
     this.database = database;
   }
 
-  /**
-   * validate checks the validity of the supplied Password and phone Number
-   * @method validate
-   *
-   * @param  {string} userPassword user's Password
-   * @param  {string} phone user's Password
-   *
-   * @return {string} result of validity test
-   *
-   */
-  static validate(userPassword, phone) {
-    let validity;
-    if (/^(?=.*\d)(?=.*\W)(?=.*[a-zA-Z])(?!.*\s).{8,}$/.test(userPassword) && !isNaN(phone)) {
-      validity = 'valid';
-    } else {
-      validity = 'Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8';
-    }
-    return validity;
-  }
-  /**
-   * flattenUserId removes users from array of json objects to an array ofnumbers
-   * @method flattenUserId
-   *
-   * @param  {array} arrayOfIds array of json user objects
-   *
-   * @return {array} array of user ids
-   */
-  static flattenUserId(arrayOfIds) {
-    const ids = [];
-    arrayOfIds.forEach((idObject) => {
-      ids.push(idObject.id);
-    });
-    return ids;
-  }
-
-  /**
-   * sendText sends text messages to users
-   * @method sendText
-   *
-   * @param  {object} payload the user date and message body
-   * @param  {function} done returns the result of the action asynchronously
-   *
-   * @return {string} success report
-   */
-  static sendText(payload, done) {
-    const Jusibe = new jusibe(process.env.PUBLIC_KEY, process.env.ACCESS_TOKEN);
-    Jusibe.sendSMS(payload)
-    .then(() => {
-      done('Message Notification Sent');
-    })
-    .catch(() => {
-      done('Error Sending Message Notification');
-    });
-  }
-  /**
-   * sendMailer sends email messages to user
-   * @method sendMailer
-   *
-   * @param  {object} mailOptions user data and message details
-   * @param  {function} done returns the result of the action asynchronously
-   *
-   * @return {string} success report
-   */
-  static sendMail(mailOptions, done) {
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_HOST_PORT,
-      secure: true,
-      auth: {
-        user: process.env.EMAIL_HOST_USER,
-        pass: process.env.EMAIL_PASSWORD
-      }
-    });
-    return transporter.sendMail(mailOptions)
-      .then(() => done('Mail Sent'))
-      .catch(() => done('Mail Not Sent'));
-  }
-
-  /**
-   * createToken generates a json web token
-   * @method createToken
-   *
-   * @param  {object} payload user data
-   *
-   * @return {string} json web token
-   */
-  static createToken(payload) {
-    const createdToken = jwt.sign({
-      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-      data: payload
-    }, process.env.JWT_SECRET);
-    return createdToken;
-  }
   /**
    * inAppNotify sends an in app notification to members of a group when a new message is sent
    * @method inAppNotify
@@ -160,7 +71,7 @@ class User {
    * @return {string} the result of the registration attempt.
    */
   signUp(name, username, email, password, phone, done) {
-    const validity = User.validate(password, phone);
+    const validity = validate(password, phone);
     if (validity === 'valid') {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
@@ -172,7 +83,7 @@ class User {
             phone
           }).then((user) => {
             const id = user.id;
-            const token = User.createToken({ id, name, username, phone, email });
+            const token = createToken({ id, name, username, phone, email });
             done({ id, name, username, phone, email, token });
           }).catch((err) => {
             if (err.errors === undefined) {
@@ -243,7 +154,7 @@ class User {
         const { id, name, email, notification, phone } = user[0];
         bcrypt.compare(password, user[0].password, (err, res) => {
           if (res) {
-            const token = User.createToken({ id,
+            const token = createToken({ id,
               name,
               username,
               email,
@@ -278,7 +189,7 @@ class User {
         username: users
       }
     }).then((user) => {
-      const members = User.flattenUserId(user);
+      const members = flatten.userId(user);
       if (members.length === 0 || members[0] === '') {
         members[0] = creator;
       } else {
@@ -462,7 +373,7 @@ class User {
         where: { id: to },
         include: ['Users']
       }).then((group) => {
-        User.notifyUser(priorityLevel, group.Users);
+        notifyUsers(priorityLevel, group.Users);
         done({ id,
           message,
           groupId,
@@ -476,76 +387,6 @@ class User {
     }).catch((err) => {
       done(err.name);
     });
-  }
-  /**
-   * notifyUser description
-   * @method notifyUser
-   *
-   * @param {type} priority description
-   * @param {type} users description
-   *
-   * @return {type} description
-   */
-  static notifyUser(priority, users) {
-    const ids = [];
-    const emails = [];
-    const phones = [];
-    users.forEach((user) => {
-      ids.push(user.id);
-      emails.push(user.email);
-      phones.push(user.phone);
-    });
-    if (priority === 'Critical') {
-      const result = {};
-      emails.forEach((email) => {
-        const mailOptions = {
-          from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
-          to: email,
-          subject: 'New Message Notification',
-          text: 'Howdy, You have a new message in Post It App.',
-          html: `<div style="color: purple;">
-                  Howdy, You have a new message in Post It App.
-                  <button style="padding: 5px">
-                  <a href="https://postaa.herokuapp.com">
-                  Click Here To Access it 👻</a>
-                  </button>
-                </div>`
-        };
-        User.sendMail(mailOptions);
-        result.email = 'sent';
-      });
-      phones.forEach((phone) => {
-        const payload = {
-          to: phone,
-          from: 'Post App',
-          message: 'Howdy, You have a new Message in Post It App.'
-        };
-        User.sendText(payload, () => {
-        });
-        result.phone = 'sent';
-      });
-      return result;
-    } else {
-      const result = {};
-      emails.forEach((email) => {
-        const mailOptions = {
-          from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
-          to: email,
-          subject: 'New Message Notification',
-          text: 'Howdy, You have a new message in Post It App.',
-          html: `<div style="color: purple;">
-                  Howdy, You have a new message in Post It App.
-                  <button style="padding: 5px">
-                  <a href="https://postaa.herokuapp.com">
-                  Click Here To Access it 👻</a>
-                  </button>
-                </div>`
-        };
-        User.sendMail(mailOptions);
-      });
-      result.email = 'sent';
-      return result;
-    }
   }
 
   /**
@@ -570,46 +411,15 @@ class User {
       done(err.name);
     });
   }
-  /**
-   * converts an array of id objects to an array of ids
-   * @method flattenId
-   *
-   * @param  {array} arrayOfIds Array of JSON objects
-   *
-   * @return {array} Numeric array
-   */
-  static flattenId(arrayOfIds) {
-    const ids = [];
-    arrayOfIds.forEach((idObject) => {
-      ids.push(idObject.UserId);
-    });
-    return ids;
-  }
-
-  /**
-   * converts an array of id objects to an array of ids
-   * @method flattenId
-   *
-   * @param {array} arrayOfIds Array of JSON objects
-   *
-   * @return {array} Numeric array
-   */
-  static flattenGroupId(arrayOfIds) {
-    const ids = [];
-    arrayOfIds.forEach((idObject) => {
-      ids.push(idObject.GroupId);
-    });
-    return ids;
-  }
 
 /**
- * getGroupMembers description
+ * getGroupMembers gets the members of a group
  * @method getGroupMembers
  *
- * @param  {type} group description
- * @param  {Function} done description
+ * @param  {number} group unique Identity of the group
+ * @param  {Function} done callback
  *
- * @return {type} description
+ * @return {object} users
  */
   getGroupMembers(group, done) {
     this.database.Groups.findOne({
@@ -637,7 +447,7 @@ class User {
       where: { UserId: userId },
       attributes: ['GroupId']
     }).then((groups) => {
-      const ids = User.flattenGroupId(groups);
+      const ids = flatten.groupId(groups);
       this.database.Groups.findAll({
         attributes: ['id', 'groupName', 'groupCreatorId', 'createdAt'],
         where: { id: ids },
@@ -805,8 +615,8 @@ class User {
         done('Email Address Not found');
       } else {
         const link = 'https://postaa.herokuapp.com/newpassword';
-        const userKey = User.createToken({ email });
-        const sendMailResult = User.sendMail({
+        const userKey = createToken({ email });
+        const sendMailResult = sendMail({
           from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
           to: email,
           subject: 'Password Reset',
@@ -834,8 +644,8 @@ class User {
    * @return {object} success or failure data
    */
   resetPassword(password, key, done) {
-    const validate = User.validate(password, 1);
-    if (validate === 'valid') {
+    const validatity = validate(password, 1);
+    if (validatity === 'valid') {
       const { email } = (jwt.decode(key)).data;
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
@@ -854,7 +664,7 @@ class User {
                   text: 'Your password has being changed. Please Login with your new password',
                   html: '<a href="">Click Here to Login</a>'
                 };
-                User.sendMail(mailOptions);
+                sendMail(mailOptions);
                 done('Password Updated');
               }
             }).catch(() => {
@@ -863,7 +673,7 @@ class User {
         });
       });
     } else {
-      done(validate);
+      done(validatity);
     }
   }
 
@@ -892,7 +702,7 @@ class User {
       }
     }).then((result) => {
       const id = result[0].id;
-      const token = User.createToken({ id, name, username, email });
+      const token = createToken({ id, name, username, email });
       done({ id, name, username, email, token });
     }).catch(() => {
       done('Error Signing Up with Google, Try Again');
@@ -924,7 +734,7 @@ class User {
         done('Please Sign Up First');
       } else {
         const { id, phone } = result[0];
-        const token = User.createToken({ id, name, username, phone, email });
+        const token = createToken({ id, name, username, phone, email });
         done({ id, name, username, phone, email, token });
       }
     }).catch(() => {

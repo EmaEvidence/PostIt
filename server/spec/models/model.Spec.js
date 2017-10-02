@@ -4,19 +4,6 @@ import User from '../../helpers/User';
 const user = new User();
 let newUserId;
 
-describe('When a new User supplies a password', () => {
-  const password = 'qwerty123@';
-  const wrongPassword = '1234567890';
-  const validPassword = User.validate(password, 1);
-  const invalidPassword = User.validate(wrongPassword, 1);
-  it('should return Error message if its in a right format', () => {
-    expect(validPassword).toEqual('valid');
-  });
-  it('should return valid if its in a right format', () => {
-    expect(invalidPassword).toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
-  });
-});
-
 describe('When a new User signs up', () => {
   let result;
   const name = '';
@@ -43,7 +30,7 @@ describe('When a new User signs up', () => {
   const email = 'emmanuelalabi563@gmail.com';
   const password = 'qwerty123@';
   const phone = '07063707060';
-  
+
   let userId;
 
   beforeEach((done) => {
@@ -158,16 +145,6 @@ describe('When a new User signs up', () => {
     expect((postResult).senderUsername).toEqual('Evidence');
     done();
   }, 3000);
-
-  afterEach((done) => {
-    user.deleteUsers(email, () => {
-      user.deleteGroupWithName('Andela', () => {
-        user.deleteUserFromGroup(groupId, newUserId, userId, () => {
-        });
-      });
-    });
-    done();
-  }, 1000);
 
   afterEach((done) => {
     user.deleteUsers(email, () => {
