@@ -24,7 +24,10 @@ const sendMail = (mailOptions, done) => {
   });
   return transporter.sendMail(mailOptions)
     .then(() => done('Mail Sent'))
-    .catch(() => done('Mail Not Sent'));
+    .catch((err) => {
+      console.log();
+      done(`Mail Not Sent ${err}`);
+    });
 };
 
 export default sendMail;
