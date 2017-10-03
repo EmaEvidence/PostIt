@@ -18,7 +18,8 @@
     "React": true,
     Materialize,
     expect,
-    jest
+    jest,
+    localStorage
     },
   "rules": {
     "one-var": 0,

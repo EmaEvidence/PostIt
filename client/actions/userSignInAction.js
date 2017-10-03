@@ -3,6 +3,14 @@ import axios from 'axios';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import authAction from './authAction';
 
+/**
+ * userSignInAction creates redux action
+ * @method userSignInAction
+ *
+ * @param  {object} userData users data
+ *
+ * @return {function} redux action
+ */
 const userSignInAction = userData => (dispatch) => {
   return axios.post('/api/v1/user/signin', userData)
     .then((res) => {

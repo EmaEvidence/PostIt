@@ -1,6 +1,14 @@
 import axios from 'axios';
 import { CREATE_GROUP, CREATE_GROUP_ERROR } from './types/types';
 
+/**
+ * createGroupAction create redux action
+ * @method createGroupAction
+ *
+ * @param {object} groupData group details
+ *
+ * @return {function} redux action
+ */
 const createGroupAction = groupData => dispatch => axios.post('/api/v1/group', groupData)
     .then((res) => {
       $('.modal').modal('close');

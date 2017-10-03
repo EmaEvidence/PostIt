@@ -1,8 +1,16 @@
 import axios from 'axios';
 import { RESET_MAIL_SUCCESS, RESET_MAIL_ERROR } from './types/types';
 
-const passwordResetMailAction = data => (dispatch) => {
-  return axios.post('/api/v1/user/forgotpassword', data)
+/**
+ * passwordResetMailAction creates redux actions
+ * @method passwordResetMailAction
+ *
+ * @param  {object} userData userData
+ *
+ * @return {function} redux action
+ */
+const passwordResetMailAction = userData => (dispatch) => {
+  return axios.post('/api/v1/user/forgotpassword', userData)
     .then((res) => {
       Materialize.toast(res.data.message, 2500, 'green white-text rounded');
       dispatch({

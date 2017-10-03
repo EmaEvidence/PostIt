@@ -25,13 +25,14 @@ const store = createStore(
 if (localStorage.token) {
   const token = localStorage.getItem('token');
   verifyTokenAction(token)
-    .then((res) => {
+    .then(() => {
       const decoded = jwt.decode(token);
       setAuthorizationToken(token);
       store.dispatch(authAction(decoded.data, 'Success'));
       store.dispatch(getUserGroupsAction(decoded.data));
     })
-    .catch((err) => {
+    .catch(() => {
+      Materialize.toast('Session Expired, Please Sign In', 6000, 'red white-text rounded');
       localStorage.removeItem('token');
       location.href = '/';
     });

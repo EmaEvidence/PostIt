@@ -1,6 +1,15 @@
 import axios from 'axios';
 import { RESET_PASSWORD_SUCCESS, RESET_PASSWORD_ERROR } from './types/types';
 
+/**
+ * resetPasswordAction creates redux action
+ * @method resetPasswordAction
+ *
+ * @param {string} newPassword users new password
+ * @param {string} userKey hashed user key
+ *
+ * @return {function} redux action
+ */
 const resetPasswordAction = (newPassword, userKey) => (dispatch) => {
   return axios.post('/api/v1/user/newpassword', { newPassword, userKey })
     .then((res) => {

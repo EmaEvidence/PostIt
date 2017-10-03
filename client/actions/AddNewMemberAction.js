@@ -1,6 +1,15 @@
 import axios from 'axios';
 import { ADD_NEW_MEMBER, ADD_NEW_MEMBER_ERROR } from './types/types';
 
+/**
+ * addNewMemberAction creates redux actions
+ * @method addNewMemberAction
+ *
+ * @param  {number} groupId unique identifer for a group
+ * @param  {number} userId unique identifer for a user
+ *
+ * @return {function} redux action
+ */
 const addNewMemberAction = (groupId, userId) => (dispatch) => {
   return axios.post(`/api/v1/group/${groupId}/user`, { user: userId })
     .then((res) => {
