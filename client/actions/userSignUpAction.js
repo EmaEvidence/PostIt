@@ -14,7 +14,7 @@ import authAction from './authAction';
 const userSignUpRequest = userData => (dispatch) => {
   return axios.post('/api/v1/user/signup', userData)
     .then((res) => {
-      const token = res.data.user.token;
+      const token = res.data.token;
       setAuthorizationToken(token);
       $('.modal').modal('close');
       Materialize.toast(res.data.message, 2500, 'green white-text rounded');

@@ -76,12 +76,12 @@ describe('when a user makes a request to the API', () => {
                       password: 'qwerty123@'
                     })
                     .end((err, res) => {
-                      token = JSON.parse(res.text).user.token;
+                      token = JSON.parse(res.text).token;
                       signedInId = JSON.parse(res.text).user.id;
                       done();
                     }, 10000);
             } else {
-              token = JSON.parse(res.text).user.token;
+              token = JSON.parse(res.text).token;
               signedInId = JSON.parse(res.text).user.id;
             }
             done();

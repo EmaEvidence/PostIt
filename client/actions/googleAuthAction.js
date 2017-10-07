@@ -15,8 +15,9 @@ const googleAuthAction = (authData) => {
   return (dispatch) => {
     return axios.post(url, authData)
     .then((res) => {
-      const token = res.data.user.token;
+      const token = res.data.token;
       setAuthorizationToken(token);
+      Materialize.toast(res.data.message, 2500, 'green white-text rounded');
       dispatch(authAction({
         data: res.data.user
       }, 'Success'));
@@ -24,10 +25,12 @@ const googleAuthAction = (authData) => {
     })
     .catch((err) => {
       if (err.response === undefined) {
+        Materialize.toast('Internal Server Error', 2500, 'red white-text rounded');
         dispatch(authAction({
           data: 'Internal Error'
         }, 'Error'));
       } else {
+        Materialize.toast(err.response.data.message, 2500, 'red white-text rounded');
         dispatch(authAction({
           data: err.response.data.message
         }, 'Error'));

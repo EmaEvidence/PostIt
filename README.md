@@ -22,13 +22,16 @@ The functionality of this web app being a node.js app depends on the following t
 1. Install nodejs and postgresql if not installed.
 2. Navigate to the directory you want it installed to. cd your folder
 3. Clone the repository ``` https://github.com/EmaEvidence/PostIt.git ```.
-4. Create a .env file using the .envexample as a guide.
-5. ``` npm install ``` to install all dependencies.
-6. ``` npm start ``` starts the app.
-7. The app runs on port 3300
-8. ``` npm run test ``` runs the server test.
-9. ``` npm run client-test ``` runs the client-side test
-10. The API can be consumed with postman.
+4. Create a database with PostgreSQL.
+5. Open the PostIt folder.
+6. Create a .env file using the .envexample as a guide.
+7. ``` npm install ``` to install all dependencies.
+8. ``` npm run dev-build ``` to build the app.
+9. ``` npm start ``` starts the app.
+10. The app runs on port 3300
+11. ``` npm run test ``` runs the server test.
+12. ``` npm run client-test ``` runs the client-side test
+13. The API can be consumed with postman.
 
 ## The API.
 The API exposes the following endpoints for consumption:  
@@ -81,5 +84,3 @@ Messages can't be edited or deleted.
 ## How to Contribute
 The project is open for contribution. You can start by making the Notifcation system real time using socket.io. If you have other improvements you want to add, feel free to do so. Ensure you follow style guide and visit the wiki page for a guide as regards project convention
 [wiki](https://github.com/EmaEvidence/PostIt/wiki)
-
-## FAQ

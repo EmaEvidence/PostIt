@@ -110,3 +110,43 @@ export const googleDetails = (name, email, username, state, res) => {
     return true;
   }
 };
+
+/**
+ * addUser validates data sent to addUser
+ * @method addUser
+ *
+ * @param  {number} groupId unique identifier for the group
+ * @param  {number} user unique identifier for the user
+ * @param  {boolean} res server response
+ *
+ * @return {boolean} response sent back to the controller
+ */
+export const addUser = (groupId, user, res) => {
+  if ((groupId === '' && groupId === undefined) || (!isNaN(groupId))) {
+    errorResponseHandler(res, 400, 'Invalid Group Id Supplied');
+  } else if (!isNaN(user)) {
+    errorResponseHandler(res, 400, 'Invalid user data Supplied');
+  } else {
+    return true;
+  }
+};
+
+/**
+ * createGroup validates data sent to createGroup
+ * @method createGroup
+ *
+ * @param  {string} groupName name of the group
+ * @param  {array} users array or string of unique identifier for the users
+ * @param  {boolean} res server response
+ *
+ * @return {boolean} response sent back to the controller
+ */
+export const createGroup = (groupName, users, res) => {
+  if ((groupName === null && groupName === undefined) && (groupName.search(' '))) {
+    errorResponseHandler(res, 400, 'Invalid Group Name Supplied');
+  } else if (typeof users !== 'string' && !(Array.isArray(users))) {
+    errorResponseHandler(res, 400, 'Invalid users Supplied');
+  } else {
+    return true;
+  }
+};

@@ -3,7 +3,7 @@ DB_PASSWORD=databasepasssword
 DB_HOST=databasehost
 DB_DATABASE=databasenameforproduction
 
-DB_DATABASE_LOCAL=databasenameforproductionlocaltest
+DB_DATABASE_LOCAL=databasenamefordevelopment
 DB_USERNAME_TEST=databaseusernametest
 DB_PASSWORD_TEST=databasepassswordtest
 DB_HOST_TEST=databasehosttest

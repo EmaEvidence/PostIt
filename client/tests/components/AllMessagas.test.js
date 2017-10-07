@@ -9,7 +9,7 @@ describe('AllMessages component should', () => {
     expect(wrapper.find('div').length).toBe(2);
     expect(wrapper.find('p').length).toBe(1);
     expect(wrapper.find('p').text()).toEqual('No new Message.');
-    expect(wrapper.find('h2').text()).toEqual('Please Select a Group. ');
+    expect(wrapper.find('h2').text()).toEqual('Please Select a Group.');
   });
 
   it('render without crashing if there is message', () => {

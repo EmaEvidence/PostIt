@@ -9,7 +9,7 @@ import userRouter from './routes/user';
 import groupRouter from './routes/group';
 
 const app = express();
-
+app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
@@ -17,10 +17,9 @@ app.use((req, res, next) => {
   next();
 });
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV === 'development') {
   app.use(webpackMiddleware(webpack(webpackConfig)));
   app.use(webpackHotMiddleware(webpack(webpackConfig)));
-  app.use(express.static('dist'));
 }
 
 app.use('/', userRouter);

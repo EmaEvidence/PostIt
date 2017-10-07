@@ -51,7 +51,7 @@ describe('When a User makes a request to the APIs', () => {
             expect(response.message).toEqual('Registration Successful');
             expect(response.user.username).toEqual('Evii');
             expect(response.user.email).toEqual('emmanueli@gmail.com');
-            token = response.user.token;
+            token = response.token;
             expect(response.user.phone).toEqual('07063777160');
             done(err);
           });

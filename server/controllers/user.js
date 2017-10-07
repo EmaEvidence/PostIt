@@ -72,7 +72,8 @@ export const signIn = (req, res) => {
         errorResponseHandler(res, 500, result);
       } else {
         res.status(200).json({
-          user: result,
+          user: result.user,
+          token: result.token,
           message: 'Sign In Successful'
         });
       }
@@ -104,7 +105,8 @@ export const signUp = (req, res) => {
       }
     } else {
       res.status(201).json({
-        user: result,
+        user: result.user,
+        token: result.token,
         message: 'Registration Successful'
       });
     }
@@ -124,6 +126,8 @@ export const getAllUsers = (req, res) => {
   user.getAllUsers((result) => {
     if (typeof result === 'string') {
       errorResponseHandler(res, 500, 'Error Fetching users');
+    } else if (result.length === 0) {
+      errorResponseHandler(res, 404, 'No User found');
     } else {
       res.status(200).json({
         users: result
@@ -175,6 +179,8 @@ export const searchUser = (req, res) => {
     user.searchUsers(searchTerm, offset, groupId, (result) => {
       if (typeof result === 'string') {
         errorResponseHandler(res, 500, 'Error Searching User');
+      } else if (result.length === 0) {
+        errorResponseHandler(res, 404, 'No user found');
       } else {
         return res.status(200).json({
           message: 'Search Result',
@@ -200,6 +206,8 @@ export const myMessage = (req, res) => {
   user.myMessages(userId, (result) => {
     if (typeof result === 'string') {
       errorResponseHandler(res, 500, 'Error retrieving message');
+    } else if (result.length === 0) {
+      errorResponseHandler(res, 404, 'No message found');
     } else {
       return res.status(200).json({
         message: 'Your Messages',
@@ -224,6 +232,8 @@ export const archivedMessages = (req, res) => {
   user.archivedMessages(username, groupId, (result) => {
     if (typeof result === 'string') {
       errorResponseHandler(res, 500, 'Error retrieving message');
+    } else if (result.length === 0) {
+      errorResponseHandler(res, 404, 'No message found');
     } else {
       return res.status(200).json({
         message: 'Archived Messages',
@@ -305,33 +315,33 @@ export const googleAuth = (req, res) => {
   const username = (email.split('@')[0]).replace(/[^a-zA-Z0-9]/g, '');
   const password = 'null';
   if (validate.googleDetails(name, email, username, res)) {
-    if (state === 'Sign Up') {
-      user.googleSignUp(name, email, username, state, password, (result) => {
-        if (typeof result === 'string') {
-          errorResponseHandler(res, 400, result);
-        } else {
-          return res.status(201).json({
-            message: 'Sign Up Successful',
-            user: result
+    user.googleSignIn(name, email, username, state, (result) => {
+      if (typeof result === 'string') {
+        if (result === 'Please Sign Up First') {
+          user.googleSignUp(name, email, username, state, password, (signUpResult) => {
+            if (typeof signUpResult === 'string') {
+              errorResponseHandler(res, 400, signUpResult);
+            } else {
+              return res.status(201).json({
+                message: 'Sign Up Successful',
+                user: signUpResult.user,
+                token: signUpResult.token
+              });
+            }
           });
-        }
-      });
-    } else {
-      user.googleSignIn(name, email, username, state, (result) => {
-        if (typeof result === 'string') {
-          if (result === 'Please Sign Up First') {
-            errorResponseHandler(res, 404, result);
-          } else {
-            errorResponseHandler(res, 500, result);
-          }
+        } else if (result === 'Already a user, Please sign in with your password') {
+          errorResponseHandler(res, 409, result);
         } else {
-          return res.status(200).json({
-            message: 'Sign In Successful',
-            user: result
-          });
+          errorResponseHandler(res, 500, result);
         }
-      });
-    }
+      } else {
+        return res.status(200).json({
+          message: 'Sign In Successful',
+          user: result.user,
+          token: result.token
+        });
+      }
+    });
   }
 };
 

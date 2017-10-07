@@ -17,30 +17,32 @@ export const addUser = (req, res) => {
   const groupId = req.params.groupId;
   const usersToAdd = req.body.user;
   const userAdding = req.token.data.id;
-  user.addUsers(groupId, usersToAdd, userAdding, (result) => {
-    if (typeof result === 'string') {
-      if (result.search('UserId') >= 0) {
-        errorResponseHandler(res, 404, 'User Does not exist');
-      } else if (result.search('GroupId') >= 0) {
-        errorResponseHandler(res, 404, 'Group Does not exist');
-      } else if (result === 'User is already a member') {
-        errorResponseHandler(res, 409, result);
-      } else if ((result.search('invalid input syntax for integer') >= 0) ||
-    (result.search('is out of range for type integer') >= 0)) {
-        errorResponseHandler(res, 400, 'Supplied Group or User Identity Out of Range');
-      } else if (result === 'Group Id must be stated' ||
-        result === 'User Id must be stated') {
-        errorResponseHandler(res, 400, result);
+  if (validate.addUser(groupId, usersToAdd, res)) {
+    user.addUsers(groupId, usersToAdd, userAdding, (result) => {
+      if (typeof result === 'string') {
+        if (result.search('UserId') >= 0) {
+          errorResponseHandler(res, 404, 'User Does not exist');
+        } else if (result.search('GroupId') >= 0) {
+          errorResponseHandler(res, 404, 'Group Does not exist');
+        } else if (result === 'User is already a member') {
+          errorResponseHandler(res, 409, result);
+        } else if ((result.search('invalid input syntax for integer') >= 0) ||
+      (result.search('is out of range for type integer') >= 0)) {
+          errorResponseHandler(res, 400, 'Supplied Group or User Identity Out of Range');
+        } else if (result === 'Group Id must be stated' ||
+          result === 'User Id must be stated') {
+          errorResponseHandler(res, 400, result);
+        } else {
+          errorResponseHandler(res, 500, 'Internal Server Error');
+        }
       } else {
-        errorResponseHandler(res, 500, 'Internal Server Error');
+        res.status(200).json({
+          user: result,
+          message: 'Added Successfully'
+        });
       }
-    } else {
-      res.status(200).json({
-        user: result,
-        message: 'Added Successfully'
-      });
-    }
-  });
+    });
+  }
 };
 
 /**
@@ -59,25 +61,26 @@ export const createGroup = (req, res) => {
   if (typeof users === 'string') {
     users = users.replace(/ /g, '');
     users = users.split(',');
-  }
-  user.createGroup(groupName, userId, users, (result) => {
-    if (typeof result === 'string') {
-      if (result === 'Group Exists already') {
-        errorResponseHandler(res, 409, result);
-      } else if (result === 'value too long for type character varying(255)') {
-        errorResponseHandler(res, 400, 'Group Name is too Long, It should be below 255 characters');
-      } else if (result === 'Internal Server Error') {
-        errorResponseHandler(res, 500, result);
+  } if (validate.createGroup(groupName, users, res)) {
+    user.createGroup(groupName, userId, users, (result) => {
+      if (typeof result === 'string') {
+        if (result === 'Group Exists already') {
+          errorResponseHandler(res, 409, result);
+        } else if (result === 'value too long for type character varying(255)') {
+          errorResponseHandler(res, 400, 'Group Name is too Long, It should be below 255 characters');
+        } else if (result === 'Internal Server Error') {
+          errorResponseHandler(res, 500, result);
+        } else {
+          errorResponseHandler(res, 400, result);
+        }
       } else {
-        errorResponseHandler(res, 400, result);
+        res.status(201).json({
+          group: result,
+          message: 'Group creation Successful'
+        });
       }
-    } else {
-      res.status(201).json({
-        group: result,
-        message: 'Group creation Successful'
-      });
-    }
-  });
+    });
+  }
 };
 
 /**
@@ -122,9 +125,11 @@ export const getGroupUsers = (req, res) => {
   if (validate.group(groupId, res)) {
     user.getGroupMembers(groupId, (result) => {
       if (typeof result === 'string') {
-        errorResponseHandler(res, 404, 'No Such Group');
+        errorResponseHandler(res, 500, 'Internal Error');
       } else if (result.length === 0) {
         errorResponseHandler(res, 404, 'No Member for this Group');
+      } else if (result === null) {
+        errorResponseHandler(res, 404, 'No Such Group');
       } else {
         res.status(200).json({
           users: result,

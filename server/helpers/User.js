@@ -84,7 +84,7 @@ class User {
           }).then((user) => {
             const id = user.id;
             const token = createToken({ id, name, username, phone, email });
-            done({ id, name, username, phone, email, token });
+            done({ user: { id, name, username, phone, email }, token });
           }).catch((err) => {
             if (err.errors === undefined) {
               done(err.message);
@@ -99,8 +99,8 @@ class User {
         });
       });
     } else {
-      if (isNaN(phone)) {
-        done('Wrong Phone Number');
+      if (phone.length !== 11 || isNaN(phone)) {
+        done('Invalid Phone Number');
       } else {
         done(validity);
       }
@@ -159,7 +159,16 @@ class User {
               username,
               email,
               phone });
-            done({ id, name, username, email, notification, phone, token });
+            done({
+              user: {
+                id,
+                name,
+                username,
+                email,
+                notification,
+                phone
+              },
+              token });
           } else {
             done('Failed, User not found');
           }
@@ -722,22 +731,37 @@ class User {
    * @return {objct} success or failure data
    */
   googleSignIn(name, email, username, state, done) {
-    this.database.Users.findAll({
+    this.database.Users.findOne({
       where: {
-        username,
         email,
-        authType: 'Google'
-      },
-      include: ['notifications']
-    }).then((result) => {
-      if (result.length === 0) {
-        done('Please Sign Up First');
-      } else {
-        const { id, phone } = result[0];
-        const token = createToken({ id, name, username, phone, email });
-        done({ id, name, username, phone, email, token });
+        authType: 'Normal'
       }
-    }).catch(() => {
+    })
+    .then((response) => {
+      if (response === null || response.length === 0) {
+        this.database.Users.findAll({
+          where: {
+            username,
+            email,
+            authType: 'Google'
+          },
+          include: ['notifications']
+        }).then((result) => {
+          if (result.length === 0) {
+            done('Please Sign Up First');
+          } else {
+            const { id, phone, notification } = result[0];
+            const token = createToken({ id, name, username, phone, email });
+            done({
+              user: { id, name, username, phone, email, notification },
+              token });
+          }
+        });
+      } else {
+        done('Already a user, Please sign in with your password');
+      }
+    })
+    .catch(() => {
       done('Error Signing In with Google, Try Again');
     });
   }
