@@ -35,24 +35,12 @@ const Users = {
   },
   password: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: {
-        args: true,
-        msg: 'Please supply a valid Password (A valid password contains Alphabets and or Numbers).'
-      }
-    }
+    allowNull: true
   },
   phone: {
     type: Sequelize.STRING,
     allowNull: true,
     unique: true,
-    validate: {
-      notEmpty: {
-        args: true,
-        msg: 'Please supply a valid Phone Number.'
-      }
-    }
   },
   authType: {
     type: Sequelize.STRING,

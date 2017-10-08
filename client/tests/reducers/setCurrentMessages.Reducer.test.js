@@ -1,10 +1,10 @@
 import expect from 'expect';
-import reducer from '../../reducers/setCurrentMessagesReducer';
+import setCurrentMessagesReducer from '../../reducers/setCurrentMessagesReducer';
 import * as types from '../../actions/types/types';
 
 describe('setCurrentMessages reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(
+    expect(setCurrentMessagesReducer(undefined, {})).toEqual(
       {
         currentMessages: [],
         status: '',
@@ -14,7 +14,7 @@ describe('setCurrentMessages reducer', () => {
   });
 
   it('should handle SET_CURRENT_MESSAGES', () => {
-    expect(reducer({}, {
+    expect(setCurrentMessagesReducer({}, {
       type: types.SET_CURRENT_MESSAGES,
       messages: [{ id: 1,
         message: 'Welcome',

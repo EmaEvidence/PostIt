@@ -18,6 +18,11 @@ const ensureToken = (req, res, next) => {
       if (err) {
         errorResponseHandler(res, 401, 'Invalid token.');
       } else {
+        if (req.body.key === 'token') {
+          res.status(200).json({
+            message: 'Valid User'
+          });
+        }
         req.token = decoded;
         next();
       }

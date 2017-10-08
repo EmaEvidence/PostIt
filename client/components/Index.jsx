@@ -45,10 +45,10 @@ const Index = (props) => {
         <p className="center-align">
           <b className="imgdesc">
             Rethinking and Reinventing Mass Communication</b><br />
-            PostIt is a simple application that allows friends and colleagues create groups
-            for notifications.
-            This way one person can post notifications to everyone by sending a message once.
-            The application allows people create accounts,
+            PostIt is a simple application that allows friends
+            and colleagues create groupsfor notifications.
+            This way one person can post notifications to everyone by sending
+            a message once. The application allows people create accounts,
             create groups and add registered users to the groups,
             and then send messages out to these groups whenever they want.<br />
           { button }
@@ -82,9 +82,8 @@ const Index = (props) => {
             <h1><i className="large material-icons">perm_identity</i></h1>
             <h4> Ema Evidence </h4>
             <p>
-                Emmanuel has a week experience in UI and UX during which he has worked
-                for many organizations
-                like Andela, Facebook and Apple.
+                Emmanuel has a week experience in UI and UX during which he has
+                worked for many organizations like Andela, Facebook and Apple.
               </p>
           </div>
         </div>

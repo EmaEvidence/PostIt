@@ -19,9 +19,10 @@ const passwordResetMailAction = userData => (dispatch) => {
       });
     })
     .catch((err) => {
-      Materialize.toast(err.response.data.message, 2500, 'red white-text rounded');
+      const status = err.response.data.message;
+      Materialize.toast(status, 2500, 'red white-text rounded');
       dispatch({
-        status: err.response.data.message,
+        status,
         type: RESET_MAIL_ERROR,
       });
     });

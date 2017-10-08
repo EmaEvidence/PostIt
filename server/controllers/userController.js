@@ -283,14 +283,18 @@ export const forgotPassword = (req, res) => {
  */
 export const resetPassword = (req, res) => {
   const { userKey, newPassword } = req.body;
-  if ((newPassword !== '' && newPassword !== undefined) && (userKey !== '' && userKey !== undefined)) {
+  if ((newPassword !== '' &&
+  newPassword !== undefined) &&
+  (userKey !== '' && userKey !== undefined)) {
     user.resetPassword(newPassword, userKey, (result) => {
       if (result === 'Password Updated') {
         return res.status(200).json({
           message: 'Password Updated, please sign In with the new Password',
           user: result
         });
-      } else if (result === 'Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8') {
+      } else if (result === `Password Must Contain Alphabets,
+        Numbers, Special Characters and Must be Longer than 8
+        `) {
         errorResponseHandler(res, 400, result);
       } else {
         errorResponseHandler(res, 500, 'Internal Server Error');
@@ -313,12 +317,12 @@ export const resetPassword = (req, res) => {
 export const googleAuth = (req, res) => {
   const { name, email, state } = req.body;
   const username = (email.split('@')[0]).replace(/[^a-zA-Z0-9]/g, '');
-  const password = 'null';
   if (validate.googleDetails(name, email, username, res)) {
     user.googleSignIn(name, email, username, state, (result) => {
       if (typeof result === 'string') {
+        const userError = 'Already a user, Please sign in with your password';
         if (result === 'Please Sign Up First') {
-          user.googleSignUp(name, email, username, state, password, (signUpResult) => {
+          user.googleSignUp(name, email, username, state, (signUpResult) => {
             if (typeof signUpResult === 'string') {
               errorResponseHandler(res, 400, signUpResult);
             } else {
@@ -329,7 +333,7 @@ export const googleAuth = (req, res) => {
               });
             }
           });
-        } else if (result === 'Already a user, Please sign in with your password') {
+        } else if (result === userError) {
           errorResponseHandler(res, 409, result);
         } else {
           errorResponseHandler(res, 500, result);
@@ -343,19 +347,4 @@ export const googleAuth = (req, res) => {
       }
     });
   }
-};
-
-/**
- * verifyToken validates a token sent from the frontend
- * @method verifyToken
- *
- * @param  {object} req request sent from frontend
- * @param  {object} res response from the server
- *
- * @return {object} API response
- */
-export const verifyToken = (req, res) => {
-  res.status(200).json({
-    message: 'Valid User'
-  });
 };

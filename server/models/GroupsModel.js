@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-const GroupModel = {
+const GroupsModel = {
   groupName: {
     type: Sequelize.STRING,
     unique: true,
@@ -14,4 +14,4 @@ const GroupModel = {
   },
 };
 
-export default GroupModel;
+export default GroupsModel;

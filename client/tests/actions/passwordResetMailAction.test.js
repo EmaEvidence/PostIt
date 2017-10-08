@@ -24,12 +24,14 @@ describe('async actions', () => {
       message: 'Mail Sent',
       type: types.RESET_MAIL_SUCCESS
     }];
-    store.dispatch(passwordResetMailAction({ email: 'ema@gmail.com' })).then(() => {
+    store.dispatch(passwordResetMailAction({ email: 'ema@gmail.com' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should return error if data is invalid when the action is called',
+  (done) => {
     moxios.stubRequest('/api/v1/group/1/message', {
       status: 404,
       response: {
@@ -41,7 +43,8 @@ describe('async actions', () => {
       type: types.RESET_MAIL_SUCCESS_ERROR,
       message: 'Email Not found'
     }];
-    store.dispatch(passwordResetMailAction({ email: 'emag@gmail.com' })).then(() => {
+    store.dispatch(passwordResetMailAction({ email: 'emag@gmail.com' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

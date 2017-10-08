@@ -34,12 +34,14 @@ describe('async actions', () => {
         token: '213123ddgdr23erwer' }
     }, 'Success')];
     store.dispatch(userSignInRequest({
-      userData: { username: 'Evidence', password: 'qwerty123@' } })).then(() => {
+      userData: { username: 'Evidence', password: 'qwerty123@' } }))
+      .then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should return error if data is invalid when the action is called',
+  (done) => {
     moxios.stubRequest('/api/v1/user/signin', {
       status: 400,
       response: {

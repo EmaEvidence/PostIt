@@ -25,9 +25,11 @@ describe('checkPassword', () => {
     expect(axios.defaults.headers.common.token).toEqual('password matches');
     done();
   });
-  it('should return password does matches if password does not matches', (done) => {
+  it('should return password does matches if password does not matches',
+  (done) => {
     checkPassword('12345', 54321);
-    expect(axios.defaults.headers.common.token).toEqual('password does not match');
+    expect(axios.defaults.headers.common.token)
+    .toEqual('password does not match');
     done();
   });
 });

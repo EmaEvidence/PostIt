@@ -18,7 +18,8 @@ describe('When a new User signs up', () => {
     }, 10000);
   }, 10000);
   it('should return error message if password is not specified ', (done) => {
-    expect(result).toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
+    expect(result)
+    .toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
     done();
   }, 10000);
 });
@@ -40,7 +41,8 @@ describe('When a new User signs up', () => {
     }, 10000);
   }, 10000);
 
-  it('should return a JSON object of the User if the details are correct', (done) => {
+  it('should return a JSON object of the User if the details are correct',
+  (done) => {
     expect(typeof result).toEqual('object');
     expect(result.username).toEqual('Evidence');
     expect(result.name).toEqual('Ema Ala');
@@ -134,17 +136,19 @@ describe('When a new User signs up', () => {
 
   let postResult;
   beforeEach((done) => {
-    user.postMessage(groupId, 'Evidence', userId, 'Hello Everyone', 'Normal', (response) => {
+    user.postMessage(groupId, 'Evidence', userId, 'Hello Everyone', 'Normal',
+    (response) => {
       postResult = response;
     }, 3000);
     done();
   });
-  it('should return message object when a signed user posts message to a group', (done) => {
-    expect((postResult).message).toEqual('Hello Everyone');
-    expect((postResult).priority).toEqual('Normal');
-    expect((postResult).senderUsername).toEqual('Evidence');
-    done();
-  }, 3000);
+  it('should return message object when a signed user posts message to a group',
+   (done) => {
+     expect((postResult).message).toEqual('Hello Everyone');
+     expect((postResult).priority).toEqual('Normal');
+     expect((postResult).senderUsername).toEqual('Evidence');
+     done();
+   }, 3000);
 
   afterEach((done) => {
     user.deleteUsers(email, () => {

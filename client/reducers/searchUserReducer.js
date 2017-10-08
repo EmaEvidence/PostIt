@@ -1,5 +1,5 @@
 /**
- * reducer
+ * searchResultReducer
  * @method reducer
  *
  * @param  {Object} state initial state
@@ -7,7 +7,7 @@
  *
  * @return {object} state new state
  */
-const reducer = (state = {
+const searchResultReducer = (state = {
   status: '',
   searchResult: [],
   pageCount: 0
@@ -30,4 +30,4 @@ const reducer = (state = {
   }
 };
 
-export default reducer;
+export default searchResultReducer;

@@ -1,13 +1,14 @@
 import axios from 'axios';
-import { GET_ARCHIVED_MESSAGES, GET_ARCHIVED_MESSAGES_ERROR } from './types/types';
+import { GET_ARCHIVED_MESSAGES,
+  GET_ARCHIVED_MESSAGES_ERROR } from './types/types';
 
 /**
- * myMessageAction creates redux actions
+ * archivedMessagesAction creates redux actions
  * @method myMessageAction
  *
  * @return {function} redux action
  */
-const myMessageAction = () => {
+const archivedMessagesAction = () => {
   const url = '/api/v1/user/messages/archived';
   return (dispatch) => {
     axios.get(url)
@@ -26,4 +27,4 @@ const myMessageAction = () => {
   };
 };
 
-export default myMessageAction;
+export default archivedMessagesAction;

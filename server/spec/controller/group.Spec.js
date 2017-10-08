@@ -9,26 +9,30 @@ const api = new supertest(server);
 let newUserId;
 
 describe('When a User makes a request to the API', () => {
-  it('should return error when a user access "/api/v1/group" without logging in', (done) => {
+  it('should return error when "/api/v1/group" is accessed without logging in',
+  (done) => {
     api.post('/api/v1/group')
             .send({
             })
             .end((err, res) => {
               expect(res.status).toEqual(401);
               const response = JSON.parse(res.text);
-              expect(response.message).toEqual('Access Token Not Provided. Please Sign In');
+              expect(response.message)
+              .toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
 
-  it('should return error when a user access "/api/v1/group/3/user" without logging in', (done) => {
+  it('should return error when "/api/v1/group/3/user" is accessed without logging in',
+  (done) => {
     api.post('/api/v1/group/3/user')
             .send({
             })
             .end((err, res) => {
               expect(res.status).toEqual(401);
               const response = JSON.parse(res.text);
-              expect(response.message).toEqual('Access Token Not Provided. Please Sign In');
+              expect(response.message)
+              .toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -40,7 +44,8 @@ describe('When a User makes a request to the API', () => {
             .end((err, res) => {
               expect(res.status).toEqual(401);
               const response = JSON.parse(res.text);
-              expect(response.message).toEqual('Access Token Not Provided. Please Sign In');
+              expect(response.message)
+              .toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -51,7 +56,8 @@ describe('When a User makes a request to the API', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(401);
-              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
+              expect(JSON.parse(res.text).message)
+              .toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -129,7 +135,8 @@ describe('when a user makes a request to the API', () => {
         })
         .end((err, res) => {
           expect(res.status).toEqual(400);
-          expect(JSON.parse(res.text).message).toEqual('User Id must be stated');
+          expect(JSON.parse(res.text).message)
+          .toEqual('User Id must be stated');
           done(err);
         });
   }, 6000);
@@ -168,7 +175,8 @@ describe('when a user makes a request to the API', () => {
         .end((err, res) => {
           expect(res.status).toEqual(201);
           expect(JSON.parse(res.text).message).toEqual('Message Added.');
-          expect(JSON.parse(res.text).messageData.message).toEqual('How are you');
+          expect(JSON.parse(res.text).messageData.message)
+          .toEqual('How are you');
           done(err);
         });
   }, 3000);
@@ -180,7 +188,8 @@ describe('when a user makes a request to the API', () => {
           expect(res.status).toEqual(200);
           expect(typeof JSON.parse(res.text).messages).toEqual('object');
           expect(JSON.parse(res.text).messages.length).toBeGreaterThan(0);
-          expect(JSON.parse(res.text).messages[0].message).toEqual('How are you');
+          expect(JSON.parse(res.text).messages[0].message)
+          .toEqual('How are you');
           done(err);
         });
   }, 3000);
@@ -195,7 +204,8 @@ describe('when a user makes a request to the API', () => {
         })
         .end((err, res) => {
           expect(res.status).toEqual(400);
-          expect(JSON.parse(res.text).message).toEqual('message cannot be empty');
+          expect(JSON.parse(res.text).message)
+          .toEqual('message cannot be empty');
           done(err);
         });
   }, 3000);
@@ -220,8 +230,10 @@ describe('when a user makes a request to the API', () => {
         .set('authorization', token)
         .end((err, res) => {
           expect(res.status).toEqual(200);
-          expect(JSON.parse(res.text).message).toEqual('Message Retrival Successful');
-          expect(JSON.parse(res.text).messages[0].message).toEqual('How are you');
+          expect(JSON.parse(res.text).message)
+          .toEqual('Message Retrival Successful');
+          expect(JSON.parse(res.text).messages[0].message)
+          .toEqual('How are you');
           done(err);
         });
   }, 3000);
@@ -231,7 +243,8 @@ describe('when a user makes a request to the API', () => {
         .set('authorization', token)
         .end((err, res) => {
           expect(res.status).toEqual(403);
-          expect(JSON.parse(res.text).message).toEqual('You are not a member of this group');
+          expect(JSON.parse(res.text).message)
+          .toEqual('You are not a member of this group');
           done(err);
         });
   }, 3000);
@@ -255,7 +268,8 @@ describe('when a user makes a request to the API', () => {
           expect(res.status).toEqual(200);
           expect(typeof JSON.parse(res.text).messages).toEqual('object');
           expect(JSON.parse(res.text).messages.length).toBeGreaterThan(0);
-          expect(JSON.parse(res.text).messages[0].message).toEqual('How are you');
+          expect(JSON.parse(res.text).messages[0].message)
+          .toEqual('How are you');
           done(err);
         });
   }, 3000);
@@ -266,7 +280,8 @@ describe('when a user makes a request to the API', () => {
         .set('authorization', token)
         .end((err, res) => {
           expect(res.status).toEqual(200);
-          expect(JSON.parse(res.text).message).toEqual('Users Retrival Successful');
+          expect(JSON.parse(res.text).message)
+          .toEqual('Users Retrival Successful');
           expect(JSON.parse(res.text).users.length).toBeGreaterThan(0);
           expect(JSON.parse(res.text).users[0].username).toEqual('Trial1');
           done(err);

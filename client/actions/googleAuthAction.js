@@ -25,14 +25,16 @@ const googleAuthAction = (authData) => {
     })
     .catch((err) => {
       if (err.response === undefined) {
-        Materialize.toast('Internal Server Error', 2500, 'red white-text rounded');
+        const errorMessage = 'Internal Server Error';
+        Materialize.toast(errorMessage, 2500, 'red white-text rounded');
         dispatch(authAction({
           data: 'Internal Error'
         }, 'Error'));
       } else {
-        Materialize.toast(err.response.data.message, 2500, 'red white-text rounded');
+        const errorMessage = err.response.data.message;
+        Materialize.toast(errorMessage, 2500, 'red white-text rounded');
         dispatch(authAction({
-          data: err.response.data.message
+          data: errorMessage
         }, 'Error'));
       }
     });

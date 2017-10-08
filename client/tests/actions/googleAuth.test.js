@@ -44,7 +44,8 @@ describe('async actions', () => {
       });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should return error if data is invalid when the action is called',
+  (done) => {
     moxios.stubRequest('/api/v1/user/google', {
       status: 500,
       response: {
@@ -60,7 +61,8 @@ describe('async actions', () => {
     const expectedAction = [authAction({
       data: 'Internal Error'
     }, 'Error')];
-    store.dispatch(googleAuthAction({ name: '', email: '', state: 'Sign Up' })).then(() => {
+    store.dispatch(googleAuthAction({ name: '', email: '', state: 'Sign Up' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

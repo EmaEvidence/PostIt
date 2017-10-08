@@ -26,7 +26,8 @@ describe('async actions', () => {
       type: types.CREATE_GROUP,
       message: 'Group Created successfully'
     }];
-    store.dispatch(createGroupAction({ groupName: 'Andela', users: [1, 3] })).then(() => {
+    store.dispatch(createGroupAction({ groupName: 'Andela', users: [1, 3] }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
@@ -43,7 +44,8 @@ describe('async actions', () => {
       message: 'Group Name can not be empty',
       type: types.CREATE_GROUP_ERROR,
     }];
-    store.dispatch(createGroupAction({ groupName: '', users: [1, 3] })).then(() => {
+    store.dispatch(createGroupAction({ groupName: '', users: [1, 3] }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

@@ -62,7 +62,8 @@ describe('When a new User supplies a password', () => {
   const validPassword = validate(password, 1);
   const invalidPassword = validate(wrongPassword, 1);
   it('should return Error message if its in a wrong format', () => {
-    expect(invalidPassword).toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
+    expect(invalidPassword)
+    .toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
   });
   it('should return valid if its in a right format', () => {
     expect(validPassword).toEqual('valid');

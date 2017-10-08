@@ -22,15 +22,17 @@ const resetPasswordAction = (newPassword, userKey) => (dispatch) => {
     })
     .catch((error) => {
       if (error.resonse === undefined) {
-        Materialize.toast(error.response.data.message, 2500, 'red white-text rounded');
+        const status = error.response.data.message;
+        Materialize.toast(status, 2500, 'red white-text rounded');
         return dispatch({
-          status: error.response.data.message,
+          status,
           type: RESET_PASSWORD_ERROR
         });
       } else {
-        Materialize.toast('Internal Server Error', 2500, 'red white-text rounded');
+        const status = 'Internal Server Error';
+        Materialize.toast(status, 2500, 'red white-text rounded');
         return dispatch({
-          status: error.response.message,
+          status,
           type: RESET_PASSWORD_ERROR
         });
       }

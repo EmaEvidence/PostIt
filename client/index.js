@@ -32,7 +32,8 @@ if (localStorage.token) {
       store.dispatch(getUserGroupsAction(decoded.data));
     })
     .catch(() => {
-      Materialize.toast('Session Expired, Please Sign In', 6000, 'red white-text rounded');
+      const errorMessage = 'Session Expired, Please Sign In';
+      Materialize.toast(errorMessage, 6000, 'red white-text rounded');
       localStorage.removeItem('token');
       location.href = '/';
     });

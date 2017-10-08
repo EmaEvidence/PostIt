@@ -1,17 +1,17 @@
 import expect from 'expect';
-import reducer from '../../reducers/archivedMessageReducer';
+import archivedMessageReducer from '../../reducers/archivedMessageReducer';
 import * as types from '../../actions/types/types';
 
 describe('archived messages reducer', () => {
   it('should return initial state', () => {
-    expect(reducer(undefined, {})).toEqual({
+    expect(archivedMessageReducer(undefined, {})).toEqual({
       archivedMessages: [],
       currentGroup: '',
       status: ''
     });
   });
   it('it should handle GET_ARCHIVED_MESSAGE', () => {
-    expect(reducer({
+    expect(archivedMessageReducer({
       archivedMessages: [],
       currentGroup: '',
       status: ''
@@ -36,7 +36,7 @@ describe('archived messages reducer', () => {
     });
   });
   it('it should handle GET_ARCHIVED_MESSAGE_ERROR', () => {
-    expect(reducer({
+    expect(archivedMessageReducer({
       archivedMessages: [],
       currentGroup: '',
       status: ''

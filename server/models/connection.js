@@ -1,11 +1,11 @@
 import Sequelize from 'sequelize';
 import dotenv from 'dotenv';
 
-import UserModel from './Users';
-import GroupModel from './Groups';
-import GroupMembersModel from './GroupMembers';
-import MessagesModel from './Messages';
-import NotificationModel from './Notification';
+import UsersModel from './UsersModel';
+import GroupsModel from './GroupsModel';
+import GroupMembersModel from './GroupMembersModel';
+import MessagesModel from './MessagesModel';
+import NotificationModel from './NotificationModel';
 
 dotenv.config();
 
@@ -13,23 +13,26 @@ let dataBase, sequelize;
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
 const host = process.env.DB_HOST;
+let sequelizeConfig;
 if (process.env.NODE_ENV === 'test') {
-  sequelize = new Sequelize('postgres://postgres@localhost/postit_test');
+  sequelize = new Sequelize('postgres://postgres@localhost/postItTest');
 } else if (process.env.NODE_ENV === 'development') {
   dataBase = process.env.DB_DATABASE_LOCAL;
-  sequelize = new Sequelize(`postgres://${username}:${password}${host}/${dataBase}`);
+  sequelizeConfig = `postgres://${username}:${password}${host}/${dataBase}`;
+  sequelize = new Sequelize(sequelizeConfig);
 } else {
   dataBase = process.env.DB_DATABASE;
-  sequelize = new Sequelize(`postgres://${username}:${password}${host}/${dataBase}`);
+  sequelizeConfig = `postgres://${username}:${password}${host}/${dataBase}`;
+  sequelize = new Sequelize(sequelizeConfig);
 }
 
 const database = {};
 database.sequelize = sequelize;
 database.Sequelize = Sequelize;
 
-const Users = sequelize.define('Users', UserModel);
+const Users = sequelize.define('Users', UsersModel);
 database.Users = Users;
-const Groups = sequelize.define('Groups', GroupModel);
+const Groups = sequelize.define('Groups', GroupsModel);
 database.Groups = Groups;
 const GroupMembers = sequelize.define('GroupMembers', GroupMembersModel);
 database.GroupMembers = GroupMembers;

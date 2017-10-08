@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import GoogleLogin from './GoogleLogin';
+import GoogleAuth from './GoogleAuth';
 import googleAuthAction from '../actions/googleAuthAction';
 import CloseButton from './CloseButton';
 
@@ -62,7 +62,7 @@ export class SignUp extends React.Component {
     this.props.userSignup(this.state);
   }
   /**
-   * checkPassword confirms if the password and confirm password supplied is matches
+   * checkPassword confirms if the password and confirm password matches
    *
    * @method checkPassword
    *
@@ -113,7 +113,7 @@ export class SignUp extends React.Component {
           <div className="">
             <h2 className="form-header center" >Sign Up </h2>
             <p className="center">
-              <GoogleLogin type={'Sign Up'} googleAction={googleAuth} />
+              <GoogleAuth type={'Sign Up'} googleAction={googleAuth} />
             </p>
           </div>
           <div className="form-group">

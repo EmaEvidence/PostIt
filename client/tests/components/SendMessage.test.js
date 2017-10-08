@@ -30,7 +30,8 @@ describe('SendMessage component should', () => {
     expect(wrapper.find('span').length).toBe(1);
     expect(wrapper.find('fieldset').length).toBe(1);
     expect(wrapper.find('legend').length).toBe(1);
-    expect(wrapper.instance().charactersRemaining({ target: { value: 'example' } }));
+    expect(wrapper.instance()
+    .charactersRemaining({ target: { value: 'example' } }));
     expect(wrapper.instance().handleValueChange());
   });
 });

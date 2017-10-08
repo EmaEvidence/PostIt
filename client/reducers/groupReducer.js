@@ -1,5 +1,5 @@
 /**
- * reducer
+ * groupReducer
  * @method reducer
  *
  * @param  {Object} state initial state
@@ -7,7 +7,7 @@
  *
  * @return {object} state new state
  */
- const reducer = (state = {
+ const groupReducer = (state = {
    status: '',
    groups: ''
  }, action) => {
@@ -31,8 +31,10 @@
      }
      case 'ADD_NEW_MEMBER': {
        const newState = { ...state };
-       const filtered = newState.groups[0].find(group => group.id === action.group.id);
-       const newformed = { ...filtered, ...{ Users: [...filtered.Users, ...action.group.Users] } };
+       const filtered = newState.groups[0].find(group =>
+         group.id === action.group.id);
+       const newformed = { ...filtered,
+         ...{ Users: [...filtered.Users, ...action.group.Users] } };
        const groups = newState.groups[0].map((group) => {
          return group.id === newformed.id ? newformed : group;
        });
@@ -43,4 +45,4 @@
    }
  };
 
- export default reducer;
+ export default groupReducer;

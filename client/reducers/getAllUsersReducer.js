@@ -1,5 +1,5 @@
 /**
- * reducer
+ * getAllUsersReducer
  * @method reducer
  *
  * @param  {Object} state initial state
@@ -7,7 +7,7 @@
  *
  * @return {object} state new state
  */
-const reducer = (state = {
+const getAllUsersReducer = (state = {
   users: [],
 }, action) => {
   switch (action.type) {
@@ -22,4 +22,4 @@ const reducer = (state = {
   }
 };
 
-export default reducer;
+export default getAllUsersReducer;

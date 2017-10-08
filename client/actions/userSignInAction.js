@@ -23,9 +23,10 @@ const userSignInAction = userData => (dispatch) => {
       }, 'Successful'));
       location.href = '/messageboard';
     }).catch((err) => {
-      Materialize.toast(err.response.data.message, 2500, 'red white-text rounded');
+      const errorMessage = err.response.data.message;
+      Materialize.toast(errorMessage, 2500, 'red white-text rounded');
       dispatch(authAction({
-        data: err.response.data.message
+        data: errorMessage
       }, 'Error'));
     });
 };

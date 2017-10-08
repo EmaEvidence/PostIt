@@ -10,7 +10,8 @@
  */
 const validate = (userPassword, phone) => {
   let validity;
-  if (/^(?=.*\d)(?=.*\W)(?=.*[a-zA-Z])(?!.*\s).{8,}$/.test(userPassword) && !isNaN(phone)) {
+  if (/^(?=.*\d)(?=.*\W)(?=.*[a-zA-Z])(?!.*\s).{8,}$/.test(userPassword) &&
+   !isNaN(phone)) {
     if (phone.length !== 11) {
       validity = 'Invalid Phone Number';
     } else {

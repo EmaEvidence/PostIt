@@ -25,7 +25,8 @@ export class AddMembers extends React.Component {
       termIsEmpty: true,
       searchTerm: '',
       offset: 0,
-      pageCount: ''
+      pageCount: '',
+      members: []
     };
     this.addMember = this.addMember.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -47,7 +48,8 @@ export class AddMembers extends React.Component {
         searchTerm: event.target.value,
       });
       const offSet = this.state.offset || 0;
-      this.props.searchUserAction(event.target.value, offSet, this.props.groupId);
+      this.props.searchUserAction(event.target.value, offSet,
+        this.props.groupId);
     } else {
       this.setState({
         termIsEmpty: false,
@@ -67,7 +69,8 @@ export class AddMembers extends React.Component {
   handlePageClick(data) {
     const selected = data.selected;
     const offset = Math.ceil(selected * 5);
-    this.props.searchUserAction(this.state.searchTerm, offset, this.props.groupId);
+    this.props.searchUserAction(this.state.searchTerm, offset,
+      this.props.groupId);
   }
   /**
    * addMember adds a new member to a group
@@ -81,6 +84,9 @@ export class AddMembers extends React.Component {
   addMember(userId) {
     const groupId = this.props.groupId;
     this.props.addNewMemberAction(groupId, userId);
+    this.setState({
+      members: [...this.state.members, userId]
+    });
   }
   /**
    * clear returns the state of the component to its default
@@ -111,7 +117,7 @@ export class AddMembers extends React.Component {
     let paginate;
     if (JSON.parse(this.props.groups !== undefined)) {
       (JSON.parse(this.props.groups)).forEach((group) => {
-        if (group.id === this.props.groupId) {
+        if ((group.id === this.props.groupId) && group.Users !== undefined) {
           (group.Users).map((user) => {
             members.push(user.id);
           });
@@ -171,7 +177,11 @@ export class AddMembers extends React.Component {
           </div>
           <div className="form-group">
             <label htmlFor="search"> Enter your search term </label>
-            <input type="search" value={this.state.searchTerm} onChange={this.onChange} />
+            <input
+              type="search"
+              value={this.state.searchTerm}
+              onChange={this.onChange}
+            />
           </div>
           <div className="result-holder">
             <table className="center add-table">

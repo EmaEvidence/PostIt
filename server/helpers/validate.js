@@ -13,14 +13,17 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  *
  * @return {boolean} validity response back to the controller
  */
-export const messageData = (groupId, message, priority, groupName, from, res) => {
+export const messageData = (groupId,
+  message, priority, groupName, from, res) => {
   if (groupId === '' || groupId === undefined) {
     errorResponseHandler(res, 400, 'Group must be specified');
   } else if (from === '' || from === undefined) {
     errorResponseHandler(res, 400, 'Sender must be specified');
-  } else if (message === '' || message === undefined || (message.trim()).length === 0) {
+  } else if (message === '' ||
+    message === undefined || (message.trim()).length === 0) {
     errorResponseHandler(res, 400, 'message cannot be empty');
-  } else if (priority !== 'Normal' && priority !== 'Critical' && priority !== 'Urgent') {
+  } else if (priority !== 'Normal' &&
+    priority !== 'Critical' && priority !== 'Urgent') {
     errorResponseHandler(res, 400, 'Wrong Priority level');
   } else if (groupName === '' && groupName === undefined) {
     errorResponseHandler(res, 400, 'Group Name must be defined');
@@ -122,9 +125,9 @@ export const googleDetails = (name, email, username, state, res) => {
  * @return {boolean} response sent back to the controller
  */
 export const addUser = (groupId, user, res) => {
-  if ((groupId === '' && groupId === undefined) || (!isNaN(groupId))) {
+  if ((groupId === '' && groupId === undefined) && (isNaN(groupId))) {
     errorResponseHandler(res, 400, 'Invalid Group Id Supplied');
-  } else if (!isNaN(user)) {
+  } else if (isNaN(user)) {
     errorResponseHandler(res, 400, 'Invalid user data Supplied');
   } else {
     return true;
@@ -142,7 +145,8 @@ export const addUser = (groupId, user, res) => {
  * @return {boolean} response sent back to the controller
  */
 export const createGroup = (groupName, users, res) => {
-  if ((groupName === null && groupName === undefined) && (groupName.search(' '))) {
+  if ((groupName === null &&
+    groupName === undefined) && (groupName.search(' '))) {
     errorResponseHandler(res, 400, 'Invalid Group Name Supplied');
   } else if (typeof users !== 'string' && !(Array.isArray(users))) {
     errorResponseHandler(res, 400, 'Invalid users Supplied');

@@ -31,7 +31,8 @@ describe('When a User makes a request to the APIs', () => {
           })
           .end((err, res) => {
             expect(res.status).toEqual(400);
-            expect(JSON.parse(res.text).message).toEqual('email cannot be null');
+            expect(JSON.parse(res.text).message)
+            .toEqual('email cannot be null');
             done(err);
           });
   }, 10000);
@@ -64,7 +65,8 @@ describe('When a User makes a request to the APIs', () => {
             .end((err, res) => {
               expect(res.status).toEqual(401);
               const response = JSON.parse(res.text);
-              expect(response.message).toEqual('Access Token Not Provided. Please Sign In');
+              expect(response.message)
+              .toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -76,7 +78,8 @@ describe('When a User makes a request to the APIs', () => {
             .end((err, res) => {
               expect(res.status).toEqual(401);
               const response = JSON.parse(res.text);
-              expect(response.message).toEqual('Access Token Not Provided. Please Sign In');
+              expect(response.message)
+              .toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -88,7 +91,8 @@ describe('When a User makes a request to the APIs', () => {
             .end((err, res) => {
               expect(res.status).toEqual(401);
               const response = JSON.parse(res.text);
-              expect(response.message).toEqual('Access Token Not Provided. Please Sign In');
+              expect(response.message)
+              .toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -99,7 +103,8 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(401);
-              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
+              expect(JSON.parse(res.text).message)
+              .toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -109,7 +114,8 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(401);
-              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
+              expect(JSON.parse(res.text).message)
+              .toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -119,7 +125,8 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(401);
-              expect(JSON.parse(res.text).message).toEqual('Access Token Not Provided. Please Sign In');
+              expect(JSON.parse(res.text).message)
+              .toEqual('Access Token Not Provided. Please Sign In');
               done(err);
             });
   }, 10000);
@@ -133,7 +140,8 @@ describe('When a User makes a request to the APIs', () => {
             .end((err, res) => {
               expect(res.status).toEqual(200);
               expect(JSON.parse(res.text).user.username).toEqual('Sammy');
-              expect(JSON.parse(res.text).user.email).toEqual('sammy@gmail.com');
+              expect(JSON.parse(res.text).user.email)
+              .toEqual('sammy@gmail.com');
               expect(JSON.parse(res.text).user.name).toEqual('Samuel Oke');
               done(err);
             });
@@ -146,7 +154,8 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(400);
-              expect(JSON.parse(res.text).message).toEqual('Username can not be empty');
+              expect(JSON.parse(res.text).message)
+              .toEqual('Username can not be empty');
               done(err);
             });
   }, 3000);
@@ -158,7 +167,8 @@ describe('When a User makes a request to the APIs', () => {
             })
             .end((err, res) => {
               expect(res.status).toEqual(404);
-              expect(JSON.parse(res.text).message).toEqual('Failed, User not found');
+              expect(JSON.parse(res.text).message)
+              .toEqual('Failed, User not found');
               done(err);
             });
   }, 3000);
@@ -194,7 +204,8 @@ describe('When a User makes a request to the APIs', () => {
         })
         .end((err, res) => {
           expect(res.status).toEqual(404);
-          expect(JSON.parse(res.text).message).toEqual('Email Address Not found');
+          expect(JSON.parse(res.text).message)
+          .toEqual('Email Address Not found');
           done(err);
         });
   }, 3000);
@@ -206,7 +217,8 @@ describe('When a User makes a request to the APIs', () => {
         })
         .end((err, res) => {
           expect(res.status).toEqual(400);
-          expect(JSON.parse(res.text).message).toEqual('Please Supply your Email');
+          expect(JSON.parse(res.text).message)
+          .toEqual('Please Supply your Email');
           done(err);
         });
   }, 3000);
@@ -219,7 +231,8 @@ describe('When a User makes a request to the APIs', () => {
         })
         .end((err, res) => {
           expect(res.status).toEqual(200);
-          expect(JSON.parse(res.text).message).toEqual('A mail has being sent to you.');
+          expect(JSON.parse(res.text).message)
+          .toEqual('A mail has being sent to you.');
           done(err);
         });
   }, 3000);
@@ -249,7 +262,8 @@ describe('When a User makes a request to the APIs', () => {
         })
         .end((err, res) => {
           expect(res.status).toEqual(400);
-          expect(JSON.parse(res.text).message).toEqual('Invalid Input Supplied.');
+          expect(JSON.parse(res.text).message)
+          .toEqual('Invalid Input Supplied.');
           done(err);
         });
   }, 3000);
@@ -262,11 +276,13 @@ describe('When a User makes a request to the APIs', () => {
         })
         .end((err, res) => {
           expect(res.status).toEqual(400);
-          expect(JSON.parse(res.text).message).toEqual('Please supply a search term');
+          expect(JSON.parse(res.text).message)
+          .toEqual('Please supply a search term');
           done(err);
         });
   }, 3000);
-  it('should return success when a register user searches for other users', (done) => {
+  it('should return success when a register user searches for other users',
+  (done) => {
     const url = '/api/v1/users/search';
     api.post(url)
         .set('authorization', token)
@@ -327,7 +343,8 @@ describe('When a User signs in with google+', () => {
             done(err);
           });
   }, 15000);
-  it('should return error if the user is not registered with google+', (done) => {
+  it('should return error if the user is not registered with google+',
+  (done) => {
     api.post('/api/v1/user/google')
           .send({
             state: 'Sign In',

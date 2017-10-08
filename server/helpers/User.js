@@ -25,7 +25,7 @@ class User {
   }
 
   /**
-   * inAppNotify sends an in app notification to members of a group when a new message is sent
+   * inAppNotify sends an in app notification to members of a group
    * @method inAppNotify
    *
    * @param  {array} users array of user ids
@@ -58,7 +58,7 @@ class User {
   }
 
   /**
-   * signUp - Creates a user from the data provided by saving it in the user database.
+   * signUp Creates a new user
    * @method signUp
    *
    * @param {string} name Name of the User
@@ -130,7 +130,8 @@ class User {
   }
 
   /**
-   * logIn - checks if the provided User/log In details is availale in the database
+   * logIn checks if the provided User/log-In details
+   * is availale in the database
    * @method logIn
    *
    * @param  {string} username userName of the user
@@ -609,7 +610,7 @@ class User {
    * sendPasswordResetMail sends a password reset mail
    * @method sendPasswordResetMail
    *
-   * @param {string} email email address of the user requesting for a Change of password
+   * @param {string} email users email address
    * @param {FunctionDeclaration} done callback
    *
    * @return {objecte} success or failure data
@@ -629,9 +630,11 @@ class User {
           from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
           to: email,
           subject: 'Password Reset',
-          text: 'You have requested for a password reset. Follow the link below to reset your password',
+          text: `You have requested for a password reset.
+                  Follow the link below to reset your password`,
           html: `<h3>
-                  You have requested for a password reset. Follow the link below to reset your password
+                  You have requested for a password reset.
+                  Follow the link below to reset your password
                 </h3>
                 <a href=${link}?tok=${userKey}>Click Me to Change Password</a>`
         });
@@ -670,7 +673,8 @@ class User {
                   from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
                   to: email,
                   subject: 'Password Reset Successful',
-                  text: 'Your password has being changed. Please Login with your new password',
+                  text: `Your password has being changed.
+                          Please Login with your new password`,
                   html: '<a href="">Click Here to Login</a>'
                 };
                 sendMail(mailOptions);
@@ -694,19 +698,16 @@ class User {
    * @param {string} email email of the user
    * @param {string} username username of the user
    * @param {string} state status of the the authorization
-   * @param {string} password='social' default password
    * @param {Function} done callback
    *
    * @return {objct} success or failure data
    */
-  googleSignUp(name, email, username, state, password = null, done) {
+  googleSignUp(name, email, username, state, done) {
     this.database.Users.findOrCreate({
       where: {
         name,
         username,
         email,
-        password,
-        phone: null,
         authType: 'Google'
       }
     }).then((result) => {

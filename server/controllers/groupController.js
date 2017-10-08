@@ -28,7 +28,8 @@ export const addUser = (req, res) => {
           errorResponseHandler(res, 409, result);
         } else if ((result.search('invalid input syntax for integer') >= 0) ||
       (result.search('is out of range for type integer') >= 0)) {
-          errorResponseHandler(res, 400, 'Supplied Group or User Identity Out of Range');
+          const error = 'Supplied Group or User Identity Out of Range';
+          errorResponseHandler(res, 400, error);
         } else if (result === 'Group Id must be stated' ||
           result === 'User Id must be stated') {
           errorResponseHandler(res, 400, result);
@@ -64,10 +65,12 @@ export const createGroup = (req, res) => {
   } if (validate.createGroup(groupName, users, res)) {
     user.createGroup(groupName, userId, users, (result) => {
       if (typeof result === 'string') {
+        const groupNameError = 'value too long for type character varying(255)';
         if (result === 'Group Exists already') {
           errorResponseHandler(res, 409, result);
-        } else if (result === 'value too long for type character varying(255)') {
-          errorResponseHandler(res, 400, 'Group Name is too Long, It should be below 255 characters');
+        } else if (result === groupNameError) {
+          const error = 'Group Name should be below 225 characters';
+          errorResponseHandler(res, 400, error);
         } else if (result === 'Internal Server Error') {
           errorResponseHandler(res, 500, result);
         } else {
@@ -156,26 +159,27 @@ export const postMessage = (req, res) => {
   const from = req.token.data.id;
   const username = req.token.data.username;
   if (validate.messageData(groupId, message, priority, groupName, from, res)) {
-    user.postMessage(groupId, username, from, message, priority, (result, users) => {
-      if (typeof result === 'string') {
-        if (result === 'Not a Group Member') {
-          errorResponseHandler(res, 403, 'Not a Group Member');
-        } else if (result === 'Internal Error') {
-          errorResponseHandler(res, 500, 'Internal Error');
-        } else {
-          errorResponseHandler(res, 404, 'Group does not Exist');
-        }
-      } else {
-        const userId = req.token.data.id;
-        user.inAppNotify(users, groupId, username, groupName, userId);
-        res.status(201).json({
-          messageData: result,
-          message: 'Message Added.',
-          notification: {
-            message: 'Notification sent'
+    user.postMessage(groupId,
+      username, from, message, priority, (result, users) => {
+        if (typeof result === 'string') {
+          if (result === 'Not a Group Member') {
+            errorResponseHandler(res, 403, 'Not a Group Member');
+          } else if (result === 'Internal Error') {
+            errorResponseHandler(res, 500, 'Internal Error');
+          } else {
+            errorResponseHandler(res, 404, 'Group does not Exist');
           }
-        });
-      }
-    });
+        } else {
+          const userId = req.token.data.id;
+          user.inAppNotify(users, groupId, username, groupName, userId);
+          res.status(201).json({
+            messageData: result,
+            message: 'Message Added.',
+            notification: {
+              message: 'Notification sent'
+            }
+          });
+        }
+      });
   }
 };
