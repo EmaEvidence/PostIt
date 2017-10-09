@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Input from './Input';
 import resetPasswordAction from '../actions/resetPasswordAction';
+import SubmitButton from './SubmitButton';
 
 /**
  * NewPassword Component
@@ -68,18 +69,23 @@ export class NewPassword extends React.Component {
     }
   }
   /**
-   * [displays the form to login]
+   * displays the form to login
    * @method render
-   * @return {[jsx]} [description]
+   *
+   * @return {jsx} description
    */
   render() {
     return (
-      <div id="" className="reg-form row">
-        <form onSubmit={this.onSubmit} className="newpassword col s4 offset-s4 valign">
+      <div id="" className="row">
+        <form
+          onSubmit={this.onSubmit}
+          className="newpassword col s4 offset-s4 valign"
+        >
           <div className="modal-header">
             <h3 className="form-header" > Reset Password </h3>
-            <p className="center"> Please use the Form Below to Reset Your Password </p>
-            <p className="center">{this.props.status ? this.props.status : this.state.status}</p>
+            <p className="center">
+              Please use the Form Below to Reset Your Password
+            </p>
           </div>
           <Input
             placeholder={'New Password'}
@@ -100,17 +106,9 @@ export class NewPassword extends React.Component {
             class={'form-control'}
           />
           <div className="form-group">
-            <input
-              value="Reset Password"
-              type="submit"
-              className="form-control btn deep-purple lighten-3 custombutton"
-            />
-            <a href="/">
-              <input
-                value="Return Home"
-                type="button"
-                className="form-control btn deep-purple lighten-3 custombutton right"
-              />
+            <SubmitButton value={'Reset Password'} />
+            <a href="/" className="right">
+              <SubmitButton value={'Return Home'} type="button" />
             </a>
           </div>
         </form>
@@ -120,23 +118,8 @@ export class NewPassword extends React.Component {
 }
 
 NewPassword.propTypes = {
-  status: PropTypes.string.isRequired,
   resetPasswordAction: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired
 };
 
-/**
- * mapStateToProps makes the store data available
- *
- * @method mapStateToProps
- * @param  {object} state the store date
- *
- * @return {object} the data needed by the component
- */
-const mapStateToProps = (state) => {
-  return {
-    status: state.resetPasswordReducer.status
-  };
-};
-
-export default connect(mapStateToProps, { resetPasswordAction })(NewPassword);
+export default connect(null, { resetPasswordAction })(NewPassword);

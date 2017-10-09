@@ -48,6 +48,12 @@ export class AddMembers extends React.Component {
       });
       const offSet = this.state.offset || 0;
       this.props.searchUserAction(event.target.value, offSet, this.props.groupId);
+    } else {
+      this.setState({
+        termIsEmpty: false,
+        searchTerm: event.target.value,
+      });
+      this.props.clearStatusAction('searchUser');
     }
   }
   /**
@@ -63,7 +69,6 @@ export class AddMembers extends React.Component {
     const offset = Math.ceil(selected * 5);
     this.props.searchUserAction(this.state.searchTerm, offset, this.props.groupId);
   }
-
   /**
    * addMember adds a new member to a group
    * @method addMember
@@ -92,7 +97,6 @@ export class AddMembers extends React.Component {
       offset: 0,
       pageCount: ''
     });
-    this.props.clearStatusAction('addMember');
     this.props.clearStatusAction('searchUser');
   }
   /**
@@ -104,6 +108,7 @@ export class AddMembers extends React.Component {
   render() {
     const searchResult = JSON.parse(this.props.searchResult);
     const members = [];
+    let paginate;
     if (JSON.parse(this.props.groups !== undefined)) {
       (JSON.parse(this.props.groups)).forEach((group) => {
         if (group.id === this.props.groupId) {
@@ -112,6 +117,25 @@ export class AddMembers extends React.Component {
           });
         }
       });
+    }
+    if (searchResult.length !== 0) {
+      paginate = (
+        <ReactPaginate
+          previousLabel={'previous'}
+          nextLabel={'next'}
+          breakLabel={<a href>...</a>}
+          breakClassName={'break-me'}
+          pageCount={this.props.pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+      );
+    } else {
+      paginate = '';
     }
     let resultList;
     if (searchResult.length === 0 || this.state.termIsEmpty === true) {
@@ -144,11 +168,10 @@ export class AddMembers extends React.Component {
         <form className="modal-dialog" onSubmit={this.addMember}>
           <div>
             <h2 className="center"> Add Members </h2>
-            <h6 className="center"> { this.props.status }</h6>
           </div>
           <div className="form-group">
             <label htmlFor="search"> Enter your search term </label>
-            <input type="search" onChange={this.onChange} />
+            <input type="search" value={this.state.searchTerm} onChange={this.onChange} />
           </div>
           <div className="result-holder">
             <table className="center add-table">
@@ -162,19 +185,7 @@ export class AddMembers extends React.Component {
               <tbody>
                 <tr>
                   <td>
-                    <ReactPaginate
-                      previousLabel={'previous'}
-                      nextLabel={'next'}
-                      breakLabel={<a href>...</a>}
-                      breakClassName={'break-me'}
-                      pageCount={this.props.pageCount}
-                      marginPagesDisplayed={2}
-                      pageRangeDisplayed={5}
-                      onPageChange={this.handlePageClick}
-                      containerClassName={'pagination'}
-                      subContainerClassName={'pages pagination'}
-                      activeClassName={'active'}
-                    />
+                    { paginate }
                   </td>
                   <td>
                     <button
@@ -197,7 +208,6 @@ AddMembers.propTypes = {
   addNewMemberAction: PropTypes.func.isRequired,
   groupId: PropTypes.number.isRequired,
   searchUserAction: PropTypes.func.isRequired,
-  status: PropTypes.string.isRequired,
   pageCount: PropTypes.number.isRequired,
   clearStatusAction: PropTypes.func.isRequired,
   searchResult: PropTypes.string.isRequired,
@@ -215,7 +225,6 @@ const mapStateToProps = (state) => {
   return {
     groupId: parseInt((state.setUsersReducer.currentGroup), 10),
     users: state.setUsersReducer.users,
-    status: state.addNewMemberReducer.status,
     searchResult: JSON.stringify(state.searchUserReducer.searchResult),
     pageCount: state.searchUserReducer.pageCount,
     groups: JSON.stringify(state.groupReducer.groups[0] || [])

@@ -2,10 +2,18 @@ import axios from 'axios';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import authAction from './authAction';
 
-const googleAuthAction = (data) => {
+/**
+ * googleAuthAction creates redux actions
+ * @method googleAuthAction
+ *
+ * @param  {object} authData new users info
+ *
+ * @return {function} redux action
+ */
+const googleAuthAction = (authData) => {
   const url = '/api/v1/user/google';
   return (dispatch) => {
-    return axios.post(url, data)
+    return axios.post(url, authData)
     .then((res) => {
       const token = res.data.user.token;
       setAuthorizationToken(token);

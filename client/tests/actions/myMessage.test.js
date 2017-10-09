@@ -17,7 +17,11 @@ describe('async actions', () => {
       status: 200,
       response: {
         message: 'Message Retrival Succesful',
-        messages: [{ id: 1, message: 'Evi', priority: 'Normal' }, { id: 2, message: 'Evi again', priority: 'Normal' }]
+        messages: [{
+          id: 1,
+          message: 'Evi',
+          priority: 'Normal' },
+          { id: 2, message: 'Evi again', priority: 'Normal' }]
       }
     });
     const store = mockStore({});

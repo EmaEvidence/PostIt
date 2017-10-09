@@ -23,7 +23,7 @@ const reducer = (state = {
       return { ...state, status: action.message };
     }
     case 'CLEAR_SEARCH_USER_STATUS': {
-      return { ...state, status: '', pageCount: 0 };
+      return { ...state, status: '', pageCount: 0, searchResult: [] };
     }
     default:
       return state;

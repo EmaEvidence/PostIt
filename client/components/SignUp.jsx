@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import GoogleLogin from './GoogleLogin';
 import googleAuthAction from '../actions/googleAuthAction';
+import CloseButton from './CloseButton';
 
 /**
  * SignUp creates a  sign up form
@@ -32,6 +33,7 @@ export class SignUp extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
+    this.clearState = this.clearState.bind(this);
   }
   /**
    * onChange stores the data from the form component
@@ -79,7 +81,24 @@ export class SignUp extends React.Component {
       this.refs.submit.disabled = true;
     }
   }
-
+  /**
+   * clearState returns state to its inital value
+   * @method clearState
+   *
+   * @return {object} state
+   */
+  clearState() {
+    this.setState({
+      name: '',
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      phone: '',
+      status: '',
+      pwdmatch: ''
+    });
+  }
   /**
    * render displays the html
    * @method render
@@ -89,12 +108,13 @@ export class SignUp extends React.Component {
   render() {
     const googleAuth = this.props.googleAuthAction;
     return (
-      <div id="signup" className="modal fade reg-form" role="dialog">
-        <form className="modal-dialog signupform" onSubmit={this.onSubmit}>
-          <div className="modal-header mo">
+      <div id="signup" className="modal">
+        <form className="signupform" onSubmit={this.onSubmit}>
+          <div className="">
             <h2 className="form-header center" >Sign Up </h2>
-            <GoogleLogin type={'Sign Up'} googleAction={googleAuth} />
-            <p className="alert alert-danger center">{this.props.message}</p>
+            <p className="center">
+              <GoogleLogin type={'Sign Up'} googleAction={googleAuth} />
+            </p>
           </div>
           <div className="form-group">
             <input
@@ -105,6 +125,7 @@ export class SignUp extends React.Component {
               name="name"
               placeholder="FirstName LastName"
               required
+              id="name"
             />
           </div>
           <div className="form-group">
@@ -116,6 +137,7 @@ export class SignUp extends React.Component {
               placeholder="Username"
               name="username"
               required
+              id="username"
             />
           </div>
           <div className="form-group">
@@ -127,6 +149,7 @@ export class SignUp extends React.Component {
               placeholder="Email"
               name="email"
               required
+              id="email"
             />
           </div>
           <div className="form-group">
@@ -138,6 +161,7 @@ export class SignUp extends React.Component {
               placeholder="Phone Number"
               name="phone"
               required
+              id="phone"
             />
           </div>
           <div className="form-group">
@@ -165,21 +189,19 @@ export class SignUp extends React.Component {
               name="confirmPassword"
               onKeyUp={this.checkPassword}
               required
+              id="confirmPassword"
             />
           </div>
           <div className="form-group">
             <input
               type="submit"
-              className="form-control btn deep-purple lighten-3 custombutton"
+              className="form-control btn deep-purple lighten-3 custombutton left"
               value="Submit"
               disabled
               ref="submit"
+              id="submit"
             />
-            <button
-              type="reset"
-              className="right close form-header"
-              data-dismiss="modal"
-            >Close</button>
+            <CloseButton action={this.clearState} />
           </div>
         </form>
       </div>
@@ -189,8 +211,7 @@ export class SignUp extends React.Component {
 
 SignUp.propTypes = {
   userSignup: PropTypes.func.isRequired,
-  googleAuthAction: PropTypes.func.isRequired,
-  message: PropTypes.string.isRequired
+  googleAuthAction: PropTypes.func.isRequired
 };
 
 /**
@@ -202,14 +223,7 @@ SignUp.propTypes = {
  * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {
-  let message;
-  if (state.authUser.authMessage === undefined) {
-    message = '';
-  } else {
-    message = state.authUser.authMessage.data || '';
-  }
   return {
-    message,
     status: state.authUser.loggedIn
   };
 };

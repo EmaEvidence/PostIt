@@ -85,13 +85,16 @@ export class Groups extends React.Component {
     const groups = JSON.parse(this.props.groups);
     let groupList = '';
     if (groups['0'] !== undefined && groups['0'].length !== 0) {
-      groupList = groups['0'].map(group =>
+      const sortedGroups = groups['0'].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      groupList = sortedGroups.map(group =>
         (
           <li
             className="grouplist dropdown"
             key={group.id}
-          > { group.groupName }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          > <span className="group" />&nbsp;&nbsp;
+            { group.groupName } &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span className="right dropdown-toggle clickable" type="button" data-toggle="dropdown">
+              <span className="more" />
             More <span className="caret" /> </span>
             <ul className="dropdown-menu mydropDown">
               <li>
@@ -106,9 +109,8 @@ export class Groups extends React.Component {
               </li>
               <li>
                 <a
-                  className="clickable"
-                  data-toggle="modal"
-                  data-target="#groupmembers"
+                  className="modal-trigger modal-close"
+                  href="#groupmembers"
                   onClick={this.setMembers.bind(null, group.id, group.groupName)}
                   role="button"
                   tabIndex={0}
@@ -131,22 +133,6 @@ export class Groups extends React.Component {
                   onClick={this.setArchivedMessages.bind(null, group.id, group.groupName)}
                 >
                 Archived Messages</a>
-              </li>
-              <li>
-                <a
-                  className="modal-close"
-                  href="#addmembers"
-                  onClick={this.setUsers.bind(null, group.id, group.groupName)}
-                >
-                Edit</a>
-              </li>
-              <li>
-                <a
-                  className="modal-close"
-                  href="#addmembers"
-                  onClick={this.setUsers.bind(null, group.id, group.groupName)}
-                >
-                Delete</a>
               </li>
             </ul>
           </li>
@@ -173,7 +159,9 @@ Groups.propTypes = {
 /**
  * mapStateToProps makes the store data available
  * @method mapStateToProps
+ *
  * @param  {object} state the store date
+ *
  * @return {object} the data needed by the component
  */
 const mapStateToProps = (state) => {

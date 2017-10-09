@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import AddMembers from './AddMembers';
+import CloseButton from './CloseButton';
 
 /**
  * GroupMembers displays every membwe of a group
@@ -24,23 +25,22 @@ export const GroupMembers = (props) => {
   } else {
     Memberslist = (JSON.parse(props.members)).map((member, index) =>
         (
-          <p
-            key={index}
-          >
-            {member.username}
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            {member.email}
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            {member.phone}
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <button className="btn deep-purple lighten-3"> X </button>
+          <span key={index}>
+            <p>
+              {member.username}
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              {member.email}
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              {member.phone}
+              &nbsp;&nbsp;&nbsp;&nbsp;
+            </p>
             <hr />
-          </p>
+          </span>
       ));
   }
   return (
-    <div id="groupmembers" className="modal fade reg-form" role="dialog">
-      <div className="modal-dialog">
+    <div id="groupmembers" className="modal">
+      <div className="">
         <div>
           <h2 className="center"> Members of {props.groupName} </h2>
         </div>
@@ -48,12 +48,7 @@ export const GroupMembers = (props) => {
           { Memberslist }
         </div>
         <div>
-          <button
-            type="button"
-            className="form-control close custombutton"
-            data-dismiss="modal"
-          >
-            Cancel</button>
+          <CloseButton />
         </div>
       </div>
       <AddMembers />

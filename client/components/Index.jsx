@@ -6,10 +6,8 @@ import userSignUpRequest from '../actions/userSignUpAction';
 import userSignInRequest from '../actions/userSignInAction';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
-import CreateGroup from './CreateGroup';
 import ForgotPassword from './ForgotPassword';
 import authUser from '../actions/authAction';
-import createGroupAction from '../actions/createGroupAction';
 
 /**
  * Index the landing page for the App
@@ -23,30 +21,30 @@ const Index = (props) => {
   const userSignup = props.userSignUpRequest;
   const Login = props.userSignInRequest;
   const authUserAction = props.authUser;
-  const createGroup = props.createGroupAction;
   let button;
   if (props.status) {
     button = (
       <button
         className="btn deep-purple lighten-3 homebtn"
-        data-toggle="modal"
-        data-target="#creategroup"
-      > Create Group </button>
+      > <a href="/Messageboard">
+      Messageboard </a></button>
     );
   } else {
     button = (
       <button
         className="btn deep-purple lighten-3 homebtn"
-        data-toggle="modal"
-        data-target="#signin"
-      > Login </button>
+      > <a href="#signin" className="modal-trigger">
+          Login
+        </a>
+      </button>
       );
   }
   return (
     <div>
       <section className="indeximage valign-wrapper center-align">
         <p className="center-align">
-          <b className="imgdesc">Rethinking and Reinventing Mass Communication</b><br />
+          <b className="imgdesc">
+            Rethinking and Reinventing Mass Communication</b><br />
             PostIt is a simple application that allows friends and colleagues create groups
             for notifications.
             This way one person can post notifications to everyone by sending a message once.
@@ -60,21 +58,20 @@ const Index = (props) => {
         <div className="about">
           <h1> How It works </h1>
         </div>
-        <div className="container row howitworks">
-          <div className="col s4 about">
-            <h1><i className="large material-icons">perm_identity</i></h1>
-            <h3> Register </h3>
-            Hi we are here
+        <div className="col s12">
+          <div className="row">
+            <div className="col s4 about">
+              <h1><i className="large material-icons">perm_identity</i></h1>
+              <h3> Register </h3>
             </div>
-          <div className="col s4 about">
-            <h1><i className="large material-icons">contacts</i></h1>
-            <h3> Create Groups </h3>
-            Hi we are here
-          </div>
-          <div className="col s4 about">
-            <h1><i className="large material-icons">present_to_all</i></h1>
-            <h3> Broadcast Message </h3>
-          Hi we are here
+            <div className="col s4 about">
+              <h1><i className="large material-icons">contacts</i></h1>
+              <h3> Create Groups </h3>
+            </div>
+            <div className="col s4 about">
+              <h1><i className="large material-icons">present_to_all</i></h1>
+              <h3> Broadcast Message </h3>
+            </div>
           </div>
         </div>
       </section>
@@ -94,7 +91,6 @@ const Index = (props) => {
       </section>
       <SignUp userSignup={userSignup} authUser={authUserAction} />
       <LogIn userSignin={Login} authUser={authUserAction} />
-      <CreateGroup createGroupAction={createGroup} />
       <ForgotPassword />
     </div>
   );
@@ -103,7 +99,6 @@ const Index = (props) => {
 Index.propTypes = {
   userSignUpRequest: PropTypes.func.isRequired,
   userSignInRequest: PropTypes.func.isRequired,
-  createGroupAction: PropTypes.func.isRequired,
   authUser: PropTypes.func.isRequired,
   status: PropTypes.bool.isRequired
 };
@@ -125,5 +120,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, { userSignUpRequest,
   userSignInRequest,
-  authUser,
-  createGroupAction })(Index);
+  authUser })(Index);

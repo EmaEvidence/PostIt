@@ -11,6 +11,7 @@ import App from './components/App';
 import rootReducer from './reducers';
 import authAction from './actions/authAction';
 import getUserGroupsAction from './actions/getUserGroupsAction';
+import verifyTokenAction from './actions/verifyTokenAction';
 import './scss/main.scss';
 import './js/grouploader';
 
@@ -23,10 +24,18 @@ const store = createStore(
 );
 if (localStorage.token) {
   const token = localStorage.getItem('token');
-  const decoded = jwt.decode(token);
-  setAuthorizationToken(token);
-  store.dispatch(authAction(decoded.data, 'Success'));
-  store.dispatch(getUserGroupsAction(decoded.data));
+  verifyTokenAction(token)
+    .then(() => {
+      const decoded = jwt.decode(token);
+      setAuthorizationToken(token);
+      store.dispatch(authAction(decoded.data, 'Success'));
+      store.dispatch(getUserGroupsAction(decoded.data));
+    })
+    .catch(() => {
+      Materialize.toast('Session Expired, Please Sign In', 6000, 'red white-text rounded');
+      localStorage.removeItem('token');
+      location.href = '/';
+    });
 }
 
 ReactDOM.render((

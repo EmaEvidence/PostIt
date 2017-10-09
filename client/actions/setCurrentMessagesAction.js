@@ -1,8 +1,17 @@
 import axios from 'axios';
 import { SET_CURRENT_MESSAGES, SET_CURRENT_MESSAGES_ERROR } from './types/types';
 
-const setCurrentMessagesAction = (data, groupName) => {
-  const url = `/api/v1/group/${data}/messages`;
+/**
+ * setCurrentMessagesAction creates redux actions
+ * @method setCurrentMessagesAction
+ *
+ * @param {object} groupData data of current group
+ * @param {string} groupName name of current group
+ *
+ * @return {function} redux action
+ */
+const setCurrentMessagesAction = (groupData, groupName) => {
+  const url = `/api/v1/group/${groupData}/messages`;
   return (dispatch) => {
     return axios.get(url)
   .then(res => dispatch({

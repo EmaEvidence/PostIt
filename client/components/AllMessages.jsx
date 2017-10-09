@@ -35,11 +35,12 @@ export class AllMessages extends React.Component {
         </p>
       );
     } else {
-      Messagelist = (JSON.parse(this.props.messages)).map((message, index) =>
+      let messages = JSON.parse(this.props.messages);
+      messages = messages.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      Messagelist = messages.map((message, index) =>
         (
-          <span>
-            <p
-              key={index}
+          <li key={index}>
+            <span
               id={`message${message.id}`}
             >
               { message.message }
@@ -54,16 +55,20 @@ export class AllMessages extends React.Component {
                   <li>{message.views ? message.views : 'None' }</li>
                 </ul>
               </i>
-            </p>
+            </span>
             <hr />
-          </span>
+          </li>
       ));
     }
     return (
       <div className="col-sm-7 messagecard">
-        <h2>{ this.props.groupName ? `Messages for ${this.props.groupName}` : 'Please Select a Group.'} </h2>
+        <h2>
+          { this.props.groupName ? `Messages for ${this.props.groupName}` : 'Please Select a Group.'}
+        </h2>
         <div>
-          { Messagelist }
+          <ul>
+            { Messagelist }
+          </ul>
         </div>
       </div>
     );

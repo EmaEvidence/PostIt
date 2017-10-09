@@ -31,12 +31,10 @@ app.get('*', (req, res) => {
 });
 
 let server;
-if (process.env.NODE_ENV !== 'test') {
-  server = app.listen(process.env.PORT || 3300, () => {
-  });
+if (process.env.NODE_ENV !== 'test' || process.env.NODE_ENV !== 'development') {
+  server = app.listen(process.env.PORT || 3300);
 } else {
-  server = app.listen(process.env.PORT || 4000, () => {
-  });
+  server = app.listen(process.env.PORT || 4000);
 }
 
 

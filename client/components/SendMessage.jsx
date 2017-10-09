@@ -7,10 +7,10 @@ import createGroupAction from '../actions/createGroupAction';
 import postMessageAction from '../actions/postMessageAction';
 
 /**
- * CreateMessage
+ * SendMessage
  * @type {Object}
  */
-export class CreateMessage extends React.Component {
+export class SendMessage extends React.Component {
   /**
    * constructor
    *
@@ -34,7 +34,19 @@ export class CreateMessage extends React.Component {
     this.handleValueChange = this.handleValueChange.bind(this);
     this.charactersRemaining = this.charactersRemaining.bind(this);
   }
-
+  /**
+   * componentWillReceiveProps change state value when new prop is passed
+   * @method componentWillReceiveProps
+   *
+   * @return {object} initial state
+   */
+  componentWillReceiveProps() {
+    this.setState({
+      message: '',
+      priority: 'Select a Priority',
+      charactersLeft: 300,
+    });
+  }
   /**
    * onChange
    * @method onChange
@@ -55,6 +67,7 @@ export class CreateMessage extends React.Component {
    * @param  {string} newValue the selected value
    * @param  {string} displayValue display value
    * @param  {array} suggestion suggested names
+   *
    * @return {void}
    */
   handleValueChange(newValue, displayValue, suggestion) {
@@ -90,7 +103,8 @@ export class CreateMessage extends React.Component {
       id: this.state.group,
       message: this.state.message,
       priority: this.state.priority,
-      groupName: this.state.groupName
+      groupName: this.state.groupName,
+      currentGroup: this.props.currentGroup
     });
     this.setState({
       group: '',
@@ -118,7 +132,6 @@ export class CreateMessage extends React.Component {
         <form onSubmit={this.sendMessage}>
           <fieldset className="postfieldset">
             <legend>Send Message</legend>
-            <span className="alert">{}{this.props.status} </span>
             <div className="form-group row customcontrol">
               <div className="form-control col s6 bordered-element extended">
                 <label htmlFor="UIAutocomplete">Type Group Name
@@ -146,12 +159,6 @@ export class CreateMessage extends React.Component {
                   <option>Urgent</option>
                   <option>Critical</option>
                 </select>
-                <label htmlFor="input"> Attach a file </label>
-                <input
-                  type="file"
-                  className="form-control bordered-element"
-                  placeholder="Email"
-                />
               </div>
             </div>
             <div className="form-group">
@@ -185,11 +192,11 @@ export class CreateMessage extends React.Component {
   }
 }
 
-CreateMessage.propTypes = {
+SendMessage.propTypes = {
   groups: PropTypes.string.isRequired,
   postMessageAction: PropTypes.func.isRequired,
-  status: PropTypes.string.isRequired,
   display: PropTypes.string.isRequired,
+  currentGroup: PropTypes.string.isRequired
 };
 /**
  * mapStateToProps makes the store data available
@@ -207,9 +214,10 @@ const mapStateToProps = (state) => {
     groups = ['None'];
   }
   return {
-    groups,
-    status: state.postMessageReducer.status
+    currentGroup: state.setCurrentMessagesReducer.currentGroup,
+    groups
   };
 };
 
-export default connect(mapStateToProps, { createGroupAction, postMessageAction })(CreateMessage);
+export default connect(mapStateToProps, { createGroupAction,
+  postMessageAction })(SendMessage);

@@ -1,8 +1,17 @@
 import axios from 'axios';
 import { SET_CURRENT_MEMBERS } from './types/types';
 
-const setCurrentMembersAction = (data, groupName) => {
-  const url = `/api/v1/group/${data}/users`;
+/**
+ * setCurrentMembersAction creates redux action
+ * @method setCurrentMembersAction
+ *
+ * @param {object} groupData data of current group
+ * @param {string} groupName name of current group
+ *
+ * @return {function} redux action
+ */
+const setCurrentMembersAction = (groupData, groupName) => {
+  const url = `/api/v1/group/${groupData}/users`;
   return (dispatch) => {
     return axios.get(url)
   .then(res => dispatch({

@@ -67,6 +67,7 @@ The API exposes the following endpoints for consumption:
   17. ```GET``` /api/v1/group/:groupId/users. The API takes groupId as parameter.  
     For getting members of a group  
 # The Application uses JSON web token. Ensure you send it in the header request.  
+The API documentation for this project can be found [here](http://docs.postit9.apiary.io/#)
 ## Test  
 API test is written with ``` jasmine ``` and ``` supertest ```.
 Frontend tests is written with ``` jest ``` and ``` enzyme ```.
@@ -79,6 +80,6 @@ Messages can't be edited or deleted.
 
 ## How to Contribute
 The project is open for contribution. You can start by making the Notifcation system real time using socket.io. If you have other improvements you want to add, feel free to do so. Ensure you follow style guide and visit the wiki page for a guide as regards project convention
-[wiki](wiki.com)
+[wiki](https://github.com/EmaEvidence/PostIt/wiki)
 
 ## FAQ

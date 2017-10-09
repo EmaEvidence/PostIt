@@ -13,7 +13,7 @@ describe('Notification component should', () => {
     }])}
     />);
     expect(wrapper.find('ul').length).toBe(1);
-    expect(wrapper.find('li').length).toBe(2);
+    expect(wrapper.find('li').length).toBe(1);
   });
   it('renders without crashing', () => {
     const wrapper = shallow(<Notification
@@ -25,7 +25,8 @@ describe('Notification component should', () => {
       }])}
     />);
     expect(wrapper.find('ul').length).toBe(1);
-    expect(wrapper.find('li').length).toBe(2);
-    expect(wrapper.find('li').first().text()).toEqual(' New Message posted to Yoyo by  ');
+    expect(wrapper.find('li').length).toBe(1);
+    expect(wrapper.find('li').first().text()).toEqual('New Message posted to Yoyo by ');
+    expect(Object.keys(wrapper.props()).length).toBe(2);
   });
 });

@@ -7,13 +7,11 @@ import CreateGroup from './CreateGroup';
 import AllMessages from './AllMessages';
 import GroupMembers from './GroupMembers';
 import AddMembers from './AddMembers';
-import ArchiveMessages from './ArchiveMessages';
-import SentMessages from './SentMessages';
+import MessageDisplay from './MessageDisplay';
 import SendMessage from './SendMessage';
 import createGroupAction from '../actions/createGroupAction';
 import myMessageAction from '../actions/myMessageAction';
 import archivedMessagesAction from '../actions/archivedMessagesAction';
-import clearStatusAction from '../actions/clearStatusAction';
 
 /**
  * MessageBoard
@@ -71,7 +69,6 @@ export class MessageBoard extends React.Component {
         display: 'none',
         icon: 'edit'
       });
-      this.props.clearStatusAction('sendMessage');
     }
   }
   /**
@@ -93,14 +90,17 @@ export class MessageBoard extends React.Component {
                 {userDetails.username}
               </h1>
               <div className="row center">
-                <a href="#sentmessages" className="dashboardelement" onClick={this.myMessages} >
+                <a
+                  href="#sentmessages"
+                  className="dashboardelement"
+                  onClick={this.myMessages}
+                >
                 Sent Messages </a>
                 <a
-                  href="#archivemessages"
-                  className="dashboardelement"
-                  onClick={this.archivedMessages}
+                  href="#creategroup"
+                  className="modal-trigger"
                 >
-                Achived Messages </a>
+                  Create a Group </a>
               </div>
             </div>
             <div className="groupholder">
@@ -121,8 +121,16 @@ export class MessageBoard extends React.Component {
         />
         <GroupMembers />
         <AddMembers />
-        <ArchiveMessages />
-        <SentMessages />
+        <MessageDisplay
+          id={'sentmessages'}
+          type={'Sent Messages'}
+          messages={this.props.sentMessages}
+        />
+        <MessageDisplay
+          id={'archivemessages'}
+          type={'Archived Messages'}
+          messages={this.props.archivedMessages}
+        />
         <SendMessage display={JSON.stringify({ display: this.state.display })} />
         <a
           className="addMessage btn btn-floating btn-large deep-purple lighten-2 pulse"
@@ -131,7 +139,12 @@ export class MessageBoard extends React.Component {
           role="button"
           tabIndex={0}
         >
-          <i className="material-icons addMessage-edit">{this.state.icon}</i></a>
+          <i
+            className="material-icons addMessage-edit tooltipped"
+            data-position="top"
+            data-delay="50"
+            data-tooltip="Send Messages Here"
+          >{this.state.icon}</i></a>
       </div>
     );
   }
@@ -142,8 +155,9 @@ MessageBoard.propTypes = {
   myMessageAction: PropTypes.func.isRequired,
   archivedMessagesAction: PropTypes.func.isRequired,
   groups: PropTypes.string.isRequired,
-  clearStatusAction: PropTypes.func.isRequired,
   userDetails: PropTypes.string.isRequired,
+  archivedMessages: PropTypes.string.isRequired,
+  sentMessages: PropTypes.string.isRequired
 };
 
 /**
@@ -161,9 +175,11 @@ const mapStateToProps = (state) => {
   }
   return {
     groups,
-    userDetails: JSON.stringify(state.authUser.userDetails)
+    userDetails: JSON.stringify(state.authUser.userDetails),
+    archivedMessages: JSON.stringify(state.archivedMessageReducer.archivedMessages),
+    sentMessages: JSON.stringify(state.myMessagesReducer.myMessages)
   };
 };
 
 export default connect(mapStateToProps, {
-  createGroupAction, myMessageAction, archivedMessagesAction, clearStatusAction })(MessageBoard);
+  createGroupAction, myMessageAction, archivedMessagesAction })(MessageBoard);

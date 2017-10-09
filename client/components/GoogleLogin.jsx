@@ -12,12 +12,14 @@ import PropTypes from 'prop-types';
  */
 const LoginWithGoogle = (props) => {
   const responseGoogle = (response) => {
-    const name = response.w3.ig;
-    const email = response.w3.U3;
-    if (props.type === 'Sign Up') {
-      props.googleAction({ name, email, state: 'Sign Up' });
-    } else {
-      props.googleAction({ name, email, state: 'Sign In' });
+    if (response.w3 !== undefined) {
+      const name = response.w3.ig;
+      const email = response.w3.U3;
+      if (props.type === 'Sign Up') {
+        props.googleAction({ name, email, state: 'Sign Up' });
+      } else {
+        props.googleAction({ name, email, state: 'Sign In' });
+      }
     }
   };
   return (

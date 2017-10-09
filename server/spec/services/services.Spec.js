@@ -1,13 +1,11 @@
 import expect from 'expect';
-import User from '../../helpers/User';
+import validate from '../../services/validate';
+import createToken from '../../services/createToken';
+import * as flatten from '../../services/flattenArray';
+import notifyUsers from '../../services/notifyUsers';
 
 
 describe('when an Array of JSON object with Ids as keys is supplied', () => {
-  const idObject = [
-    { UserId: 1 },
-    { UserId: 2 },
-    { UserId: 3 }
-  ];
   const UserIdObject = [
     { id: 1 },
     { id: 2 },
@@ -20,13 +18,10 @@ describe('when an Array of JSON object with Ids as keys is supplied', () => {
   ];
   const idArray = [1, 2, 3];
   it('should return a Numeric array', () => {
-    expect(User.flattenId(idObject)).toEqual(idArray);
+    expect(flatten.userId(UserIdObject)).toEqual(idArray);
   });
   it('should return a Numeric array', () => {
-    expect(User.flattenUserId(UserIdObject)).toEqual(idArray);
-  });
-  it('should return a Numeric array', () => {
-    expect(User.flattenGroupId(GroupIdObject)).toEqual(idArray);
+    expect(flatten.groupId(GroupIdObject)).toEqual(idArray);
   });
 });
 
@@ -38,25 +33,38 @@ describe('when a payload is supplied to generate json web token', () => {
     phone: '07030092113',
     email: 'ema@gmail.com'
   };
-  const token = User.createToken(result);
+  const token = createToken(result);
   it('should create a json web token', () => {
     expect(typeof token).toEqual('string');
   });
 });
 
 describe('when message is sent', () => {
-  const noticeCritical = User.notifyUser('Critical', [{
+  const noticeCritical = notifyUsers('Critical', [{
     id: 1,
     email: 'emmanuelalabi563@gmail.com',
     phone: '07063747160' }]);
   it('should notify all users in the user object passed', () => {
     expect(noticeCritical).toEqual({ email: 'sent', phone: 'sent' });
   });
-  const noticeUrgent = User.notifyUser('Urgent', [{
+  const noticeUrgent = notifyUsers('Urgent', [{
     id: 1,
     email: 'emmanuelalabi563@gmail.com',
     phone: '07063747160' }]);
   it('should notify all users in the user object passed', () => {
     expect(noticeUrgent).toEqual({ email: 'sent' });
+  });
+});
+
+describe('When a new User supplies a password', () => {
+  const password = 'qwerty123@';
+  const wrongPassword = '1234567890';
+  const validPassword = validate(password, 1);
+  const invalidPassword = validate(wrongPassword, 1);
+  it('should return Error message if its in a right format', () => {
+    expect(validPassword).toEqual('valid');
+  });
+  it('should return valid if its in a right format', () => {
+    expect(invalidPassword).toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
   });
 });

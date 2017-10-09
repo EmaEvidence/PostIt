@@ -35,6 +35,11 @@ userRouter.post('/api/v1/users/delete', ensureToken, user.deleteUser);
 userRouter.post('/api/v1/user/message/read', ensureToken, user.messageRead);
 
 /**
+ * for verifying json web token
+ */
+userRouter.post('/api/v1/user/verify', ensureToken, user.verifyToken);
+
+/**
  * for search for users
  */
 userRouter.post('/api/v1/users/search', ensureToken, user.searchUser);
@@ -57,7 +62,7 @@ userRouter.post('/api/v1/user/newpassword', user.resetPassword);
 /**
  * for getting all messages a user posted
  */
-userRouter.get('/api/v1/user/messages', ensureToken, user.mymessage);
+userRouter.get('/api/v1/user/messages', ensureToken, user.myMessage);
 
 /**
  * for retrieving archived messages
@@ -68,11 +73,6 @@ userRouter.get('/api/v1/user/:groupId/messages/archived', ensureToken, user.arch
  * For Groups a Users belongs to
  */
 userRouter.get('/api/v1/user/groups', ensureToken, user.getUserGroups);
-
-/**
- * For Groups a Users belongs to
- */
-userRouter.get('/api/v1/user/notifications', ensureToken, checkIfMember, user.clearNotifications);
 
 
 export default userRouter;

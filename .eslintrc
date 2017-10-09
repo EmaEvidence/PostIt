@@ -15,7 +15,11 @@
     this,
     $,
     location,
-    "React": true
+    "React": true,
+    Materialize,
+    expect,
+    jest,
+    localStorage
     },
   "rules": {
     "one-var": 0,

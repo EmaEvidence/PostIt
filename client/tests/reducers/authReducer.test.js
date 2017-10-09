@@ -33,4 +33,23 @@ describe('auth user reducer', () => {
       }
     );
   });
+  it('should handle CLEAR_NOTIFICATION', () => {
+    expect(reducer({
+      loggedIn: true,
+      userDetails: {
+        notifications: [{ id: 1, message: 'New message' }]
+      },
+      authMessage: ''
+    }, {
+      type: types.CLEAR_NOTIFICATION,
+    })).toEqual(
+      {
+        authMessage: '',
+        loggedIn: true,
+        userDetails: {
+          notifications: []
+        }
+      }
+    );
+  });
 });

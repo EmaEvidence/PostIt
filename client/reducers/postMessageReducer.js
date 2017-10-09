@@ -17,9 +17,6 @@ const reducer = (state = {
     case 'POST_MESSAGE_ERROR': {
       return { ...state, status: action.message };
     }
-    case 'CLEAR_POST_MESSAGE_STATUS': {
-      return { ...state, status: '' };
-    }
     default:
       return state;
   }

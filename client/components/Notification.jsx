@@ -25,13 +25,14 @@ export const Notification = (props) => {
           <li
             key={index}
           >
-            { notification.type } posted to { notification.groupName } by { notification.source }
+            { notification.type }
+             posted to { notification.groupName } by { notification.source }
           </li>
       ));
   }
   return (
     <ul className="dropdown-menu notifications">
-      <li> {notificationList} </li>
+      {notificationList}
     </ul>
   );
 };

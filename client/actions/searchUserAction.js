@@ -1,6 +1,16 @@
 import axios from 'axios';
 import { SEARCH_USER, SEARCH_USER_ERROR } from './types/types';
 
+/**
+ * searchUserAction creates redux action
+ * @method searchUserAction
+ *
+ * @param  {string} searchTerm the term being searched for
+ * @param  {number} offset number of result to skip
+ * @param  {number} groupId unique identifier of the group
+ *
+ * @return {function} redux action
+ */
 const searchUserAction = (searchTerm, offset, groupId) => {
   const payload = {
     searchTerm,

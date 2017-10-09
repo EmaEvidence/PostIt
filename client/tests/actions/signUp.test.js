@@ -16,17 +16,32 @@ describe('async actions', () => {
     moxios.stubRequest('/api/v1/user/signup', {
       status: 201,
       response: {
-        user: { name: 'Evidence', username: 'Evidence', phone: '07073213443', email: 'ema@gg.com', token: '213123ddgdr23erwer' },
+        user: {
+          name: 'Evidence',
+          username: 'Evidence',
+          phone: '07073213443',
+          email: 'ema@gg.com',
+          token: '213123ddgdr23erwer' },
         message: 'Registration Successful'
       }
     });
     const store = mockStore({});
     const expectedAction = [authAction({
-      data: { name: 'Evidence', username: 'Evidence', phone: '07073213443', email: 'ema@gg.com', token: '213123ddgdr23erwer' }
+      data: {
+        name: 'Evidence',
+        username: 'Evidence',
+        phone: '07073213443',
+        email: 'ema@gg.com',
+        token: '213123ddgdr23erwer' }
     }, 'Success')];
-    store.dispatch(userSignUpRequest({ userData: { name: 'Evidence', username: 'Evidence', phone: '07073213443', email: 'ema@gg.com' } })).then(() => {
-      expect(store.getActions()).toEqual(expectedAction);
-    });
+    store.dispatch(userSignUpRequest({
+      userData: {
+        name: 'Evidence',
+        username: 'Evidence',
+        phone: '07073213443',
+        email: 'ema@gg.com' } })).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
     done();
   });
   it('should return error if data is invalid when the action is called', (done) => {
@@ -41,9 +56,15 @@ describe('async actions', () => {
     const expectedAction = [authAction({
       data: 'Internal Error'
     }, 'Error')];
-    store.dispatch(userSignUpRequest({ userData: { name: '', username: '', phone: '07073213443', email: '', token: '213123ddgdr23erwer' } })).then(() => {
-      expect(store.getActions()).toEqual(expectedAction);
-    });
+    store.dispatch(userSignUpRequest({
+      userData: {
+        name: '',
+        username: '',
+        phone: '07073213443',
+        email: '',
+        token: '213123ddgdr23erwer' } })).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
     done();
   });
 });

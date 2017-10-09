@@ -9,7 +9,7 @@ const api = new supertest(server);
 let newUserId;
 
 describe('When a User makes a request to the API', () => {
-  it('should return status code 401 when a user access "/api/v1/group" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group" without logging in', (done) => {
     api.post('/api/v1/group')
             .send({
             })
@@ -21,7 +21,7 @@ describe('When a User makes a request to the API', () => {
             });
   }, 10000);
 
-  it('should return code 401 when a user access "/api/v1/group/3/user" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group/3/user" without logging in', (done) => {
     api.post('/api/v1/group/3/user')
             .send({
             })
@@ -33,7 +33,7 @@ describe('When a User makes a request to the API', () => {
             });
   }, 10000);
 
-  it('should return code 401 when a user access "/api/v1/group/1/message" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group/1/message" without logging in', (done) => {
     api.post('/api/v1/group/1/message')
             .send({
             })
@@ -45,7 +45,7 @@ describe('When a User makes a request to the API', () => {
             });
   }, 10000);
 
-  it('should return code 401 when a user access "/api/v1/group/eewewe/messages" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group/eewewe/messages" without logging in', (done) => {
     api.get('/api/v1/group/eewewe/messages')
             .send({
             })
@@ -105,20 +105,6 @@ describe('when a user makes a request to the API', () => {
             done(err);
           });
   }, 3000);
-  xit('should return user object when a user signs in', (done) => {
-    api.post('/api/v1/user/signin')
-          .send({
-            username: 'Sammy',
-            password: 'qwerty123@'
-          })
-          .end((err, res) => {
-            expect(res.status).toEqual(200);
-            expect(JSON.parse(res.text).user.username).toEqual('Sammy');
-            expect(JSON.parse(res.text).user.email).toEqual('sammy@gmail.com');
-            expect(JSON.parse(res.text).user.name).toEqual('Samuel Oke');
-            done(err);
-          });
-  }, 6000);
   let groupId;
   it('should return group object when a signed in user creates a group', (done) => {
     api.post('/api/v1/group')
@@ -146,7 +132,7 @@ describe('when a user makes a request to the API', () => {
           expect(JSON.parse(res.text).message).toEqual('User Id must be stated');
           done(err);
         });
-  }, 3000);
+  }, 6000);
   it('should return error when a signed in user sends invalid data when adding member', (done) => {
     const url = `/api/v1/group/${groupId}/user`;
     api.post(url)
@@ -228,20 +214,6 @@ describe('when a user makes a request to the API', () => {
           done(err);
         });
   }, 3000);
-  xit('should return error when a signed in user posts to a non existing group', (done) => {
-    const url = '/api/v1/group/0/message';
-    api.post(url)
-        .set('authorization', token)
-        .send({
-          user: newUserId,
-          message: 'How are you'
-        })
-        .end((err, res) => {
-          expect(res.status).toEqual(404);
-          expect(JSON.parse(res.text).message).toEqual('Group does not Exist');
-          done(err);
-        });
-  }, 3000);
   it('should return message object when a signed in user requests for messages for an existing group', (done) => {
     const url = `/api/v1/group/${groupId}/messages`;
     api.get(url)
@@ -249,25 +221,7 @@ describe('when a user makes a request to the API', () => {
         .end((err, res) => {
           expect(res.status).toEqual(200);
           expect(JSON.parse(res.text).message).toEqual('Message Retrival Successful');
-          done(err);
-        });
-  }, 3000);
-  xit('should return error when a signed in user requests for messages for non existing group', (done) => {
-    const url = '/api/v1/group/0/messages';
-    api.get(url)
-        .set('authorization', token)
-        .end((err, res) => {
-          expect(res.status).toEqual(404);
-          expect(JSON.parse(res.text).message).toEqual('No Message For that Group');
-          done(err);
-        });
-  }, 3000);
-  xit('should return error when a signed in user requests for messages for non existing group', (done) => {
-    api.get('/api/v1/group/uiy/messages')
-        .set('authorization', token)
-        .end((err, res) => {
-          expect(res.status).toEqual(400);
-          expect(JSON.parse(res.text).message).toEqual('Invalid Group Selected');
+          expect(JSON.parse(res.text).messages[0].message).toEqual('How are you');
           done(err);
         });
   }, 3000);
@@ -314,6 +268,7 @@ describe('when a user makes a request to the API', () => {
           expect(res.status).toEqual(200);
           expect(JSON.parse(res.text).message).toEqual('Users Retrival Successful');
           expect(JSON.parse(res.text).users.length).toBeGreaterThan(0);
+          expect(JSON.parse(res.text).users[0].username).toEqual('Trial1');
           done(err);
         });
   }, 3000);

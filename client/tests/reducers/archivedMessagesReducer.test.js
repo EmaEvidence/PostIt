@@ -10,17 +10,46 @@ describe('archived messages reducer', () => {
       status: ''
     });
   });
-  it('it should handle GET_ARCHIVED_MESSAGES', () => {
+  it('it should handle GET_ARCHIVED_MESSAGE', () => {
     expect(reducer({
       archivedMessages: [],
       currentGroup: '',
       status: ''
     }, {
-      type: types.GET_ARCHIVED_MESSAGES,
-      messages: [{}]
+      type: types.GET_ARCHIVED_MESSAGE,
+      messages: [{ id: 1,
+        message: 'Welcome',
+        createdAt: '12/1/2017',
+        senderUsername: 'Evi'
+      }],
+      groupName: 'Andela',
+      status: 'Message Retrieved'
     }))
     .toEqual({
-      archivedMessages: [], currentGroup: '', status: ''
+      archivedMessages: [{ id: 1,
+        message: 'Welcome',
+        createdAt: '12/1/2017',
+        senderUsername: 'Evi'
+      }],
+      currentGroup: 'Andela',
+      status: 'Message Retrieved'
+    });
+  });
+  it('it should handle GET_ARCHIVED_MESSAGE_ERROR', () => {
+    expect(reducer({
+      archivedMessages: [],
+      currentGroup: '',
+      status: ''
+    }, {
+      type: types.GET_ARCHIVED_MESSAGE_ERROR,
+      messages: [],
+      groupName: 'Andela',
+      status: 'Message Retrieval Failed'
+    }))
+    .toEqual({
+      archivedMessages: [],
+      currentGroup: 'Andela',
+      status: 'Message Retrieval Failed'
     });
   });
 });

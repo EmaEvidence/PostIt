@@ -5,8 +5,7 @@ import Main from './Main';
 
 /**
  * Main App structure
- * @method      App
- * @constructor
+ * @method App
  */
 const App = () => (
   <div>

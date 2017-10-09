@@ -45,7 +45,7 @@ const Users = {
   },
   phone: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: true,
     validate: {
       notEmpty: {

@@ -17,16 +17,31 @@ describe('async actions', () => {
       status: 200,
       response: {
         message: 'Message Read',
-        messages: [{ id: 1, message: 'Evi', priority: 'Normal' }, { id: 2, message: 'Evi again', priority: 'Normal' }]
+        messages: [{
+          id: 1,
+          message: 'Evi',
+          priority: 'Normal' },
+        {
+          id: 2,
+          message: 'Evi again',
+          priority: 'Normal' }]
       }
     });
     const store = mockStore({});
     const expectedAction = [authAction({
-      data: { name: 'Evidence', username: 'Evidence', phone: '07073213443', email: 'ema@gg.com', token: '213123ddgdr23erwer' }
+      data: {
+        name: 'Evidence',
+        username: 'Evidence',
+        phone: '07073213443',
+        email: 'ema@gg.com',
+        token: '213123ddgdr23erwer' }
     }, 'Success')];
-    store.dispatch(googleAuthAction({ name: 'Evi Ema', email: 'ema@gmail.com', state: 'Sign Up' })).then(() => {
-      expect(store.getActions()).toEqual(expectedAction);
-    });
+    store.dispatch(googleAuthAction({
+      name: 'Evi Ema',
+      email: 'ema@gmail.com',
+      state: 'Sign Up' })).then(() => {
+        expect(store.getActions()).toEqual(expectedAction);
+      });
     done();
   });
   it('should return error if data is invalid when the action is called', (done) => {
@@ -34,7 +49,11 @@ describe('async actions', () => {
       status: 500,
       response: {
         message: 'Error Reading Message',
-        messages: [{ id: 1, message: 'Evi', priority: 'Normal' }, { id: 2, message: 'Evi again', priority: 'Normal' }]
+        messages: [{
+          id: 1,
+          message: 'Evi',
+          priority: 'Normal' },
+          { id: 2, message: 'Evi again', priority: 'Normal' }]
       }
     });
     const store = mockStore({});

@@ -2,6 +2,14 @@ import axios from 'axios';
 
 import { MARK_MESSAGE_AS_SEEN, MARK_MESSAGE_AS_SEEN_ERROR } from './types/types';
 
+/**
+ * messageSeenAction creates redux action
+ * @method messageSeenAction
+ *
+ * @param  {array} messages messages for a group
+ *
+ * @return {function} redux action
+ */
 const messageSeenAction = messages => (dispatch) => {
   return axios.post('/api/v1/user/message/read', { messages })
     .then(res => dispatch({

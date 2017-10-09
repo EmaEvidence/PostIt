@@ -6,6 +6,7 @@ const user = new User();
 
 /**
  * addUser controls the addition of a user to a group
+ * @method addUser
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -27,8 +28,11 @@ export const addUser = (req, res) => {
       } else if ((result.search('invalid input syntax for integer') >= 0) ||
     (result.search('is out of range for type integer') >= 0)) {
         errorResponseHandler(res, 400, 'Supplied Group or User Identity Out of Range');
-      } else {
+      } else if (result === 'Group Id must be stated' ||
+        result === 'User Id must be stated') {
         errorResponseHandler(res, 400, result);
+      } else {
+        errorResponseHandler(res, 500, 'Internal Server Error');
       }
     } else {
       res.status(200).json({
@@ -41,6 +45,7 @@ export const addUser = (req, res) => {
 
 /**
  * createGroup controls the creation of a group
+ * @method createGroup
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -77,6 +82,7 @@ export const createGroup = (req, res) => {
 
 /**
  * getGroupMessages controls the retrieval of messages for a group
+ * @method getGroupMessages
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -104,6 +110,7 @@ export const getGroupMessages = (req, res) => {
 
 /**
  * getGroupUsers controls the retrieval of every member of a group
+ * @method getGroupUsers
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
@@ -138,9 +145,8 @@ export const getGroupUsers = (req, res) => {
  * @return {object} API response
  */
 export const postMessage = (req, res) => {
+  const { groupName, message } = req.body;
   const groupId = req.params.groupId;
-  const groupName = req.body.groupName;
-  const message = req.body.message;
   const priority = (req.body.priority) ? req.body.priority : 'Normal';
   const from = req.token.data.id;
   const username = req.token.data.username;
@@ -149,15 +155,20 @@ export const postMessage = (req, res) => {
       if (typeof result === 'string') {
         if (result === 'Not a Group Member') {
           errorResponseHandler(res, 403, 'Not a Group Member');
+        } else if (result === 'Internal Error') {
+          errorResponseHandler(res, 500, 'Internal Error');
         } else {
           errorResponseHandler(res, 404, 'Group does not Exist');
         }
       } else {
-        user.inAppNotify(users, groupId, req.token.data.username, groupName, from, () => {
-        });
+        const userId = req.token.data.id;
+        user.inAppNotify(users, groupId, username, groupName, userId);
         res.status(201).json({
           messageData: result,
-          message: 'Message Added.'
+          message: 'Message Added.',
+          notification: {
+            message: 'Notification sent'
+          }
         });
       }
     });

@@ -1,8 +1,16 @@
 import axios from 'axios';
 import { ADD_USER_GROUPS, ADD_USER_GROUPS_ERROR } from './types/types';
 
-const getUserGroupsAction = (data) => {
-  const userId = data.id;
+/**
+ * getUserGroupsAction creates redux action
+ * @method getUserGroupsAction
+ *
+ * @param {object} userData users information
+ *
+ * @return {function} redux action
+ */
+const getUserGroupsAction = (userData) => {
+  const userId = userData.id;
   return (dispatch) => {
     return axios.get('/api/v1/user/groups', { userId })
     .then((res) => {

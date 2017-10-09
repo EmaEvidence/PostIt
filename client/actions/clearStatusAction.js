@@ -1,25 +1,19 @@
 import * as types from './types/types';
 
+/**
+ * clearStatus creates redux actions
+ * @method clearStatus
+ *
+ * @param  {string} action name of action triggering this action
+ *
+ * @return {function} redux action
+ */
 const clearStatus = action => (dispatch) => {
-  if (action === 'sendMessage') {
+  if (action === 'searchUser') {
     return dispatch({
       message: '',
-      type: types.CLEAR_POST_MESSAGE_STATUS,
-    });
-  } else if (action === 'createGroup') {
-    dispatch({
-      message: '',
-      type: types.CLEAR_CREATE_GROUP_STATUS
-    });
-  } else if (action === 'searchUser') {
-    dispatch({
-      message: '',
+      searchResult: [],
       type: types.CLEAR_SEARCH_USER_STATUS
-    });
-  } else {
-    dispatch({
-      message: '',
-      type: types.CLEAR_ADD_NEW_MEMBER_STATUS
     });
   }
 };
