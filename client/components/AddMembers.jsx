@@ -8,7 +8,9 @@ import searchUserAction from '../actions/searchUserAction';
 import clearStatusAction from '../actions/clearStatusAction';
 
 /**
+ * addNewMembers React component for adding users to a group
  * state description
+ *
  * @type {Object}
  */
 export class AddMembers extends React.Component {
@@ -101,7 +103,8 @@ export class AddMembers extends React.Component {
       termIsEmpty: true,
       searchTerm: '',
       offset: 0,
-      pageCount: ''
+      pageCount: '',
+      members: []
     });
     this.props.clearStatusAction('searchUser');
   }

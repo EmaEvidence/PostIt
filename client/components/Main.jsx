@@ -7,7 +7,7 @@ import Index from './Index';
 import NotFound from './NotFound';
 
 /**
- * App controls routing in the App
+ * Main controls routing in the App
  * @method Main
  *
  * @param  {object} props store data passed to the component

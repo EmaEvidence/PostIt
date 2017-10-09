@@ -6,6 +6,8 @@ import Main from './Main';
 /**
  * Main App structure
  * @method App
+ *
+ * @return {ReactElement} markup
  */
 const App = () => (
   <div>

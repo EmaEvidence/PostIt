@@ -8,7 +8,7 @@ const GroupsModel = {
     validate: {
       isAlphanumeric: {
         arg: true,
-        msg: 'Group name can Only contain Alphabets, Numbers and can not be Empty.'
+        msg: 'Group name can Only contain Alphabets&Numbers with no empty space'
       }
     }
   },

@@ -24,12 +24,16 @@ const addNewMemberAction = (groupId, userId) => (dispatch) => {
       });
     })
     .catch((err) => {
-      const status = err.response.data.message;
-      Materialize.toast(status, 2500, 'red white-text rounded');
-      dispatch({
-        type: ADD_NEW_MEMBER_ERROR,
-        status
-      });
+      if (err.response === undefined) {
+        Materialize.toast(err, 6000, 'red white-text rounded');
+      } else {
+        const status = err.response.data.message;
+        Materialize.toast(status, 2500, 'red white-text rounded');
+        dispatch({
+          type: ADD_NEW_MEMBER_ERROR,
+          status
+        });
+      }
     });
 };
 

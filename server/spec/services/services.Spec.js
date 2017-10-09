@@ -59,8 +59,8 @@ describe('when message is sent', () => {
 describe('When a new User supplies a password', () => {
   const password = 'qwerty123@';
   const wrongPassword = '1234567890';
-  const validPassword = validate(password, 1);
-  const invalidPassword = validate(wrongPassword, 1);
+  const validPassword = validate(password, '07063747160');
+  const invalidPassword = validate(wrongPassword, '07063747160');
   it('should return Error message if its in a wrong format', () => {
     expect(invalidPassword)
     .toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');

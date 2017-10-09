@@ -11,13 +11,13 @@ import sendMail from './sendMail';
  * @return {string} response
  */
 const notifyUsers = (priority, users) => {
-  const ids = [];
+  const userIds = [];
   const emails = [];
-  const phones = [];
+  const phoneNumbers = [];
   users.forEach((user) => {
-    ids.push(user.id);
+    userIds.push(user.id);
     emails.push(user.email);
-    phones.push(user.phone);
+    phoneNumbers.push(user.phone);
   });
   if (priority === 'Critical') {
     const result = {};
@@ -38,7 +38,7 @@ const notifyUsers = (priority, users) => {
       sendMail(mailOptions);
       result.email = 'sent';
     });
-    phones.forEach((phone) => {
+    phoneNumbers.forEach((phone) => {
       const payload = {
         to: phone,
         from: 'Post App',

@@ -193,6 +193,7 @@ class User {
    */
   createGroup(groupName, creator, users, done) {
     let createdGroup;
+    const newUsers = [];
     this.database.Users.findAll({
       attributes: ['id'],
       where: {
@@ -216,6 +217,7 @@ class User {
         } else {
           createdGroup = group;
           members.forEach((member) => {
+            newUsers.push({ id: member });
             this.database.GroupMembers.findOrCreate({
               where: {
                 GroupId: group[0].id,
@@ -227,7 +229,13 @@ class User {
         }
       }).then(() => {
         const { id, createdAt } = createdGroup[0];
-        done({ id, groupName, groupCreatorId: creator, createdAt });
+        done({
+          id,
+          groupName,
+          groupCreatorId: creator,
+          createdAt,
+          Users: newUsers
+        });
       }).catch((err) => {
         if (err.errors === undefined) {
           done(err.message);
@@ -246,28 +254,6 @@ class User {
   }
 
 
-  /**
-   * deleteGroup - removes a created group from the database
-   * @method deleteGroup
-   *
-   * @param  {number} group id of group to delete
-   * @param  {number} creator id of the creator
-   * @param  {FunctionDeclaration} done callback function
-   *
-   * @return {object} success or failure data
-   */
-  deleteGroup(group, creator, done) {
-    this.database.Groups.destroy({
-      where: {
-        groupName: group,
-        groupCreatorId: creator
-      }
-    }).then((result) => {
-      done(result);
-    }).catch((err) => {
-      done(err);
-    });
-  }
   /**
    * deleteGroupWithName removes a group using the name of the group
    * @method deleteGroupWithName
@@ -337,17 +323,17 @@ class User {
    *
    * @param {number} group id of the group
    * @param {number} user id of the user
-   * @param {number} added id of the user who added the user to be deleted
+   * @param {number} addedBy id of the user who added the user to be deleted
    * @param {FunctionDeclaration} done callback
    *
    * @return {object} result of the removal
    */
-  deleteUserFromGroup(group, user, added, done) {
+  deleteUserFromGroup(group, user, addedBy, done) {
     this.database.GroupMembers.destroy({
       where: {
         GroupId: group,
         UserId: user,
-        addedBy: added
+        addedBy
       }
     }).then((result) => {
       done(result);
@@ -360,7 +346,7 @@ class User {
    * postMessage - for posting messages to a group
    * @method postMessage
    *
-   * @param  {number} to id of the group posted to
+   * @param  {number} groupId id of the group posted to
    * @param  {string} senderUsername the message being sent
    * @param  {number} senderId id of the user sending it
    * @param  {string} text the message being sent
@@ -369,18 +355,18 @@ class User {
    *
    * @return {string} result of the post attempt.
    */
-  postMessage(to, senderUsername, senderId, text, priorityLevel, done) {
+  postMessage(groupId, senderUsername, senderId, text, priorityLevel, done) {
     this.database.Messages.create({
-      groupId: to,
+      groupId,
       message: text,
       senderId,
       senderUsername,
       priority: priorityLevel
     }).then((messageData) => {
-      const { id, message, groupId, priority, createdAt } = messageData;
+      const { id, message, priority, createdAt } = messageData;
       this.database.Groups.findOne({
         attributes: ['id'],
-        where: { id: to },
+        where: { id: groupId },
         include: ['Users']
       }).then((group) => {
         notifyUsers(priorityLevel, group.Users);
@@ -656,8 +642,7 @@ class User {
    * @return {object} success or failure data
    */
   resetPassword(password, key, done) {
-    const validatity = validate(password, 1);
-    if (validatity === 'valid') {
+    if (/^(?=.*\d)(?=.*\W)(?=.*[a-zA-Z])(?!.*\s).{8,}$/.test(password)) {
       const { email } = (jwt.decode(key)).data;
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
@@ -686,7 +671,7 @@ class User {
         });
       });
     } else {
-      done(validatity);
+      done('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
     }
   }
 
@@ -697,12 +682,12 @@ class User {
    * @param {string} name name of the user
    * @param {string} email email of the user
    * @param {string} username username of the user
-   * @param {string} state status of the the authorization
+   * @param {string} type status of the the authorization
    * @param {Function} done callback
    *
    * @return {objct} success or failure data
    */
-  googleSignUp(name, email, username, state, done) {
+  googleSignUp(name, email, username, type, done) {
     this.database.Users.findOrCreate({
       where: {
         name,
@@ -713,7 +698,7 @@ class User {
     }).then((result) => {
       const id = result[0].id;
       const token = createToken({ id, name, username, email });
-      done({ id, name, username, email, token });
+      done({ user: { id, name, username, email }, token });
     }).catch(() => {
       done('Error Signing Up with Google, Try Again');
     });
@@ -726,12 +711,12 @@ class User {
    * @param {string} name name of the user
    * @param {string} email email of the user
    * @param {string} username username of the user
-   * @param {string} state status of the the authorization
+   * @param {string} type status of the the authorization
    * @param {Function} done callback
    *
    * @return {objct} success or failure data
    */
-  googleSignIn(name, email, username, state, done) {
+  googleSignIn(name, email, username, type, done) {
     this.database.Users.findOne({
       where: {
         email,

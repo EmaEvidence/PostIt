@@ -22,6 +22,8 @@ export const deleteUser = (req, res) => {
       });
     } else if (result === 0) {
       errorResponseHandler(res, 404, 'User not Found');
+    } else if (result === 'Internal Server Error') {
+      errorResponseHandler(res, 500, 'Internal Server Error');
     } else {
       errorResponseHandler(res, 400, 'Invalid Data');
     }
@@ -152,7 +154,7 @@ export const messageRead = (req, res) => {
     errorResponseHandler(res, 400, 'No message Specified');
   } else {
     user.seenMessages(messages, username, (result) => {
-      if (result === 'Read') {
+      if (result === 'Message Read') {
         return res.status(200).json({
           messageRead: result,
           message: 'Message Read'
@@ -229,18 +231,22 @@ export const myMessage = (req, res) => {
 export const archivedMessages = (req, res) => {
   const groupId = req.params.groupId;
   const username = req.token.data.username;
-  user.archivedMessages(username, groupId, (result) => {
-    if (typeof result === 'string') {
-      errorResponseHandler(res, 500, 'Error retrieving message');
-    } else if (result.length === 0) {
-      errorResponseHandler(res, 404, 'No message found');
-    } else {
-      return res.status(200).json({
-        message: 'Archived Messages',
-        messages: result
-      });
-    }
-  });
+  if (isNaN(groupId)) {
+    errorResponseHandler(res, 400, 'Invalid Group');
+  } else {
+    user.archivedMessages(username, groupId, (result) => {
+      if (typeof result === 'string') {
+        errorResponseHandler(res, 500, 'Error retrieving message');
+      } else if (result.length === 0) {
+        errorResponseHandler(res, 404, 'No message found');
+      } else {
+        return res.status(200).json({
+          message: 'Archived Messages',
+          messages: result
+        });
+      }
+    });
+  }
 };
 
 /**
@@ -292,9 +298,7 @@ export const resetPassword = (req, res) => {
           message: 'Password Updated, please sign In with the new Password',
           user: result
         });
-      } else if (result === `Password Must Contain Alphabets,
-        Numbers, Special Characters and Must be Longer than 8
-        `) {
+      } else if (result === 'Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8') {
         errorResponseHandler(res, 400, result);
       } else {
         errorResponseHandler(res, 500, 'Internal Server Error');
@@ -315,16 +319,16 @@ export const resetPassword = (req, res) => {
  * @return {object} API response
  */
 export const googleAuth = (req, res) => {
-  const { name, email, state } = req.body;
+  const { name, email, type } = req.body;
   const username = (email.split('@')[0]).replace(/[^a-zA-Z0-9]/g, '');
   if (validate.googleDetails(name, email, username, res)) {
-    user.googleSignIn(name, email, username, state, (result) => {
+    user.googleSignIn(name, email, username, type, (result) => {
       if (typeof result === 'string') {
         const userError = 'Already a user, Please sign in with your password';
         if (result === 'Please Sign Up First') {
-          user.googleSignUp(name, email, username, state, (signUpResult) => {
+          user.googleSignUp(name, email, username, type, (signUpResult) => {
             if (typeof signUpResult === 'string') {
-              errorResponseHandler(res, 400, signUpResult);
+              errorResponseHandler(res, 500, signUpResult);
             } else {
               return res.status(201).json({
                 message: 'Sign Up Successful',

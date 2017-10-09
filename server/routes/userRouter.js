@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 
 import ensureToken from '../middleware/ensureToken';
 import * as userController from '../controllers/userController';
-import checkIfMember from '../middleware/checkIfMember';
 
 const userRouter = express.Router();
 userRouter.use(bodyParser.json());

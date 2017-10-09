@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_MY_MESSAGES, GET_MY_MESSAGE_ERROR } from './types/types';
+import { GET_MY_MESSAGES, GET_MY_MESSAGES_ERROR } from './types/types';
 
 /**
  * myMessageAction create redux action
@@ -19,8 +19,8 @@ const myMessageAction = () => {
     })
     .catch(() => {
       dispatch({
-        message: 'Error Fetching Messa',
-        type: GET_MY_MESSAGE_ERROR
+        message: 'Error Fetching Message',
+        type: GET_MY_MESSAGES_ERROR
       });
     });
   };

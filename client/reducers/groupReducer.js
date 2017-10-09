@@ -33,8 +33,7 @@
        const newState = { ...state };
        const filtered = newState.groups[0].find(group =>
          group.id === action.group.id);
-       const newformed = { ...filtered,
-         ...{ Users: [...filtered.Users, ...action.group.Users] } };
+       const newformed = { ...filtered, ...{ Users: [...filtered.Users, ...action.group.Users] } };
        const groups = newState.groups[0].map((group) => {
          return group.id === newformed.id ? newformed : group;
        });

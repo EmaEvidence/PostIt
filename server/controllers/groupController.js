@@ -15,10 +15,10 @@ const user = new User();
  */
 export const addUser = (req, res) => {
   const groupId = req.params.groupId;
-  const usersToAdd = req.body.user;
+  const userToAdd = req.body.user;
   const userAdding = req.token.data.id;
-  if (validate.addUser(groupId, usersToAdd, res)) {
-    user.addUsers(groupId, usersToAdd, userAdding, (result) => {
+  if (validate.addUser(groupId, userToAdd, res)) {
+    user.addUsers(groupId, userToAdd, userAdding, (result) => {
       if (typeof result === 'string') {
         if (result.search('UserId') >= 0) {
           errorResponseHandler(res, 404, 'User Does not exist');
@@ -28,8 +28,8 @@ export const addUser = (req, res) => {
           errorResponseHandler(res, 409, result);
         } else if ((result.search('invalid input syntax for integer') >= 0) ||
       (result.search('is out of range for type integer') >= 0)) {
-          const error = 'Supplied Group or User Identity Out of Range';
-          errorResponseHandler(res, 400, error);
+          const errorMessage = 'Supplied Group or User Identity Out of Range';
+          errorResponseHandler(res, 400, errorMessage);
         } else if (result === 'Group Id must be stated' ||
           result === 'User Id must be stated') {
           errorResponseHandler(res, 400, result);
@@ -69,8 +69,8 @@ export const createGroup = (req, res) => {
         if (result === 'Group Exists already') {
           errorResponseHandler(res, 409, result);
         } else if (result === groupNameError) {
-          const error = 'Group Name should be below 225 characters';
-          errorResponseHandler(res, 400, error);
+          const errorMessage = 'Group Name should be below 225 characters';
+          errorResponseHandler(res, 400, errorMessage);
         } else if (result === 'Internal Server Error') {
           errorResponseHandler(res, 500, result);
         } else {
@@ -156,11 +156,12 @@ export const postMessage = (req, res) => {
   const { groupName, message } = req.body;
   const groupId = req.params.groupId;
   const priority = (req.body.priority) ? req.body.priority : 'Normal';
-  const from = req.token.data.id;
+  const sender = req.token.data.id;
   const username = req.token.data.username;
-  if (validate.messageData(groupId, message, priority, groupName, from, res)) {
+  if (validate.messageData(groupId, message, priority, groupName,
+     sender, res)) {
     user.postMessage(groupId,
-      username, from, message, priority, (result, users) => {
+      username, sender, message, priority, (result, users) => {
         if (typeof result === 'string') {
           if (result === 'Not a Group Member') {
             errorResponseHandler(res, 403, 'Not a Group Member');

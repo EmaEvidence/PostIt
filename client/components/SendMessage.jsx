@@ -105,12 +105,15 @@ export class SendMessage extends React.Component {
       priority: this.state.priority,
       groupName: this.state.groupName,
       currentGroup: this.props.currentGroup
-    });
-    this.setState({
-      group: '',
-      message: '',
-      priority: 'Select a Priority',
-      groupName: ''
+    }).then((response) => {
+      if (response === undefined) {
+        this.setState({
+          group: '',
+          message: '',
+          priority: 'Select a Priority',
+          groupName: ''
+        });
+      }
     });
   }
   /**

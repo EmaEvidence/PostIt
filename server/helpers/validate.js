@@ -6,25 +6,25 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  *
  * @param  {number} groupId id of the group the message is for
  * @param  {string} message body of the message
- * @param  {pstring} priority level of priority
- * @param  {pstring} groupName level of priority
- * @param  {number} from id of the user sending the message
+ * @param  {string} priority level of priority
+ * @param  {string} groupName level of priority
+ * @param  {number} sender id of the user sending the message
  * @param  {object} res response object if the data is invalid
  *
  * @return {boolean} validity response back to the controller
  */
 export const messageData = (groupId,
-  message, priority, groupName, from, res) => {
+  message, priority, groupName, sender, res) => {
   if (groupId === '' || groupId === undefined) {
     errorResponseHandler(res, 400, 'Group must be specified');
-  } else if (from === '' || from === undefined) {
+  } else if (sender === '' || sender === undefined) {
     errorResponseHandler(res, 400, 'Sender must be specified');
   } else if (message === '' ||
     message === undefined || (message.trim()).length === 0) {
     errorResponseHandler(res, 400, 'message cannot be empty');
   } else if (priority !== 'Normal' &&
     priority !== 'Critical' && priority !== 'Urgent') {
-    errorResponseHandler(res, 400, 'Wrong Priority level');
+    errorResponseHandler(res, 400, 'Please Select a Priority level');
   } else if (groupName === '' && groupName === undefined) {
     errorResponseHandler(res, 400, 'Group Name must be defined');
   } else {
@@ -98,16 +98,16 @@ export const group = (groupId, res) => {
  * @param  {string} name name of the user
  * @param  {string} email email of the user
  * @param  {string} username username of the user
- * @param  {string} state authentication type
+ * @param  {string} type authentication type
  * @param  {object} res server response
  *
  * @return {boolean} response sent back to the controller
  */
-export const googleDetails = (name, email, username, state, res) => {
+export const googleDetails = (name, email, username, type, res) => {
   if ((name === '' && name === undefined) &&
   (email === '' && email === undefined) &&
   (username === '' && username === undefined) &&
-  (state !== 'Sign Up' && username !== 'Sign In')) {
+  (type !== 'Sign Up' && username !== 'Sign In')) {
     errorResponseHandler(res, 400, 'Invalid Data Supplied');
   } else {
     return true;

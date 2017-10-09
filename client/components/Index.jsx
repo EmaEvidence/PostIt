@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import userSignUpRequest from '../actions/userSignUpAction';
-import userSignInRequest from '../actions/userSignInAction';
+import userSignUpAction from '../actions/userSignUpAction';
+import userSignInAction from '../actions/userSignInAction';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
 import ForgotPassword from './ForgotPassword';
@@ -18,8 +18,8 @@ import authUser from '../actions/authAction';
  * @return {ReactElement} markup
  */
 const Index = (props) => {
-  const userSignup = props.userSignUpRequest;
-  const Login = props.userSignInRequest;
+  const userSignup = props.userSignUpAction;
+  const Login = props.userSignInAction;
   const authUserAction = props.authUser;
   let button;
   if (props.status) {
@@ -96,8 +96,8 @@ const Index = (props) => {
 };
 
 Index.propTypes = {
-  userSignUpRequest: PropTypes.func.isRequired,
-  userSignInRequest: PropTypes.func.isRequired,
+  userSignUpAction: PropTypes.func.isRequired,
+  userSignInAction: PropTypes.func.isRequired,
   authUser: PropTypes.func.isRequired,
   status: PropTypes.bool.isRequired
 };
@@ -117,6 +117,6 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, { userSignUpRequest,
-  userSignInRequest,
+export default connect(mapStateToProps, { userSignUpAction,
+  userSignInAction,
   authUser })(Index);

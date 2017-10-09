@@ -4,14 +4,14 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 import authAction from './authAction';
 
 /**
- * userSignUpRequest creates redux actions
+ * userSignUpAction creates redux actions
  * @method userSignUpRequest
  *
  * @param {object} userData users data
  *
  * @return {function} redux action
  */
-const userSignUpRequest = userData => (dispatch) => {
+const userSignUpAction = userData => (dispatch) => {
   return axios.post('/api/v1/user/signup', userData)
     .then((res) => {
       const token = res.data.token;
@@ -37,4 +37,4 @@ const userSignUpRequest = userData => (dispatch) => {
     });
 };
 
-export default userSignUpRequest;
+export default userSignUpAction;

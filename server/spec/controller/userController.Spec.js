@@ -8,7 +8,8 @@ const api = new supertest(app);
 
 describe('When a User makes a request to the APIs', () => {
   let token;
-  it('should return error if name is not sent to /api/v1/user/signup', (done) => {
+  it('should return error if name is not sent to /api/v1/user/signup',
+  (done) => {
     api.post('/api/v1/user/signup')
           .send({
             password: 'qwerty123@',
@@ -21,7 +22,8 @@ describe('When a User makes a request to the APIs', () => {
           });
   }, 10000);
 
-  it('should return error if email is not sent to /api/v1/user/signup', (done) => {
+  it('should return error if email is not sent to /api/v1/user/signup',
+  (done) => {
     api.post('/api/v1/user/signup')
           .send({
             password: 'qwerty123@',
@@ -37,7 +39,8 @@ describe('When a User makes a request to the APIs', () => {
           });
   }, 10000);
 
-  it('should return user object if all parameters are sent to "/api/v1/user/signup"', (done) => {
+  it('should return user object if all parameters are sent to "/api/v1/user/signup"',
+  (done) => {
     api.post('/api/v1/user/signup')
           .send({
             password: 'qwerty123@',
@@ -52,13 +55,16 @@ describe('When a User makes a request to the APIs', () => {
             expect(response.message).toEqual('Registration Successful');
             expect(response.user.username).toEqual('Evii');
             expect(response.user.email).toEqual('emmanueli@gmail.com');
+            expect(typeof JSON.parse(res.text).token).toEqual('string');
             token = response.token;
             expect(response.user.phone).toEqual('07063777160');
+            expect(response.user.name).toEqual('Ema Alabi');
             done(err);
           });
   }, 10000);
 
-  it('should return error when a user access "/api/v1/group" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group" without logging in',
+  (done) => {
     api.post('/api/v1/group')
             .send({
             })
@@ -71,7 +77,8 @@ describe('When a User makes a request to the APIs', () => {
             });
   }, 10000);
 
-  it('should return error when a user access "/api/v1/group/3/user" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group/3/user" without logging in',
+  (done) => {
     api.post('/api/v1/group/3/user')
             .send({
             })
@@ -84,7 +91,8 @@ describe('When a User makes a request to the APIs', () => {
             });
   }, 10000);
 
-  it('should return error when a user access "/api/v1/group/1/message" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group/1/message" without logging in',
+  (done) => {
     api.post('/api/v1/group/1/message')
             .send({
             })
@@ -97,7 +105,8 @@ describe('When a User makes a request to the APIs', () => {
             });
   }, 10000);
 
-  it('should return error when a user access "/api/v1/group/eewewe/messages" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/group/eewewe/messages" without logging in',
+  (done) => {
     api.get('/api/v1/group/eewewe/messages')
             .send({
             })
@@ -108,7 +117,8 @@ describe('When a User makes a request to the APIs', () => {
               done(err);
             });
   }, 10000);
-  it('should return error when a user access "/api/v1/user/groups" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/user/groups" without logging in',
+  (done) => {
     api.get('/api/v1/user/groups')
             .send({
             })
@@ -119,7 +129,8 @@ describe('When a User makes a request to the APIs', () => {
               done(err);
             });
   }, 10000);
-  it('should return error when a user access "/api/v1/user/groups" without logging in', (done) => {
+  it('should return error when a user access "/api/v1/user/groups" without logging in',
+  (done) => {
     api.post('/api/v1/user/message/read')
             .send({
             })
@@ -142,11 +153,14 @@ describe('When a User makes a request to the APIs', () => {
               expect(JSON.parse(res.text).user.username).toEqual('Sammy');
               expect(JSON.parse(res.text).user.email)
               .toEqual('sammy@gmail.com');
+              expect(JSON.parse(res.text).user.phone).toEqual('07063747160');
               expect(JSON.parse(res.text).user.name).toEqual('Samuel Oke');
+              expect(typeof JSON.parse(res.text).token).toEqual('string');
               done(err);
             });
   }, 6000);
-  it('should return error when a user signs in with invalid username', (done) => {
+  it('should return error when a user signs in with invalid username',
+  (done) => {
     api.post('/api/v1/user/signin')
             .send({
               username: '',
@@ -159,7 +173,8 @@ describe('When a User makes a request to the APIs', () => {
               done(err);
             });
   }, 3000);
-  it('should return error when a user signs in with invalid password', (done) => {
+  it('should return error when a user signs in with invalid password',
+  (done) => {
     api.post('/api/v1/user/signin')
             .send({
               username: 'Sammy',
@@ -172,7 +187,8 @@ describe('When a User makes a request to the APIs', () => {
               done(err);
             });
   }, 3000);
-  it('should return user object when a signed in user requests for Other users', (done) => {
+  it('should return user object when a signed in user requests for Other users',
+  (done) => {
     const url = '/api/v1/user/all';
     api.get(url)
           .set('authorization', token)
@@ -184,19 +200,18 @@ describe('When a User makes a request to the APIs', () => {
             done(err);
           });
   }, 3000);
-  it('should return message object when a signed in user requests for his archived messages', (done) => {
+  it('should return error if there is no archived messages', (done) => {
     const url = '/api/v1/user/1/messages/archived';
     api.get(url)
         .set('authorization', token)
         .end((err, res) => {
-          expect(res.status).toEqual(200);
-          expect(typeof JSON.parse(res.text)).toEqual('object');
-          expect(JSON.parse(res.text).message).toEqual('Archived Messages');
+          expect(res.status).toEqual(404);
           done(err);
         });
   }, 3000);
 
-  it('should return error when an unregistered user requests for password reset', (done) => {
+  it('should return error when an unregistered user requests for password reset'
+  , (done) => {
     const url = '/api/v1/user/forgotpassword';
     api.post(url)
         .send({
@@ -210,7 +225,8 @@ describe('When a User makes a request to the APIs', () => {
         });
   }, 3000);
 
-  it('should return error user requests for password reset with email undefined', (done) => {
+  it('should return error user requests for password reset with email undefined'
+  , (done) => {
     const url = '/api/v1/user/forgotpassword';
     api.post(url)
         .send({
@@ -223,7 +239,8 @@ describe('When a User makes a request to the APIs', () => {
         });
   }, 3000);
 
-  it('should return success when a registered user request for password reset', (done) => {
+  it('should return success when a registered user request for password reset',
+  (done) => {
     const url = '/api/v1/user/forgotpassword';
     api.post(url)
         .send({
@@ -237,7 +254,8 @@ describe('When a User makes a request to the APIs', () => {
         });
   }, 3000);
 
-  it('should return error when a register user request for password reset with unsecure password', (done) => {
+  it('should return error when a register user request for password reset with unsecure password',
+  (done) => {
     const url = '/api/v1/user/newpassword';
     api.post(url)
         .send({
@@ -252,7 +270,8 @@ describe('When a User makes a request to the APIs', () => {
           done(err);
         });
   }, 3000);
-  it('should return error when a register user request for password reset but password does not match', (done) => {
+  it('should return error when a register user request for password reset but password does not match',
+  (done) => {
     const url = '/api/v1/user/newpassword';
     api.post(url)
         .send({
@@ -267,7 +286,8 @@ describe('When a User makes a request to the APIs', () => {
           done(err);
         });
   }, 3000);
-  it('should return error when a registered user searches for other users with invalid data', (done) => {
+  it('should return error when a registered user searches for other users with invalid data',
+  (done) => {
     const url = '/api/v1/users/search';
     api.post(url)
         .set('authorization', token)
@@ -307,11 +327,14 @@ describe('When a User signs up with google+', () => {
           .send({
             name: 'ema alabi',
             email: 'emaala@gmail.com',
-            state: 'Sign Up'
+            type: 'Sign Up'
           })
           .end((err, res) => {
             expect(res.status).toEqual(201);
             expect(JSON.parse(res.text).user.username).toEqual('emaala');
+            expect(JSON.parse(res.text).user.email).toEqual('emaala@gmail.com');
+            expect(JSON.parse(res.text).user.name).toEqual('ema alabi');
+            expect(typeof JSON.parse(res.text).token).toEqual('string');
             done(err);
           });
   }, 10000);
@@ -320,10 +343,10 @@ describe('When a User signs up with google+', () => {
           .send({
             name: 'ema alabi',
             email: 'emmanueli@gmail.com',
-            state: 'Sign Up'
+            type: 'Sign Up'
           })
           .end((err, res) => {
-            expect(res.status).toEqual(400);
+            expect(res.status).toEqual(409);
             done(err);
           });
   }, 10000);
@@ -335,25 +358,33 @@ describe('When a User signs in with google+', () => {
           .send({
             name: 'ema alabi',
             email: 'emaala@gmail.com',
-            state: 'Sign In'
+            type: 'Sign In'
           })
           .end((err, res) => {
             expect(res.status).toEqual(200);
             expect(JSON.parse(res.text).user.username).toEqual('emaala');
+            expect(JSON.parse(res.text).user.email).toEqual('emaala@gmail.com');
+            expect(JSON.parse(res.text).user.name).toEqual('ema alabi');
+            expect(typeof JSON.parse(res.text).token).toEqual('string');
             done(err);
           });
   }, 15000);
-  it('should return error if the user is not registered with google+',
+  it('should sign up the user if not a user',
   (done) => {
     api.post('/api/v1/user/google')
           .send({
-            state: 'Sign In',
+            type: 'Sign In',
             name: 'Ema Alabi',
             username: 'Evi',
             email: 'emmanuel@gmail.com'
           })
           .end((err, res) => {
-            expect(res.status).toEqual(404);
+            expect(res.status).toEqual(201);
+            expect(JSON.parse(res.text).user.username).toEqual('emmanuel');
+            expect(JSON.parse(res.text).user.email)
+            .toEqual('emmanuel@gmail.com');
+            expect(JSON.parse(res.text).user.name).toEqual('Ema Alabi');
+            expect(typeof JSON.parse(res.text).token).toEqual('string');
             done();
           });
   }, 15000);
