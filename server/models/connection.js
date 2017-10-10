@@ -15,7 +15,7 @@ const password = process.env.DB_PASSWORD;
 const host = process.env.DB_HOST;
 let sequelizeConfig;
 if (process.env.NODE_ENV === 'test') {
-  sequelize = new Sequelize('postgres://postgres@localhost/postItTest');
+  sequelize = new Sequelize(process.env.TRAVIS_TEST);
 } else if (process.env.NODE_ENV === 'development') {
   dataBase = process.env.DB_DATABASE_LOCAL;
   sequelizeConfig = `postgres://${username}:${password}${host}/${dataBase}`;
