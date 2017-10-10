@@ -23,7 +23,7 @@ describe('NewPassword component should', () => {
     expect(wrapper.find('a').text()).toEqual('<SubmitButton />');
     expect(wrapper.find('h3').text()).toEqual(' Reset Password ');
     expect(wrapper.find('p').first().text())
-    .toEqual(' Please use the Form Below to Reset Your Password ');
+    .toEqual('Please use the Form Below to Reset Your Password');
     expect(Object.keys(wrapper.props()).length).toBe(3);
   });
 });

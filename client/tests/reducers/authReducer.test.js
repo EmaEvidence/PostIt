@@ -4,7 +4,7 @@ import * as types from '../../actions/types/types';
 
 describe('auth user reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(
+    expect(authReducers(undefined, {})).toEqual(
       {
         loggedIn: false,
         userDetails: {},

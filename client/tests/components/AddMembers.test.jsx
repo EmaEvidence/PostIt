@@ -33,13 +33,14 @@ describe('AddMembers component should', () => {
       addNewMemberAction: jest.fn(),
       searchUserAction: jest.fn(),
       clearStatusAction: jest.fn(),
-      searchResult: JSON.stringify([{ id: 1, username: 'Evidence' }])
+      searchResult: JSON.stringify([{ id: 1, username: 'Evidence' }]),
     };
     const wrapper = shallow(<AddMembers
       {...props}
     />);
     expect(wrapper.instance().addMember());
     expect(wrapper.instance().handlePageClick({ selected: 1 }));
+    expect(wrapper.find('tr').first().text()).toEqual('Evidence');
     expect(wrapper.instance().clearState());
   });
 });
