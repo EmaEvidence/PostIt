@@ -57,6 +57,7 @@ export class ForgotPassword extends React.Component {
       status: 'Processing'
     });
     this.props.passwordResetMailAction(this.state);
+    this.clearState();
   }
 
   /**

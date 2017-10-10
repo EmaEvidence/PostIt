@@ -135,21 +135,6 @@ describe('when a user makes a request to the API', () => {
     api.post(url)
         .set('authorization', token)
         .send({
-          user: '',
-        })
-        .end((err, res) => {
-          expect(res.status).toEqual(400);
-          expect(JSON.parse(res.text).message)
-          .toEqual('User Id must be stated');
-          done(err);
-        });
-  }, 6000);
-  it('should return error when a signed in user sends invalid data when adding member',
-  (done) => {
-    const url = `/api/v1/group/${groupId}/user`;
-    api.post(url)
-        .set('authorization', token)
-        .send({
           user: 0,
         })
         .end((err, res) => {
@@ -327,6 +312,21 @@ describe('when a user makes a request to the API', () => {
           done(err);
         });
   }, 3000);
+  it('should return error when a signed in user sends invalid data when adding member',
+  (done) => {
+    const url = `/api/v1/group/${groupId}/user`;
+    api.post(url)
+        .set('authorization', token)
+        .send({
+          user: '',
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(JSON.parse(res.text).message)
+          .toEqual('User Id must be stated');
+          done(err);
+        });
+  }, 6000);
 });
 afterAll((done) => {
   user.clearTables(() => {
