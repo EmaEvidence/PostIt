@@ -1,5 +1,6 @@
 import expect from 'expect';
-import setCurrentMessagesReducer from '../../reducers/setCurrentMessagesReducer';
+import setCurrentMessagesReducer from
+'../../reducers/setCurrentMessagesReducer';
 import * as types from '../../actions/types/types';
 
 describe('setCurrentMessages reducer', () => {
