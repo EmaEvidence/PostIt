@@ -1,10 +1,10 @@
 import expect from 'expect';
-import reducer from '../../reducers/postMessageReducer';
+import postMessageReducer from '../../reducers/postMessageReducer';
 import * as types from '../../actions/types/types';
 
 describe('postMessage reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(
+    expect(postMessageReducer(undefined, {})).toEqual(
       {
         status: ''
       }
@@ -12,7 +12,7 @@ describe('postMessage reducer', () => {
   });
 
   it('should handle POST_MESSAGE', () => {
-    expect(reducer({}, {
+    expect(postMessageReducer({}, {
       type: types.POST_MESSAGE,
       message: 'Message Sent'
     })).toEqual(
@@ -23,7 +23,7 @@ describe('postMessage reducer', () => {
   });
 
   it('should handle POST_MESSAGE', () => {
-    expect(reducer({}, {
+    expect(postMessageReducer({}, {
       type: types.POST_MESSAGE_ERROR,
       message: 'Message Sent Not Sent'
     })).toEqual(

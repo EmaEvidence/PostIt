@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Input from './Input';
-import GoogleLogin from './GoogleLogin';
+import GoogleAuth from './GoogleAuth';
 import googleAuthAction from '../actions/googleAuthAction';
 import SubmitButton from './SubmitButton';
 import CloseButton from './CloseButton';
@@ -85,7 +85,7 @@ export class LogIn extends React.Component {
           <div className="">
             <h2 className="form-header center">Sign In</h2>
             <p className="center">
-              <GoogleLogin type={'Sign In '} googleAction={googleAuth} />
+              <GoogleAuth type={'Sign In '} googleAction={googleAuth} />
             </p>
           </div>
           <Input

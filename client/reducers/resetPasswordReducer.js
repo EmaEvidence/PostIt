@@ -1,5 +1,5 @@
 /**
- * reducer
+ * resetPasswordReducer
  * @method reducer
  *
  * @param  {Object} state initial state
@@ -7,7 +7,7 @@
  *
  * @return {object} state new state
  */
-const reducer = (state = {
+const resetPasswordReducer = (state = {
   status: '',
 }, action) => {
   switch (action.type) {
@@ -28,4 +28,4 @@ const reducer = (state = {
   }
 };
 
-export default reducer;
+export default resetPasswordReducer;

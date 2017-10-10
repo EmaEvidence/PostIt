@@ -26,7 +26,8 @@ describe('async actions', () => {
       groupName: 'trial',
       messages: [{ id: 1, message: 'we' }, { id: 2, message: 'we' }],
     }];
-    store.dispatch(archivedmessageAction({ groupId: 1, groupName: 'trial' })).then(() => {
+    store.dispatch(archivedmessageAction({ groupId: 1, groupName: 'trial' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
@@ -46,7 +47,8 @@ describe('async actions', () => {
       groupName: 'trial',
       messages: [],
     }];
-    store.dispatch(archivedmessageAction({ groupId: 1, groupName: 'trial' })).then(() => {
+    store.dispatch(archivedmessageAction({ groupId: 1, groupName: 'trial' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

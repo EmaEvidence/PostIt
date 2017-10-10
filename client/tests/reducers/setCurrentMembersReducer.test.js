@@ -1,10 +1,10 @@
 import expect from 'expect';
-import reducer from '../../reducers/setCurrentMembersReducer';
+import setCurrentMembersReducer from '../../reducers/setCurrentMembersReducer';
 import * as types from '../../actions/types/types';
 
 describe('setCurrentMembers reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(
+    expect(setCurrentMembersReducer(undefined, {})).toEqual(
       {
         currentMembers: [],
         status: '',
@@ -14,7 +14,7 @@ describe('setCurrentMembers reducer', () => {
   });
 
   it('should handle SET_CURRENT_MEMBERS', () => {
-    expect(reducer({}, {
+    expect(setCurrentMembersReducer({}, {
       type: types.SET_CURRENT_MEMBERS,
       members: [{
         id: 1,

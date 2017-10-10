@@ -17,8 +17,10 @@ describe('When a new User signs up', () => {
       done();
     }, 10000);
   }, 10000);
-  it('should return error message if password is not specified ', (done) => {
-    expect(result).toEqual('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
+  it('should return error message if phone number is not specified ',
+  (done) => {
+    expect(result)
+    .toEqual('Invalid Phone Number');
     done();
   }, 10000);
 });
@@ -40,11 +42,12 @@ describe('When a new User signs up', () => {
     }, 10000);
   }, 10000);
 
-  it('should return a JSON object of the User if the details are correct', (done) => {
+  it('should return a JSON object of the User if the details are correct',
+  (done) => {
     expect(typeof result).toEqual('object');
-    expect(result.username).toEqual('Evidence');
-    expect(result.name).toEqual('Ema Ala');
-    expect(result.phone).toEqual('07063707060');
+    expect(result.user.username).toEqual('Evidence');
+    expect(result.user.name).toEqual('Ema Ala');
+    expect(result.user.phone).toEqual('07063707060');
     done();
   }, 3000);
 
@@ -82,7 +85,8 @@ describe('When a new User signs up', () => {
     }, 10000);
   }, 10000);
 
-  it('should return Error if the user signs in with wrong details after signing up', (done) => {
+  it('should return Error if the user signs in with wrong details after signing up',
+  (done) => {
     expect(signInResult).toEqual('Failed, User not found');
     done();
   }, 3000);
@@ -95,7 +99,8 @@ describe('When a new User signs up', () => {
     }, 10000);
   }, 10000);
 
-  it('should return Error if the user signs in with wrong details after signing up', (done) => {
+  it('should return Error if the user signs in with wrong details after signing up',
+  (done) => {
     expect(signInResult2).toEqual('Failed, User not found');
     done();
   }, 3000);
@@ -104,16 +109,17 @@ describe('When a new User signs up', () => {
   beforeEach((done) => {
     user.logIn('Evidence', 'qwerty123@', (response) => {
       signedIn = response;
-      userId = signedIn.id;
+      userId = signedIn.user.id;
       done();
     }, 10000);
   }, 10000);
 
-  it('should return user object when he signs in with correct details after signing up', (done) => {
+  it('should return user object when he signs in with correct details after signing up',
+  (done) => {
     expect(typeof signedIn).toEqual('object');
-    expect(signedIn.username).toEqual('Evidence');
-    expect(signedIn.name).toEqual('Ema Ala');
-    expect(signedIn.phone).toEqual('07063707060');
+    expect(signedIn.user.username).toEqual('Evidence');
+    expect(signedIn.user.name).toEqual('Ema Ala');
+    expect(signedIn.user.phone).toEqual('07063707060');
     done();
   }, 3000);
 
@@ -127,24 +133,27 @@ describe('When a new User signs up', () => {
       done();
     }, 3000);
   }, 3000);
-  it('should return "Andela" as the group name when the user creates a group with correct details', (done) => {
+  it('should return "Andela" as the group name when the user creates a group with correct details',
+  (done) => {
     expect(group.groupName).toEqual('Andela');
     done();
   }, 3000);
 
   let postResult;
   beforeEach((done) => {
-    user.postMessage(groupId, 'Evidence', userId, 'Hello Everyone', 'Normal', (response) => {
+    user.postMessage(groupId, 'Evidence', userId, 'Hello Everyone', 'Normal',
+    (response) => {
       postResult = response;
     }, 3000);
     done();
   });
-  it('should return message object when a signed user posts message to a group', (done) => {
-    expect((postResult).message).toEqual('Hello Everyone');
-    expect((postResult).priority).toEqual('Normal');
-    expect((postResult).senderUsername).toEqual('Evidence');
-    done();
-  }, 3000);
+  it('should return message object when a signed user posts message to a group',
+   (done) => {
+     expect((postResult).message).toEqual('Hello Everyone');
+     expect((postResult).priority).toEqual('Normal');
+     expect((postResult).senderUsername).toEqual('Evidence');
+     done();
+   }, 3000);
 
   afterEach((done) => {
     user.deleteUsers(email, () => {

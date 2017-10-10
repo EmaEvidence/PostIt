@@ -9,7 +9,7 @@ import axios from 'axios';
  * @return {function} redux action
  */
 const verifyTokenAction = (token) => {
-  return axios.post('/api/v1/user/verify', { token });
+  return axios.post('/api/v1/user/verify', { token, key: 'token' });
 };
 
 export default verifyTokenAction;

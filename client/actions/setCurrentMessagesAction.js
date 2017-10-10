@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { SET_CURRENT_MESSAGES, SET_CURRENT_MESSAGES_ERROR } from './types/types';
+import { SET_CURRENT_MESSAGES,
+  SET_CURRENT_MESSAGES_ERROR } from './types/types';
 
 /**
  * setCurrentMessagesAction creates redux actions

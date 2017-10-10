@@ -4,7 +4,7 @@ node_js:
 
 before_script:
 - npm install -g jasmine
-- psql -c 'create database postit_test;' -U postgres
+- psql -c 'create database postit_test' -U postgres
 
 script:
 - npm install
@@ -16,6 +16,7 @@ after_script:
 after_success:
     - npm install -g codeclimate-test-reporter
     - codeclimate-test-reporter < coverage/lcov.info
+    - npm run coverage
 
 env:
 services:

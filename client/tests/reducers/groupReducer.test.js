@@ -1,10 +1,10 @@
 import expect from 'expect';
-import reducer from '../../reducers/groupReducer';
+import groupReducer from '../../reducers/groupReducer';
 import * as types from '../../actions/types/types';
 
 describe('get user groups reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(
+    expect(groupReducer(undefined, {})).toEqual(
       {
         status: '',
         groups: ''
@@ -13,7 +13,7 @@ describe('get user groups reducer', () => {
   });
 
   it('should handle ADD_USER_GROUPS', () => {
-    expect(reducer({}, {
+    expect(groupReducer({}, {
       type: types.ADD_USER_GROUPS,
       group: [{
         id: 1,
@@ -55,7 +55,7 @@ describe('get user groups reducer', () => {
   });
 
   it('should handle ADD_USER_GROUPS_ERROR', () => {
-    expect(reducer({}, {
+    expect(groupReducer({}, {
       type: types.ADD_USER_GROUPS_ERROR,
       group: [{
         id: 1,
@@ -97,7 +97,7 @@ describe('get user groups reducer', () => {
   });
 
   it('should handle CREATE_GROUP', () => {
-    expect(reducer({
+    expect(groupReducer({
       status: '',
       groups: [[{
         id: 1,
@@ -170,7 +170,7 @@ describe('get user groups reducer', () => {
   });
 
   it('should handle ADD_NEW_MEMBER', () => {
-    expect(reducer({
+    expect(groupReducer({
       status: '',
       groups: [[{
         id: 1,

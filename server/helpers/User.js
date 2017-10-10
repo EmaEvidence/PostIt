@@ -25,7 +25,7 @@ class User {
   }
 
   /**
-   * inAppNotify sends an in app notification to members of a group when a new message is sent
+   * inAppNotify sends an in app notification to members of a group
    * @method inAppNotify
    *
    * @param  {array} users array of user ids
@@ -58,7 +58,7 @@ class User {
   }
 
   /**
-   * signUp - Creates a user from the data provided by saving it in the user database.
+   * signUp Creates a new user
    * @method signUp
    *
    * @param {string} name Name of the User
@@ -84,7 +84,7 @@ class User {
           }).then((user) => {
             const id = user.id;
             const token = createToken({ id, name, username, phone, email });
-            done({ id, name, username, phone, email, token });
+            done({ user: { id, name, username, phone, email }, token });
           }).catch((err) => {
             if (err.errors === undefined) {
               done(err.message);
@@ -99,8 +99,8 @@ class User {
         });
       });
     } else {
-      if (isNaN(phone)) {
-        done('Wrong Phone Number');
+      if (phone.length !== 11 || isNaN(phone)) {
+        done('Invalid Phone Number');
       } else {
         done(validity);
       }
@@ -130,7 +130,8 @@ class User {
   }
 
   /**
-   * logIn - checks if the provided User/log In details is availale in the database
+   * logIn checks if the provided User/log-In details
+   * is availale in the database
    * @method logIn
    *
    * @param  {string} username userName of the user
@@ -159,7 +160,16 @@ class User {
               username,
               email,
               phone });
-            done({ id, name, username, email, notification, phone, token });
+            done({
+              user: {
+                id,
+                name,
+                username,
+                email,
+                notification,
+                phone
+              },
+              token });
           } else {
             done('Failed, User not found');
           }
@@ -183,6 +193,7 @@ class User {
    */
   createGroup(groupName, creator, users, done) {
     let createdGroup;
+    const newUsers = [];
     this.database.Users.findAll({
       attributes: ['id'],
       where: {
@@ -206,6 +217,7 @@ class User {
         } else {
           createdGroup = group;
           members.forEach((member) => {
+            newUsers.push({ id: member });
             this.database.GroupMembers.findOrCreate({
               where: {
                 GroupId: group[0].id,
@@ -217,7 +229,13 @@ class User {
         }
       }).then(() => {
         const { id, createdAt } = createdGroup[0];
-        done({ id, groupName, groupCreatorId: creator, createdAt });
+        done({
+          id,
+          groupName,
+          groupCreatorId: creator,
+          createdAt,
+          Users: newUsers
+        });
       }).catch((err) => {
         if (err.errors === undefined) {
           done(err.message);
@@ -236,28 +254,6 @@ class User {
   }
 
 
-  /**
-   * deleteGroup - removes a created group from the database
-   * @method deleteGroup
-   *
-   * @param  {number} group id of group to delete
-   * @param  {number} creator id of the creator
-   * @param  {FunctionDeclaration} done callback function
-   *
-   * @return {object} success or failure data
-   */
-  deleteGroup(group, creator, done) {
-    this.database.Groups.destroy({
-      where: {
-        groupName: group,
-        groupCreatorId: creator
-      }
-    }).then((result) => {
-      done(result);
-    }).catch((err) => {
-      done(err);
-    });
-  }
   /**
    * deleteGroupWithName removes a group using the name of the group
    * @method deleteGroupWithName
@@ -327,17 +323,17 @@ class User {
    *
    * @param {number} group id of the group
    * @param {number} user id of the user
-   * @param {number} added id of the user who added the user to be deleted
+   * @param {number} addedBy id of the user who added the user to be deleted
    * @param {FunctionDeclaration} done callback
    *
    * @return {object} result of the removal
    */
-  deleteUserFromGroup(group, user, added, done) {
+  deleteUserFromGroup(group, user, addedBy, done) {
     this.database.GroupMembers.destroy({
       where: {
         GroupId: group,
         UserId: user,
-        addedBy: added
+        addedBy
       }
     }).then((result) => {
       done(result);
@@ -350,7 +346,7 @@ class User {
    * postMessage - for posting messages to a group
    * @method postMessage
    *
-   * @param  {number} to id of the group posted to
+   * @param  {number} groupId id of the group posted to
    * @param  {string} senderUsername the message being sent
    * @param  {number} senderId id of the user sending it
    * @param  {string} text the message being sent
@@ -359,18 +355,18 @@ class User {
    *
    * @return {string} result of the post attempt.
    */
-  postMessage(to, senderUsername, senderId, text, priorityLevel, done) {
+  postMessage(groupId, senderUsername, senderId, text, priorityLevel, done) {
     this.database.Messages.create({
-      groupId: to,
+      groupId,
       message: text,
       senderId,
       senderUsername,
       priority: priorityLevel
     }).then((messageData) => {
-      const { id, message, groupId, priority, createdAt } = messageData;
+      const { id, message, priority, createdAt } = messageData;
       this.database.Groups.findOne({
         attributes: ['id'],
-        where: { id: to },
+        where: { id: groupId },
         include: ['Users']
       }).then((group) => {
         notifyUsers(priorityLevel, group.Users);
@@ -600,7 +596,7 @@ class User {
    * sendPasswordResetMail sends a password reset mail
    * @method sendPasswordResetMail
    *
-   * @param {string} email email address of the user requesting for a Change of password
+   * @param {string} email users email address
    * @param {FunctionDeclaration} done callback
    *
    * @return {objecte} success or failure data
@@ -620,9 +616,11 @@ class User {
           from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
           to: email,
           subject: 'Password Reset',
-          text: 'You have requested for a password reset. Follow the link below to reset your password',
+          text: `You have requested for a password reset.
+                  Follow the link below to reset your password`,
           html: `<h3>
-                  You have requested for a password reset. Follow the link below to reset your password
+                  You have requested for a password reset.
+                  Follow the link below to reset your password
                 </h3>
                 <a href=${link}?tok=${userKey}>Click Me to Change Password</a>`
         });
@@ -644,8 +642,7 @@ class User {
    * @return {object} success or failure data
    */
   resetPassword(password, key, done) {
-    const validatity = validate(password, 1);
-    if (validatity === 'valid') {
+    if (/^(?=.*\d)(?=.*\W)(?=.*[a-zA-Z])(?!.*\s).{8,}$/.test(password)) {
       const { email } = (jwt.decode(key)).data;
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
@@ -661,7 +658,8 @@ class User {
                   from: '"PostIt APP 👻" <emmanuel.alabi@andela.com>',
                   to: email,
                   subject: 'Password Reset Successful',
-                  text: 'Your password has being changed. Please Login with your new password',
+                  text: `Your password has being changed.
+                          Please Login with your new password`,
                   html: '<a href="">Click Here to Login</a>'
                 };
                 sendMail(mailOptions);
@@ -673,7 +671,7 @@ class User {
         });
       });
     } else {
-      done(validatity);
+      done('Password Must Contain Alphabets, Numbers, Special Characters and Must be Longer than 8');
     }
   }
 
@@ -684,26 +682,23 @@ class User {
    * @param {string} name name of the user
    * @param {string} email email of the user
    * @param {string} username username of the user
-   * @param {string} state status of the the authorization
-   * @param {string} password='social' default password
+   * @param {string} type status of the the authorization
    * @param {Function} done callback
    *
    * @return {objct} success or failure data
    */
-  googleSignUp(name, email, username, state, password = null, done) {
+  googleSignUp(name, email, username, type, done) {
     this.database.Users.findOrCreate({
       where: {
         name,
         username,
         email,
-        password,
-        phone: null,
         authType: 'Google'
       }
     }).then((result) => {
       const id = result[0].id;
       const token = createToken({ id, name, username, email });
-      done({ id, name, username, email, token });
+      done({ user: { id, name, username, email }, token });
     }).catch(() => {
       done('Error Signing Up with Google, Try Again');
     });
@@ -716,28 +711,43 @@ class User {
    * @param {string} name name of the user
    * @param {string} email email of the user
    * @param {string} username username of the user
-   * @param {string} state status of the the authorization
+   * @param {string} type status of the the authorization
    * @param {Function} done callback
    *
    * @return {objct} success or failure data
    */
-  googleSignIn(name, email, username, state, done) {
-    this.database.Users.findAll({
+  googleSignIn(name, email, username, type, done) {
+    this.database.Users.findOne({
       where: {
-        username,
         email,
-        authType: 'Google'
-      },
-      include: ['notifications']
-    }).then((result) => {
-      if (result.length === 0) {
-        done('Please Sign Up First');
-      } else {
-        const { id, phone } = result[0];
-        const token = createToken({ id, name, username, phone, email });
-        done({ id, name, username, phone, email, token });
+        authType: 'Normal'
       }
-    }).catch(() => {
+    })
+    .then((response) => {
+      if (response === null || response.length === 0) {
+        this.database.Users.findAll({
+          where: {
+            username,
+            email,
+            authType: 'Google'
+          },
+          include: ['notifications']
+        }).then((result) => {
+          if (result.length === 0) {
+            done('Please Sign Up First');
+          } else {
+            const { id, phone, notification } = result[0];
+            const token = createToken({ id, name, username, phone, email });
+            done({
+              user: { id, name, username, phone, email, notification },
+              token });
+          }
+        });
+      } else {
+        done('Already a user, Please sign in with your password');
+      }
+    })
+    .catch(() => {
       done('Error Signing In with Google, Try Again');
     });
   }

@@ -4,17 +4,17 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 import authAction from './authAction';
 
 /**
- * userSignUpRequest creates redux actions
+ * userSignUpAction creates redux actions
  * @method userSignUpRequest
  *
  * @param {object} userData users data
  *
  * @return {function} redux action
  */
-const userSignUpRequest = userData => (dispatch) => {
+const userSignUpAction = userData => (dispatch) => {
   return axios.post('/api/v1/user/signup', userData)
     .then((res) => {
-      const token = res.data.user.token;
+      const token = res.data.token;
       setAuthorizationToken(token);
       $('.modal').modal('close');
       Materialize.toast(res.data.message, 2500, 'green white-text rounded');
@@ -28,12 +28,13 @@ const userSignUpRequest = userData => (dispatch) => {
           data: 'Internal Error'
         }, 'Error'));
       } else {
-        Materialize.toast(err.response.data.message, 2500, 'red white-text rounded');
+        const errorMessage = err.response.data.message;
+        Materialize.toast(errorMessage, 2500, 'red white-text rounded');
         dispatch(authAction({
-          data: err.response.data.message
+          data: errorMessage
         }, 'Error'));
       }
     });
 };
 
-export default userSignUpRequest;
+export default userSignUpAction;

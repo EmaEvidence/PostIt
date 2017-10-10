@@ -1,5 +1,5 @@
 /**
- * reducer
+ * archivedMessageReducer
  * @method reducer
  *
  * @param  {Object} state initial state
@@ -7,7 +7,7 @@
  *
  * @return {object} state new state
  */
- const reducer = (state = {
+ const archivedMessageReducer = (state = {
    archivedMessages: [],
    status: '',
    currentGroup: ''
@@ -30,4 +30,4 @@
    }
  };
 
- export default reducer;
+ export default archivedMessageReducer;

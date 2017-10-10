@@ -34,7 +34,8 @@ describe('async actions', () => {
     });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should return error if data is invalid when the action is called',
+  (done) => {
     moxios.stubRequest('/api/v1/user/messages', {
       status: 404,
       response: {

@@ -31,7 +31,10 @@ export const MessageDisplay = (props) => {
                 <i className="chip">{message.priority}</i>
                 <i className="chip">{(message.createdAt).split('T')[0]}</i>
                 <i className="chip dropdown">Seen
-                  <span className="caret dropdown-toggle" data-toggle="dropdown" />
+                  <span
+                    className="caret dropdown-toggle"
+                    data-toggle="dropdown"
+                  />
                   <ul className="dropdown-menu notifications">
                     <li>{message.views ? message.views : 'None' }</li>
                   </ul>

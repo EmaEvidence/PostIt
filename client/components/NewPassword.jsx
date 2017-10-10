@@ -61,7 +61,8 @@ export class NewPassword extends React.Component {
       this.setState({
         status: 'Processing'
       });
-      this.props.resetPasswordAction(this.state.password, this.props.location.search.split('=')[1]);
+      this.props.resetPasswordAction(this.state.password,
+        this.props.location.search.split('=')[1]);
       this.setState({
         confirmPassword: '',
         password: ''

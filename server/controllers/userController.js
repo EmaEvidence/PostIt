@@ -22,6 +22,8 @@ export const deleteUser = (req, res) => {
       });
     } else if (result === 0) {
       errorResponseHandler(res, 404, 'User not Found');
+    } else if (result === 'Internal Server Error') {
+      errorResponseHandler(res, 500, 'Internal Server Error');
     } else {
       errorResponseHandler(res, 400, 'Invalid Data');
     }
@@ -72,7 +74,8 @@ export const signIn = (req, res) => {
         errorResponseHandler(res, 500, result);
       } else {
         res.status(200).json({
-          user: result,
+          user: result.user,
+          token: result.token,
           message: 'Sign In Successful'
         });
       }
@@ -104,7 +107,8 @@ export const signUp = (req, res) => {
       }
     } else {
       res.status(201).json({
-        user: result,
+        user: result.user,
+        token: result.token,
         message: 'Registration Successful'
       });
     }
@@ -124,6 +128,8 @@ export const getAllUsers = (req, res) => {
   user.getAllUsers((result) => {
     if (typeof result === 'string') {
       errorResponseHandler(res, 500, 'Error Fetching users');
+    } else if (result.length === 0) {
+      errorResponseHandler(res, 404, 'No User found');
     } else {
       res.status(200).json({
         users: result
@@ -148,7 +154,7 @@ export const messageRead = (req, res) => {
     errorResponseHandler(res, 400, 'No message Specified');
   } else {
     user.seenMessages(messages, username, (result) => {
-      if (result === 'Read') {
+      if (result === 'Message Read') {
         return res.status(200).json({
           messageRead: result,
           message: 'Message Read'
@@ -175,6 +181,8 @@ export const searchUser = (req, res) => {
     user.searchUsers(searchTerm, offset, groupId, (result) => {
       if (typeof result === 'string') {
         errorResponseHandler(res, 500, 'Error Searching User');
+      } else if (result.length === 0) {
+        errorResponseHandler(res, 404, 'No user found');
       } else {
         return res.status(200).json({
           message: 'Search Result',
@@ -200,6 +208,8 @@ export const myMessage = (req, res) => {
   user.myMessages(userId, (result) => {
     if (typeof result === 'string') {
       errorResponseHandler(res, 500, 'Error retrieving message');
+    } else if (result.length === 0) {
+      errorResponseHandler(res, 404, 'No message found');
     } else {
       return res.status(200).json({
         message: 'Your Messages',
@@ -221,16 +231,22 @@ export const myMessage = (req, res) => {
 export const archivedMessages = (req, res) => {
   const groupId = req.params.groupId;
   const username = req.token.data.username;
-  user.archivedMessages(username, groupId, (result) => {
-    if (typeof result === 'string') {
-      errorResponseHandler(res, 500, 'Error retrieving message');
-    } else {
-      return res.status(200).json({
-        message: 'Archived Messages',
-        messages: result
-      });
-    }
-  });
+  if (isNaN(groupId)) {
+    errorResponseHandler(res, 400, 'Invalid Group');
+  } else {
+    user.archivedMessages(username, groupId, (result) => {
+      if (typeof result === 'string') {
+        errorResponseHandler(res, 500, 'Error retrieving message');
+      } else if (result.length === 0) {
+        errorResponseHandler(res, 404, 'No message found');
+      } else {
+        return res.status(200).json({
+          message: 'Archived Messages',
+          messages: result
+        });
+      }
+    });
+  }
 };
 
 /**
@@ -273,7 +289,9 @@ export const forgotPassword = (req, res) => {
  */
 export const resetPassword = (req, res) => {
   const { userKey, newPassword } = req.body;
-  if ((newPassword !== '' && newPassword !== undefined) && (userKey !== '' && userKey !== undefined)) {
+  if ((newPassword !== '' &&
+  newPassword !== undefined) &&
+  (userKey !== '' && userKey !== undefined)) {
     user.resetPassword(newPassword, userKey, (result) => {
       if (result === 'Password Updated') {
         return res.status(200).json({
@@ -301,51 +319,36 @@ export const resetPassword = (req, res) => {
  * @return {object} API response
  */
 export const googleAuth = (req, res) => {
-  const { name, email, state } = req.body;
+  const { name, email, type } = req.body;
   const username = (email.split('@')[0]).replace(/[^a-zA-Z0-9]/g, '');
-  const password = 'null';
   if (validate.googleDetails(name, email, username, res)) {
-    if (state === 'Sign Up') {
-      user.googleSignUp(name, email, username, state, password, (result) => {
-        if (typeof result === 'string') {
-          errorResponseHandler(res, 400, result);
-        } else {
-          return res.status(201).json({
-            message: 'Sign Up Successful',
-            user: result
+    user.googleSignIn(name, email, username, type, (result) => {
+      if (typeof result === 'string') {
+        const userError = 'Already a user, Please sign in with your password';
+        if (result === 'Please Sign Up First') {
+          user.googleSignUp(name, email, username, type, (signUpResult) => {
+            if (typeof signUpResult === 'string') {
+              errorResponseHandler(res, 500, signUpResult);
+            } else {
+              return res.status(201).json({
+                message: 'Sign Up Successful',
+                user: signUpResult.user,
+                token: signUpResult.token
+              });
+            }
           });
-        }
-      });
-    } else {
-      user.googleSignIn(name, email, username, state, (result) => {
-        if (typeof result === 'string') {
-          if (result === 'Please Sign Up First') {
-            errorResponseHandler(res, 404, result);
-          } else {
-            errorResponseHandler(res, 500, result);
-          }
+        } else if (result === userError) {
+          errorResponseHandler(res, 409, result);
         } else {
-          return res.status(200).json({
-            message: 'Sign In Successful',
-            user: result
-          });
+          errorResponseHandler(res, 500, result);
         }
-      });
-    }
+      } else {
+        return res.status(200).json({
+          message: 'Sign In Successful',
+          user: result.user,
+          token: result.token
+        });
+      }
+    });
   }
-};
-
-/**
- * verifyToken validates a token sent from the frontend
- * @method verifyToken
- *
- * @param  {object} req request sent from frontend
- * @param  {object} res response from the server
- *
- * @return {object} API response
- */
-export const verifyToken = (req, res) => {
-  res.status(200).json({
-    message: 'Valid User'
-  });
 };

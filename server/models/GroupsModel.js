@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-const GroupModel = {
+const GroupsModel = {
   groupName: {
     type: Sequelize.STRING,
     unique: true,
@@ -8,10 +8,10 @@ const GroupModel = {
     validate: {
       isAlphanumeric: {
         arg: true,
-        msg: 'Group name can Only contain Alphabets, Numbers and can not be Empty.'
+        msg: 'Group name can Only contain Alphabets&Numbers with no empty space'
       }
     }
   },
 };
 
-export default GroupModel;
+export default GroupsModel;

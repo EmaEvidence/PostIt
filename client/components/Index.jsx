@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import userSignUpRequest from '../actions/userSignUpAction';
-import userSignInRequest from '../actions/userSignInAction';
+import userSignUpAction from '../actions/userSignUpAction';
+import userSignInAction from '../actions/userSignInAction';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
 import ForgotPassword from './ForgotPassword';
@@ -18,8 +18,8 @@ import authUser from '../actions/authAction';
  * @return {ReactElement} markup
  */
 const Index = (props) => {
-  const userSignup = props.userSignUpRequest;
-  const Login = props.userSignInRequest;
+  const userSignup = props.userSignUpAction;
+  const Login = props.userSignInAction;
   const authUserAction = props.authUser;
   let button;
   if (props.status) {
@@ -45,10 +45,10 @@ const Index = (props) => {
         <p className="center-align">
           <b className="imgdesc">
             Rethinking and Reinventing Mass Communication</b><br />
-            PostIt is a simple application that allows friends and colleagues create groups
-            for notifications.
-            This way one person can post notifications to everyone by sending a message once.
-            The application allows people create accounts,
+            PostIt is a simple application that allows friends
+            and colleagues create groupsfor notifications.
+            This way one person can post notifications to everyone by sending
+            a message once. The application allows people create accounts,
             create groups and add registered users to the groups,
             and then send messages out to these groups whenever they want.<br />
           { button }
@@ -82,9 +82,8 @@ const Index = (props) => {
             <h1><i className="large material-icons">perm_identity</i></h1>
             <h4> Ema Evidence </h4>
             <p>
-                Emmanuel has a week experience in UI and UX during which he has worked
-                for many organizations
-                like Andela, Facebook and Apple.
+                Emmanuel has a week experience in UI and UX during which he has
+                worked for many organizations like Andela, Facebook and Apple.
               </p>
           </div>
         </div>
@@ -97,8 +96,8 @@ const Index = (props) => {
 };
 
 Index.propTypes = {
-  userSignUpRequest: PropTypes.func.isRequired,
-  userSignInRequest: PropTypes.func.isRequired,
+  userSignUpAction: PropTypes.func.isRequired,
+  userSignInAction: PropTypes.func.isRequired,
   authUser: PropTypes.func.isRequired,
   status: PropTypes.bool.isRequired
 };
@@ -118,6 +117,6 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, { userSignUpRequest,
-  userSignInRequest,
+export default connect(mapStateToProps, { userSignUpAction,
+  userSignInAction,
   authUser })(Index);

@@ -1,5 +1,5 @@
 /**
- * reducer
+ * myMessageReducer
  * @method reducer
  *
  * @param  {Object} state initial state
@@ -7,7 +7,7 @@
  *
  * @return {object} state new state
  */
- const reducer = (state = {
+ const myMessageReducer = (state = {
    myMessages: []
  }, action) => {
    switch (action.type) {
@@ -19,4 +19,4 @@
    }
  };
 
- export default reducer;
+ export default myMessageReducer;

@@ -12,7 +12,8 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should return an action to reset password when the action is called', (done) => {
+  it('should return an action to reset password when the action is called',
+  (done) => {
     moxios.stubRequest('/api/v1/user/newpassword', {
       status: 200,
       response: {
@@ -25,12 +26,14 @@ describe('async actions', () => {
       type: types.RESET_PASSWORD_SUCCESS,
       status: 'Password Reset successful',
     }];
-    store.dispatch(resetPasswordAction({ newPassword: 'ev', userKey: 1 })).then(() => {
+    store.dispatch(resetPasswordAction({ newPassword: 'ev', userKey: 1 }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
   });
-  it('should return error if invalid data is called with the action', (done) => {
+  it('should return error if invalid data is called with the action',
+  (done) => {
     moxios.stubRequest('/api/v1/users/search', {
       status: 400,
       response: {
@@ -43,7 +46,8 @@ describe('async actions', () => {
       type: types.RESET_PASSWORD_ERROR,
       status: 'Password Reset failed',
     }];
-    store.dispatch(resetPasswordAction({ newPassword: '', userKey: 1 })).then(() => {
+    store.dispatch(resetPasswordAction({ newPassword: '', userKey: 1 }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

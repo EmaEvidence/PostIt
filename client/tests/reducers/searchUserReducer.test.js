@@ -1,10 +1,10 @@
 import expect from 'expect';
-import reducer from '../../reducers/searchUserReducer';
+import searchUserReducer from '../../reducers/searchUserReducer';
 import * as types from '../../actions/types/types';
 
 describe('searchUser reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(
+    expect(searchUserReducer(undefined, {})).toEqual(
       {
         status: '',
         searchResult: [],
@@ -14,7 +14,7 @@ describe('searchUser reducer', () => {
   });
 
   it('should handle SEARCH_USER', () => {
-    expect(reducer({}, {
+    expect(searchUserReducer({}, {
       type: types.SEARCH_USER,
       message: 'Search Result',
       users: [{ id: 1,
@@ -45,7 +45,7 @@ describe('searchUser reducer', () => {
   });
 
   it('should handle SEARCH_USER_ERROR', () => {
-    expect(reducer({}, {
+    expect(searchUserReducer({}, {
       type: types.SEARCH_USER_ERROR,
       message: 'Nothing Found',
       users: [],
@@ -58,7 +58,7 @@ describe('searchUser reducer', () => {
   });
 
   it('should handle CLEAR_SEARCH_USER_STATUS', () => {
-    expect(reducer({}, {
+    expect(searchUserReducer({}, {
       type: types.CLEAR_SEARCH_USER_STATUS,
       message: 'Search Result',
       users: [{ id: 1,

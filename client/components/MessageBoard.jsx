@@ -131,7 +131,9 @@ export class MessageBoard extends React.Component {
           type={'Archived Messages'}
           messages={this.props.archivedMessages}
         />
-        <SendMessage display={JSON.stringify({ display: this.state.display })} />
+        <SendMessage
+          display={JSON.stringify({ display: this.state.display })}
+        />
         <a
           className="addMessage btn btn-floating btn-large deep-purple lighten-2 pulse"
           title="Send Message Here"
@@ -170,13 +172,15 @@ MessageBoard.propTypes = {
  */
 const mapStateToProps = (state) => {
   let groups = 'xcvxcv';
+  let archivedmessages;
   if (state.groupReducer !== undefined) {
     groups = JSON.stringify(state.groupReducer.groups);
+    archivedmessages = state.archivedMessageReducer.archivedMessages;
   }
   return {
     groups,
     userDetails: JSON.stringify(state.authUser.userDetails),
-    archivedMessages: JSON.stringify(state.archivedMessageReducer.archivedMessages),
+    archivedMessages: JSON.stringify(archivedmessages),
     sentMessages: JSON.stringify(state.myMessagesReducer.myMessages)
   };
 };

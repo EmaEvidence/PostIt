@@ -3,14 +3,14 @@ import GoogleLogin from 'react-google-login';
 import PropTypes from 'prop-types';
 
 /**
- * LoginWithGoogle provides the option to sign up/sign in with google+
+ * GoogleAuth provides the option to sign up/sign in with google+
  * @method LoginWithGoogle
  *
  * @param  {object} props store data passed to the component
  *
  * @return {ReactElement} markup
  */
-const LoginWithGoogle = (props) => {
+const GoogleAuth = (props) => {
   const responseGoogle = (response) => {
     if (response.w3 !== undefined) {
       const name = response.w3.ig;
@@ -34,9 +34,9 @@ const LoginWithGoogle = (props) => {
   );
 };
 
-LoginWithGoogle.propTypes = {
+GoogleAuth.propTypes = {
   googleAction: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
 };
 
-export default LoginWithGoogle;
+export default GoogleAuth;

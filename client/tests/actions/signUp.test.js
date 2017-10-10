@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import expect from 'expect';
 
-import userSignUpRequest from '../../actions/userSignUpAction';
+import userSignUpAction from '../../actions/userSignUpAction';
 import authAction from '../../actions/authAction';
 
 const middlewares = [thunk];
@@ -34,7 +34,7 @@ describe('async actions', () => {
         email: 'ema@gg.com',
         token: '213123ddgdr23erwer' }
     }, 'Success')];
-    store.dispatch(userSignUpRequest({
+    store.dispatch(userSignUpAction({
       userData: {
         name: 'Evidence',
         username: 'Evidence',
@@ -44,7 +44,8 @@ describe('async actions', () => {
         });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should return error if data is invalid when the action is called',
+  (done) => {
     moxios.stubRequest('/api/v1/user/signup', {
       status: 400,
       response: {
@@ -56,7 +57,7 @@ describe('async actions', () => {
     const expectedAction = [authAction({
       data: 'Internal Error'
     }, 'Error')];
-    store.dispatch(userSignUpRequest({
+    store.dispatch(userSignUpAction({
       userData: {
         name: '',
         username: '',

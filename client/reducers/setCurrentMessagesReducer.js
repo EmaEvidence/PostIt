@@ -1,5 +1,5 @@
 /**
- * reducer
+ * setCurrentMessagesReducer
  * @method reducer
  *
  * @param  {Object} state initial state
@@ -7,7 +7,7 @@
  *
  * @return {object} state new state
  */
-const reducer = (state = {
+const setCurrentMessagesReducer = (state = {
   currentMessages: [],
   status: '',
   currentGroup: ''
@@ -27,7 +27,8 @@ const reducer = (state = {
     }
     case 'POST_MESSAGE_TO_CURRENT_GROUP': {
       const newState = { ...state };
-      newState.currentMessages = [...newState.currentMessages, action.messageData];
+      newState.currentMessages = [...newState.currentMessages,
+        action.messageData];
       return { ...state, ...newState };
     }
     default:
@@ -35,4 +36,4 @@ const reducer = (state = {
   }
 };
 
-export default reducer;
+export default setCurrentMessagesReducer;
