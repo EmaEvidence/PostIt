@@ -12,6 +12,7 @@ import { RESET_MAIL_SUCCESS, RESET_MAIL_ERROR } from './types/types';
 const passwordResetMailAction = userData => (dispatch) => {
   return axios.post('/api/v1/user/forgotpassword', userData)
     .then((res) => {
+      $('.modal').modal('close');
       Materialize.toast(res.data.message, 2500, 'green white-text rounded');
       dispatch({
         status: res.data.message,
