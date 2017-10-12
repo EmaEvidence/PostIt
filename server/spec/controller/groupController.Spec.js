@@ -328,10 +328,3 @@ describe('when a user makes a request to the API', () => {
         });
   }, 6000);
 });
-afterAll((done) => {
-  user.clearTables(() => {
-    user.deleteUsers('trial1@gmail.com', () => {
-    });
-  });
-  done();
-}, 1000);

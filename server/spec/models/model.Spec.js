@@ -165,9 +165,3 @@ describe('When a new User signs up', () => {
     done();
   }, 1000);
 });
-
-afterAll((done) => {
-  user.clearTables(() => {
-  });
-  done();
-}, 1000);

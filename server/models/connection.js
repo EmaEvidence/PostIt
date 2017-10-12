@@ -58,6 +58,9 @@ Users.hasMany(Notifications, {
   foreignKey: 'UserId',
   as: 'notifications'
 });
+if (process.env.NODE_ENV === 'development') {
+  sequelize.sync({ force: true });
+}
 sequelize.sync({});
 
 export default database;
