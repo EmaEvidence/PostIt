@@ -778,51 +778,6 @@ class User {
       done(false);
     });
   }
-  /**
-   * clearTables empties every model of data
-   * @method clearTables
-   *
-   * @param {Function} done callback
-   *
-   * @return {void}
-   */
-  clearTables() {
-    this.database.Users.destroy({
-      where: {
-        id: {
-          $gte: 0
-        }
-      }
-    });
-    this.database.Groups.destroy({
-      where: {
-        id: {
-          $gte: 0
-        }
-      }
-    });
-    this.database.GroupMembers.destroy({
-      where: {
-        id: {
-          $gte: 0
-        }
-      }
-    });
-    this.database.Messages.destroy({
-      where: {
-        id: {
-          $gte: 0
-        }
-      }
-    });
-    this.database.Notifications.destroy({
-      where: {
-        id: {
-          $gte: 0
-        }
-      }
-    });
-  }
 }
 
 export default User;
