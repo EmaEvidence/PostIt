@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
-import database from '../models/connection';
+import database from '../models/database';
 import validate from '../services/validate';
 import createToken from '../services/createToken';
 import * as flatten from '../services/flattenArray';
