@@ -7,7 +7,7 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  *
  * @param  {object} req request sent from frontend
  * @param {object} res response from the server
- * @param {Function} next description
+ * @param {Function} next next function
  *
  * @return {object} status response or adds a token to request object
  */

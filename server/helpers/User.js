@@ -66,7 +66,7 @@ class User {
    * @param {string} email Email address of the User
    * @param {string} password password of the user
    * @param {string} phone phone Number of the user
-   * @param {FunctionDeclaration} done callback function
+   * @param {Function} done callback function
    *
    * @return {string} the result of the registration attempt.
    */
@@ -109,8 +109,8 @@ class User {
 
 
   /**
-   * deleteUser - Deletes a registered User from the database
-   * @method deleteUser
+   * deleteUsers - Deletes a registered User from the database
+   * @method deleteUsers
    *
    * @param  {string} email the email of the user to delete
    * @param  {function} done callback function that makes the result availale
@@ -255,15 +255,15 @@ class User {
 
 
   /**
-   * deleteGroupWithName removes a group using the name of the group
-   * @method deleteGroupWithName
+   * deleteGroupByName removes a group using the name of the group
+   * @method deleteGroupByName
    *
    * @param {string} groupName name of the group
    * @param {Function} done callback function
    *
    * @return {object} success or failure data
    */
-  deleteGroupWithName(groupName, done) {
+  deleteGroupByName(groupName, done) {
     this.database.Groups.destroy({
       where: {
         groupName
@@ -282,7 +282,7 @@ class User {
    * @param  {number} group id of the group to add users to
    * @param  {number} userToAdd  id of user being added
    * @param  {number} userAdding id of user adding the new user
-   * @param  {FunctionDeclaration} done callback function
+   * @param  {Function} done callback function
    *
    * @return {string} result of the addition attempt.
    */
@@ -324,7 +324,7 @@ class User {
    * @param {number} group id of the group
    * @param {number} user id of the user
    * @param {number} addedBy id of the user who added the user to be deleted
-   * @param {FunctionDeclaration} done callback
+   * @param {Function} done callback
    *
    * @return {object} result of the removal
    */
@@ -351,7 +351,7 @@ class User {
    * @param  {number} senderId id of the user sending it
    * @param  {string} text the message being sent
    * @param  {number} priorityLevel Level of message priority
-   * @param  {FunctionDeclaration} done callback function
+   * @param  {Function} done callback function
    *
    * @return {string} result of the post attempt.
    */
@@ -391,7 +391,7 @@ class User {
    *
    * @param  {number} group the id of the group
    * @param  {number} username the id of the group
-   * @param  {FunctionDeclaration} done callback function
+   * @param  {Function} done callback function
    *
    * @return {string} result of the get attempt.
    */
@@ -463,7 +463,7 @@ class User {
  * getAllUsers retrieves every user from the database
  * @method getAllUsers
  *
- * @param  {FunctionDeclaration}  done callback
+ * @param  {Function}  done callback
  *
  * @return {object} success or failure data
  */
@@ -483,7 +483,7 @@ class User {
  *
  * @param {number} messages id of the message
  * @param {number} username unique name of the user seeing it
- * @param {FunctionDeclaration} done callback
+ * @param {Function} done callback
  *
  * @return {object} success or failure data
  */
@@ -528,7 +528,7 @@ class User {
  * @param  {string} searchTerm term to be looked for
  * @param {number} offset number of record to skip
  * @param {number} groupId id of the group from where the search is made
- * @param {FunctionDeclaration} done callback
+ * @param {Function} done callback
  *
  * @return {object} success or failure data
  */
@@ -551,15 +551,15 @@ class User {
     });
   }
   /**
-   * myMessages retrieves messages sent by a user from the database
-   * @method myMessages
+   * getUserMessages retrieves messages sent by a user from the database
+   * @method getUserMessages
    *
    * @param {number} userId id of the user
-   * @param {FunctionDeclaration} done callback
+   * @param {Function} done callback
    *
    * @return {object} success or failure data
    */
-  myMessages(userId, done) {
+  getUserMessages(userId, done) {
     this.database.Messages.findAll({
       where: {
         senderId: userId
@@ -576,7 +576,7 @@ class User {
    *
    * @param {string} username unique name of the user seeing it
    * @param {number} groupId id of the group seeing it
-   * @param {FunctionDeclaration} done callback
+   * @param {Function} done callback
    *
    * @return {object} success or failure data
    */
@@ -597,7 +597,7 @@ class User {
    * @method sendPasswordResetMail
    *
    * @param {string} email users email address
-   * @param {FunctionDeclaration} done callback
+   * @param {Function} done callback
    *
    * @return {objecte} success or failure data
    */
@@ -637,7 +637,7 @@ class User {
    *
    * @param {string} password new password from the user
    * @param {string} key the uniquekey generated for the user
-   * @param {FunctionDeclaration} done callback
+   * @param {Function} done callback
    *
    * @return {object} success or failure data
    */

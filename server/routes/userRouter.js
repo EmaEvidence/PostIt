@@ -64,13 +64,14 @@ userRouter.post('/api/v1/user/newpassword', userController.resetPassword);
 /**
  * for getting all messages a user posted
  */
-userRouter.get('/api/v1/user/messages', ensureToken, userController.myMessage);
+userRouter.get('/api/v1/user/messages', ensureToken,
+userController.getUserMessages);
 
 /**
  * for retrieving archived messages
  */
 userRouter.get('/api/v1/user/:groupId/messages/archived',
-ensureToken, userController.archivedMessages);
+ensureToken, userController.getArchivedMessages);
 
 /**
  * For Groups a Users belongs to

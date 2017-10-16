@@ -16,9 +16,8 @@ const user = new User();
 export const addUser = (req, res) => {
   const groupId = req.params.groupId;
   const userToAdd = req.body.user;
-  const userAdding = req.token.data.id;
   if (validate.addUser(groupId, userToAdd, res)) {
-    user.addUsers(groupId, userToAdd, userAdding, (result) => {
+    user.addUsers(groupId, userToAdd, req.token.data.id, (result) => {
       if (typeof result === 'string') {
         if (result.search('UserId') >= 0) {
           errorResponseHandler(res, 404, 'User Does not exist');
@@ -163,9 +162,7 @@ export const postMessage = (req, res) => {
     user.postMessage(groupId,
       username, sender, message, priority, (result, users) => {
         if (typeof result === 'string') {
-          if (result === 'Not a Group Member') {
-            errorResponseHandler(res, 403, 'Not a Group Member');
-          } else if (result === 'Internal Error') {
+          if (result === 'Internal Error') {
             errorResponseHandler(res, 500, 'Internal Error');
           } else {
             errorResponseHandler(res, 404, 'Group does not Exist');

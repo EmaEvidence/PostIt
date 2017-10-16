@@ -157,7 +157,7 @@ describe('When a new User signs up', () => {
 
   afterEach((done) => {
     user.deleteUsers(email, () => {
-      user.deleteGroupWithName('Andela', () => {
+      user.deleteGroupByName('Andela', () => {
         user.deleteUserFromGroup(groupId, newUserId, userId, () => {
         });
       });

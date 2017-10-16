@@ -159,9 +159,8 @@ export const messageRead = (req, res) => {
           messageRead: result,
           message: 'Message Read'
         });
-      } else {
-        errorResponseHandler(res, 500, 'Error Reading Message');
       }
+      errorResponseHandler(res, 500, 'Error Reading Message');
     });
   }
 };
@@ -195,17 +194,17 @@ export const searchUser = (req, res) => {
 };
 
 /**
- * myMessage controls the retrieval of messages sent by a user
- * @method myMessage
+ * getUserMessages controls the retrieval of messages sent by a user
+ * @method getMyMessages
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
  *
  * @return {object} API response
  */
-export const myMessage = (req, res) => {
+export const getUserMessages = (req, res) => {
   const userId = req.token.data.id;
-  user.myMessages(userId, (result) => {
+  user.getUserMessages(userId, (result) => {
     if (typeof result === 'string') {
       errorResponseHandler(res, 500, 'Error retrieving message');
     } else if (result.length === 0) {
@@ -220,15 +219,15 @@ export const myMessage = (req, res) => {
 };
 
 /**
- * archivedMessages controls retrieval of seen messages
- * @method archivedMessages
+ * getArchivedMessages controls retrieval of seen messages
+ * @method getArchivedMessages
  *
  * @param  {object} req request sent from frontend
  * @param  {object} res response from the server
  *
  * @return {object} API response
  */
-export const archivedMessages = (req, res) => {
+export const getArchivedMessages = (req, res) => {
   const groupId = req.params.groupId;
   const username = req.token.data.username;
   if (isNaN(groupId)) {
@@ -294,7 +293,7 @@ export const resetPassword = (req, res) => {
   (userKey !== '' && userKey !== undefined)) {
     user.resetPassword(newPassword, userKey, (result) => {
       if (result === 'Password Updated') {
-        return res.status(200).json({
+        res.status(200).json({
           message: 'Password Updated, please sign In with the new Password',
           user: result
         });

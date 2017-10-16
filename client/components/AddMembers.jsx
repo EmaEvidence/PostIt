@@ -81,7 +81,7 @@ export class AddMembers extends React.Component {
    * @param  {number} userId the id of the user to id
    * @param  {object} event the html element datas
    *
-   * @return  {void} event
+   * @return  {void} void
    */
   addMember(userId) {
     const groupId = this.props.groupId;

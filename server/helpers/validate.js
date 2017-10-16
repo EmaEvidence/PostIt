@@ -56,7 +56,7 @@ export const signIn = (username, password, res) => {
  * search validates data sent to the search end point
  * @method search
  *
- * @param  {type} searchTerm the term being looked for
+ * @param  {string} searchTerm the term being looked for
  * @param  {number} offset the number of records to be skipped in the database
  * @param  {number} groupId id of the group from where the search is being done
  * @param  {object} res server response
@@ -85,7 +85,7 @@ export const search = (searchTerm, offset, groupId, res) => {
  */
 export const group = (groupId, res) => {
   if ((isNaN(groupId) || parseInt(groupId, 10) > 10000000000)) {
-    errorResponseHandler(res, 400, 'Invalid Group Selected');
+    errorResponseHandler(res, 404, 'Group Not Found');
   } else {
     return true;
   }
