@@ -12,7 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should create POST_MESSAGE action when called', (done) => {
+  it('should dispatch POST_MESSAGE action when called', (done) => {
     moxios.stubRequest('/api/v1/group/1/message', {
       status: 200,
       response: {
@@ -31,7 +31,7 @@ describe('async actions', () => {
     });
     done();
   });
-  it('should return error if data is invalid when the action is called',
+  it('should dispatch POST_MESSAGE_ERROR action if data is invalid',
   (done) => {
     moxios.stubRequest('/api/v1/group/1/message', {
       status: 400,

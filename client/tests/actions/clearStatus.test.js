@@ -8,8 +8,8 @@ import * as types from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
-  it('should clear status from store when the action is called', (done) => {
+describe('async action creator', () => {
+  it('should dispatch CLEAR_SEARCH_USER_STATUS action', (done) => {
     const store = mockStore({});
     const expectedAction = [{
       message: '',

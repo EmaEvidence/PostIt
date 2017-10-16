@@ -9,10 +9,10 @@ import * as types from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('async action creator', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should retrive members for a group in when the action is called',
+  it('should dispatch SET_CURRENT_MEMBERS action',
   (done) => {
     moxios.stubRequest('/api/v1/group/1/users', {
       status: 200,
@@ -34,7 +34,7 @@ describe('async actions', () => {
     });
     done();
   });
-  it('should return error if data is invalid when the action is called',
+  it('should dispatch SET_CURRENT_MEMBERS_ERROR action',
   (done) => {
     moxios.stubRequest('/api/v1/group/1/users', {
       status: 400,

@@ -12,7 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should add a user when the action is called', (done) => {
+  it('should dispatch authAction', (done) => {
     moxios.stubRequest('/api/v1/user/signup', {
       status: 201,
       response: {
@@ -44,7 +44,7 @@ describe('async actions', () => {
         });
     done();
   });
-  it('should return error if data is invalid when the action is called',
+  it('should dispatch authAction',
   (done) => {
     moxios.stubRequest('/api/v1/user/signup', {
       status: 400,

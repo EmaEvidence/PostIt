@@ -9,10 +9,10 @@ import * as types from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('async action creator', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should return an action to reset password when the action is called',
+  it('should dispatch RESET_PASSWORD_SUCCESS action',
   (done) => {
     moxios.stubRequest('/api/v1/user/newpassword', {
       status: 200,
@@ -32,7 +32,7 @@ describe('async actions', () => {
     });
     done();
   });
-  it('should return error if invalid data is called with the action',
+  it('should dispatch RESET_PASSWORD_ERROR action',
   (done) => {
     moxios.stubRequest('/api/v1/users/search', {
       status: 400,

@@ -12,7 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should return success when the action is called', (done) => {
+  it('should dispatch action when the action is called', (done) => {
     moxios.stubRequest('/api/v1/user/forgotpassword', {
       status: 200,
       response: {
@@ -30,7 +30,7 @@ describe('async actions', () => {
     });
     done();
   });
-  it('should return error if data is invalid when the action is called',
+  it('should dispatch error action if data is invalid ',
   (done) => {
     moxios.stubRequest('/api/v1/group/1/message', {
       status: 404,

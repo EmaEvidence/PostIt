@@ -8,10 +8,10 @@ import * as types from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('async action creator', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should retrieve archived messages when the action is called', (done) => {
+  it('should dispatch ADD_NEW_MEMBER action', (done) => {
     moxios.stubRequest('/api/v1/user/1/messages/archived', {
       status: 201,
       response: {
@@ -32,7 +32,7 @@ describe('async actions', () => {
     });
     done();
   });
-  it('should retrieve archived messages when the action is called', (done) => {
+  it('should dispatch ADD_NEW_MEMBER_ERROR action', (done) => {
     moxios.stubRequest('/api/v1/user/1/messages/archived', {
       status: 400,
       response: {

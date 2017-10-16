@@ -9,10 +9,10 @@ import * as types from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('async action creator', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should retrive users when the action is called', (done) => {
+  it('should dispatch SEARCH_USER action', (done) => {
     moxios.stubRequest('/api/v1/users/search', {
       status: 200,
       response: {
@@ -32,7 +32,7 @@ describe('async actions', () => {
       });
     done();
   });
-  it('should return error if data is invalid when the action is called',
+  it('should dispatch SEARCH_USER_ERROR action',
   (done) => {
     moxios.stubRequest('/api/v1/users/search', {
       status: 400,
