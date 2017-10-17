@@ -8,10 +8,10 @@ import * as types from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('async action creator', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should add users when the action is called', (done) => {
+  it('should dispatch ADD_NEW_MEMBER action', (done) => {
     moxios.stubRequest('/api/v1/group/1/user', {
       status: 201,
       response: {
@@ -29,7 +29,7 @@ describe('async actions', () => {
     });
     done();
   });
-  it('should sets users when the action is called', (done) => {
+  it('should dispatch ADD_NEW_MEMBER_ERROR action', (done) => {
     moxios.stubRequest('/api/v1/group/1/user', {
       status: 400,
       response: {

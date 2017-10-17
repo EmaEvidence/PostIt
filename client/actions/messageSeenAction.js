@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { MARK_MESSAGE_AS_SEEN, MARK_MESSAGE_AS_SEEN_ERROR } from './types/types';
+import { MARK_MESSAGE_AS_SEEN,
+  MARK_MESSAGE_AS_SEEN_ERROR } from './types/types';
 
 /**
  * messageSeenAction creates redux action

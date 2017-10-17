@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { GET_ARCHIVED_MESSAGE, GET_ARCHIVED_MESSAGE_ERROR } from './types/types';
+import { GET_ARCHIVED_MESSAGE,
+  GET_ARCHIVED_MESSAGE_ERROR } from './types/types';
 
 /**
  * archivedMessageAction creates redux actions

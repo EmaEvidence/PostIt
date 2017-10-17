@@ -7,14 +7,14 @@ import Index from './Index';
 import NotFound from './NotFound';
 
 /**
- * App controls routing in the App
- * @method App
+ * Main controls routing in the App
+ * @method Main
  *
  * @param  {object} props store data passed to the component
  *
  * @return {ReactElement} markup
  */
-const App = () => {
+const Main = () => {
   const token = window.localStorage.getItem('token');
   let messageBoardBody;
   if (token) {
@@ -34,4 +34,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Main;

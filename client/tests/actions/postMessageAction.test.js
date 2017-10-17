@@ -12,7 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should create POST_MESSAGE action when called', (done) => {
+  it('should dispatch POST_MESSAGE action when called', (done) => {
     moxios.stubRequest('/api/v1/group/1/message', {
       status: 200,
       response: {
@@ -25,12 +25,14 @@ describe('async actions', () => {
       message: 'Message Sent',
       type: types.POST_MESSAGE
     }];
-    store.dispatch(postMessageAction({ message: 'Evi', priority: 'Normal' })).then(() => {
+    store.dispatch(postMessageAction({ message: 'Evi', priority: 'Normal' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should dispatch POST_MESSAGE_ERROR action if data is invalid',
+  (done) => {
     moxios.stubRequest('/api/v1/group/1/message', {
       status: 400,
       response: {
@@ -43,12 +45,14 @@ describe('async actions', () => {
       type: types.POST_MESSAGE_ERROR,
       message: 'Message can not be empty'
     }];
-    store.dispatch(postMessageAction({ message: '', priority: 'Normal' })).then(() => {
+    store.dispatch(postMessageAction({ message: '', priority: 'Normal' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should return error if data is invalid when the action is called',
+  (done) => {
     moxios.stubRequest('/api/v1/group//message', {
       status: 400,
       error: { response: {
@@ -61,7 +65,8 @@ describe('async actions', () => {
       type: types.POST_MESSAGE_ERROR,
       status: 'Group Must be defined'
     }];
-    store.dispatch(postMessageAction({ message: 'Evi', priority: 'Normal' })).then(() => {
+    store.dispatch(postMessageAction({ message: 'Evi', priority: 'Normal' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

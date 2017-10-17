@@ -1,5 +1,5 @@
 /**
- * reducer
+ * setCurrentMembersReducer
  * @method reducer
  *
  * @param  {Object} state initial state
@@ -7,7 +7,7 @@
  *
  * @return {object} state new state
  */
-const reducer = (state = {
+const setCurrentMembersReducer = (state = {
   currentMembers: [],
   status: '',
   currentGroup: ''
@@ -24,4 +24,4 @@ const reducer = (state = {
   }
 };
 
-export default reducer;
+export default setCurrentMembersReducer;

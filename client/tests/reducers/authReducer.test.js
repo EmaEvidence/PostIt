@@ -1,10 +1,10 @@
 import expect from 'expect';
-import reducer from '../../reducers/authReducers';
+import authReducers from '../../reducers/authReducers';
 import * as types from '../../actions/types/types';
 
 describe('auth user reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(
+    expect(authReducers(undefined, {})).toEqual(
       {
         loggedIn: false,
         userDetails: {},
@@ -14,7 +14,7 @@ describe('auth user reducer', () => {
   });
 
   it('should handle CREATE_GROUP', () => {
-    expect(reducer({}, {
+    expect(authReducers({}, {
       type: types.ADD_USER_DETAILS,
       data: {
         id: 1,
@@ -34,7 +34,7 @@ describe('auth user reducer', () => {
     );
   });
   it('should handle CLEAR_NOTIFICATION', () => {
-    expect(reducer({
+    expect(authReducers({
       loggedIn: true,
       userDetails: {
         notifications: [{ id: 1, message: 'New message' }]

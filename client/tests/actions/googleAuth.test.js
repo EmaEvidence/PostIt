@@ -12,7 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should add a user with google+ when the action is called', (done) => {
+  it('should dispatch authAction', (done) => {
     moxios.stubRequest('/api/v1/user/google', {
       status: 200,
       response: {
@@ -44,7 +44,8 @@ describe('async actions', () => {
       });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should dispatch authAction with errors',
+  (done) => {
     moxios.stubRequest('/api/v1/user/google', {
       status: 500,
       response: {
@@ -60,7 +61,8 @@ describe('async actions', () => {
     const expectedAction = [authAction({
       data: 'Internal Error'
     }, 'Error')];
-    store.dispatch(googleAuthAction({ name: '', email: '', state: 'Sign Up' })).then(() => {
+    store.dispatch(googleAuthAction({ name: '', email: '', state: 'Sign Up' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

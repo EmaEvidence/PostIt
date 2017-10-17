@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import expect from 'expect';
-import userSignInRequest from '../../actions/userSignInAction';
+import userSignInAction from '../../actions/userSignInAction';
 import authAction from '../../actions/authAction';
 
 const middlewares = [thunk];
@@ -11,7 +11,7 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should log a user in when the action is called', (done) => {
+  it('should dispatch authAction ', (done) => {
     moxios.stubRequest('/api/v1/user/signin', {
       status: 201,
       response: {
@@ -33,13 +33,15 @@ describe('async actions', () => {
         email: 'ema@gg.com',
         token: '213123ddgdr23erwer' }
     }, 'Success')];
-    store.dispatch(userSignInRequest({
-      userData: { username: 'Evidence', password: 'qwerty123@' } })).then(() => {
+    store.dispatch(userSignInAction({
+      userData: { username: 'Evidence', password: 'qwerty123@' } }))
+      .then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should dispatch authAction',
+  (done) => {
     moxios.stubRequest('/api/v1/user/signin', {
       status: 400,
       response: {
@@ -51,7 +53,7 @@ describe('async actions', () => {
     const expectedAction = [authAction({
       data: 'Internal Error'
     }, 'Error')];
-    store.dispatch(userSignInRequest({
+    store.dispatch(userSignInAction({
       userData: { username: '', password: 'qwerty123@' } })).then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });

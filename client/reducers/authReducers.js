@@ -1,5 +1,5 @@
 /**
- * reducer
+ * authReducer
  * @method reducer
  *
  * @param  {Object} state initial state
@@ -7,7 +7,7 @@
  *
  * @return {object} state new state
  */
-const reducer = (state = {
+const authReducer = (state = {
   loggedIn: false,
   userDetails: {},
   authMessage: ''
@@ -36,4 +36,4 @@ const reducer = (state = {
   }
 };
 
-export default reducer;
+export default authReducer;

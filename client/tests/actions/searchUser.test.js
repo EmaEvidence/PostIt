@@ -9,10 +9,10 @@ import * as types from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('async action creator', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should retrive users when the action is called', (done) => {
+  it('should dispatch SEARCH_USER action', (done) => {
     moxios.stubRequest('/api/v1/users/search', {
       status: 200,
       response: {
@@ -21,16 +21,19 @@ describe('async actions', () => {
       }
     });
     const store = mockStore({});
-    const expectedAction = [{ users: [{ id: 1, message: 'When' }, { id: 1, message: 'When' }],
+    const expectedAction = [{ users: [{ id: 1, message: 'When' },
+    { id: 1, message: 'When' }],
       type: types.SEARCH_USER,
       status: 'Member Retrived successfully'
     }];
-    store.dispatch(searchUserAction({ searchTerm: 'ev', offset: 5, groupId: 1 })).then(() => {
-      expect(store.getActions()).toEqual(expectedAction);
-    });
+    store.dispatch(searchUserAction({
+      searchTerm: 'ev', offset: 5, groupId: 1 })).then(() => {
+        expect(store.getActions()).toEqual(expectedAction);
+      });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should dispatch SEARCH_USER_ERROR action',
+  (done) => {
     moxios.stubRequest('/api/v1/users/search', {
       status: 400,
       response: {
@@ -43,7 +46,8 @@ describe('async actions', () => {
       type: types.SEARCH_USER_ERROR,
       status: 'Search Failed'
     }];
-    store.dispatch(searchUserAction({ searchTerm: '', offset: 5, groupId: 1 })).then(() => {
+    store.dispatch(searchUserAction({ searchTerm: '', offset: 5, groupId: 1 }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

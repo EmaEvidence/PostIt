@@ -9,10 +9,11 @@ import * as types from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('async action creator', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should retrive members for a group in when the action is called', (done) => {
+  it('should dispatch SET_CURRENT_MEMBERS action',
+  (done) => {
     moxios.stubRequest('/api/v1/group/1/users', {
       status: 200,
       response: {
@@ -21,17 +22,20 @@ describe('async actions', () => {
       }
     });
     const store = mockStore({});
-    const expectedAction = [{ messages: [{ id: 1, message: 'When' }, { id: 1, message: 'When' }],
+    const expectedAction = [{ messages: [{ id: 1, message: 'When' },
+    { id: 1, message: 'When' }],
       type: types.SET_CURRENT_MEMBERS,
       status: 'Member Retrived successfully',
       groupName: 'Andela'
     }];
-    store.dispatch(setCurrentMembersAction({ groupName: 'Andela', data: 1 })).then(() => {
+    store.dispatch(setCurrentMembersAction({ groupName: 'Andela', data: 1 }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should dispatch SET_CURRENT_MEMBERS_ERROR action',
+  (done) => {
     moxios.stubRequest('/api/v1/group/1/users', {
       status: 400,
       response: {
@@ -40,12 +44,14 @@ describe('async actions', () => {
       }
     });
     const store = mockStore({});
-    const expectedAction = [{ messages: [{ id: 1, message: 'When' }, { id: 1, message: 'When' }],
+    const expectedAction = [{ messages: [{ id: 1, message: 'When' },
+    { id: 1, message: 'When' }],
       type: types.SET_CURRENT_MEMBERS_ERROR,
       status: 'Member Retrival Failed',
       groupName: 'Andela'
     }];
-    store.dispatch(setCurrentMembersAction({ groupName: 'Andela', data: '' })).then(() => {
+    store.dispatch(setCurrentMembersAction({ groupName: 'Andela', data: '' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

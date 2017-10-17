@@ -7,7 +7,7 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  *
  * @param  {object} req request sent from frontend
  * @param {object} res response from the server
- * @param {Function} next description
+ * @param {Function} next next function
  *
  * @return {object} status response or adds a token to request object
  */
@@ -18,6 +18,11 @@ const ensureToken = (req, res, next) => {
       if (err) {
         errorResponseHandler(res, 401, 'Invalid token.');
       } else {
+        if (req.body.key === 'token') {
+          res.status(200).json({
+            message: 'Valid User'
+          });
+        }
         req.token = decoded;
         next();
       }

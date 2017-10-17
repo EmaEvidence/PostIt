@@ -9,10 +9,10 @@ import * as types from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('async action creator', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should return success when the action is called', (done) => {
+  it('should dispatch GET_MY_MESSAGES action', (done) => {
     moxios.stubRequest('/api/v1/user/message/read', {
       status: 200,
       response: {
@@ -34,7 +34,8 @@ describe('async actions', () => {
     });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should return error if data is invalid when the action is called',
+  (done) => {
     moxios.stubRequest('/api/v1/user/messages', {
       status: 500,
       response: {

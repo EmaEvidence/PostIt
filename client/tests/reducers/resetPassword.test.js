@@ -1,10 +1,10 @@
 import expect from 'expect';
-import reducer from '../../reducers/resetPasswordReducer';
+import resetPasswordReducer from '../../reducers/resetPasswordReducer';
 import * as types from '../../actions/types/types';
 
 describe('resetPassword reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(
+    expect(resetPasswordReducer(undefined, {})).toEqual(
       {
         status: ''
       }
@@ -12,7 +12,7 @@ describe('resetPassword reducer', () => {
   });
 
   it('should handle RESET_MAIL_SUCCESS', () => {
-    expect(reducer({}, {
+    expect(resetPasswordReducer({}, {
       type: types.RESET_MAIL_SUCCESS,
       status: 'Mail Sent'
     })).toEqual(
@@ -23,7 +23,7 @@ describe('resetPassword reducer', () => {
   });
 
   it('should handle RESET_PASSWORD_ERROR', () => {
-    expect(reducer({}, {
+    expect(resetPasswordReducer({}, {
       type: types.RESET_PASSWORD_ERROR,
       status: 'Error sending Mail'
     })).toEqual(

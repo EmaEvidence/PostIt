@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { POST_MESSAGE, POST_MESSAGE_ERROR, POST_MESSAGE_TO_CURRENT_GROUP } from './types/types';
+import { POST_MESSAGE,
+  POST_MESSAGE_ERROR, POST_MESSAGE_TO_CURRENT_GROUP } from './types/types';
 
 /**
  * postMessageAction creates redux actions
  * @method postMessageAction
  *
- * @param  {object} messageDatadata message object
+ * @param  {object} messageData message object
  *
  * @return {function} redux action
  */
@@ -30,15 +31,17 @@ const postMessageAction = (messageData) => {
     })
     .catch((error) => {
       if (error.response !== undefined) {
-        Materialize.toast(error.response.data.message, 2500, 'red white-text rounded');
+        const messageError = error.response.data.message;
+        Materialize.toast(messageError, 2500, 'red white-text rounded');
         return dispatch({
-          message: error.response.data.message,
+          message: messageError,
           type: POST_MESSAGE_ERROR
         });
       } else {
-        Materialize.toast('Internal Server Error', 2500, 'red white-text rounded');
+        const messageError = 'Internal Server Error';
+        Materialize.toast(messageError, 2500, 'red white-text rounded');
         return dispatch({
-          message: error,
+          message: messageError,
           type: POST_MESSAGE_ERROR
         });
       }

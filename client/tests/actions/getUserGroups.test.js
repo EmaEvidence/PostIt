@@ -8,10 +8,10 @@ import * as types from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('async action creator', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should sets users when the action is called', (done) => {
+  it('should create group action', (done) => {
     moxios.stubRequest('/api/v1/user/groups', {
       status: 200,
       response: {
@@ -29,7 +29,7 @@ describe('async actions', () => {
     });
     done();
   });
-  it('should sets users when the action is called', (done) => {
+  it('should dispatch CREATE_GROUP_ERROR action', (done) => {
     moxios.stubRequest('/api/v1/user/groups', {
       status: 400,
       response: {
@@ -41,7 +41,8 @@ describe('async actions', () => {
       message: 'Group Name can not be empty',
       type: types.CREATE_GROUP_ERROR,
     }];
-    store.dispatch(getUserGroupsAction({ groupName: '', users: [1, 3] })).then(() => {
+    store.dispatch(getUserGroupsAction({ groupName: '', users: [1, 3] }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

@@ -12,7 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('async actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should return success when the action is called', (done) => {
+  it('should dispatch action when the action is called', (done) => {
     moxios.stubRequest('/api/v1/user/forgotpassword', {
       status: 200,
       response: {
@@ -24,12 +24,14 @@ describe('async actions', () => {
       message: 'Mail Sent',
       type: types.RESET_MAIL_SUCCESS
     }];
-    store.dispatch(passwordResetMailAction({ email: 'ema@gmail.com' })).then(() => {
+    store.dispatch(passwordResetMailAction({ email: 'ema@gmail.com' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
   });
-  it('should return error if data is invalid when the action is called', (done) => {
+  it('should dispatch error action if data is invalid ',
+  (done) => {
     moxios.stubRequest('/api/v1/group/1/message', {
       status: 404,
       response: {
@@ -41,7 +43,8 @@ describe('async actions', () => {
       type: types.RESET_MAIL_SUCCESS_ERROR,
       message: 'Email Not found'
     }];
-    store.dispatch(passwordResetMailAction({ email: 'emag@gmail.com' })).then(() => {
+    store.dispatch(passwordResetMailAction({ email: 'emag@gmail.com' }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

@@ -35,13 +35,20 @@ export class CreateGroup extends React.Component {
     this.chipOnChange = this.chipOnChange.bind(this);
   }
   /**
-   * componentWillMount description
+   * componentWillMount gets users
    * @method componentWillMount
    *
    * @return {array} all application user
    */
   componentWillMount() {
     this.props.getUsersAction();
+  }
+  /**
+   * [componentDidUpdate description]
+   * @method componentDidUpdate
+   * @return {[type]}           [description]
+   */
+  componentDidUpdate() {
   }
   /**
    * onChange stores the form component value in the state
@@ -73,14 +80,11 @@ export class CreateGroup extends React.Component {
     };
     this.props.createGroupAction(groupData, this.props.userId)
     .then(() => {
-      this.setState({
-        groupName: '',
-        purpose: '',
-        members: []
-      });
+      if (this.props.status === 'Group creation Successful') {
+        this.clearState();
+      }
     });
   }
-
   /**
    * chipOnChange description
    * @method onChange
@@ -160,7 +164,8 @@ CreateGroup.propTypes = {
   createGroupAction: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired,
   users: PropTypes.string.isRequired,
-  getUsersAction: PropTypes.func.isRequired
+  getUsersAction: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired
 };
 /**
  * mapStateToProps makes store data available to the component
@@ -172,12 +177,15 @@ CreateGroup.propTypes = {
  */
 const mapStateToProps = (state) => {
   let userId = '1';
+  let status;
   if (state.groupReducer !== undefined) {
     userId = state.authUser.userDetails.id || 0;
+    status = state.groupReducer.status;
   }
   return {
     userId,
-    users: JSON.stringify(state.getAllUsersReducer.users)
+    users: JSON.stringify(state.getAllUsersReducer.users),
+    status
   };
 };
 

@@ -8,10 +8,10 @@ import SET_USERS from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('async action creator', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should sets users when the action is called', (done) => {
+  it('should dispatch SET_USERS action', (done) => {
     moxios.stubRequest('/api/v1/user/all', {
       status: 200,
       response: {

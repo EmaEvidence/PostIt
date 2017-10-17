@@ -36,7 +36,8 @@ export class AllMessages extends React.Component {
       );
     } else {
       let messages = JSON.parse(this.props.messages);
-      messages = messages.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      messages = messages.sort((a, b) =>
+      b.createdAt.localeCompare(a.createdAt));
       Messagelist = messages.map((message, index) =>
         (
           <li key={index}>
@@ -50,7 +51,10 @@ export class AllMessages extends React.Component {
               <i className="chip">{(message.createdAt).split('T')[0]}</i>
               <i className="chip dropdown" href="">
                 Seen
-                <span className="caret dropdown-toggle" data-toggle="dropdown" />
+                <span
+                  className="caret dropdown-toggle"
+                  data-toggle="dropdown"
+                />
                 <ul className="dropdown-menu notifications">
                   <li>{message.views ? message.views : 'None' }</li>
                 </ul>
@@ -63,7 +67,8 @@ export class AllMessages extends React.Component {
     return (
       <div className="col-sm-7 messagecard">
         <h2>
-          { this.props.groupName ? `Messages for ${this.props.groupName}` : 'Please Select a Group.'}
+          { this.props.groupName ?
+            `Messages for ${this.props.groupName}` : 'Please Select a Group.'}
         </h2>
         <div>
           <ul>

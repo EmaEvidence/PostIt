@@ -9,10 +9,10 @@ import * as types from '../../actions/types/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('async action creator', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  it('should sets create group action when the action is called', (done) => {
+  it('should dispatch CREATE_GROUP action', (done) => {
     moxios.stubRequest('/api/v1/group', {
       status: 200,
       response: {
@@ -26,12 +26,13 @@ describe('async actions', () => {
       type: types.CREATE_GROUP,
       message: 'Group Created successfully'
     }];
-    store.dispatch(createGroupAction({ groupName: 'Andela', users: [1, 3] })).then(() => {
+    store.dispatch(createGroupAction({ groupName: 'Andela', users: [1, 3] }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();
   });
-  it('should throw error when the action is called with error', (done) => {
+  it('should dispatch CREATE_GROUP_ERROR action', (done) => {
     moxios.stubRequest('/api/v1/group', {
       status: 400,
       response: {
@@ -43,7 +44,8 @@ describe('async actions', () => {
       message: 'Group Name can not be empty',
       type: types.CREATE_GROUP_ERROR,
     }];
-    store.dispatch(createGroupAction({ groupName: '', users: [1, 3] })).then(() => {
+    store.dispatch(createGroupAction({ groupName: '', users: [1, 3] }))
+    .then(() => {
       expect(store.getActions()).toEqual(expectedAction);
     });
     done();

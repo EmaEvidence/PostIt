@@ -14,7 +14,7 @@ import authAction from './authAction';
 const userSignInAction = userData => (dispatch) => {
   return axios.post('/api/v1/user/signin', userData)
     .then((res) => {
-      const token = res.data.user.token;
+      const token = res.data.token;
       setAuthorizationToken(token);
       $('.modal').modal('close');
       Materialize.toast(res.data.message, 2500, 'green white-text rounded');
@@ -23,9 +23,10 @@ const userSignInAction = userData => (dispatch) => {
       }, 'Successful'));
       location.href = '/messageboard';
     }).catch((err) => {
-      Materialize.toast(err.response.data.message, 2500, 'red white-text rounded');
+      const errorMessage = err.response.data.message;
+      Materialize.toast(errorMessage, 2500, 'red white-text rounded');
       dispatch(authAction({
-        data: err.response.data.message
+        data: errorMessage
       }, 'Error'));
     });
 };

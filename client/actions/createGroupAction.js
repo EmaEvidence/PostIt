@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { CREATE_GROUP, CREATE_GROUP_ERROR } from './types/types';
 
+const url = '/api/v1/group';
+
 /**
  * createGroupAction create redux action
  * @method createGroupAction
@@ -9,7 +11,7 @@ import { CREATE_GROUP, CREATE_GROUP_ERROR } from './types/types';
  *
  * @return {function} redux action
  */
-const createGroupAction = groupData => dispatch => axios.post('/api/v1/group', groupData)
+const createGroupAction = groupData => dispatch => axios.post(url, groupData)
     .then((res) => {
       $('.modal').modal('close');
       Materialize.toast(res.data.message, 2500, 'green white-text rounded');
@@ -20,9 +22,10 @@ const createGroupAction = groupData => dispatch => axios.post('/api/v1/group', g
       });
     })
     .catch((error) => {
-      Materialize.toast(error.response.data.message, 2500, 'red white-text rounded');
+      const message = error.response.data.message;
+      Materialize.toast(message, 2500, 'red white-text rounded');
       dispatch({
-        message: error.response.data.message,
+        message,
         type: CREATE_GROUP_ERROR
       });
     });
