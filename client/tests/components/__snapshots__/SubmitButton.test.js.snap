@@ -6,3 +6,10 @@ exports[`Notification component should renders without crashing 1`] = `
   type="submit"
 />
 `;
+
+exports[`SubmitButton component should renders without crashing 1`] = `
+<input
+  className="form-control btn deep-purple lighten-3 custombutton"
+  type="submit"
+/>
+`;

@@ -221,7 +221,7 @@ const mapStateToProps = (state) => {
     groups = ['None'];
   }
   return {
-    currentGroup: state.setCurrentMessagesReducer.currentGroup,
+    currentGroup: state.messageReducer.currentGroup,
     groups
   };
 };

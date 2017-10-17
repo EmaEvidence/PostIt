@@ -175,13 +175,13 @@ const mapStateToProps = (state) => {
   let archivedmessages;
   if (state.groupReducer !== undefined) {
     groups = JSON.stringify(state.groupReducer.groups);
-    archivedmessages = state.archivedMessageReducer.archivedMessages;
+    archivedmessages = state.messageReducer.archivedMessages;
   }
   return {
     groups,
     userDetails: JSON.stringify(state.authUser.userDetails),
     archivedMessages: JSON.stringify(archivedmessages),
-    sentMessages: JSON.stringify(state.myMessagesReducer.myMessages)
+    sentMessages: JSON.stringify(state.messageReducer.myMessages)
   };
 };
 
