@@ -17,7 +17,7 @@ describe('When a User makes a request to the APIs', () => {
           })
           .end((err, res) => {
             expect(res.status).toEqual(400);
-            expect(JSON.parse(res.text).message).toEqual('name cannot be null');
+            expect(JSON.parse(res.text).message).toEqual('Users.name cannot be null');
             done(err);
           });
   }, 10000);
@@ -34,7 +34,7 @@ describe('When a User makes a request to the APIs', () => {
           .end((err, res) => {
             expect(res.status).toEqual(400);
             expect(JSON.parse(res.text).message)
-            .toEqual('email cannot be null');
+            .toEqual('Users.email cannot be null');
             done(err);
           });
   }, 10000);

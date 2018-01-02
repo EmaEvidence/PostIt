@@ -35,6 +35,7 @@ export class SignUp extends React.Component {
     this.checkPassword = this.checkPassword.bind(this);
     this.clearState = this.clearState.bind(this);
   }
+
   /**
    * onChange stores the data from the form component
    * @method onChange
@@ -61,6 +62,7 @@ export class SignUp extends React.Component {
     event.preventDefault();
     this.props.userSignup(this.state);
   }
+  
   /**
    * checkPassword confirms if the password and confirm password matches
    *
@@ -81,6 +83,7 @@ export class SignUp extends React.Component {
       this.refs.submit.disabled = true;
     }
   }
+
   /**
    * clearState returns state to its inital value
    * @method clearState
@@ -99,6 +102,7 @@ export class SignUp extends React.Component {
       pwdmatch: ''
     });
   }
+
   /**
    * render displays the html
    * @method render
