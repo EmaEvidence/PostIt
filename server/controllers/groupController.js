@@ -181,3 +181,65 @@ export const postMessage = (req, res) => {
       });
   }
 };
+
+/**
+ * deleteGroup sends a message to a group
+ * @method deleteGroup
+ *
+ * @param  {object} req request sent from frontend
+ * @param  {object} res response from the server
+ *
+ * @return {object} API response
+ */
+export const deleteGroup = (req, res) => {
+  const { groupName } = req.body;
+  const groupId = req.params.groupId;
+  if (validate.group(groupId, groupName, res)) {
+    user.deleteGroupByName(groupName, (result) => {
+      if (result === 1) {
+        res.status(200).json({
+          groupData: {
+            groupId,
+            groupName
+          },
+          message: `Group ${groupName} deleted.`
+        });
+      } else if (result === 0) {
+        errorResponseHandler(res, 404, 'Group does not Exist');
+      } else {
+        errorResponseHandler(res, 500, 'Internal Error');
+      }
+    });
+  }
+};
+
+/**
+ * editGroupName sends a message to a group
+ * @method editGroupName
+ *
+ * @param  {object} req request sent from frontend
+ * @param  {object} res response from the server
+ *
+ * @return {object} API response
+ */
+export const editGroupName = (req, res) => {
+  const { groupName } = req.body;
+  const groupId = req.params.groupId;
+  if (validate.group(groupId, res)) {
+    user.editGroupName(groupId, groupName, (result) => {
+      if (result === 'Internal Server Error') {
+        errorResponseHandler(res, 500, 'Internal Error');
+      } else if (result === 0) {
+        errorResponseHandler(res, 404, 'Group does not Exist');
+      } else {
+        res.status(200).json({
+          groupData: {
+            groupId,
+            groupName
+          },
+          message: `Group Name updated to ${groupName}.`
+        });
+      }
+    });
+  }
+};

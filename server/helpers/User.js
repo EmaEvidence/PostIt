@@ -778,6 +778,61 @@ class User {
       done(false);
     });
   }
+
+  /**
+   * checkIfGroupCreator checks if user is the group creator
+   * @method checkIfGroupCreator
+   *
+   * @param {number} userId unique Identity of the user
+   * @param {number} groupId unique Identity of the group
+   * @param {Function} done callback function
+   *
+   * @return {boolean} result of the check
+   */
+  checkIfGroupCreator(userId, groupId, done) {
+    this.database.Groups.findOne({
+      where: {
+        groupCreatorId: userId,
+        id: groupId
+      }
+    }).then((response) => {
+      if (response !== null) {
+        done(true);
+      } else {
+        done(false);
+      }
+    })
+    .catch(() => {
+      done(false);
+    });
+  }
+
+  /**
+   * editGroupName updates the group name
+   * @method editGroupName
+   *
+   * @param {number} groupId unique Identity of the group
+   * @param {Function} done callback function
+   *
+   * @return {boolean} result of the check
+   */
+  editGroupName(groupId, groupName, done) {
+    this.database.Groups.update({ groupName }, {
+      where: {
+        id: groupId
+      }
+    }).then((response) => {
+      if (response !== 0) {
+        done(response);
+      } else {
+        done("No Group Found");
+      }
+    })
+    .catch(() => {
+      done("Internal Server Error");
+    });
+  }
 }
+
 
 export default User;

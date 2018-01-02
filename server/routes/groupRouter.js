@@ -5,6 +5,7 @@ import validator from 'express-validator';
 import * as groupController from '../controllers/groupController';
 import ensureToken from '../middleware/ensureToken';
 import checkIfMember from '../middleware/checkIfMember';
+import checkIfGroupCreator from '../middleware/checkIfGroupCreator';
 
 const groupRouter = express.Router();
 groupRouter.use(bodyParser.json());
@@ -36,5 +37,17 @@ checkIfMember, groupController.postMessage);
  */
 groupRouter.get('/api/v1/group/:groupId/messages', ensureToken,
 checkIfMember, groupController.getGroupMessages);
+
+/**
+ * For editting group name
+ */
+groupRouter.put('/api/v1/group/edit/:groupId', ensureToken,
+checkIfGroupCreator, groupController.editGroupName);
+
+/**
+ * For deleting a group
+ */
+groupRouter.delete('/api/v1/group/:groupId', ensureToken,
+checkIfGroupCreator, groupController.deleteGroup);
 
 export default groupRouter;
