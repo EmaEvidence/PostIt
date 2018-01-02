@@ -89,9 +89,9 @@ export class AllMessages extends React.Component {
  */
 const mapStateToProps = (state) => {
   return {
-    status: state.setCurrentMessagesReducer.status,
-    messages: JSON.stringify(state.setCurrentMessagesReducer.currentMessages),
-    groupName: state.setCurrentMessagesReducer.currentGroup
+    status: state.messageReducer.status,
+    messages: JSON.stringify(state.messageReducer.currentMessages),
+    groupName: state.messageReducer.currentGroup
   };
 };
 
