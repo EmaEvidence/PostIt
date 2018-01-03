@@ -195,7 +195,7 @@ export const deleteGroup = (req, res) => {
   const { groupName } = req.body;
   const groupId = req.params.groupId;
   if (validate.group(groupId, groupName, res)) {
-    user.deleteGroupwithName(groupId, groupName, (result) => {
+    user.deleteGroupByName(groupName, (result) => {
       if (result === 1) {
         res.status(200).json({
           groupData: {

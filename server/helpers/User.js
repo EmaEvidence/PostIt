@@ -790,7 +790,7 @@ class User {
    * @return {boolean} result of the check
    */
   checkIfGroupCreator(userId, groupId, done) {
-    this.database.Group.findOne({
+    this.database.Groups.findOne({
       where: {
         groupCreatorId: userId,
         id: groupId
@@ -817,7 +817,7 @@ class User {
    * @return {boolean} result of the check
    */
   editGroupName(groupId, groupName, done) {
-    this.database.Group.update({ groupName }, {
+    this.database.Groups.update({ groupName }, {
       where: {
         id: groupId
       }
